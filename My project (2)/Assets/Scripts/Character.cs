@@ -43,7 +43,7 @@ public class Character : MonoBehaviour
             return;
 
 
-        rb.AddForce(instantForceRequests.direction * instantForceRequests.acceleration, instantForceRequests.forceMode);
+        //rb.AddForce(instantForceRequests.direction * instantForceRequests.acceleration, instantForceRequests.forceMode);
         instantForceRequests = null;
     }
 }
