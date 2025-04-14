@@ -20,7 +20,6 @@ public class Character : MonoBehaviour
         //instantForceRequests.Add(forceRequest);
         instantForceRequests = forceRequest;
     }
-
     public void RequestContinuousForce(ForceRequest forceRequest)
     {
         continuousForceRequests = forceRequest;
