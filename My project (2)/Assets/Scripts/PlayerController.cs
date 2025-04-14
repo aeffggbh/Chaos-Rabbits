@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private float _speed;
     [SerializeField] private float _force;
+    private bool moving;
 
     private void OnEnable()
     {
@@ -18,6 +20,13 @@ public class PlayerController : MonoBehaviour
             return;
 
         moveAction.action.performed += OnMove;
+        moveAction.action.canceled += OnCancelMove;
+        moving = false;
+    }
+
+    private void OnCancelMove(InputAction.CallbackContext context)
+    {
+        moving = false;
     }
 
     private void OnDisable()
