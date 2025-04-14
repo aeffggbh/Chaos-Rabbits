@@ -21,6 +21,11 @@ public class Character : MonoBehaviour
         instantForceRequests = forceRequest;
     }
 
+    public void RequestContinuousForce(ForceRequest forceRequest)
+    {
+        continuousForceRequests = forceRequest;
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

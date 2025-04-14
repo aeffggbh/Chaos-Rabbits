@@ -35,6 +35,6 @@ public class PlayerController : MonoBehaviour
             acceleration = _force
         };
 
-        character.RequestInstantForce(forceRequest);
+        character.RequestContinuousForce(forceRequest);
     }
 }
