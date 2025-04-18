@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -9,45 +11,100 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     //private HashSet<ForceRequest> instantForceRequests;
-
     //private HashSet<ForceRequest> continuousForceRequests;
-    private ForceRequest instantForceRequests;
-    private ForceRequest continuousForceRequests;
+    private ForceRequest _forceRequest;
     private Rigidbody rb;
-
-    public void RequestInstantForce(ForceRequest forceRequest)
-    {
-        //instantForceRequests.Add(forceRequest);
-        instantForceRequests = forceRequest;
-    }
-    public void RequestContinuousForce(ForceRequest forceRequest)
-    {
-        continuousForceRequests = forceRequest;
-    }
+    private bool _isJumping;
+    private float _jumpForce;
+    private bool _grounded;
+    private Vector3 _calculatedMovement;
 
     private void Awake()
     {
+        _forceRequest = null;
+        _jumpForce = 0f;
+        _isJumping = false;
+        _grounded = true;
+
         rb = GetComponent<Rigidbody>();
+    }
+
+    public void RequestForce(ForceRequest forceRequest)
+    {
+        //instantForceRequests.Add(forceRequest);
+        _forceRequest = forceRequest;
+    }
+
+    public void RequestJumpInfo(bool isJumping, float jumpForce)
+    {
+        _isJumping = isJumping;
+        _jumpForce = jumpForce;
+    }
+
+    public void RequestGroundedState(bool grounded)
+    {
+        _grounded = grounded;
+    }
+
+    public void RequestMovement(Vector3 calculatedMovement)
+    {
+        _calculatedMovement = calculatedMovement;
     }
 
     private void FixedUpdate()
     {
-        if (continuousForceRequests != null /*&& continuousForceRequests.Count > 0*/)
+        //MOVEMENT
         {
-            var speedPercentage = rb.linearVelocity.magnitude / continuousForceRequests.speed;
-            //limitar el valor entre 0 y 1
-            var remainingSpeedPercentage = Mathf.Clamp01(1f - speedPercentage);
+            if (_forceRequest != null)
+            {
+                if (_forceRequest.direction != _calculatedMovement)
+                    _forceRequest.direction = _calculatedMovement;
 
-            //if (rb.linearVelocity.magnitude < continuousForceRequests.speed)
-            //El .force se va a multiplicar por fixeddelta internamente. el .impulse no.
-            rb.AddForce(continuousForceRequests.direction * continuousForceRequests.acceleration * remainingSpeedPercentage, ForceMode.Force);
+                if (_forceRequest.forceMode == ForceMode.Impulse)
+                {
+                    _forceRequest.counterMovement = new Vector3
+                        (-rb.linearVelocity.x * _forceRequest.counterMovementForce,
+                        0,
+                        -rb.linearVelocity.z * _forceRequest.counterMovementForce);
+
+                    rb.AddForce((_forceRequest.direction * _forceRequest.speed + _forceRequest.counterMovement) * Time.deltaTime,
+                                ForceMode.Impulse);
+                }
+                else if (_forceRequest.forceMode == ForceMode.Force)
+                {
+                    //If i wanted a continous force I'd want to give it an input for direction only once. I wouldn't want to tell it to stop when the input is 0,0,0.
+                    var speedPercentage = rb.linearVelocity.magnitude / _forceRequest.speed;
+                    //limitar el valor entre 0 y 1
+                    var remainingSpeedPercentage = Mathf.Clamp01(1f - speedPercentage);
+
+                    //if (rb.linearVelocity.magnitude < continuousForceRequests.speed)
+                    //El .force se va a multiplicar por fixeddelta internamente. el .impulse no.
+                    rb.AddForce(_forceRequest.direction * _forceRequest.acceleration * remainingSpeedPercentage, ForceMode.Force);
+                }
+            }
+
         }
 
-        if (instantForceRequests == null)
-            return;
+        //JUMPING
+        {
+            if (_isJumping)
+            {
+                if (_grounded)
+                {
+                    Jump();
+                }
 
-
-        //rb.AddForce(instantForceRequests.direction * instantForceRequests.acceleration, instantForceRequests.forceMode);
-        instantForceRequests = null;
+                _isJumping = false;
+            }
+        }
     }
+
+
+    private void Jump()
+    {
+        _grounded = false;
+        rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+    }
+
+
 }

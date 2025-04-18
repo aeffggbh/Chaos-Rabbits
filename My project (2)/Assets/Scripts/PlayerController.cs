@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
@@ -10,9 +11,19 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Character character;
     [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference jumpAction;
     [SerializeField] private float _speed;
     [SerializeField] private float _force;
-    private bool moving;
+    [SerializeField] private float _counterMovementForce;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private CinemachineBrain _cineMachineBrain;
+    private Camera _cineMachineCamera;
+    private Vector3 _counterMovement;
+    private Vector2 moveInput;
+    private Vector3 _camForward;
+    private Vector3 _camRight;
+    private Vector3 _3DMovement;
+    private ForceRequest forceRequest;
 
     private void OnEnable()
     {
@@ -21,12 +32,24 @@ public class PlayerController : MonoBehaviour
 
         moveAction.action.performed += OnMove;
         moveAction.action.canceled += OnCancelMove;
-        moving = false;
+
+        if (_cineMachineBrain == null)
+            return;
+
+        _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
+
+        if (jumpAction == null)
+            return;
+
+        jumpAction.action.started += OnJump;
+
+        moveInput = new Vector2(0, 0);
+
     }
 
-    private void OnCancelMove(InputAction.CallbackContext context)
+    private void OnJump(InputAction.CallbackContext context)
     {
-        moving = false;
+        character.RequestJumpInfo(true, _jumpForce);
     }
 
     private void OnDisable()
@@ -34,16 +57,54 @@ public class PlayerController : MonoBehaviour
         moveAction.action.performed -= OnMove;
     }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other != null)
+        {
+            character.RequestGroundedState(true);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (moveInput.x > 0 || moveInput.y > 0)
+        {
+            _camForward = _cineMachineCamera.transform.forward;
+            _camRight = _cineMachineCamera.transform.right;
+
+            _3DMovement = _camForward * moveInput.y + _camRight * moveInput.x;
+
+            _3DMovement.y = 0;
+        }
+        else
+            _3DMovement = Vector3.zero;
+
+        character.RequestMovement(_3DMovement);
+    }
+
+    private void OnCancelMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+        forceRequest.direction = moveInput;
+        character.RequestForce(forceRequest);
+    }
+
     private void OnMove(InputAction.CallbackContext context)
     {
-        var horizontalInput = context.ReadValue<Vector2>();
-        var forceRequest = new ForceRequest
+        moveInput = context.ReadValue<Vector2>();
+
+        forceRequest = new ForceRequest
         {
-            direction = new Vector3(horizontalInput.x, 0, horizontalInput.y),
+            direction = _3DMovement,
             speed = _speed,
-            acceleration = _force
+            acceleration = _force,
+            counterMovement = _counterMovement,
+            counterMovementForce = _counterMovementForce,
+            forceMode = ForceMode.Impulse
         };
 
-        character.RequestContinuousForce(forceRequest);
+        character.RequestForce(forceRequest);
     }
+
+
 }

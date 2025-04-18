@@ -6,6 +6,8 @@ using UnityEngine;
 public class ForceRequest
 {
     public Vector3 direction;
+    public Vector3 counterMovement;
+    public float counterMovementForce;
     public float acceleration;
     public float speed;
     public ForceMode forceMode;
