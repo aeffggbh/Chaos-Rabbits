@@ -9,9 +9,9 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Character character;
-    [SerializeField] private InputActionReference moveAction;
-    [SerializeField] private InputActionReference jumpAction;
+    [SerializeField] private Character _character;
+    [SerializeField] private InputActionReference _moveAction;
+    [SerializeField] private InputActionReference _jumpAction;
     [SerializeField] private float _speed;
     [SerializeField] private float _force;
     [SerializeField] private float _counterMovementForce;
@@ -19,26 +19,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineBrain _cineMachineBrain;
     private Camera _cineMachineCamera;
     private Vector3 _counterMovement;
-    private Vector2 moveInput;
+    private Vector2 _moveInput;
     private Vector3 _camForward;
     private Vector3 _camRight;
     private Vector3 _3DMovement;
-    private ForceRequest forceRequest;
+    private ForceRequest _forceRequest;
 
     private void OnEnable()
     {
-        if (moveAction == null)
+        if (_moveAction == null)
             return;
 
-        moveAction.action.performed += OnMove;
-        moveAction.action.canceled += OnCancelMove;
+        _moveAction.action.performed += OnMove;
+        _moveAction.action.canceled += OnCancelMove;
 
-        if (jumpAction == null)
+        if (_jumpAction == null)
             return;
 
-        jumpAction.action.started += OnJump;
+        _jumpAction.action.started += OnJump;
 
-        moveInput = new Vector2(0, 0);
+        _moveInput = new Vector2(0, 0);
 
         if (_cineMachineBrain == null)
             return;
@@ -49,12 +49,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        character.RequestJumpInfo(true, _jumpForce);
+        _character.RequestJumpInfo(true, _jumpForce);
     }
 
     private void OnDisable()
     {
-        moveAction.action.performed -= OnMove;
+        _moveAction.action.performed -= OnMove;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         //TODO: verify it's actually the floor
         if (other != null)
         {
-            character.RequestGroundedState(true);
+            _character.RequestGroundedState(true);
         }
     }
 
@@ -70,12 +70,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_cineMachineBrain != null)
         {
-            if (moveInput.x != 0 || moveInput.y != 0)
+            if (_moveInput.x != 0 || _moveInput.y != 0)
             {
                 _camForward = _cineMachineCamera.transform.forward;
                 _camRight = _cineMachineCamera.transform.right;
 
-                _3DMovement = _camForward * moveInput.y + _camRight * moveInput.x;
+                _3DMovement = _camForward * _moveInput.y + _camRight * _moveInput.x;
 
                 _3DMovement.y = 0;
             }
@@ -86,23 +86,23 @@ public class PlayerController : MonoBehaviour
 
         }
         else
-            _3DMovement = new Vector3(moveInput.x, 0, moveInput.y);
+            _3DMovement = new Vector3(_moveInput.x, 0, _moveInput.y);
 
-        character.RequestMovement(_3DMovement);
+        _character.RequestMovement(_3DMovement);
     }
 
     private void OnCancelMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
-        forceRequest.direction = moveInput;
-        character.RequestForce(forceRequest);
+        _moveInput = context.ReadValue<Vector2>();
+        _forceRequest.direction = _moveInput;
+        _character.RequestForce(_forceRequest);
     }
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        _moveInput = context.ReadValue<Vector2>();
 
-        forceRequest = new ForceRequest
+        _forceRequest = new ForceRequest
         {
             direction = _3DMovement,
             speed = _speed,
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
             forceMode = ForceMode.Impulse
         };
 
-        character.RequestForce(forceRequest);
+        _character.RequestForce(_forceRequest);
     }
 
 
