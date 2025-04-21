@@ -12,13 +12,13 @@ public class FirstPersonController : MonoBehaviour
     //float pitch;
     //float yaw;
 
-    //private void Awake()
-    //{
-    //    //mouse va a volver al centro cuando se deje de mover
-    //    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-    //    //el mouse no se va a ver
-    //    Cursor.visible = false;
-    //}
+    private void Awake()
+    {
+        //mouse va a volver al centro cuando se deje de mover
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        //el mouse no se va a ver
+        Cursor.visible = false;
+    }
 
 //TESTS
 //    private void FixedUpdate()
