@@ -33,17 +33,17 @@ public class PlayerController : MonoBehaviour
         moveAction.action.performed += OnMove;
         moveAction.action.canceled += OnCancelMove;
 
-        if (_cineMachineBrain == null)
-            return;
-
-        _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
-
         if (jumpAction == null)
             return;
 
         jumpAction.action.started += OnJump;
 
         moveInput = new Vector2(0, 0);
+
+        if (_cineMachineBrain == null)
+            return;
+
+        _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
 
     }
 
@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        //TODO: verify it's actually the floor
         if (other != null)
         {
             character.RequestGroundedState(true);
@@ -67,19 +68,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (moveInput.x != 0 || moveInput.y != 0)
+        if (_cineMachineBrain != null)
         {
-            _camForward = _cineMachineCamera.transform.forward;
-            _camRight = _cineMachineCamera.transform.right;
+            if (moveInput.x != 0 || moveInput.y != 0)
+            {
+                _camForward = _cineMachineCamera.transform.forward;
+                _camRight = _cineMachineCamera.transform.right;
 
-            _3DMovement = _camForward * moveInput.y + _camRight * moveInput.x;
+                _3DMovement = _camForward * moveInput.y + _camRight * moveInput.x;
 
-            _3DMovement.y = 0;
+                _3DMovement.y = 0;
+            }
+            else
+                _3DMovement = Vector3.zero;
+
+            // character.RequestSelfRotation(_cineMachineBrain.transform.eulerAngles.x);
+
         }
         else
-            _3DMovement = Vector3.zero;
-
-        // character.RequestSelfRotation(_cineMachineBrain.transform.eulerAngles.x);
+            _3DMovement = new Vector3(moveInput.x, 0, moveInput.y);
 
         character.RequestMovement(_3DMovement);
     }
