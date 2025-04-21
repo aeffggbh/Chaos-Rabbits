@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (moveInput.x > 0 || moveInput.y > 0)
+        if (moveInput.x != 0 || moveInput.y != 0)
         {
             _camForward = _cineMachineCamera.transform.forward;
             _camRight = _cineMachineCamera.transform.right;
@@ -78,6 +78,8 @@ public class PlayerController : MonoBehaviour
         }
         else
             _3DMovement = Vector3.zero;
+
+        // character.RequestSelfRotation(_cineMachineBrain.transform.eulerAngles.x);
 
         character.RequestMovement(_3DMovement);
     }
