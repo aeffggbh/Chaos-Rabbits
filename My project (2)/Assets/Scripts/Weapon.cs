@@ -10,7 +10,14 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        shootAction.action.started += OnShoot;
+        if (shootAction)
+        {
+            shootAction.action.started += OnShoot;
+        }
+        else
+        {
+            Debug.LogError(nameof(shootAction) + " is null");
+        }
     }
 
     private void OnShoot(InputAction.CallbackContext context)

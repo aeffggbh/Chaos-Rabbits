@@ -37,6 +37,7 @@ public class Character : MonoBehaviour
 
     public void RequestJumpInfo(bool isJumping, float jumpForce)
     {
+        Debug.Log("rEQUESTING INFOOOOO");
         _isJumping = isJumping;
         _jumpForce = jumpForce;
     }

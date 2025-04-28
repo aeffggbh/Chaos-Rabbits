@@ -27,42 +27,56 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_moveAction == null)
-            return;
-
-        _moveAction.action.performed += OnMove;
-        _moveAction.action.canceled += OnCancelMove;
-
-        if (_jumpAction == null)
-            return;
-
-        _jumpAction.action.started += OnJump;
-
         _moveInput = new Vector2(0, 0);
+        if (!_moveAction)
+            Debug.LogError(nameof(_moveAction) + " is null");
+        else
+        {
+            _moveAction.action.performed += OnMove;
+            _moveAction.action.canceled += OnCancelMove;
 
-        if (_cineMachineBrain == null)
-            return;
+        }
 
-        _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
+        if (!_jumpAction)
+            Debug.LogError(nameof(_jumpAction) + " is null");
+        else
+            _jumpAction.action.started += OnJump;
+
+
+
+        if (!_cineMachineBrain)
+            Debug.LogError(nameof(_cineMachineBrain) + " is null");
+        else
+            _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
+
 
     }
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        _character.RequestJumpInfo(true, _jumpForce);
+        if (_character != null)
+        {
+            _character.RequestJumpInfo(true, _jumpForce);
+        }
+        else
+            Debug.LogError(nameof(_character) + " is null");
     }
 
     private void OnDisable()
     {
-        _moveAction.action.performed -= OnMove;
+        if (_moveAction)
+            _moveAction.action.performed -= OnMove;
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        //TODO: verify it's actually the floor
+        //TODO: verify it's actually the floor lol
         if (other != null)
         {
-            _character.RequestGroundedState(true);
+            if (_character)
+                _character.RequestGroundedState(true);
+            else
+                Debug.LogError(nameof(_character) + " is null");
         }
     }
 
@@ -88,14 +102,25 @@ public class PlayerController : MonoBehaviour
         else
             _3DMovement = new Vector3(_moveInput.x, 0, _moveInput.y);
 
-        _character.RequestMovement(_3DMovement);
+        if (_character)
+            _character.RequestMovement(_3DMovement);
+        else
+            Debug.LogError(nameof(_character) + " is null");
     }
 
     private void OnCancelMove(InputAction.CallbackContext context)
     {
         _moveInput = context.ReadValue<Vector2>();
-        _forceRequest.direction = _moveInput;
-        _character.RequestForce(_forceRequest);
+        if (_forceRequest != null)
+            _forceRequest.direction = _moveInput;
+        else
+            Debug.LogError(nameof(_forceRequest) + " is null");
+
+        if (_character)
+            _character.RequestForce(_forceRequest);
+        else
+            Debug.LogError(nameof(_character) + " is null");
+
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -112,7 +137,11 @@ public class PlayerController : MonoBehaviour
             forceMode = ForceMode.Impulse
         };
 
-        _character.RequestForce(_forceRequest);
+        if (_character)
+            _character.RequestForce(_forceRequest);
+        else
+            Debug.LogError(nameof(_character) + " is null");
+
     }
 
 

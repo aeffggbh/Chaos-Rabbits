@@ -18,7 +18,8 @@ internal class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //TODO: detect if it's an enemy
+        //TODO: detect if it's an enemy (how)
+        //TODO: check if it's so far it can be deleted lol
         Destroy(this.gameObject);
     }
 }
