@@ -7,14 +7,13 @@ internal class Bullet : MonoBehaviour
     [SerializeField] private float force;
     [SerializeField] private Rigidbody rb;
 
-    //public void SetData(BulletModel model)
-    //{
-
-    //}
     public void Fire()
     {
+        //object
         rb.AddForce(transform.forward * force, ForceMode.Impulse);
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {

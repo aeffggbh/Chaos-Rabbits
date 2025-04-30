@@ -115,8 +115,6 @@ public class PlayerController : MonoBehaviour
 
         Vector3 pointInView = _rayFront.origin + (_rayFront.direction * distance);
 
-        Debug.Log("Point: " + pointInView);
-
         BoxCollider boxCollider = weapon.GetComponent<BoxCollider>();
 
         if (boxCollider == null) return false;
