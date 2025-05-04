@@ -124,6 +124,7 @@ public abstract class Enemy : MonoBehaviour
 
             if (GetPlayerDistance() <= _attackRange)
             {
+                Debug.Log("WWASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 _isChasing = false;
                 _isAttacking = true;
             }
@@ -150,7 +151,8 @@ public abstract class Enemy : MonoBehaviour
             }
             Debug.Log("PATROLLING");
         }
-        else if (_isAttacking)
+
+        if (_isAttacking)
         {
             Debug.Log("ATTACKING");
             Attack();

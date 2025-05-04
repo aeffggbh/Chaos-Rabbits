@@ -13,7 +13,7 @@ public class NormalEnemy : Enemy
                                      transform.position.y,
                                      transform.position.z + randomZ);
 
-        _targetLook = _targetWalk*2;
+        _targetLook = _targetWalk * 2;
 
 
         _moveDir = (_targetWalk - transform.position).normalized;
@@ -43,12 +43,12 @@ public class NormalEnemy : Enemy
             if (!_hasAttacked)
                 _hasAttacked = true;
 
-            if (_timeSinceAttacked == _manager._attackTimer)
+            if (_moveSpeed > 0)
+                _moveSpeed = 0;
+            if ((_manager._attackTimer - _timeSinceAttacked) < 1)
             {
                 _timeSinceAttacked = 0;
                 //stay still and shoot the player until it's out of range.
-                if (_moveSpeed > 0)
-                    _moveSpeed = 0;
             }
         }
     }

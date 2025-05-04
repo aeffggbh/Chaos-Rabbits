@@ -2288,8 +2288,8 @@ MonoBehaviour:
   _playerController: {fileID: 1716998509}
   _attackTimer: 1
   _walkRange: 5
-  _attackRange: 10
-  _chaseRange: 20
+  _attackRange: 20
+  _chaseRange: 40
   _chasingSpeed: 40
   _patrolSpeed: 20
   _patrolTimer: 2
