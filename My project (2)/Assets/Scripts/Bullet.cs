@@ -2,23 +2,49 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+//projectile based.
 internal class Bullet : MonoBehaviour
 {
-    [SerializeField] private float force;
+    [SerializeField] private float forwardForce;
+    [SerializeField] private float upForce;
+    [SerializeField] private float leftForce;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private float distance;
 
-    public void Fire()
+    Vector3 point;
+
+    public void Fire(Transform FPCamera)
     {
-        //object
-        rb.AddForce(transform.forward * force, ForceMode.Impulse);
+        //if (distance < 1)
+        //{
+        //    Debug.LogError("distance is too small");
+        //    return;
+        //}
+
+        ////How do I make it go to the center? This is not good enough
+        //point = FPCamera.transform.position + FPCamera.transform.forward * distance;
+
+        //Vector3 direction = (point - transform.position).normalized;
+
+        rb.AddForce(FPCamera.transform.forward * forwardForce, ForceMode.Impulse);
+        rb.AddForce(FPCamera.transform.up * upForce, ForceMode.Impulse);
+        rb.AddForce(-FPCamera.transform.right * leftForce, ForceMode.Impulse);
     }
 
-
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        //TODO: detect if it's an enemy (how)
-        //TODO: check if it's so far it can be deleted lol
+        if (collision.gameObject.CompareTag("enemy"))
+        {
+            if (collision.gameObject.GetComponent<Enemy>())
+            {
+                Debug.Log("Died with bullet");
+                collision.gameObject.GetComponent<Enemy>().Die();
+            }
+            else
+                Debug.LogError(nameof(collision) + " doesn't have " + nameof(Enemy) + " component");
+        }
+
         Destroy(this.gameObject);
     }
+
 }
