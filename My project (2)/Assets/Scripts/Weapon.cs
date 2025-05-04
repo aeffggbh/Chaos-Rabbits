@@ -48,16 +48,9 @@ public class Weapon : MonoBehaviour
     void ResetPos()
     {
         _defaultPos = _FPCamera.transform.position;
-        //defaultPos.x += 1;
-        //defaultPos.y -= 1;
-        //defaultPos.z += 2;
-
         _defaultPos += _FPCamera.right;
         _defaultPos += -_FPCamera.up * 1.2f;
         _defaultPos += _FPCamera.forward * 2;
-
-
-
         transform.position = _defaultPos;
     }
 
@@ -71,9 +64,9 @@ public class Weapon : MonoBehaviour
         if (!_usesHitscan)
         {
             var newBullet = Instantiate(_prefabBullet,
-                     _tip.position,
-                     _tip.rotation);
-            newBullet.Fire();
+                                        _tip.position,
+                                        _tip.rotation);
+            newBullet.Fire(_FPCamera);
         }
         else
             HitscanShot();
@@ -93,15 +86,14 @@ public class Weapon : MonoBehaviour
     public void HitscanShot()
     {
         if (_enemyManager)
-            for (int i = 0; i < _enemyManager.enemies.Count; i++)
-                if (_enemyManager.enemies[i].GetComponent<MeshRenderer>().isVisible)
+            for (int i = 0; i < _enemyManager._enemies.Count; i++)
+                if (_enemyManager._enemies[i].GetComponent<MeshRenderer>().isVisible && _enemyManager._enemies[i].isActiveAndEnabled)
                 {
-                    Debug.Log("Enemy is on screen uwu");
-                    if (PointingToEnemy(_enemyManager.enemies[i]))
+                    if (PointingToEnemy(_enemyManager._enemies[i]))
                     {
-                        //it damages the enemy. Or it dies, I guess.
-                        //insta death be like
-                        _enemyManager.enemies.RemoveAt(i);
+                        _enemyManager._enemies[i].Die();
+                        if (_enemyManager._enemies[i])
+                            _enemyManager._enemies.RemoveAt(i);
                         break;
                     }
                 }
@@ -109,51 +101,41 @@ public class Weapon : MonoBehaviour
 
     public bool PointingToEnemy(Enemy enemy)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(_FPCamera.position, _FPCamera.forward, out hit, 100f))
-        {
-            return hit.transform == enemy.transform || hit.transform.IsChildOf(enemy.transform);
-        }
-        return false;
+        _ray.direction = _FPCamera.forward;
+        _ray.origin = _FPCamera.position;
 
-        //_ray.direction = _FPCamera.forward;
-        //_ray.origin = _FPCamera.position;
+        //d = √ [(x2 – x1)2 + (y2 – y1)2 + (z2 – z1)2].
+        Vector3 start = _FPCamera.transform.position;
+        Vector3 end = enemy.transform.position;
+        float diffX = end.x - start.x;
+        float diffY = end.y - start.y;
+        float diffZ = end.z - start.z;
+        float distance = (float)Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
 
-        ////d = √ [(x2 – x1)2 + (y2 – y1)2 + (z2 – z1)2].
-        //Vector3 start = transform.position;
-        //Vector3 end = enemy.transform.position;
-        //float diffX = end.x - start.x;
-        //float diffY = end.y - start.y;
-        //float diffZ = end.z - start.z;
-        //float distance = (float)Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
+        Vector3 pointInView = _ray.origin + (_ray.direction * distance);
 
-        //Vector3 pointInView = _ray.origin + (_ray.direction * distance);
+        //raySize = distance;
 
-        //BoxCollider boxCollider = enemy.GetComponent<BoxCollider>();
+        BoxCollider boxCollider = enemy.GetComponent<BoxCollider>();
 
-        //if (boxCollider == null) return false;
+        if (boxCollider == null) return false;
 
-        //Vector3 max = boxCollider.bounds.max;
-        //Vector3 min = boxCollider.bounds.min;
+        Vector3 max = boxCollider.bounds.max;
+        Vector3 min = boxCollider.bounds.min;
 
-        ////max.x += weaponBoxIncrease;
-        ////max.y += weaponBoxIncrease;
-        ////max.z += weaponBoxIncrease;
-        ////min.x -= weaponBoxIncrease;
-        ////min.y -= weaponBoxIncrease;
-        ////min.z -= weaponBoxIncrease;
-
-        ////Debug.Log("Min: " + min);
-        ////Debug.Log("Max: " + max);
-
-        //return (pointInView.x >= min.x && pointInView.x <= max.x &&
-        //        pointInView.y >= min.y && pointInView.y <= max.y &&
-        //        pointInView.z >= min.z && pointInView.z <= max.z);
-        //        //&&
-        //        //!_holdingWeapon
-        //        //&&
-        //        //distance <= maxWeaponDistance;
+        return (pointInView.x >= min.x && pointInView.x <= max.x &&
+                pointInView.y >= min.y && pointInView.y <= max.y &&
+                pointInView.z >= min.z && pointInView.z <= max.z);
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    if (shotOnce)
+    //    {
+    //        Gizmos.color = Color.red;
+    //        Gizmos.DrawLine(_ray.origin, _ray.origin + _ray.direction * raySize);
+    //    }
+    //}
 
     public void Drop()
     {

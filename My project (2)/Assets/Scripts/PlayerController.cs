@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference _jumpAction;
     [SerializeField] private InputActionReference _dropAction;
     [SerializeField] private InputActionReference _grabAction;
-    [SerializeField] private float _speed;
+    [SerializeField] private float _walkSpeed;
+    [SerializeField] private float _runSpeed;
     [SerializeField] private float _force;
     [SerializeField] private float _counterMovementForce;
     [SerializeField] private float _jumpForce;
@@ -237,7 +238,7 @@ public class PlayerController : MonoBehaviour
         _forceRequest = new ForceRequest
         {
             direction = _3DMovement,
-            speed = _speed,
+            speed = _walkSpeed,
             acceleration = _force,
             counterMovement = _counterMovement,
             counterMovementForce = _counterMovementForce,
@@ -251,5 +252,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public float GetWalkSpeed()
+    {
+        return _walkSpeed;
+    }
 
+    public float GetRunSpeed()
+    {
+        return _runSpeed;
+    }
 }
