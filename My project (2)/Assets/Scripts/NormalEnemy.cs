@@ -4,30 +4,30 @@ public class NormalEnemy : Enemy
 {
     protected override void ActivatePatrol()
     {
-        Debug.Log("yeah");
+        _patrolCurrentTime = 0;
         float randomZ = UnityEngine.Random.Range(-_manager._walkRange, _manager._walkRange);
         float randomX = UnityEngine.Random.Range(-_manager._walkRange, _manager._walkRange);
 
-        _targetPoint = new Vector3(transform.position.x + randomX,
+        _targetWalk = new Vector3(transform.position.x + randomX,
                                      transform.position.y,
                                      transform.position.z + randomZ);
 
-        _moveDir = (_targetPoint - transform.position).normalized;
-        _moveSpeed = _playerController.GetWalkSpeed();
+        _moveDir = (_targetWalk - transform.position).normalized;
+        _moveDir.y = 0;
+        _moveSpeed = _patrolSpeed;
 
-        _isPatrolling = true;
+        if (!_isPatrolling)
+            _isPatrolling = true;
     }
 
     protected override void ActivateChase()
     {
-        Debug.Log("yeah");
         _moveSpeed = _playerController.GetRunSpeed();
         _moveDir = GetPlayerDirection();
     }
 
     protected override void Attack()
     {
-        Debug.Log("yeah");
         if (GetPlayerDistance() > _attackRange)
         {
             _isChasing = true;

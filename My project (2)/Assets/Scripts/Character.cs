@@ -62,12 +62,12 @@ public class Character : MonoBehaviour
 
                 if (_forceRequest.forceMode == ForceMode.Impulse)
                 {
-                    _forceRequest.counterMovement = new Vector3
-                        (-rb.linearVelocity.x * _forceRequest.counterMovementForce,
+                    _forceRequest._counterMovement = new Vector3
+                        (-rb.linearVelocity.x * _forceRequest._counterMovementForce,
                         0,
-                        -rb.linearVelocity.z * _forceRequest.counterMovementForce);
+                        -rb.linearVelocity.z * _forceRequest._counterMovementForce);
 
-                    rb.AddForce((_forceRequest.direction * _forceRequest.speed + _forceRequest.counterMovement) * Time.deltaTime,
+                    rb.AddForce((_forceRequest.direction * _forceRequest.speed + _forceRequest._counterMovement) * Time.fixedDeltaTime,
                                 ForceMode.Impulse);
                 }
                 else if (_forceRequest.forceMode == ForceMode.Force)

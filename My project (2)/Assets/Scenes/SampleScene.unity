@@ -1460,7 +1460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5262299730889146554, guid: ca914e42efb633e4bada6ea38adc10d4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.848882
+      value: -2.05
       objectReference: {fileID: 0}
     - target: {fileID: 5262299730889146554, guid: ca914e42efb633e4bada6ea38adc10d4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2287,10 +2287,13 @@ MonoBehaviour:
   _enemies: []
   _playerController: {fileID: 1716998509}
   _attackTimer: 1
-  _walkRange: 2
+  _walkRange: 5
   _attackRange: 3
   _chaseRange: 5
   _chasingSpeed: 60
+  _patrolSpeed: 20
+  _patrolTimer: 2
+  _counterMovementForce: 3
 --- !u!1 &943675267
 GameObject:
   m_ObjectHideFlags: 0
@@ -3618,9 +3621,9 @@ MonoBehaviour:
   _counterMovementForce: 3
   _jumpForce: 5
   _cineMachineBrain: {fileID: 281518164}
-  weapon: {fileID: 1083950897}
-  weaponBoxIncrease: 1.2
-  maxWeaponDistance: 4.5
+  _weapon: {fileID: 0}
+  _weaponBoxIncrease: 0
+  _maxWeaponDistance: 0
 --- !u!114 &1716998510
 MonoBehaviour:
   m_ObjectHideFlags: 0

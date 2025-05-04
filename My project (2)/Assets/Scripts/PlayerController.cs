@@ -21,13 +21,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _counterMovementForce;
     [SerializeField] private float _jumpForce;
     [SerializeField] private CinemachineBrain _cineMachineBrain;
-    [SerializeField] private Weapon weapon;
-    [SerializeField] private float weaponBoxIncrease;
-    [SerializeField] private float maxWeaponDistance;
+    [SerializeField] private Weapon _weapon;
+    [SerializeField] private float _weaponBoxIncrease;
+    [SerializeField] private float _maxWeaponDistance;
     private Ray _rayFront;
     private bool _holdingWeapon;
     private Camera _cineMachineCamera;
-    private Vector3 _counterMovement;
     private Vector2 _moveInput;
     private Vector3 _camForward;
     private Vector3 _camRight;
@@ -36,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        weaponBoxIncrease = 1.2f;
+        _weaponBoxIncrease = 1.2f;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -88,7 +87,7 @@ public class PlayerController : MonoBehaviour
         if (PointingToWeapon())
         {
             _holdingWeapon = true;
-            weapon.Hold();
+            _weapon.Hold();
         }
     }
 
@@ -97,7 +96,7 @@ public class PlayerController : MonoBehaviour
         if (_holdingWeapon)
         {
             _holdingWeapon = false;
-            weapon.Drop();
+            _weapon.Drop();
         }
     }
 
@@ -108,7 +107,7 @@ public class PlayerController : MonoBehaviour
     {
         //d = √ [(x2 – x1)2 + (y2 – y1)2 + (z2 – z1)2].
         Vector3 start = transform.position;
-        Vector3 end = weapon.transform.position;
+        Vector3 end = _weapon.transform.position;
         float diffX = end.x - start.x;
         float diffY = end.y - start.y;
         float diffZ = end.z - start.z;
@@ -116,20 +115,20 @@ public class PlayerController : MonoBehaviour
 
         Vector3 pointInView = _rayFront.origin + (_rayFront.direction * distance);
 
-        BoxCollider boxCollider = weapon.GetComponent<BoxCollider>();
+        BoxCollider boxCollider = _weapon.GetComponent<BoxCollider>();
 
         if (boxCollider == null) return false;
 
         Vector3 max = boxCollider.bounds.max;
         Vector3 min = boxCollider.bounds.min;
 
-        max.x += weaponBoxIncrease;
-        max.y += weaponBoxIncrease;
-        max.z += weaponBoxIncrease;
-        min.x -= weaponBoxIncrease;
-        min.y -= weaponBoxIncrease;
-        min.z -= weaponBoxIncrease;
-         
+        max.x += _weaponBoxIncrease;
+        max.y += _weaponBoxIncrease;
+        max.z += _weaponBoxIncrease;
+        min.x -= _weaponBoxIncrease;
+        min.y -= _weaponBoxIncrease;
+        min.z -= _weaponBoxIncrease;
+
         //Debug.Log("Min: " + min);
         //Debug.Log("Max: " + max);
         Debug.Log("Distance: " + distance);
@@ -140,7 +139,7 @@ public class PlayerController : MonoBehaviour
                 &&
                 !_holdingWeapon
                 &&
-                distance <= maxWeaponDistance;
+                distance <= _maxWeaponDistance;
 
     }
 
@@ -197,8 +196,6 @@ public class PlayerController : MonoBehaviour
             else
                 _3DMovement = Vector3.zero;
 
-            // character.RequestSelfRotation(_cineMachineBrain.transform.eulerAngles.x);
-
         }
         else
             _3DMovement = new Vector3(_moveInput.x, 0, _moveInput.y);
@@ -240,8 +237,7 @@ public class PlayerController : MonoBehaviour
             direction = _3DMovement,
             speed = _walkSpeed,
             acceleration = _force,
-            counterMovement = _counterMovement,
-            counterMovementForce = _counterMovementForce,
+            _counterMovementForce = _counterMovementForce,
             forceMode = ForceMode.Impulse
         };
 
@@ -260,5 +256,10 @@ public class PlayerController : MonoBehaviour
     public float GetRunSpeed()
     {
         return _runSpeed;
+    }
+
+    public Transform GetCinemachineCamera()
+    {
+        return _cineMachineCamera.transform;
     }
 }

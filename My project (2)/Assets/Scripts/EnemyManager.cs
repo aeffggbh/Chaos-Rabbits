@@ -11,6 +11,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] public float _attackRange;
     [SerializeField] public float _chaseRange;
     [SerializeField] public float _chasingSpeed;
+    [SerializeField] public float _patrolSpeed;
+    [SerializeField] public float _patrolTimer;
+    [SerializeField] public float _counterMovementForce;
 
     private void Awake()
     {
