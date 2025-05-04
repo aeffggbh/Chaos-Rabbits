@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class NormalEnemy : Enemy
 {
+
     protected override void ActivatePatrol()
     {
         _patrolCurrentTime = 0;
@@ -11,6 +12,9 @@ public class NormalEnemy : Enemy
         _targetWalk = new Vector3(transform.position.x + randomX,
                                      transform.position.y,
                                      transform.position.z + randomZ);
+
+        _targetLook = _targetWalk*2;
+
 
         _moveDir = (_targetWalk - transform.position).normalized;
         _moveDir.y = 0;
@@ -22,7 +26,7 @@ public class NormalEnemy : Enemy
 
     protected override void ActivateChase()
     {
-        _moveSpeed = _playerController.GetRunSpeed();
+        _moveSpeed = _chasingSpeed;
         _moveDir = GetPlayerDirection();
     }
 

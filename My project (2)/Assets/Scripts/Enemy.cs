@@ -6,6 +6,7 @@ public abstract class Enemy : MonoBehaviour
 {
     public EnemyManager _manager;
     protected PlayerController _playerController;
+    protected Transform _head;
     protected Rigidbody _rb;
     protected Vector3 _targetWalk;
     protected Vector3 _targetLook;
@@ -17,8 +18,9 @@ public abstract class Enemy : MonoBehaviour
     protected bool _pausedPatrol;
     protected float _moveSpeed;
     protected float _attackRange;
-    protected float _chaseRange;
     protected float _timeSinceAttacked;
+    protected float _chaseRange;
+    protected float _chasingSpeed;
     /// <summary>
     /// every few seconds it'll change the direction of patrolling
     /// </summary>
@@ -31,6 +33,8 @@ public abstract class Enemy : MonoBehaviour
     private void Start()
     {
         _manager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
+        _head = transform.Find("head"); ;
+
         _rb = gameObject.GetComponent<Rigidbody>();
 
         if (_manager != null)
@@ -41,11 +45,12 @@ public abstract class Enemy : MonoBehaviour
             _chaseRange = _manager._chaseRange;
             _playerController = _manager._playerController;
             _patrolSpeed = _manager._patrolSpeed;
+            _chasingSpeed = _manager._chasingSpeed;
         }
         else
             Debug.LogError(nameof(EnemyManager) + " is null");
 
-        _isPatrolling = true;
+        _isPatrolling = false;
         _isChasing = false;
         _isAttacking = false;
         _hasAttacked = false;
@@ -69,7 +74,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Vector3 GetPlayerDirection()
     {
-        Vector3 playerDir = (_targetWalk - transform.position).normalized;
+        Vector3 playerDir = (_playerController.transform.position - transform.position).normalized;
         //para que no vuele
         playerDir.y = 0;
         return playerDir;
@@ -107,11 +112,14 @@ public abstract class Enemy : MonoBehaviour
         }
 
         if (_isChasing || _isAttacking)
-            _targetLook = _playerController.GetCinemachineCamera().position;
+        {
+            _targetLook = _playerController.transform.position * 5;
+            //_targetLook.y = transform.position.y;
+        }
 
         if (_isChasing)
         {
-            Debug.Log("CHASING");
+            Debug.Log("Player direction:" + GetPlayerDirection());
             _moveDir = GetPlayerDirection();
 
             if (GetPlayerDistance() <= _attackRange)

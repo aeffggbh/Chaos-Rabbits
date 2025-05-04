@@ -2288,9 +2288,9 @@ MonoBehaviour:
   _playerController: {fileID: 1716998509}
   _attackTimer: 1
   _walkRange: 5
-  _attackRange: 3
-  _chaseRange: 5
-  _chasingSpeed: 60
+  _attackRange: 10
+  _chaseRange: 20
+  _chasingSpeed: 40
   _patrolSpeed: 20
   _patrolTimer: 2
   _counterMovementForce: 3
@@ -3622,6 +3622,7 @@ MonoBehaviour:
   _jumpForce: 5
   _cineMachineBrain: {fileID: 281518164}
   _weapon: {fileID: 0}
+  _head: {fileID: 1391795997}
   _weaponBoxIncrease: 0
   _maxWeaponDistance: 0
 --- !u!114 &1716998510

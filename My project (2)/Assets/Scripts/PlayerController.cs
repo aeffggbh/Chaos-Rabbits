@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private CinemachineBrain _cineMachineBrain;
     [SerializeField] private Weapon _weapon;
+    [SerializeField] private GameObject _head;
     [SerializeField] private float _weaponBoxIncrease;
     [SerializeField] private float _maxWeaponDistance;
     private Ray _rayFront;
@@ -74,9 +75,8 @@ public class PlayerController : MonoBehaviour
         else
             _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
 
-
-        if (_cineMachineBrain == null)
-            return;
+        if (!_head)
+            Debug.LogError("Player has no head!");
 
         _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
 
@@ -261,5 +261,10 @@ public class PlayerController : MonoBehaviour
     public Transform GetCinemachineCamera()
     {
         return _cineMachineCamera.transform;
+    }
+
+    public GameObject GetHead()
+    {
+        return _head;
     }
 }
