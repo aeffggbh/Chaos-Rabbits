@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.EventSystems.EventTrigger;
 /// <summary>
 /// Reads input and decides actions taken by the player
 /// </summary>
@@ -15,29 +16,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference _jumpAction;
     [SerializeField] private InputActionReference _dropAction;
     [SerializeField] private InputActionReference _grabAction;
+    [SerializeField] private CinemachineBrain _cineMachineBrain;
+    [SerializeField] private Weapon _weapon;
+    [SerializeField] private GameObject _head;
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
     [SerializeField] private float _force;
     [SerializeField] private float _counterMovementForce;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private CinemachineBrain _cineMachineBrain;
-    [SerializeField] private Weapon _weapon;
-    [SerializeField] private GameObject _head;
-    [SerializeField] private float _weaponBoxIncrease;
     [SerializeField] private float _maxWeaponDistance;
+    [SerializeField] private float _grabDropCooldown;
+    private float _lastGrabDropTime;
     private Ray _rayFront;
-    private bool _holdingWeapon;
     private Camera _cineMachineCamera;
     private Vector2 _moveInput;
     private Vector3 _camForward;
     private Vector3 _camRight;
     private Vector3 _3DMovement;
     private ForceRequest _forceRequest;
+    private bool _holdingWeapon;
 
     private void OnEnable()
     {
-        _weaponBoxIncrease = 1.2f;
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
         {
             _moveAction.action.performed += OnMove;
             _moveAction.action.canceled += OnCancelMove;
-
         }
 
         if (!_jumpAction)
@@ -78,12 +77,28 @@ public class PlayerController : MonoBehaviour
         if (!_head)
             Debug.LogError("Player has no head!");
 
+        if (!_weapon)
+            Debug.LogError("Player has no weapon!");
+
+        if (_maxWeaponDistance < 1)
+            Debug.LogWarning("Distance to weapon is too low!");
+
+        if (_grabDropCooldown <= 0)
+            Debug.LogWarning("The cooldown when grabbing and dropping the weapon is too low. This may cause glitches");
+
         _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
 
     }
 
+    private bool CheckGrabDropCooldown()
+    {
+        return Time.time - _lastGrabDropTime < _grabDropCooldown;
+    }
+
     private void GrabWeapon(InputAction.CallbackContext context)
     {
+        if (CheckGrabDropCooldown()) return;
+
         if (PointingToWeapon())
         {
             _holdingWeapon = true;
@@ -93,6 +108,8 @@ public class PlayerController : MonoBehaviour
 
     private void DropWeapon(InputAction.CallbackContext context)
     {
+        if (CheckGrabDropCooldown()) return;
+
         if (_holdingWeapon)
         {
             _holdingWeapon = false;
@@ -105,41 +122,11 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private bool PointingToWeapon()
     {
-        //d = √ [(x2 – x1)2 + (y2 – y1)2 + (z2 – z1)2].
-        Vector3 start = transform.position;
-        Vector3 end = _weapon.transform.position;
-        float diffX = end.x - start.x;
-        float diffY = end.y - start.y;
-        float diffZ = end.z - start.z;
-        float distance = (float)Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
+        RayManager _pointDetection = new();
 
-        Vector3 pointInView = _rayFront.origin + (_rayFront.direction * distance);
-
-        BoxCollider boxCollider = _weapon.GetComponent<BoxCollider>();
-
-        if (boxCollider == null) return false;
-
-        Vector3 max = boxCollider.bounds.max;
-        Vector3 min = boxCollider.bounds.min;
-
-        max.x += _weaponBoxIncrease;
-        max.y += _weaponBoxIncrease;
-        max.z += _weaponBoxIncrease;
-        min.x -= _weaponBoxIncrease;
-        min.y -= _weaponBoxIncrease;
-        min.z -= _weaponBoxIncrease;
-
-        //Debug.Log("Min: " + min);
-        //Debug.Log("Max: " + max);
-        Debug.Log("Distance: " + distance);
-
-        return (pointInView.x >= min.x && pointInView.x <= max.x &&
-                pointInView.y >= min.y && pointInView.y <= max.y &&
-                pointInView.z >= min.z && pointInView.z <= max.z)
-                &&
-                !_holdingWeapon
-                &&
-                distance <= _maxWeaponDistance;
+        return _pointDetection.PointingToObject(_cineMachineCamera.transform, _weapon.transform, _weapon.GetComponent<BoxCollider>()) &&
+                !_holdingWeapon &&
+                _pointDetection.GetDistanceToObject() <= _maxWeaponDistance;
 
     }
 
@@ -256,6 +243,11 @@ public class PlayerController : MonoBehaviour
     public float GetRunSpeed()
     {
         return _runSpeed;
+    }
+
+    public float GetJumpForce()
+    {
+        return _jumpForce;
     }
 
     public Transform GetCinemachineCamera()

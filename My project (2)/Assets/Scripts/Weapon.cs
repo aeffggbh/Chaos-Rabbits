@@ -101,31 +101,9 @@ public class Weapon : MonoBehaviour
 
     public bool PointingToEnemy(Enemy enemy)
     {
-        _ray.direction = _FPCamera.forward;
-        _ray.origin = _FPCamera.position;
+        RayManager pointDetector = new();
 
-        //d = √ [(x2 – x1)2 + (y2 – y1)2 + (z2 – z1)2].
-        Vector3 start = _FPCamera.transform.position;
-        Vector3 end = enemy.transform.position;
-        float diffX = end.x - start.x;
-        float diffY = end.y - start.y;
-        float diffZ = end.z - start.z;
-        float distance = (float)Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
-
-        Vector3 pointInView = _ray.origin + (_ray.direction * distance);
-
-        //raySize = distance;
-
-        BoxCollider boxCollider = enemy.GetComponent<BoxCollider>();
-
-        if (boxCollider == null) return false;
-
-        Vector3 max = boxCollider.bounds.max;
-        Vector3 min = boxCollider.bounds.min;
-
-        return (pointInView.x >= min.x && pointInView.x <= max.x &&
-                pointInView.y >= min.y && pointInView.y <= max.y &&
-                pointInView.z >= min.z && pointInView.z <= max.z);
+        return pointDetector.PointingToObject(_FPCamera, enemy.transform, enemy.GetComponent<BoxCollider>());
     }
 
     //private void OnDrawGizmos()
