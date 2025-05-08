@@ -21,7 +21,7 @@ public class EnemyClassRandomizer : MonoBehaviour
         Type chosenType = enemyTypes[index];
 
         //TODO: saca esto
-        chosenType = typeof(NormalEnemy);
+        chosenType = typeof(JumpingEnemy);
 
         gameObject.AddComponent(chosenType);
 

@@ -9,7 +9,6 @@ internal class Bullet : MonoBehaviour
     [SerializeField] private float upForce;
     [SerializeField] private float leftForce;
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private float distance;
 
     Vector3 point;
 
@@ -21,7 +20,6 @@ internal class Bullet : MonoBehaviour
         //    return;
         //}
 
-        ////How do I make it go to the center? This is not good enough
         //point = FPCamera.transform.position + FPCamera.transform.forward * distance;
 
         //Vector3 direction = (point - transform.position).normalized;
@@ -37,7 +35,6 @@ internal class Bullet : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Enemy>())
             {
-                Debug.Log("Died with bullet");
                 collision.gameObject.GetComponent<Enemy>().Die();
             }
             else

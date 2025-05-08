@@ -6,11 +6,12 @@ public class ExplodingEnemy : Enemy
     {
     }
 
-    protected override void ActivatePatrol()
+    protected override void Attack()
     {
     }
 
-    protected override void Attack()
+    protected override void Move()
     {
+        throw new System.NotImplementedException();
     }
 }

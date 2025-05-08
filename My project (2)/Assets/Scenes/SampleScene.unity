@@ -2678,7 +2678,7 @@ MonoBehaviour:
   _shootAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _world: {fileID: 656932200}
   _FPCamera: {fileID: 2079905738}
-  _usesHitscan: 0
+  _usesHitscan: 1
   _enemyManager: {fileID: 929182221}
 --- !u!65 &1083950901
 BoxCollider:
@@ -3615,16 +3615,16 @@ MonoBehaviour:
   _jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _dropAction: {fileID: -6697303918269174070, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _grabAction: {fileID: -542590151754964402, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _cineMachineBrain: {fileID: 281518164}
+  _weapon: {fileID: 1083950897}
+  _head: {fileID: 1391795997}
   _walkSpeed: 40
   _runSpeed: 60
   _force: 20
   _counterMovementForce: 3
   _jumpForce: 5
-  _cineMachineBrain: {fileID: 281518164}
-  _weapon: {fileID: 0}
-  _head: {fileID: 1391795997}
-  _weaponBoxIncrease: 0
-  _maxWeaponDistance: 0
+  _maxWeaponDistance: 6
+  _grabDropCooldown: 0.2
 --- !u!114 &1716998510
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,7 +30,7 @@ public abstract class Enemy : MonoBehaviour
     protected Vector3 _counterMovement;
 
 
-    private void Start()
+    virtual protected void Start()
     {
         _manager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
         _head = transform.Find("head"); ;
@@ -63,13 +63,6 @@ public abstract class Enemy : MonoBehaviour
     protected float GetPlayerDistance()
     {
         return Vector3.Distance(transform.position, _playerController.transform.position);
-
-        //Vector3 start = transform.position;
-        //Vector3 end = _playerController.transform.position;
-        //float diffX = end.x - start.x;
-        //float diffY = end.y - start.y;
-        //float diffZ = end.z - start.z;
-        //return (float)Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
     }
 
     protected Vector3 GetPlayerDirection()
@@ -80,19 +73,17 @@ public abstract class Enemy : MonoBehaviour
         return playerDir;
     }
 
-    private void FixedUpdate()
+    virtual protected void FixedUpdate()
     {
         _counterMovement = new Vector3
                        (-_rb.linearVelocity.x * _manager._counterMovementForce,
                        0,
                        -_rb.linearVelocity.z * _manager._counterMovementForce);
 
-        //check if the player is on sight and if it's in the attack range.
-        _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
+        Move();
 
-
-        Debug.Log("dir: " + _moveDir);
-        Debug.Log("speed: " + _moveSpeed);
+        //Debug.Log("dir: " + _moveDir);
+        //Debug.Log("speed: " + _moveSpeed);
 
         _patrolCurrentTime += Time.fixedDeltaTime;
         if (_hasAttacked)
@@ -119,12 +110,11 @@ public abstract class Enemy : MonoBehaviour
 
         if (_isChasing)
         {
-            Debug.Log("Player direction:" + GetPlayerDirection());
+            //Debug.Log("Player direction:" + GetPlayerDirection());
             _moveDir = GetPlayerDirection();
 
             if (GetPlayerDistance() <= _attackRange)
             {
-                Debug.Log("WWASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 _isChasing = false;
                 _isAttacking = true;
             }
@@ -138,9 +128,7 @@ public abstract class Enemy : MonoBehaviour
                 ActivatePatrol();
             }
             else if (_patrolCurrentTime >= _patrolTimer)
-            {
                 _pausedPatrol = true;
-            }
 
             if (Vector3.Distance(transform.position, _targetWalk) < 0.1 && !_pausedPatrol)
             {
@@ -149,12 +137,12 @@ public abstract class Enemy : MonoBehaviour
                 _moveSpeed = 0;
                 _moveDir = Vector3.zero;
             }
-            Debug.Log("PATROLLING");
+            //Debug.Log("PATROLLING");
         }
 
         if (_isAttacking)
         {
-            Debug.Log("ATTACKING");
+            //Debug.Log("ATTACKING");
             Attack();
         }
 
@@ -167,7 +155,28 @@ public abstract class Enemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + _moveDir * 2);
     }
 
-    protected abstract void ActivatePatrol();
+    void ActivatePatrol()
+    {
+        _patrolCurrentTime = 0;
+        float randomZ = UnityEngine.Random.Range(-_manager._walkRange, _manager._walkRange);
+        float randomX = UnityEngine.Random.Range(-_manager._walkRange, _manager._walkRange);
+
+        _targetWalk = new Vector3(transform.position.x + randomX,
+                                     transform.position.y,
+                                     transform.position.z + randomZ);
+
+        _targetLook = _targetWalk * 2;
+
+
+        _moveDir = (_targetWalk - transform.position).normalized;
+        _moveDir.y = 0;
+        _moveSpeed = _patrolSpeed;
+
+        if (!_isPatrolling)
+            _isPatrolling = true;
+    }
+
+    protected abstract void Move();
 
     protected abstract void ActivateChase();
 
