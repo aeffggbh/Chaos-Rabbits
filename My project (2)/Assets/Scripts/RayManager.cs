@@ -10,6 +10,7 @@ public class RayManager
         distanceToObject = 0f;
     }
 
+    //TODO: cambiarlo a raycast
     public bool PointingToObject(Transform start, Transform end, BoxCollider endCollider)
     {
         Ray _ray = new()

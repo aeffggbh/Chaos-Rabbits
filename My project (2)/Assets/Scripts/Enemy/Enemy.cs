@@ -1,9 +1,17 @@
 using System;
 using UnityEngine;
+/// <summary>
+/// Dudas:
+/// - La pistola se resizea cuando la agarro y la droppeo muy rapido
+/// - No logro que dispare donde apunta el crosshair (bala por instancia)
+/// - El enemigo esta medio curseado cuando le digo que mire para algun lado
+/// </summary>
+
 
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Enemy : MonoBehaviour
 {
+    //TODO Hacerlo service locator / singleton
     public EnemyManager _manager;
     protected PlayerController _playerController;
     protected Transform _head;
@@ -165,7 +173,7 @@ public abstract class Enemy : MonoBehaviour
                                      transform.position.y,
                                      transform.position.z + randomZ);
 
-        _targetLook = _targetWalk * 2;
+        _targetLook = _targetWalk * 5;
 
 
         _moveDir = (_targetWalk - transform.position).normalized;
