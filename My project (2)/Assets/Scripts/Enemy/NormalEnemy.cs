@@ -2,7 +2,24 @@ using UnityEngine;
 
 public class NormalEnemy : Enemy
 {
-  
+    private ClownAnimationController clownAnimation;
+
+    protected override void Start()
+    {
+        base.Start();
+        animationController = gameObject.AddComponent<ClownAnimationController>();
+        clownAnimation = animationController as ClownAnimationController;
+    }
+
+    protected override void ActivatePatrol()
+    {
+        base.ActivatePatrol();
+
+        if (animationController != null)
+            clownAnimation.Walk();
+        else
+            Debug.LogError("AnimationController is null for " + gameObject.name);
+    }
     protected override void ActivateChase()
     {
         _moveSpeed = _chasingSpeed;
@@ -11,30 +28,41 @@ public class NormalEnemy : Enemy
 
     protected override void Attack()
     {
-        if (GetPlayerDistance() > _attackRange)
+        _rb.linearVelocity = Vector3.zero;
+        if (_moveSpeed > 0)
         {
-            _isChasing = true;
-            _isAttacking = false;
+            _moveSpeed = 0;
+            clownAnimation.StopWalking();
         }
-
-        if (_isAttacking)
+        if ((_manager._attackTimer - _timeSinceAttacked) < 1)
         {
-            if (!_hasAttacked)
-                _hasAttacked = true;
-
-            if (_moveSpeed > 0)
-                _moveSpeed = 0;
-            if ((_manager._attackTimer - _timeSinceAttacked) < 1)
-            {
-                _timeSinceAttacked = 0;
-                //stay still and shoot the player until it's out of range.
-            }
+            _timeSinceAttacked = 0;
+            //stay still and shoot the player until it's out of range.
         }
     }
     protected override void Move()
     {
+        if (_moveSpeed > 0)
+            clownAnimation.Walk();
+        else
+            clownAnimation.StopWalking();
         //se mueve normal
-        _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
+        //Debug.Log("speed: " + _moveSpeed);  
+        _rb.AddForce((_moveDir * _moveSpeed /*+ _counterMovement*/) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
+    protected override void ActivateIdle()
+    {
+        _rb.linearVelocity = Vector3.zero;
+
+        if (animationController != null)
+            clownAnimation.StopWalking();
+        else
+            Debug.LogError("AnimationController is null for " + gameObject.name);
+    }
+
+    protected override void ActivateAttack()
+    {
+        throw new System.NotImplementedException();
+    }
 }

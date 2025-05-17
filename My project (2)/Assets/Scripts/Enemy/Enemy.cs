@@ -11,37 +11,45 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Enemy : MonoBehaviour
 {
+    protected enum States
+    {
+        IDLE,
+        PATROL,
+        CHASE,
+        ATTACK
+    }
+
     //TODO Hacerlo service locator / singleton
     public EnemyManager _manager;
+    public BoxCollider _collider;
     protected PlayerController _playerController;
     protected Transform _head;
     protected Rigidbody _rb;
     protected Vector3 _targetWalk;
     protected Vector3 _targetLook;
     protected Vector3 _moveDir;
-    protected bool _hasAttacked;
-    protected bool _isPatrolling;
-    protected bool _isChasing;
-    protected bool _isAttacking;
     protected bool _pausedPatrol;
     protected float _moveSpeed;
     protected float _attackRange;
     protected float _timeSinceAttacked;
     protected float _chaseRange;
     protected float _chasingSpeed;
-    /// <summary>
-    /// every few seconds it'll change the direction of patrolling
-    /// </summary>
-    protected float _patrolTimer;
     protected float _patrolSpeed;
+    protected float _patrolTimer;
     protected float _patrolCurrentTime;
+    protected float _idleTimer;
+    protected float _idleCurrentTime;
     protected Vector3 _counterMovement;
-
+    protected AnimationController animationController;
+    protected LookAtTarget _lookAtTrarget;
+    protected States currentState = States.PATROL;
 
     virtual protected void Start()
     {
         _manager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
+        _collider = gameObject.GetComponent<BoxCollider>();
         _head = transform.Find("head"); ;
+        _lookAtTrarget = gameObject.AddComponent<LookAtTarget>();
 
         _rb = gameObject.GetComponent<Rigidbody>();
 
@@ -58,12 +66,12 @@ public abstract class Enemy : MonoBehaviour
         else
             Debug.LogError(nameof(EnemyManager) + " is null");
 
-        _isPatrolling = false;
-        _isChasing = false;
-        _isAttacking = false;
-        _hasAttacked = false;
         _pausedPatrol = false;
 
+        _idleTimer = 2f;
+        _idleCurrentTime = 0f;
+
+        _timeSinceAttacked = 0;
 
         ActivatePatrol();
     }
@@ -87,74 +95,108 @@ public abstract class Enemy : MonoBehaviour
                        (-_rb.linearVelocity.x * _manager._counterMovementForce,
                        0,
                        -_rb.linearVelocity.z * _manager._counterMovementForce);
-
         Move();
 
-        //Debug.Log("dir: " + _moveDir);
-        //Debug.Log("speed: " + _moveSpeed);
+        CheckTimers();
 
-        _patrolCurrentTime += Time.fixedDeltaTime;
-        if (_hasAttacked)
-            _timeSinceAttacked += Time.fixedDeltaTime;
+        CheckRange();
 
-        if (!_isChasing && GetPlayerDistance() <= _chaseRange)
+        switch (currentState)
         {
-            ActivateChase();
-            _isChasing = true;
+            case States.IDLE:
+                Idle();
+                break;
+            case States.PATROL:
+                Patrol();
+                break;
+            case States.CHASE:
+                Chase();
+                break;
+            case States.ATTACK:
+                Attack();
+                _targetLook = _playerController.transform.position;
+                break;
+            default:
+                break;
         }
-        if (GetPlayerDistance() >= _chaseRange && !_isPatrolling)
+
+        if (this.GetComponent<ExplodingEnemy>() == null)
+            _lookAtTrarget.Look(_targetLook);
+    }
+
+    private void Idle()
+    {
+        if (_idleCurrentTime > _idleTimer)
         {
-            _isPatrolling = true;
+            _idleCurrentTime = 0;
+            currentState = States.PATROL;
             ActivatePatrol();
-            if (_isChasing)
-                _isChasing = false;
         }
+    }
 
-        if (_isChasing || _isAttacking)
+    private void Patrol()
+    {
+        if (Vector3.Distance(transform.position, _targetWalk) < 0.5f || _patrolCurrentTime > _patrolTimer)
         {
-            _targetLook = _playerController.transform.position * 5;
-            //_targetLook.y = transform.position.y;
+            _patrolCurrentTime = 0;
+            _moveSpeed = 0;
+            _moveDir = Vector3.zero;
+            currentState = States.IDLE;
+            ActivateIdle();
         }
-
-        if (_isChasing)
+    }
+    private void CheckTimers()
+    {
+        switch (currentState)
         {
-            //Debug.Log("Player direction:" + GetPlayerDirection());
-            _moveDir = GetPlayerDirection();
+            case States.IDLE:
+                _idleCurrentTime += Time.fixedDeltaTime;
+                break;
+            case States.PATROL:
+                _patrolCurrentTime += Time.fixedDeltaTime;
+                break;
+            case States.CHASE:
+                break;
+            case States.ATTACK:
+                _timeSinceAttacked += Time.fixedDeltaTime;
+                break;
+            default:
+                break;
+        }
+    }
 
-            if (GetPlayerDistance() <= _attackRange)
+    private void Chase()
+    {
+        //Debug.Log("Player direction:" + GetPlayerDirection());
+        _moveDir = GetPlayerDirection();
+
+        _targetLook = _playerController.transform.position;
+    }
+
+
+    private void CheckRange()
+    {
+        if (currentState != States.CHASE && GetPlayerDistance() <= _chaseRange)
+        {
+            if (currentState == States.ATTACK)
+                _timeSinceAttacked = 0;
+
+            currentState = States.CHASE;
+            ActivateChase();
+        }
+        if (GetPlayerDistance() >= _chaseRange && currentState != States.PATROL)
+        {
+            if (currentState != States.IDLE)
             {
-                _isChasing = false;
-                _isAttacking = true;
-            }
-        }
-        else if (_isPatrolling)
-        {
-
-            if (_pausedPatrol && _patrolCurrentTime >= _patrolTimer)
-            {
-                _pausedPatrol = false;
+                currentState = States.PATROL;
                 ActivatePatrol();
             }
-            else if (_patrolCurrentTime >= _patrolTimer)
-                _pausedPatrol = true;
-
-            if (Vector3.Distance(transform.position, _targetWalk) < 0.1 && !_pausedPatrol)
-            {
-                _pausedPatrol = true;
-                _patrolCurrentTime = 0;
-                _moveSpeed = 0;
-                _moveDir = Vector3.zero;
-            }
-            //Debug.Log("PATROLLING");
         }
-
-        if (_isAttacking)
+        if (GetPlayerDistance() <= _attackRange)
         {
-            //Debug.Log("ATTACKING");
-            Attack();
+            ActivateAttack();
+            currentState = States.ATTACK;
         }
-
-        transform.LookAt(_targetLook);
     }
 
     private void OnDrawGizmos()
@@ -163,7 +205,9 @@ public abstract class Enemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + _moveDir * 2);
     }
 
-    void ActivatePatrol()
+    protected abstract void ActivateIdle();
+
+    virtual protected void ActivatePatrol()
     {
         _patrolCurrentTime = 0;
         float randomZ = UnityEngine.Random.Range(-_manager._walkRange, _manager._walkRange);
@@ -173,15 +217,11 @@ public abstract class Enemy : MonoBehaviour
                                      transform.position.y,
                                      transform.position.z + randomZ);
 
-        _targetLook = _targetWalk * 5;
-
+        _targetLook = _targetWalk;
 
         _moveDir = (_targetWalk - transform.position).normalized;
         _moveDir.y = 0;
         _moveSpeed = _patrolSpeed;
-
-        if (!_isPatrolling)
-            _isPatrolling = true;
     }
 
     protected abstract void Move();
@@ -189,6 +229,7 @@ public abstract class Enemy : MonoBehaviour
     protected abstract void ActivateChase();
 
     protected abstract void Attack();
+    protected abstract void ActivateAttack();
 
     public void Die()
     {
