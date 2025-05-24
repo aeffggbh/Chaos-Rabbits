@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -101,6 +102,9 @@ public class PlayerController : MonoBehaviour
 
         if (!_weaponManager)
             Debug.LogError(nameof(_weaponManager) + " is null");
+
+        if (!_cheatsController)
+            _cheatsController = GameObject.Find("CheatsController").GetComponent<CheatsController>();
 
         if (!_cheatsController)
             Debug.LogError(nameof(_cheatsController) + " is null");

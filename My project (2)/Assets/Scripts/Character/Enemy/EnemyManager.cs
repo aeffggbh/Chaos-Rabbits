@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
+//[CreateAssetMenu(fileName = "EnemyManager", menuName = "ScriptableObjects/EnemyManager")]
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] public List<Enemy> enemies;
@@ -15,14 +16,11 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] public float patrolTimer;
     [SerializeField] public float counterMovementForce;
 
-    private void Awake()
-    {
-        if (!playerController)
-            Debug.LogError(nameof(playerController) + " missing");
-    }
-
     private void Start()
     {
+        playerController = GameObject.Find("player").GetComponent<PlayerController>();
+        if (!playerController)
+            Debug.LogError(nameof(playerController) + " missing");
         if (enemies.Count == 0)
             Debug.LogWarning("No enemies added!");
     }

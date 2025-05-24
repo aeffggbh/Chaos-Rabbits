@@ -9,11 +9,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _tip;
     [SerializeField] private InputActionReference _shootAction;
     [SerializeField] private Transform _weaponParent;
+    [SerializeField] private EnemyManager _enemyManager;
     [Header("User")]
     [SerializeField] public Character user;
     [Header("Hitscan")]
     [SerializeField] private bool _usesHitscan;
-    [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private bool _debugUser;
 
     private Vector3 _defaultPos;
@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
+        _enemyManager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
+
         if (!_prefabBullet && !_usesHitscan)
             Debug.LogError(nameof(_prefabBullet) + " is null");
 

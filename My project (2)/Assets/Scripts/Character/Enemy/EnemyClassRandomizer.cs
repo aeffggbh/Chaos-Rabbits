@@ -25,7 +25,7 @@ public class EnemyClassRandomizer : MonoBehaviour
         Type chosenType = enemyTypes[index];
 
         //TODO: Remove this line
-        chosenType = typeof(NormalEnemy);
+        //chosenType = typeof(NormalEnemy);
 
         // Instantiate and parent the correct model
         GameObject modelInstance = null;
