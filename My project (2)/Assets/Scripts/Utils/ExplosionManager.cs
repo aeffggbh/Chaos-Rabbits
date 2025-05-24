@@ -4,28 +4,46 @@ public class ExplosionManager : MonoBehaviour
 {
     [SerializeField] private float _secondsForExplosion;
     [SerializeField] private GameObject _explosionPrefab;
-    private bool explosionImminent = false;
-    private bool exploded = false;
+    [SerializeField] private float _explosionDuration;
+    [SerializeField] public float _explosionRange;
+    private float _currentExplosionDuration;
+    private bool _explosionImminent = false;
+    private bool _exploded = false;
     private float _timeForExplosion;
 
-    private void Start()
+    private void Awake()
     {
         _timeForExplosion = 0;
         _explosionPrefab.SetActive(false);
+        _currentExplosionDuration = 0;
+        if (_explosionRange < 0.1f)
+            Debug.LogError("Explosion range was not defined or it's too low");
     }
 
     private void Update()
     {
-        if (explosionImminent)
+        if (_explosionImminent)
         {
-            _timeForExplosion+= Time.deltaTime;
+            _timeForExplosion += Time.deltaTime;
 
             if (_timeForExplosion >= _secondsForExplosion)
             {
                 _explosionPrefab.SetActive(true);
-                explosionImminent = false;
+                _explosionImminent = false;
                 _timeForExplosion = 0;
-                exploded = true;
+                _exploded = true;
+            }
+        }
+
+        if (_exploded)
+        {
+            _currentExplosionDuration += Time.deltaTime;
+
+            if (_currentExplosionDuration > _explosionDuration)
+            {
+                _explosionPrefab.SetActive(false);
+                _currentExplosionDuration = 0;
+                Destroy(gameObject);
             }
         }
     }
@@ -36,11 +54,11 @@ public class ExplosionManager : MonoBehaviour
     /// <returns></returns>
     public bool Exploded()
     {
-        return exploded;
+        return _exploded;
     }
 
     public void StartExplotion()
     {
-        explosionImminent = true;
+        _explosionImminent = true;
     }
 }

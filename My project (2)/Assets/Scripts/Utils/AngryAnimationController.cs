@@ -9,4 +9,12 @@ public class AngryAnimationController : AnimationController
         else
             Debug.LogError("Animator is null for " + gameObject.name);
     }
+
+    public void Die()
+    {
+        if (animator != null)
+            animator.SetBool("isDead", true);
+        else
+            Debug.LogError("Animator is null for " + gameObject.name);
+    }
 }

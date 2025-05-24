@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class RayManager
 {
-    private float distanceToObject;
+    private float _distanceToObject;
 
     public RayManager()
     {
-        distanceToObject = 0f;
+        _distanceToObject = 0f;
     }
 
     //TODO: cambiarlo a raycast
@@ -46,11 +46,11 @@ public class RayManager
         return false;
     }
 
-    public bool PointingToObject(Transform start, Transform end, BoxCollider endCollider)
+    public bool PointingToObject(Transform start, Transform end, Collider endCollider)
     {
-        distanceToObject = Vector3.Distance(start.position, end.position);
+        _distanceToObject = Vector3.Distance(start.position, end.position);
 
-        if (PointingToObject(start, distanceToObject, out RaycastHit hit))
+        if (PointingToObject(start, _distanceToObject, out RaycastHit hit))
             if (hit.collider == endCollider)
                 return true;
 
@@ -68,19 +68,19 @@ public class RayManager
         float diffX = end.position.x - start.position.x;
         float diffY = end.position.y - start.position.y;
         float diffZ = end.position.z - start.position.z;
-        distanceToObject = (float)Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
-        return distanceToObject;
+        _distanceToObject = (float)Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
+        return _distanceToObject;
     }
 
     public float GetDistanceToObject()
     {
-        if (distanceToObject< 1)
+        if (_distanceToObject< 1)
         {
             Debug.LogError(nameof(GetDistanceToObject) + ": Distance was not defined or is too small");
             return 0f;
         }
 
-        return distanceToObject;
+        return _distanceToObject;
     }
 
 }
