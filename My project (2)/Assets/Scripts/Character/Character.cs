@@ -18,16 +18,13 @@ public abstract class Character : MonoBehaviour
             Die();
             currentHealth = 0f;
         }
-        Debug.Log("Current health: " + currentHealth); 
+        Debug.Log("Current health: " + currentHealth);
     }
     public abstract void Die();
 
     public void DeleteCharacterObject()
     {
-        if (Obj != null)
-        {
-            Destroy(Obj);
-            Obj = null;
-        }
+        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

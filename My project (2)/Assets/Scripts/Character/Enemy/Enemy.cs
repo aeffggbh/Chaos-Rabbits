@@ -252,4 +252,9 @@ public abstract class Enemy : Character
         //Destroy(gameObject);
     }
 
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+    }
+
 }
