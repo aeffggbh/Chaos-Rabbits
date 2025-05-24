@@ -43,6 +43,7 @@ public abstract class Enemy : Character
     protected AnimationController animationController;
     protected LookAtTarget _lookAtTrarget;
     protected States currentState = States.PATROL;
+    protected bool isExplodingEnemy;
 
     virtual protected void Start()
     {
@@ -52,7 +53,6 @@ public abstract class Enemy : Character
         damage = 10.0f;
 
         IsWeaponUser = false;
-        Obj = gameObject;
         
         _manager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
         _collider = gameObject.GetComponent<BoxCollider>();
@@ -76,12 +76,16 @@ public abstract class Enemy : Character
 
         _pausedPatrol = false;
 
-        _idleTimer = 2f;
+        _idleTimer = _patrolTimer;
         _idleCurrentTime = 0f;
 
         _timeSinceAttacked = 0;
 
+        _moveSpeed = _patrolSpeed;
+
         ActivatePatrol();
+
+        isExplodingEnemy = this.GetComponent<ExplodingEnemy>() != null;
     }
 
     protected float GetPlayerDistance()
@@ -92,7 +96,6 @@ public abstract class Enemy : Character
     protected Vector3 GetPlayerDirection()
     {
         Vector3 playerDir = (_playerController.transform.position - transform.position).normalized;
-        //para que no vuele
         playerDir.y = 0;
         return playerDir;
     }
@@ -128,7 +131,7 @@ public abstract class Enemy : Character
                 break;
         }
 
-        if (this.GetComponent<ExplodingEnemy>() == null)
+        if (!isExplodingEnemy)
             _lookAtTrarget.Look(_targetLook);
     }
 
@@ -190,7 +193,7 @@ public abstract class Enemy : Character
             ActivateAttack();
             currentState = States.ATTACK;
         }
-        else if (GetPlayerDistance() > _attackRange)
+        else if (GetPlayerDistance() > _attackRange && currentState != States.PATROL)
             currentState = States.NONE;
 
         if (currentState != States.CHASE && GetPlayerDistance() <= _chaseRange && currentState != States.ATTACK)
@@ -198,7 +201,7 @@ public abstract class Enemy : Character
             currentState = States.CHASE;
             ActivateChase();
         }
-        if (GetPlayerDistance() >= _chaseRange && currentState != States.PATROL)
+        if (GetPlayerDistance() > _chaseRange && currentState != States.PATROL)
         {
             if (currentState != States.IDLE)
             {
@@ -218,6 +221,7 @@ public abstract class Enemy : Character
 
     virtual protected void ActivatePatrol()
     {
+        currentState = States.PATROL;
         _patrolCurrentTime = 0;
         float randomZ = UnityEngine.Random.Range(-_manager.walkRange, _manager.walkRange);
         float randomX = UnityEngine.Random.Range(-_manager.walkRange, _manager.walkRange);
