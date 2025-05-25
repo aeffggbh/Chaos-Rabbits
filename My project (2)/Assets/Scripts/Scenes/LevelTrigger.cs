@@ -9,31 +9,33 @@ public class LevelTrigger : MonoBehaviour
     {
         if (!_enemyManager)
         {
-            _enemyManager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
+            _enemyManager = EnemyManager.instance;
             if (!_enemyManager)
                 Debug.LogError("EnemyManager not found in the scene.");
         }
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        OnTrigger();
+        if (other.CompareTag("Player"))
+            OnTrigger();
+
     }
 
     private void OnTrigger()
     {
+        SceneController.CheckCurrentScene();
+
         if (SceneController.currentScene == SceneController.Scenes.FINAL_LEVEL)
         {
-            //check if the player arrived in time. It's cronometer based, to add difficulty.
+            SceneController.GoToScene(SceneController.Scenes.GAMEWIN);
         }
         else
         {
             //check if the enemies are all dead.
             if (_enemyManager.enemies.Count == 0)
-            {
                 SceneController.GoToScene(SceneController.currentScene + 1);
-            }
         }
     }
 }

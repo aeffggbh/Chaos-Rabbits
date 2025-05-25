@@ -47,4 +47,9 @@ public class SceneControllerWrapper : MonoBehaviour
     {
         SceneController.GoToPreviousScene();
     }
+
+    public void GoToLastGameplayScene()
+    {
+        SceneController.GoToLastGameplayScene();
+    }
 }
