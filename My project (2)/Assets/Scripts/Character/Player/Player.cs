@@ -13,6 +13,8 @@ public class Player : Character
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
+
         maxHealth = 100.0f;
         currentHealth = maxHealth;
 

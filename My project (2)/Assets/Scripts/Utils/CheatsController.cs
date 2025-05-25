@@ -40,6 +40,7 @@ public class CheatsController : MonoBehaviour
 
     private void OnNextLevel(InputAction.CallbackContext context)
     {
-        //TODO: Implement the logic to go to the next level
+        SceneController.GoToScene(SceneController.currentScene + 1);
     }
 }
+    

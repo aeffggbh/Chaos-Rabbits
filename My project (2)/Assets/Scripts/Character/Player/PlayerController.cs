@@ -44,9 +44,6 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         _player = GetComponent<Player>();
 
         _holdingWeapon = true;
@@ -188,7 +185,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        //TODO: verify it's actually the floor lol
         if (other.gameObject.CompareTag("Floor"))
         {
             if (_player)
@@ -200,11 +196,27 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_rayFront.direction != _cineMachineCamera.transform.forward)
-            _rayFront.direction = _cineMachineCamera.transform.forward;
+        CheckExistence();
 
-        if (_rayFront.origin != _cineMachineCamera.transform.position)
-            _rayFront.origin = _cineMachineCamera.transform.position;
+        if (_cineMachineBrain)
+        {
+            if (_rayFront.direction != _cineMachineCamera.transform.forward)
+                _rayFront.direction = _cineMachineCamera.transform.forward;
+
+            if (_rayFront.origin != _cineMachineCamera.transform.position)
+                _rayFront.origin = _cineMachineCamera.transform.position;
+        }
+    }
+
+    private void CheckExistence()
+    {
+        SceneController.CheckCurrentScene();
+
+        if ((int)SceneController.currentScene < (int)SceneController.Scenes.LEVEL1 || 
+            (int)SceneController.currentScene > (int)SceneController.Scenes.FINAL_LEVEL)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()

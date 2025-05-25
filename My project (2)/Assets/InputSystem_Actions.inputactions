@@ -1,5 +1,5 @@
 {
-    "name": "InputSystem_Actions_Gameplay",
+    "name": "InputSystem_Actions",
     "maps": [
         {
             "name": "Player",

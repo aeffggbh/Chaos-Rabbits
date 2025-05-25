@@ -19,7 +19,6 @@ public abstract class Enemy : Character
         ATTACK
     }
 
-    //TODO Hacerlo service locator / singleton
     public EnemyManager _manager;
     public BoxCollider _collider;
     protected PlayerController _playerController;

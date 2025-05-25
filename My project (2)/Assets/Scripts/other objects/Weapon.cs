@@ -37,8 +37,8 @@ public class Weapon : MonoBehaviour
         }
         else
             transform.SetParent(_weaponParent);
-
     }
+
 
     private void Start()
     {
@@ -67,16 +67,14 @@ public class Weapon : MonoBehaviour
                 ResetPos();
             }
             else if (user.GetType() == typeof(Enemy))
-            {
                 if (_usesHitscan)
                     Debug.LogError("Enemies cannot use hitscan. Deactivate the hitscan option!");
-
-            }
 
             SetOpponent();
 
         }
 
+        CheckExistence();
     }
 
     private void Update()
@@ -88,6 +86,12 @@ public class Weapon : MonoBehaviour
             else
                 Debug.LogWarning("No user (" + name + ") assigned.");
         }
+    }
+    private void CheckExistence()
+    {
+        //in case DontDestroyOnLoad was called
+        if (!user && (int)SceneController.currentScene > (int)SceneController.Scenes.LEVEL1)
+            Destroy(gameObject);
     }
 
     private void SetOpponent()
@@ -140,6 +144,8 @@ public class Weapon : MonoBehaviour
 
     public void Hold()
     {
+        DontDestroyOnLoad(this);
+
         ResetPos();
         transform.eulerAngles = _weaponParent.eulerAngles;
 
