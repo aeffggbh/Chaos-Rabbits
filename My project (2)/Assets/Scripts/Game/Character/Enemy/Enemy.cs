@@ -1,11 +1,4 @@
 using UnityEngine;
-/// <summary>
-/// Dudas:
-/// - La pistola se resizea cuando la agarro y la droppeo muy rapido
-/// - No logro que dispare donde apunta el crosshair (bala por instancia)
-/// - El enemigo esta medio curseado cuando le digo que mire para algun lado
-/// </summary>
-
 
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Enemy : Character

@@ -38,4 +38,6 @@ public class GameBoot : MonoBehaviour
         if (GameManager.cheatsController == null)
             GameManager.cheatsController = CheatsController.instance;
     }
+
+
 }

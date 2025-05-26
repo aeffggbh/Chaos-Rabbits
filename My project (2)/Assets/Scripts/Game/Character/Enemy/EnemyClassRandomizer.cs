@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-
 public class EnemyClassRandomizer : MonoBehaviour
 {
     [SerializeField] private GameObject _jumpingEnemyPrefab;

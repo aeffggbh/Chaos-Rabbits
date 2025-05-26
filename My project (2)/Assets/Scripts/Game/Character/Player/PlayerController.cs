@@ -1,11 +1,6 @@
-﻿using System;
-using System.Drawing;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager.Requests;
+﻿using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.EventSystems.EventTrigger;
 /// <summary>
 /// Reads input and decides actions taken by the player
 /// </summary>

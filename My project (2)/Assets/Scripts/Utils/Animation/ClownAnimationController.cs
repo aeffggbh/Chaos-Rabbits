@@ -1,4 +1,3 @@
-
 public class ClownAnimationController : AnimationController
 {
     public void Walk()

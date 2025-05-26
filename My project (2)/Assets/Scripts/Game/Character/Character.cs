@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-
 public abstract class Character : MonoBehaviour
 {
     public bool IsWeaponUser { get; set; }

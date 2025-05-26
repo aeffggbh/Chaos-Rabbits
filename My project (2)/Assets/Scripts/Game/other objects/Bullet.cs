@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 [RequireComponent(typeof(Rigidbody))]
 //projectile based.
