@@ -87,6 +87,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: shotgun1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f62f7dc06bd890d4aab43b8fd635fe02, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -148,7 +152,8 @@ MonoBehaviour:
   _tip: {fileID: 5054889958439575103}
   _shootAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _weaponParent: {fileID: 0}
+  enemyManager: {fileID: 0}
   user: {fileID: 0}
   _usesHitscan: 0
-  _enemyManager: {fileID: 0}
   _debugUser: 0
+  weaponLayerIndex: 6

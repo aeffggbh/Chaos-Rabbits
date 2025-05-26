@@ -46,7 +46,7 @@ public class CronometerTrigger : MonoBehaviour
     private void UpdateText()
     {
         if (_text != null)
-            _text.SetText(((int)_currentTime).ToString());
+            _text.SetText(((int)_currentTime).ToString() + " / " + _goalTime);
         else
             Debug.LogWarning("TextMeshPro component is not assigned.");
     }

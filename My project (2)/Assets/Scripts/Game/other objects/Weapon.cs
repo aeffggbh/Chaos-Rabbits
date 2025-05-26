@@ -18,6 +18,7 @@ public class Weapon : MonoBehaviour
     [Header("Hitscan")]
     [SerializeField] private bool _usesHitscan;
     [SerializeField] private bool _debugUser;
+    [SerializeField] private int weaponLayerIndex;
 
     private Vector3 _defaultPos;
     private Type _opponentType;
@@ -64,7 +65,7 @@ public class Weapon : MonoBehaviour
                 if (!enemyManager)
                     Debug.LogError(nameof(enemyManager) + " is null");
 
-                ResetPos();
+                Hold();
             }
             else if (user.GetType() == typeof(Enemy))
                 if (_usesHitscan)
@@ -94,6 +95,7 @@ public class Weapon : MonoBehaviour
     /// </summary>
     private void CheckExistence()
     {
+        SceneController.CheckCurrentScene();
         if (!user && (int)SceneController.currentScene != (int)SceneController.GameStates.LEVEL1)
             Destroy(gameObject);
     }
@@ -188,6 +190,8 @@ public class Weapon : MonoBehaviour
         transform.SetParent(_weaponParent);
         if (GetComponent<Rigidbody>())
             Destroy(GetComponent<Rigidbody>());
+
+        gameObject.layer = weaponLayerIndex;
     }
 
     /// <summary>
@@ -202,6 +206,8 @@ public class Weapon : MonoBehaviour
         user = null;
         if (!GetComponent<Rigidbody>())
             gameObject.AddComponent<Rigidbody>();
+
+        gameObject.layer = 0;
     }
 
     /// <summary>

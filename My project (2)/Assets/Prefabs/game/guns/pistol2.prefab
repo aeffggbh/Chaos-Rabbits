@@ -139,10 +139,11 @@ MonoBehaviour:
   _tip: {fileID: 1948020584608736587}
   _shootAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _weaponParent: {fileID: 0}
+  enemyManager: {fileID: 0}
   user: {fileID: 0}
   _usesHitscan: 1
-  _enemyManager: {fileID: 0}
   _debugUser: 0
+  weaponLayerIndex: 6
 --- !u!65 &5568095343122340384
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -87,6 +87,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: assault1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 33269b2b610f4c245a712795c1927939, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -127,10 +131,11 @@ MonoBehaviour:
   _tip: {fileID: 3669461553851218764}
   _shootAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _weaponParent: {fileID: 0}
+  enemyManager: {fileID: 0}
   user: {fileID: 0}
   _usesHitscan: 0
-  _enemyManager: {fileID: 0}
   _debugUser: 0
+  weaponLayerIndex: 6
 --- !u!65 &8081698343627392656
 BoxCollider:
   m_ObjectHideFlags: 0

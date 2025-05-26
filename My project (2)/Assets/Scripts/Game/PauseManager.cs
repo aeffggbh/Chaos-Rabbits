@@ -57,10 +57,11 @@ public class PauseManager : MonoBehaviour
             if (_checkExitMenu)
                 _checkExitMenu.SetActive(false);
 
-            CheckCursor();
         }
         else
             Debug.LogWarning("GameManager not initialized, cannot pause");
+
+        CheckCursor();
     }
 
     /// <summary>
@@ -110,6 +111,8 @@ public class PauseManager : MonoBehaviour
             _checkExitMenu.SetActive(false);
         Time.timeScale = 1f;
         GameManager.SetPause(false);
+        paused = false;
+        CheckCursor();
     }
 
     public void ExitGame()

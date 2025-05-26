@@ -33,6 +33,8 @@ public class EnemyClassRandomizer : MonoBehaviour
         int index = UnityEngine.Random.Range(0, enemyTypes.Length);
         Type chosenType = enemyTypes[index];
 
+        chosenType = typeof(ExplodingEnemy);
+
         // Instantiate and parent the correct model
         GameObject modelInstance = null;
 
