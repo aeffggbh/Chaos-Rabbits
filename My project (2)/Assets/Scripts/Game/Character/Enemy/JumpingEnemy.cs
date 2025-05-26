@@ -21,6 +21,9 @@ public class JumpingEnemy : Enemy
         _defaultMoveSpeed = _moveSpeed;
         //  _rb.constraints = RigidbodyConstraints.FreezeRotationX
         //            | RigidbodyConstraints.FreezeRotationZ;
+
+        _patrolSpeed /= 2;
+        _chasingSpeed /= 2;
     }
 
 
@@ -53,7 +56,7 @@ public class JumpingEnemy : Enemy
             _rb.linearVelocity = velocity;
         }
 
-        _rb.AddForce((_moveDir * _moveSpeed) * Time.fixedDeltaTime, ForceMode.Impulse); 
+        _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse); 
 
     }
 

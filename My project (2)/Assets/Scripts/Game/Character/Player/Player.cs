@@ -103,8 +103,7 @@ public class Player : Character
     public override void Die()
     {
         if (!_isGodMode)
-            //TODO: implement "You Died" screen
-            Debug.Log("YOU DIED");
+            SceneController.GoToScene(SceneController.Scenes.GAMEOVER);
     }
 
     public override void TakeDamage(float damage)
