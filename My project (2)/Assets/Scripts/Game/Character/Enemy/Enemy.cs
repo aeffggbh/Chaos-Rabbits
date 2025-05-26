@@ -35,20 +35,25 @@ public abstract class Enemy : Character
     protected float _idleCurrentTime;
     protected Vector3 _counterMovement;
     protected AnimationController animationController;
+    protected PlayerController _playerController;
     protected LookAtTarget _lookAtTrarget;
     protected States currentState = States.PATROL;
     protected bool isExplodingEnemy;
 
-    virtual protected void Start()
+    protected override void Start()
     {
+        base.Start();
+
         maxHealth = 100.0f;
         currentHealth = maxHealth;
 
         damage = 10.0f;
 
         IsWeaponUser = false;
-        
-        _manager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
+
+        if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
+            _manager = enemyManager;
+
         _collider = gameObject.GetComponent<BoxCollider>();
         _head = transform.Find("head"); ;
         _lookAtTrarget = gameObject.AddComponent<LookAtTarget>();
@@ -79,6 +84,9 @@ public abstract class Enemy : Character
         ActivatePatrol();
 
         isExplodingEnemy = this.GetComponent<ExplodingEnemy>() != null;
+
+        if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
+            _playerController = playerController;
     }
 
     /// <summary>
@@ -87,7 +95,7 @@ public abstract class Enemy : Character
     /// <returns></returns>
     protected float GetPlayerDistance()
     {
-        return Vector3.Distance(transform.position, GameManager.savedPlayer.transform.position);
+        return Vector3.Distance(transform.position, _playerController.transform.position);
     }
 
     /// <summary>
@@ -96,7 +104,7 @@ public abstract class Enemy : Character
     /// <returns></returns>
     protected Vector3 GetPlayerDirection()
     {
-        Vector3 playerDir = (GameManager.savedPlayer.transform.position - transform.position).normalized;
+        Vector3 playerDir = (_playerController.transform.position - transform.position).normalized;
         playerDir.y = 0;
         return playerDir;
     }
@@ -128,7 +136,7 @@ public abstract class Enemy : Character
                 break;
             case States.ATTACK:
                 Attack();
-                _targetLook = GameManager.savedPlayer.transform.position;
+                _targetLook = _playerController.transform.position;
                 break;
             default:
                 break;
@@ -197,7 +205,7 @@ public abstract class Enemy : Character
         //Debug.Log("Player direction:" + GetPlayerDirection());
         _moveDir = GetPlayerDirection();
 
-        _targetLook = GameManager.savedPlayer.transform.position;
+        _targetLook = _playerController.transform.position;
     }
 
     /// <summary>
@@ -283,7 +291,6 @@ public abstract class Enemy : Character
 
     public override void Die()
     {
-        //maybe take damage instead, lol
         Debug.Log("DIE");
 
         _manager.enemies.Remove(this);

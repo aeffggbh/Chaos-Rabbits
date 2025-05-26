@@ -50,4 +50,9 @@ public class ExplodingEnemy : Enemy
 
     protected override void Move()
     { }
+
+    public override void Die()
+    {
+        base.Die();
+    }
 }

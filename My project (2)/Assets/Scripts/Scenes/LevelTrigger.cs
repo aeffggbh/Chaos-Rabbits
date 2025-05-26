@@ -11,21 +11,15 @@ public class LevelTrigger : MonoBehaviour
     [SerializeField] private int _enemyTotal;
     [SerializeField] private TextMeshProUGUI _enemyCounterText;
 
-    private void Awake()
+    private void Start()
     {
         if (!_enemyManager)
         {
-            _enemyManager = EnemyManager.instance;
-            if (!_enemyManager)
-                Debug.LogError("EnemyManager not found in the scene.");
+            if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
+                _enemyManager = enemyManager;
 
             _enemyCounter = 0;
         }
-
-    }
-
-    private void Start()
-    {
         _enemyTotal = _enemyManager.enemies.Count;
     }
 
@@ -52,15 +46,11 @@ public class LevelTrigger : MonoBehaviour
         SceneController.CheckCurrentScene();
 
         if (SceneController.currentScene == SceneController.GameStates.FINAL_LEVEL)
-        {
             SceneController.GoToScene(SceneController.GameStates.GAMEWIN);
-        }
         else
-        {
             //check if the enemies are all dead.
             if (_enemyManager.enemies.Count == 0)
                 SceneController.GoToScene(SceneController.currentScene + 1);
-        }
     }
 
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>
 public class EnemyManager : MonoBehaviour
 {
-
     [SerializeField] public List<Enemy> enemies;
     [SerializeField] public float attackTimer;
     [SerializeField] public float walkRange;
@@ -17,14 +16,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] public float patrolTimer;
     [SerializeField] public float counterMovementForce;
 
-    public static EnemyManager instance;
-
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
+        ServiceProvider.SetService<EnemyManager>(this, true);
     }
 
     private void Start()

@@ -7,11 +7,11 @@ using UnityEngine.InputSystem;
 // This class is responsible for initializing the game and setting up the GameManager at the start of the game
 public class GameBoot : MonoBehaviour
 {
-    [SerializeField] private PlayerController _playerController;
     [SerializeField] private Weapon _defaultWeapon;
     [SerializeField] private InputActionReference _pauseButton;
+    private PlayerController _playerController;
 
-    void Awake()
+    void Start()
     {
         if (!GameManager.initialized)
         {
@@ -27,8 +27,10 @@ public class GameBoot : MonoBehaviour
     private void InitializeGame()
     {
         Debug.Log("Resetting game");
-        if (!_playerController)
-            Debug.LogError(nameof(_playerController) + " is null");
+
+        if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
+            _playerController = playerController;
+
 
         if (!_defaultWeapon)
             _defaultWeapon = _playerController.currentWeapon;
@@ -40,15 +42,11 @@ public class GameBoot : MonoBehaviour
         GameManager.savedPlayer = _playerController;
         GameManager.pauseButton = _pauseButton;
 
-
         GameManager.initialized = true;
-    }
-
-    private void Start()
-    {
         if (GameManager.cheatsController == null)
             GameManager.cheatsController = CheatsController.instance;
     }
+
 
 
 }

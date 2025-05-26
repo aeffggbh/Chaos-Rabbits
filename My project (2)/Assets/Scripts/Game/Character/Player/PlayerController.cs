@@ -34,6 +34,11 @@ public class PlayerController : MonoBehaviour
     private ForceRequest _forceRequest;
     private bool _holdingWeapon;
 
+    private void Awake()
+    {
+        ServiceProvider.SetService<PlayerController>(this, true);
+    }
+
     private void OnEnable()
     {
         _player = GetComponent<Player>();

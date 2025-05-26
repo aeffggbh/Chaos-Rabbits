@@ -9,6 +9,7 @@ public abstract class Character : MonoBehaviour
     public float damage;
     public float maxHealth;
     public float currentHealth;
+    protected HealthBar _healthbar;
 
     /// <summary>
     /// Makes the character take damage and updates its health.
@@ -19,10 +20,25 @@ public abstract class Character : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0f)
         {
-            Die();
             currentHealth = 0f;
+            if (this is ExplodingEnemy &&
+                this.currentHealth <= 0f)
+                Destroy(this.gameObject);
+            Die();
         }
         Debug.Log("Current health: " + currentHealth);
+        _healthbar.SetCurrentHealth(currentHealth);
+    }
+
+    virtual protected void Start()
+    {
+        maxHealth = 100.0f;
+        currentHealth = maxHealth;
+
+        _healthbar = GetComponentInChildren<HealthBar>();
+        if (!_healthbar)
+            Debug.LogError("HealthBar component is missing on " + gameObject.name);
+        _healthbar.SetMaxHealth(maxHealth);
     }
 
     virtual protected void FixedUpdate()

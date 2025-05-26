@@ -18,7 +18,6 @@ public class Player : Character
     {
         DontDestroyOnLoad(gameObject);
 
-        maxHealth = 100.0f;
         currentHealth = maxHealth;
 
         IsWeaponUser = true;

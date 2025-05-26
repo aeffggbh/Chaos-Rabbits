@@ -12,7 +12,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _tip;
     [SerializeField] private InputActionReference _shootAction;
     [SerializeField] private Transform _weaponParent;
-    [SerializeField] public EnemyManager enemyManager;
+    [SerializeField] private EnemyManager _enemyManager;
     [Header("User")]
     [SerializeField] public Character user;
     [Header("Hitscan")]
@@ -43,7 +43,6 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
-        LookForEnemyManager();
         if (!_shootAction)
             //es un warning porque no nos va a importar si es un enemigo
             Debug.LogWarning(nameof(_shootAction) + " is null");
@@ -62,8 +61,8 @@ public class Weapon : MonoBehaviour
 
             if (user.GetType() == typeof(Player))
             {
-                if (!enemyManager)
-                    Debug.LogError(nameof(enemyManager) + " is null");
+                if (!_enemyManager)
+                    Debug.LogError(nameof(_enemyManager) + " is null");
 
                 Hold();
             }
@@ -80,7 +79,9 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         CheckExistence();
-        LookForEnemyManager();
+
+        if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
+            _enemyManager = enemyManager;
 
         if (_debugUser)
         {
@@ -109,16 +110,6 @@ public class Weapon : MonoBehaviour
             _opponentType = typeof(Player);
         else
             _opponentType = typeof(Enemy);
-    }
-
-    /// <summary>
-    /// Looks for the EnemyManager instance in the scene.
-    /// </summary>
-    private void LookForEnemyManager()
-    {
-        if (!enemyManager)
-            enemyManager = EnemyManager.instance;
-
     }
 
     /// <summary>
@@ -218,21 +209,22 @@ public class Weapon : MonoBehaviour
         if (GameManager.paused)
             return;
 
-        if (enemyManager)
-            for (int i = 0; i < enemyManager.enemies.Count; i++)
+        if (_enemyManager)
+            for (int i = 0; i < _enemyManager.enemies.Count; i++)
             {
-                if (enemyManager.enemies[i].GetComponent<MeshRenderer>() != null)
+                if (_enemyManager.enemies[i].GetComponent<MeshRenderer>() != null)
                 {
-                    if (enemyManager.enemies[i].GetComponent<MeshRenderer>().isVisible)
-                        if (PointingToEnemy(enemyManager.enemies[i]))
+                    if (_enemyManager.enemies[i].GetComponent<MeshRenderer>().isVisible)
+                        if (PointingToEnemy(_enemyManager.enemies[i]))
                         {
-                            enemyManager.enemies[i].TakeDamage(user.damage);
+                            _enemyManager.enemies[i].TakeDamage(user.damage);
+                            
                             break;
                         }
                 }
                 else
                 {
-                    Debug.LogError("Enemy " + enemyManager.enemies[i].name + " has no mesh renderer");
+                    Debug.LogError("Enemy " + _enemyManager.enemies[i].name + " has no mesh renderer");
                 }
             }
 
