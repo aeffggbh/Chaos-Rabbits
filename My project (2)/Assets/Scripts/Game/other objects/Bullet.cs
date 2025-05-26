@@ -34,15 +34,27 @@ internal class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Enemy hitCharacterA = collision.gameObject.GetComponent<Enemy>();
+        Character hitCharacter = collision.gameObject.GetComponent<Character>();
 
-        if (!CheckCollision(collision, hitCharacterA, typeof(Enemy)))
+        if (hitCharacter != null)
         {
-            Player hitCharacterB = collision.gameObject.GetComponent<Player>();
-            CheckCollision(collision, hitCharacterB, typeof(Player));
+            if (hitCharacter is Enemy || hitCharacter is Player)
+            {
+                hitCharacter.TakeDamage(_damage);
+                Debug.Log("Shot " + hitCharacter.name + " for " + _damage + " damage");
+            }
         }
 
         Destroy(this.gameObject);
+        //Enemy hitCharacterA = collision.gameObject.GetComponent<Enemy>();
+
+        //if (!CheckCollision(collision, hitCharacterA, typeof(Enemy)))
+        //{
+        //    Player hitCharacterB = collision.gameObject.GetComponent<Player>();
+        //    CheckCollision(collision, hitCharacterB, typeof(Player));
+        //}
+
+        //Destroy(this.gameObject);
     }
 
     private bool CheckCollision(Collider collision, Character hitCharacter, Type intendedType)

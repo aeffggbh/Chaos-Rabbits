@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < WeaponManager.instance.weapons.Count; i++)
             if (WeaponManager.instance.weapons[i] != null)
-                if (PointingToWeapon(WeaponManager.instance .weapons[i]))
+                if (PointingToWeapon(WeaponManager.instance.weapons[i]))
                     return WeaponManager.instance.weapons[i];
 
         return null;
@@ -152,12 +152,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (_player != null)
-        {
-            _player.RequestJumpInfo(true, _jumpForce);
-        }
-        else
-            Debug.LogError(nameof(_player) + " is null");
+        _player.RequestJumpInfo(true, _jumpForce);
     }
 
     private void OnDisable()

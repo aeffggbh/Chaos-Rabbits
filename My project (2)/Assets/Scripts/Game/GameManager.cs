@@ -16,7 +16,8 @@ public static class GameManager
     public static bool ShouldReset(SceneController.Scenes targetScene)
     {
         return targetScene == SceneController.Scenes.MAINMENU ||
-            SceneController.previousScene == SceneController.Scenes.GAMEOVER;
+            SceneController.previousScene == SceneController.Scenes.GAMEOVER ||
+            SceneController.previousScene == SceneController.Scenes.GAMEWIN;
     }
 
     public static void ResetGame()
