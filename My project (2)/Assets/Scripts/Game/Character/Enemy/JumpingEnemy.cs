@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Represents an enemy that jumps towards the player.
+/// </summary>
 public class JumpingEnemy : Enemy
 {
     [SerializeField] private float _jumpForce;
@@ -19,9 +22,7 @@ public class JumpingEnemy : Enemy
         _jumpForce = GameManager.savedPlayer.GetJumpForce() / 2;
         _currentJumpForce = _jumpForce;
         _defaultMoveSpeed = _moveSpeed;
-        //  _rb.constraints = RigidbodyConstraints.FreezeRotationX
-        //            | RigidbodyConstraints.FreezeRotationZ;
-
+        //no conviene que sea tan rapido
         _patrolSpeed /= 2;
         _chasingSpeed /= 2;
     }

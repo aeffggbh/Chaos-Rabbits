@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Represents a weapon that can be held by a character.
+/// </summary>
 [Serializable]
 public class Weapon : MonoBehaviour
 {
@@ -30,7 +33,6 @@ public class Weapon : MonoBehaviour
         if (!_weaponParent)
         {
             Debug.LogWarning(nameof(_weaponParent) + " is null");
-            //asume que es un arma droppeada.
             Drop();
         }
         else
@@ -50,7 +52,6 @@ public class Weapon : MonoBehaviour
         if (user == null)
         {
             Debug.LogWarning(nameof(user) + " is null");
-            //asume que es un arma droppeada.
             Drop();
         }
         else
@@ -88,13 +89,18 @@ public class Weapon : MonoBehaviour
                 Debug.LogWarning("No user (" + name + ") assigned.");
         }
     }
+    /// <summary>
+    /// Destroys weapons left at level 1 when player gets to the next level
+    /// </summary>
     private void CheckExistence()
     {
-        //in case DontDestroyOnLoad was called
-        if (!user && (int)SceneController.currentScene != (int)SceneController.Scenes.LEVEL1)
+        if (!user && (int)SceneController.currentScene != (int)SceneController.GameStates.LEVEL1)
             Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Sets the opponent type based on the user type.
+    /// </summary>
     private void SetOpponent()
     {
         if (user.GetType() == typeof(Enemy))
@@ -103,6 +109,9 @@ public class Weapon : MonoBehaviour
             _opponentType = typeof(Enemy);
     }
 
+    /// <summary>
+    /// Looks for the EnemyManager instance in the scene.
+    /// </summary>
     private void LookForEnemyManager()
     {
         if (!enemyManager)
@@ -110,6 +119,9 @@ public class Weapon : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Resets the position of the weapon to a default position relative to the weapon parent.
+    /// </summary>
     private void ResetPos()
     {
         _defaultPos = _weaponParent.transform.position;
@@ -120,6 +132,10 @@ public class Weapon : MonoBehaviour
         transform.localScale = Vector3.one;
     }
 
+    /// <summary>
+    /// Handles the shoot action when the input action is triggered.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnShoot(InputAction.CallbackContext context)
     {
         if (_debugUser)
@@ -128,6 +144,9 @@ public class Weapon : MonoBehaviour
             Fire();
     }
 
+    /// <summary>
+    /// Fires the weapon, creating a bullet or performing a hitscan shot based on the weapon's configuration.
+    /// </summary>
     public void Fire()
     {
         if (GameManager.paused)
@@ -153,6 +172,9 @@ public class Weapon : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Holds the weapon, making it a child of the weapon parent and resetting its position and rotation.
+    /// </summary>
     public void Hold()
     {
         if (GameManager.paused)
@@ -168,6 +190,9 @@ public class Weapon : MonoBehaviour
             Destroy(GetComponent<Rigidbody>());
     }
 
+    /// <summary>
+    /// Drops the weapon, removing it from the weapon parent and allowing it to fall with physics.
+    /// </summary>
     public void Drop()
     {
         if (GameManager.paused)
@@ -179,6 +204,9 @@ public class Weapon : MonoBehaviour
             gameObject.AddComponent<Rigidbody>();
     }
 
+    /// <summary>
+    /// Performs a hitscan shot, checking if the player is pointing to an enemy and applying damage if so.
+    /// </summary>
     public void HitscanShot()
     {
         if (GameManager.paused)
@@ -204,6 +232,11 @@ public class Weapon : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Checks if the weapon is pointing to a specific enemy.
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <returns></returns>
     public bool PointingToEnemy(Enemy enemy)
     {
         RayManager pointDetector = new();
@@ -211,6 +244,11 @@ public class Weapon : MonoBehaviour
         return pointDetector.PointingToObject(_weaponParent, enemy.transform, enemy._collider);
     }
 
+    /// <summary>
+    /// Sets the user of the weapon based on the character type provided.
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="characterType"></param>
     public void SetUser(Character character, Type characterType)
     {
         if (characterType == typeof(Player))

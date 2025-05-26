@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Represents a normal enemy that shoots the player
+/// </summary>
 public class NormalEnemy : Enemy
 {
     private ClownAnimationController _clownAnimation;
@@ -52,7 +55,7 @@ public class NormalEnemy : Enemy
             _clownAnimation.Walk();
         else
             _clownAnimation.StopWalking();
-        //se mueve normal
+
         _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 

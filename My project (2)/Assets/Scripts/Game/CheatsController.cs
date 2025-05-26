@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Controller for cheats in the game.
+/// </summary>
 public class CheatsController : MonoBehaviour
 {
     [SerializeField] private InputActionReference _nextLevel;
@@ -37,21 +40,36 @@ public class CheatsController : MonoBehaviour
             _flashMode.action.performed += OnFlashMode;
     }
 
+    /// <summary>
+    /// Toggles the flash mode on or off.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnFlashMode(InputAction.CallbackContext context)
     {
         _isFlashMode = !_isFlashMode;
     }
 
+    /// <summary>
+    /// Toggles the god mode on or off.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnGodMode(InputAction.CallbackContext context)
     {
         _isGodMode = !_isGodMode;
     }
 
+    /// <summary>
+    /// Advances to the next level in the game.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnNextLevel(InputAction.CallbackContext context)
     {
         SceneController.GoToScene(SceneController.currentScene + 1);
     }
 
+    /// <summary>
+    /// Resets the cheats controller to its initial state.
+    /// </summary>
     public void Reset()
     {
         _isGodMode = false;

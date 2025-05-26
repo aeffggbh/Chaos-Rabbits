@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages all weapons in the game.
+/// </summary>
 public class WeaponManager : MonoBehaviour
 {
     [SerializeField] public List<Weapon> weapons;

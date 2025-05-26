@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Base class for animation controllers.
+/// </summary>
 public abstract class AnimationController : MonoBehaviour
 {
     protected Animator animator;

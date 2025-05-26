@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// A trigger that checks if the player has finished the level and transfers it to the next level.
+/// </summary>
 public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] private EnemyManager _enemyManager;
@@ -22,13 +25,16 @@ public class LevelTrigger : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Checks the current scene and transfers the player to the next level or the win scene if it's the final level.
+    /// </summary>
     private void OnTrigger()
     {
         SceneController.CheckCurrentScene();
 
-        if (SceneController.currentScene == SceneController.Scenes.FINAL_LEVEL)
+        if (SceneController.currentScene == SceneController.GameStates.FINAL_LEVEL)
         {
-            SceneController.GoToScene(SceneController.Scenes.GAMEWIN);
+            SceneController.GoToScene(SceneController.GameStates.GAMEWIN);
         }
         else
         {
@@ -37,4 +43,5 @@ public class LevelTrigger : MonoBehaviour
                 SceneController.GoToScene(SceneController.currentScene + 1);
         }
     }
+
 }

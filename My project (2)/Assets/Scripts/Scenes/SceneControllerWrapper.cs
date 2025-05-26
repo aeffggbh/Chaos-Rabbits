@@ -1,41 +1,43 @@
 using UnityEngine;
 using static SceneController;
 
-//For buttons
+/// <summary>
+/// Class to call the methods on SceneController from the UI.
+/// </summary>
 public class SceneControllerWrapper : MonoBehaviour
 {
     public void GoToGameOver()
     {
-        SceneController.GoToScene(Scenes.GAMEOVER);
+        SceneController.GoToScene(GameStates.GAMEOVER);
     }
 
     public void GoToMainMenu()
     {
-        SceneController.GoToScene(Scenes.MAINMENU);
+        SceneController.GoToScene(GameStates.MAINMENU);
     }
 
     public void GoToLevel1()
     {
-        SceneController.GoToScene(Scenes.LEVEL1);
+        SceneController.GoToScene(GameStates.LEVEL1);
     }
 
     public void GoToLevel2()
     {
-        SceneController.GoToScene(Scenes.LEVEL2);
+        SceneController.GoToScene(GameStates.LEVEL2);
     }
 
     public void GoToLevel3()
     {
-        SceneController.GoToScene(Scenes.FINAL_LEVEL);
+        SceneController.GoToScene(GameStates.FINAL_LEVEL);
     }
 
     public void GoToCredits()
     {
-        SceneController.GoToScene(Scenes.CREDITS);
+        SceneController.GoToScene(GameStates.CREDITS);
     }
     public void CheckExit()
     {
-        SceneController.GoToScene(Scenes.CHECKEXIT);
+        SceneController.GoToScene(GameStates.CHECKEXIT);
     }
     public void ExitGame()
     {

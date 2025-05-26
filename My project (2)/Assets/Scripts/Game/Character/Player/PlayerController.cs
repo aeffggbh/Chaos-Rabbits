@@ -1,6 +1,7 @@
 ﻿using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 /// <summary>
 /// Reads input and decides actions taken by the player
 /// </summary>
@@ -95,6 +96,10 @@ public class PlayerController : MonoBehaviour
         _currentSpeed = _walkSpeed;
     }
 
+    /// <summary>
+    /// Grabs a weapon if the player is pointing to it and is not already holding one.
+    /// </summary>
+    /// <param name="context"></param>
     private void GrabWeapon(InputAction.CallbackContext context)
     {
         if (!GameManager.paused)
@@ -115,6 +120,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Drops the currently held weapon if the player is holding one.
+    /// </summary>
+    /// <param name="context"></param>
     private void DropWeapon(InputAction.CallbackContext context)
     {
         if (!GameManager.paused)
@@ -125,6 +134,10 @@ public class PlayerController : MonoBehaviour
             }
     }
 
+    /// <summary>
+    /// Returns the weapon that the player is currently pointing to, if any.
+    /// </summary>
+    /// <returns></returns>
     private Weapon PointedWeapon()
     {
         for (int i = 0; i < WeaponManager.instance.weapons.Count; i++)
@@ -135,6 +148,11 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Checks if the player is pointing to a specific weapon within a certain distance.
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <returns></returns>
     private bool PointingToWeapon(Weapon weapon)
     {
         RayManager _pointDetection = new();
@@ -145,6 +163,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Handles the jump action when the player presses the jump button.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnJump(InputAction.CallbackContext context)
     {
         _player.RequestJumpInfo(true, _jumpForce);
@@ -181,15 +203,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the player is in a valid scene and destroys the player if not.
+    /// </summary>
     private void CheckExistence()
     {
         SceneController.CheckCurrentScene();
 
-        if ((int)SceneController.currentScene < (int)SceneController.Scenes.LEVEL1 ||
-            (int)SceneController.currentScene > (int)SceneController.Scenes.FINAL_LEVEL)
-        {
+        if (!SceneController.IsGameplay(SceneController.currentScene))
             DestroyPlayer();
-        }
     }
 
     private void FixedUpdate()
@@ -221,6 +243,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Checks if the player is in god mode and applies it if so.
+    /// </summary>
     private void GodModeCheck()
     {
         _player.RequestGodMode(GameManager.cheatsController._isGodMode);
@@ -232,6 +257,10 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawRay(_rayFront);
     }
 
+    /// <summary>
+    /// Handles the cancellation of movement when the player releases the movement input.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnCancelMove(InputAction.CallbackContext context)
     {
         _moveInput = context.ReadValue<Vector2>();
@@ -247,6 +276,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Handles the movement input from the player and applies the corresponding force to the player character.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnMove(InputAction.CallbackContext context)
     {
         _moveInput = context.ReadValue<Vector2>();
@@ -272,42 +305,37 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Applies damage to the player character when it collides with an enemy or takes damage from a weapon.
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
         _player.TakeDamage(damage);
     }
 
-    public float GetWalkSpeed()
-    {
-        return _walkSpeed;
-    }
 
-    public float GetRunSpeed()
-    {
-        return _runSpeed;
-    }
-
+    /// <summary>
+    /// Returns the jump force of the player character.
+    /// </summary>
+    /// <returns></returns>
     public float GetJumpForce()
     {
         return _jumpForce;
     }
 
-    public Transform GetCinemachineCamera()
-    {
-        return _cineMachineCamera.transform;
-    }
-
-    public GameObject GetHead()
-    {
-        return _head;
-    }
-
+    /// <summary>
+    /// Destroys the player and the cinemachinebrain (because they are not destroyed on load)
+    /// </summary>
     public void DestroyPlayer()
     {
         Destroy(_cineMachineBrain);
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Resets the player's health to its maximum value
+    /// </summary>
     public void ResetPlayer()
     {
         _player.currentHealth = _player.maxHealth;

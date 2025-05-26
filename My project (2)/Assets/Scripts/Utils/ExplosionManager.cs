@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Manages the explosion effect in the game.
+/// </summary>
 public class ExplosionManager : MonoBehaviour
 {
     [SerializeField] private float _secondsForExplosion;

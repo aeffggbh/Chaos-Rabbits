@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Responsible for bootstrapping the game and initializing the GameManager.
+/// </summary>
 // This class is responsible for initializing the game and setting up the GameManager at the start of the game
 public class GameBoot : MonoBehaviour
 {
@@ -12,25 +15,33 @@ public class GameBoot : MonoBehaviour
     {
         if (!GameManager.initialized)
         {
-            Debug.Log("Resetting game");
-            if (!_playerController)
-                Debug.LogError(nameof(_playerController) + " is null");
-
-            if (!_defaultWeapon)
-                _defaultWeapon = _playerController.currentWeapon;
-
-            if (!_pauseButton)
-                Debug.LogError(nameof(_pauseButton) + " is null");
-
-            GameManager.defaultWeapon = _defaultWeapon;
-            GameManager.savedPlayer = _playerController;
-            GameManager.pauseButton = _pauseButton;
-
-
-            GameManager.initialized = true;
+            InitializeGame();
         }
         else
             Debug.Log("Not resetting game");
+    }
+
+    /// <summary>
+    /// Initializes the game by setting up the GameManager
+    /// </summary>
+    private void InitializeGame()
+    {
+        Debug.Log("Resetting game");
+        if (!_playerController)
+            Debug.LogError(nameof(_playerController) + " is null");
+
+        if (!_defaultWeapon)
+            _defaultWeapon = _playerController.currentWeapon;
+
+        if (!_pauseButton)
+            Debug.LogError(nameof(_pauseButton) + " is null");
+
+        GameManager.defaultWeapon = _defaultWeapon;
+        GameManager.savedPlayer = _playerController;
+        GameManager.pauseButton = _pauseButton;
+
+
+        GameManager.initialized = true;
     }
 
     private void Start()

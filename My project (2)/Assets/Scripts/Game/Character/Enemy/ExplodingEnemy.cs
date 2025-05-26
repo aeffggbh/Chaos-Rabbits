@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Represents an enemy that explodes when it gets close to the player.
+/// </summary>
 public class ExplodingEnemy : Enemy
 {
     private AngryAnimationController _angryAnimation;

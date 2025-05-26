@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Manages raycasting operations in the game.
+/// </summary>
 public class RayManager
 {
     private float _distanceToObject;
@@ -9,30 +12,6 @@ public class RayManager
     {
         _distanceToObject = 0f;
     }
-
-    //TODO: cambiarlo a raycast
-    //public bool PointingToObject(Transform start, Transform end, BoxCollider endCollider)
-    //{
-    //    Ray _ray = new()
-    //    {
-    //        direction = start.forward,
-    //        origin = start.position
-    //    };
-
-    //    distanceToObject = GetDistanceToObject(start, end);
-
-    //    Vector3 pointInView = _ray.origin + (_ray.direction * distanceToObject);
-
-    //    if (endCollider == null)
-    //        Debug.LogError("Pointing to object: No collider found");
-
-    //    Vector3 max = endCollider.bounds.max;
-    //    Vector3 min = endCollider.bounds.min;
-
-    //    return (pointInView.x >= min.x && pointInView.x <= max.x &&
-    //            pointInView.y >= min.y && pointInView.y <= max.y &&
-    //            pointInView.z >= min.z && pointInView.z <= max.z);
-    //} 
     public bool PointingToObject(Transform start, float maxDistance, out RaycastHit hitInfo)
     {
         Ray ray = new Ray(start.position, start.forward);

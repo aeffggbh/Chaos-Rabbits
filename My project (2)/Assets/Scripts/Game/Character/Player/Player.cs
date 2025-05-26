@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Represents the player character in the game.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class Player : Character
 {
@@ -28,28 +31,49 @@ public class Player : Character
         rb = GetComponent<Rigidbody>();
     }
 
+    /// <summary>
+    /// Requests god mode for the player character.
+    /// </summary>
+    /// <param name="godMode"></param>
     public void RequestGodMode(bool godMode)
     {
         _isGodMode = godMode;
     }
 
+    /// <summary>
+    /// Requests a force to be applied to the player character.
+    /// </summary>
+    /// <param name="forceRequest"></param>
     public void RequestForce(ForceRequest forceRequest)
     {
         //instantForceRequests.Add(forceRequest);
         _forceRequest = forceRequest;
     }
 
+    /// <summary>
+    /// Requests jump information for the player character.
+    /// </summary>
+    /// <param name="isJumping"></param>
+    /// <param name="jumpForce"></param>
     public void RequestJumpInfo(bool isJumping, float jumpForce)
     {
         _isJumping = isJumping;
         _jumpForce = jumpForce;
     }
 
+    /// <summary>
+    /// Requests the grounded state of the player character.
+    /// </summary>
+    /// <param name="grounded"></param>
     public void RequestGroundedState(bool grounded)
     {
         _grounded = grounded;
     }
 
+    /// <summary>
+    /// Requests movement for the player character based on calculated movement vector.
+    /// </summary>
+    /// <param name="calculatedMovement"></param>
     public void RequestMovement(Vector3 calculatedMovement)
     {
         _calculatedMovement = calculatedMovement;
@@ -92,7 +116,9 @@ public class Player : Character
         }
     }
 
-
+    /// <summary>
+    /// Applies an impulse force to the player character to make it jump.
+    /// </summary>
     private void Jump()
     {
         _grounded = false;
@@ -103,7 +129,7 @@ public class Player : Character
     public override void Die()
     {
         if (!_isGodMode)
-            SceneController.GoToScene(SceneController.Scenes.GAMEOVER);
+            SceneController.GoToScene(SceneController.GameStates.GAMEOVER);
     }
 
     public override void TakeDamage(float damage)

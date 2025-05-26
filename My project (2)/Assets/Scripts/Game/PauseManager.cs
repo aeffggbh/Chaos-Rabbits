@@ -3,6 +3,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static SceneController;
 
+/// <summary>
+/// Manages the pause menu
+/// </summary>
 public class PauseManager : MonoBehaviour
 {
     [Header("Menu")]
@@ -29,6 +32,10 @@ public class PauseManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Handles the pause action when the pause button is pressed.
+    /// </summary>
+    /// <param name="context"></param>
     private void OnPause(InputAction.CallbackContext context)
     {
         if (GameManager.initialized)
@@ -56,6 +63,9 @@ public class PauseManager : MonoBehaviour
             Debug.LogWarning("GameManager not initialized, cannot pause");
     }
 
+    /// <summary>
+    /// Checks if the exit menu should be displayed and sets it active if so.
+    /// </summary>
     public void CheckExit()
     {
         if (_checkExitMenu)
@@ -67,6 +77,9 @@ public class PauseManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns to the main menu, resetting the game state and time scale.
+    /// </summary>
     public void BackToMenu()
     {
         if (_checkExitMenu)
@@ -76,7 +89,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         GameManager.SetPause(false);
         paused = false;
-        SceneController.GoToScene(SceneController.Scenes.MAINMENU);
+        SceneController.GoToScene(SceneController.GameStates.MAINMENU);
     }
 
     public void BackToPause()

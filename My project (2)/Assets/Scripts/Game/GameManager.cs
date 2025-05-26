@@ -1,5 +1,8 @@
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Manages overal gameplay variables
+/// </summary>
 public static class GameManager
 {
     //responsible for replayability and general game variables
@@ -10,14 +13,21 @@ public static class GameManager
     public static InputActionReference pauseButton;
     public static bool paused = false;
 
-    //Asks for the scene you wanna go to, and if it should reset the game or not
-    public static bool ShouldReset(SceneController.Scenes targetScene)
+    /// <summary>
+    /// Checks if the game should be reset based on the target scene.
+    /// </summary>
+    /// <param name="targetScene"></param>
+    /// <returns></returns>
+    public static bool ShouldReset(SceneController.GameStates targetScene)
     {
-        return targetScene == SceneController.Scenes.MAINMENU ||
-            SceneController.previousScene == SceneController.Scenes.GAMEOVER ||
-            SceneController.previousScene == SceneController.Scenes.GAMEWIN;
+        return targetScene == SceneController.GameStates.MAINMENU ||
+            SceneController.previousScene == SceneController.GameStates.GAMEOVER ||
+            SceneController.previousScene == SceneController.GameStates.GAMEWIN;
     }
 
+    /// <summary>
+    /// Resets the game
+    /// </summary>
     public static void ResetGame()
     {
         if (initialized)
@@ -30,7 +40,10 @@ public static class GameManager
         }
     }
 
-
+    /// <summary>
+    /// Sets the pause state of the game.
+    /// </summary>
+    /// <param name="paused"></param>
     public static void SetPause(bool paused)
     {
         GameManager.paused = paused;

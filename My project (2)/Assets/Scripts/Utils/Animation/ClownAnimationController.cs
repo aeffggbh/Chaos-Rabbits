@@ -1,3 +1,7 @@
+
+/// <summary>
+/// Controller for clown animations.
+/// </summary>
 public class ClownAnimationController : AnimationController
 {
     public void Walk()

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Base class for all enemies in the game.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Enemy : Character
 {
@@ -78,11 +81,19 @@ public abstract class Enemy : Character
         isExplodingEnemy = this.GetComponent<ExplodingEnemy>() != null;
     }
 
+    /// <summary>
+    /// Calculates the distance to the player character.
+    /// </summary>
+    /// <returns></returns>
     protected float GetPlayerDistance()
     {
         return Vector3.Distance(transform.position, GameManager.savedPlayer.transform.position);
     }
 
+    /// <summary>
+    /// Calculates the direction to the player character, ignoring the y-axis.
+    /// </summary>
+    /// <returns></returns>
     protected Vector3 GetPlayerDirection()
     {
         Vector3 playerDir = (GameManager.savedPlayer.transform.position - transform.position).normalized;
@@ -127,6 +138,9 @@ public abstract class Enemy : Character
             _lookAtTrarget.Look(_targetLook);
     }
 
+    /// <summary>
+    /// Handles the idle state of the enemy.
+    /// </summary>
     private void Idle()
     {
         if (_idleCurrentTime > _idleTimer)
@@ -137,6 +151,9 @@ public abstract class Enemy : Character
         }
     }
 
+    /// <summary>
+    /// Handles the patrol state of the enemy.
+    /// </summary>
     private void Patrol()
     {
         if (Vector3.Distance(transform.position, _targetWalk) < 0.5f || _patrolCurrentTime > _patrolTimer)
@@ -148,6 +165,10 @@ public abstract class Enemy : Character
             ActivateIdle();
         }
     }
+
+    /// <summary>
+    /// Checks and updates the timers for different states of the enemy.
+    /// </summary>
     private void CheckTimers()
     {
         switch (currentState)
@@ -168,6 +189,9 @@ public abstract class Enemy : Character
         }
     }
 
+    /// <summary>
+    /// Handles the chase state of the enemy, moving towards the player character.
+    /// </summary>
     private void Chase()
     {
         //Debug.Log("Player direction:" + GetPlayerDirection());
@@ -176,7 +200,9 @@ public abstract class Enemy : Character
         _targetLook = GameManager.savedPlayer.transform.position;
     }
 
-
+    /// <summary>
+    /// Checks the distance to the player character and updates the enemy's state accordingly.
+    /// </summary>
     private void CheckRange()
     {
         if (GetPlayerDistance() <= _attackRange && currentState != States.ATTACK)
@@ -209,8 +235,14 @@ public abstract class Enemy : Character
         Gizmos.DrawLine(transform.position, transform.position + _moveDir * 2);
     }
 
+    /// <summary>
+    /// Activates the idle state of the enemy, where it waits before patrolling again.
+    /// </summary>
     protected abstract void ActivateIdle();
 
+    /// <summary>
+    /// Activates the patrol state of the enemy, where it moves to a random point within a defined range.
+    /// </summary>
     virtual protected void ActivatePatrol()
     {
         currentState = States.PATROL;
@@ -229,9 +261,24 @@ public abstract class Enemy : Character
         _moveSpeed = _patrolSpeed;
     }
 
+    /// <summary>
+    /// Manages the movement behaviour of the enemy, which can vary based on the type of enemy.
+    /// </summary>
     protected abstract void Move();
+
+    /// <summary>
+    /// Activates the chase state of the enemy, where it usually moves towards the player character.
+    /// </summary>
     protected abstract void ActivateChase();
+
+    /// <summary>
+    /// Handles the attack logic of the enemy, which can vary based on the type of enemy.
+    /// </summary>
     protected abstract void Attack();
+
+    /// <summary>
+    /// Activates the attack state of the enemy, which is called when the enemy is close enough to the player character.
+    /// </summary>
     protected abstract void ActivateAttack();
 
     public override void Die()

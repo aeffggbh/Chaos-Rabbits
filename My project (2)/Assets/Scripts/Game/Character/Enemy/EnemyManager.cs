@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages all enemies in the game.
+/// </summary>
 public class EnemyManager : MonoBehaviour
 {
 
