@@ -80,9 +80,6 @@ public class Player : Character
     {
         base.FixedUpdate();
 
-        if (GameManager.paused)
-            return;
-
         //MOVEMENT
         {
             if (_forceRequest != null)
