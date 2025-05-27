@@ -24,7 +24,7 @@ internal class Bullet : MonoBehaviour
     /// <param name="damage"></param>
     public void Fire(Transform wParent, Type opponentType, float damage)
     {
-        _rb.AddForce(wParent.transform.forward * force * Time.deltaTime, ForceMode.Impulse);
+        _rb.AddForce(wParent.transform.forward * force * Time.fixedDeltaTime, ForceMode.Impulse);
 
         _damage = damage;
     }

@@ -270,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 1799241602799130403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: -0.07, z: 2.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -636,7 +636,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6342060266662945706}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.20149453, y: 0.4425196, z: 0.10275265, w: 0.86776626}
+  m_LocalRotation: {x: -0.026953932, y: 0.8872553, z: 0.05227165, w: 0.45751417}
   m_LocalPosition: {x: 0, y: 3.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -716,7 +716,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 0
   PanAxis:
-    Value: 54.03885
+    Value: 125.44412
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -726,7 +726,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: -26.144749
+    Value: -6.7432384
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beae295d0b75e114c80bfbb6c8bed3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 30
   maxHealth: 100
   currentHealth: 100
 --- !u!114 &695330196414658549
@@ -929,7 +929,7 @@ MonoBehaviour:
   _jumpForce: 5
   _maxWeaponDistance: 6
   _grabDropCooldown: 0.2
-  _damage: 0
+  _damage: 30
   currentWeapon: {fileID: 206364977575523154}
 --- !u!95 &1911516370216717831
 Animator:

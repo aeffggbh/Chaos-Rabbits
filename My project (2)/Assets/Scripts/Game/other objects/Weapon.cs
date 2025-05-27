@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -41,13 +42,20 @@ public class Weapon : MonoBehaviour
             transform.SetParent(_weaponParent);
     }
 
+    private void ResetSpawnPos()
+    {
+
+        //_bulletSpawner.transform.position += _weaponParent.GetComponent<CinemachineCamera>().transform.forward * 0.5f;
+        //_bulletSpawner.transform.position += _weaponParent.right * 0.1f;
+        //_bulletSpawner.transform.position += _weaponParent.up * 0.1f;
+    }
+
 
     private void Start()
     {
         _bulletSpawner = BulletSpawner.instance;
 
-        _bulletSpawner.transform.position += _weaponParent.forward;
-        _bulletSpawner.transform.position += _weaponParent.up * 0.1f;
+        ResetSpawnPos();
 
         if (!_shootAction)
             //es un warning porque no nos va a importar si es un enemigo
@@ -123,6 +131,7 @@ public class Weapon : MonoBehaviour
     /// </summary>
     private void ResetPos()
     {
+
         _defaultPos = _weaponParent.transform.position;
         _defaultPos += _weaponParent.right;
         _defaultPos += -_weaponParent.up * 1.2f;
@@ -218,13 +227,18 @@ public class Weapon : MonoBehaviour
         RayManager hitDetector = new();
         RaycastHit? hit = null; // Use a nullable RaycastHit
 
-        if (hitDetector.PointingToObject(_bulletSpawner.transform, 50f, out RaycastHit hitInfo))
+        float hitDistance = 100f;
+
+        if (hitDetector.PointingToObject(_weaponParent, hitDistance, out RaycastHit hitInfo))
         {
+            hit = hitInfo;
+
             TrailRenderer trail = Instantiate(_hitscanTrail, _weaponParent.position, Quaternion.identity);
 
-            hit = hitInfo; // Assign the hitInfo to the nullable RaycastHit
+            Rigidbody rb = trail.gameObject.AddComponent<Rigidbody>();
+            rb.freezeRotation = true;
 
-            StartCoroutine(SpawnTrail(trail, hitInfo));
+            rb.AddForce(_weaponParent.transform.forward * 1000f, ForceMode.Impulse);
         }
 
         if (_enemyManager)
@@ -248,22 +262,22 @@ public class Weapon : MonoBehaviour
             }
     }
 
-    private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
-    {
-        float time = 0f;
+    //private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
+    //{
+    //    float time = 0f;
 
-        Vector3 startPos = trail.transform.position;
+    //    Vector3 startPos = trail.transform.position;
 
-        while (time < 1)
-        {
-            trail.transform.position = Vector3.Lerp(startPos, hit.point, time);
-            time += Time.deltaTime / trail.time;
-            yield return null;
-        }
+    //    while (time < 1)
+    //    {
+    //        trail.transform.position = Vector3.Lerp(startPos, hit.point, time);
+    //        time += Time.deltaTime / trail.time;
+    //        yield return null;
+    //    }
 
-        trail.transform.position = hit.point;
-        Destroy(trail.gameObject, trail.time);
-    }
+    //    trail.transform.position = hit.point;
+    //    Destroy(trail.gameObject, trail.time);
+    //}
 
     /// <summary>
     /// Sets the user of the weapon based on the character type provided.

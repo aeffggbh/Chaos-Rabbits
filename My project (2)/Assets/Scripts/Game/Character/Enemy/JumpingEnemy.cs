@@ -19,7 +19,7 @@ public class JumpingEnemy : Enemy
     {
         base.Start();
 
-        _jumpForce = GameManager.savedPlayer.GetJumpForce() / 2;
+        _jumpForce = _playerController.GetJumpForce() / 2;
         _currentJumpForce = _jumpForce;
         _defaultMoveSpeed = _moveSpeed;
         //no conviene que sea tan rapido

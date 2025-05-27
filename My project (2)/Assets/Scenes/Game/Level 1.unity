@@ -6272,7 +6272,7 @@ PrefabInstance:
       objectReference: {fileID: 1900951392}
     - target: {fileID: 695330196414658549, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _damage
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 695330196414658549, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _player
@@ -6401,6 +6401,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4409381045956979451, guid: 0bea485506ca8484da743b232d59dd5d, type: 3}
+      propertyPath: attackRange
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4409381045956979451, guid: 0bea485506ca8484da743b232d59dd5d, type: 3}
       propertyPath: patrolSpeed
       value: 20
