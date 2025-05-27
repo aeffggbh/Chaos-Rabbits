@@ -19,6 +19,9 @@ public class PauseManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
+        GameManager.SetPause(false);
+
         if (GameManager.initialized)
             GameManager.pauseButton.action.started += OnPause;
         else
@@ -30,6 +33,12 @@ public class PauseManager : MonoBehaviour
         if (!_checkExitMenu)
             Debug.LogError(nameof(_checkExitMenu) + " is null");
 
+    }
+
+    private void Update()
+    {
+        if (paused && !_pauseMenu.activeSelf)
+            paused = false;
     }
 
     /// <summary>

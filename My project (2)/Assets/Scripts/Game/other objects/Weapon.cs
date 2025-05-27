@@ -27,6 +27,12 @@ public class Weapon : MonoBehaviour
     private Vector3 _defaultPos;
     private Type _opponentType;
 
+    private void OnDestroy()
+    {
+        if (_shootAction)
+            _shootAction.action.started -= OnShoot;
+    }
+
     private void OnEnable()
     {
 
@@ -38,8 +44,6 @@ public class Weapon : MonoBehaviour
             Debug.LogWarning(nameof(_weaponParent) + " is null");
             Drop();
         }
-        else
-            transform.SetParent(_weaponParent);
     }
 
     private void ResetSpawnPos()

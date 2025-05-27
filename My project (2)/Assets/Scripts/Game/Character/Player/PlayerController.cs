@@ -39,6 +39,22 @@ public class PlayerController : MonoBehaviour
         ServiceProvider.SetService<PlayerController>(this, true);
     }
 
+    private void OnDestroy()
+    {
+        if (_moveAction)
+        {
+            _moveAction.action.performed -= OnMove;
+            _moveAction.action.canceled -= OnCancelMove;
+        }
+        if (_jumpAction)
+            _jumpAction.action.started -= OnJump;
+        if (_dropAction)
+            _dropAction.action.started -= DropWeapon;
+        if (_grabAction)
+            _grabAction.action.started -= GrabWeapon;
+        ServiceProvider.SetService<PlayerController>(null);
+    }
+
     private void OnEnable()
     {
         _player = GetComponent<Player>();
@@ -77,14 +93,6 @@ public class PlayerController : MonoBehaviour
             _grabAction.action.started += GrabWeapon;
 
 
-        if (!_cineMachineBrain)
-            Debug.LogError(nameof(_cineMachineBrain) + " is null");
-        else
-        {
-            _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
-            DontDestroyOnLoad(_cineMachineBrain);
-        }
-
         if (!_head)
             Debug.LogError("Player has no head!");
 
@@ -97,8 +105,21 @@ public class PlayerController : MonoBehaviour
         if (_grabDropCooldown <= 0)
             Debug.LogWarning("The cooldown when grabbing and dropping the weapon is too low. This may cause glitches");
 
-        _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
         _currentSpeed = _walkSpeed;
+    }
+
+    private void Start()
+    {
+        _cineMachineBrain = CinemachineManager.instance.GetComponent<CinemachineBrain>();
+
+        if (!_cineMachineBrain)
+            Debug.Log(nameof(_cineMachineBrain) + " is null");
+        else
+        {
+            _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
+        }
+
+        
     }
 
     /// <summary>
@@ -212,6 +233,9 @@ public class PlayerController : MonoBehaviour
             if (_rayFront.origin != _cineMachineCamera.transform.position)
                 _rayFront.origin = _cineMachineCamera.transform.position;
         }
+        else
+            _cineMachineBrain = CinemachineManager.instance.GetComponent<CinemachineBrain>();
+
     }
 
     /// <summary>

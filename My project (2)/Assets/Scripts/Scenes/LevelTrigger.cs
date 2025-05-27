@@ -30,6 +30,9 @@ public class LevelTrigger : MonoBehaviour
 
         if (SceneController.currentScene != SceneController.GameStates.FINAL_LEVEL)
         {
+            if (_enemyTotal <= 0)
+                _enemyTotal = _enemyManager.enemies.Count;
+
             _enemyCounter = _enemyTotal - _enemyManager.enemies.Count;
             _enemyCounterText.SetText(_enemyCounter + " / " + _enemyTotal);
         }

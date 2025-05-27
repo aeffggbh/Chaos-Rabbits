@@ -34,8 +34,15 @@ public static class GameManager
         if (initialized)
         {
             cheatsController.Reset();
-            savedPlayer.currentWeapon = defaultWeapon;
-            savedPlayer.ResetPlayer();
+            //savedPlayer.currentWeapon = defaultWeapon;
+            //savedPlayer.ResetPlayer();
+            if (savedPlayer != null)
+            {
+                GameObject.Destroy(savedPlayer.gameObject);
+                savedPlayer = null;
+            }
+
+            GameObject.Destroy(CinemachineManager.instance.gameObject);
 
             initialized = false;
         }
