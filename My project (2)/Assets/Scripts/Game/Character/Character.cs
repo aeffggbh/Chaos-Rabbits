@@ -38,7 +38,8 @@ public abstract class Character : MonoBehaviour
         _healthbar = GetComponentInChildren<HealthBar>();
         if (!_healthbar)
             Debug.LogError("HealthBar component is missing on " + gameObject.name);
-        _healthbar.SetMaxHealth(maxHealth);
+        else
+            _healthbar.SetMaxHealth(maxHealth);
     }
 
     virtual protected void FixedUpdate()

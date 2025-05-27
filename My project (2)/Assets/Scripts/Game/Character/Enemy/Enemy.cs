@@ -44,9 +44,6 @@ public abstract class Enemy : Character
     {
         base.Start();
 
-        maxHealth = 100.0f;
-        currentHealth = maxHealth;
-
         damage = 10.0f;
 
         IsWeaponUser = false;
@@ -95,7 +92,9 @@ public abstract class Enemy : Character
     /// <returns></returns>
     protected float GetPlayerDistance()
     {
-        return Vector3.Distance(transform.position, _playerController.transform.position);
+        if (_playerController)
+            return Vector3.Distance(transform.position, _playerController.transform.position);
+        return 0;
     }
 
     /// <summary>

@@ -25,16 +25,6 @@ public class RayManager
         return false;
     }
 
-    public bool PointingToObject(Transform start, Transform end, Collider endCollider)
-    {
-        _distanceToObject = Vector3.Distance(start.position, end.position);
-
-        if (PointingToObject(start, _distanceToObject, out RaycastHit hit))
-            if (hit.collider == endCollider)
-                return true;
-
-        return false;
-    }
 
     /// <summary>
     /// Calculates the distance of the object

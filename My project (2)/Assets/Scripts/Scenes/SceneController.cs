@@ -12,10 +12,10 @@ public static class SceneController
         LEVEL1,
         LEVEL2,
         FINAL_LEVEL,
+        GAMEWIN,
         CHECKEXIT,
         GAMEOVER,
         CREDITS,
-        GAMEWIN,
         NONE
     }
 

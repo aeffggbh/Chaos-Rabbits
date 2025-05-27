@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +11,6 @@ using UnityEngine.InputSystem;
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private Bullet _prefabBullet;
-    [SerializeField] private Transform _tip;
     [SerializeField] private InputActionReference _shootAction;
     [SerializeField] private Transform _weaponParent;
     [SerializeField] private EnemyManager _enemyManager;
@@ -19,17 +20,17 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool _usesHitscan;
     [SerializeField] private bool _debugUser;
     [SerializeField] private int weaponLayerIndex;
+    [SerializeField] private BulletSpawner _bulletSpawner;
+    [SerializeField] private TrailRenderer _hitscanTrail;
 
     private Vector3 _defaultPos;
     private Type _opponentType;
 
     private void OnEnable()
     {
+
         if (!_prefabBullet && !_usesHitscan)
             Debug.LogError(nameof(_prefabBullet) + " is null");
-
-        if (!_tip)
-            Debug.LogError(nameof(_tip) + " is null");
 
         if (!_weaponParent)
         {
@@ -43,6 +44,11 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
+        _bulletSpawner = BulletSpawner.instance;
+
+        _bulletSpawner.transform.position += _weaponParent.forward;
+        _bulletSpawner.transform.position += _weaponParent.up * 0.1f;
+
         if (!_shootAction)
             //es un warning porque no nos va a importar si es un enemigo
             Debug.LogWarning(nameof(_shootAction) + " is null");
@@ -150,8 +156,8 @@ public class Weapon : MonoBehaviour
         {
             Debug.Log("bullet");
             var newBullet = Instantiate(_prefabBullet,
-                                        _tip.position,
-                                        _tip.rotation);
+                                        _bulletSpawner.transform.position,
+                                        _bulletSpawner.transform.rotation);
             newBullet.Fire(_weaponParent, _opponentType, user.damage);
         }
         else if (user.GetType() != typeof(Enemy))
@@ -209,37 +215,54 @@ public class Weapon : MonoBehaviour
         if (GameManager.paused)
             return;
 
+        RayManager hitDetector = new();
+        RaycastHit? hit = null; // Use a nullable RaycastHit
+
+        if (hitDetector.PointingToObject(_bulletSpawner.transform, 50f, out RaycastHit hitInfo))
+        {
+            TrailRenderer trail = Instantiate(_hitscanTrail, _weaponParent.position, Quaternion.identity);
+
+            hit = hitInfo; // Assign the hitInfo to the nullable RaycastHit
+
+            StartCoroutine(SpawnTrail(trail, hitInfo));
+        }
+
         if (_enemyManager)
             for (int i = 0; i < _enemyManager.enemies.Count; i++)
             {
                 if (_enemyManager.enemies[i].GetComponent<MeshRenderer>() != null)
                 {
                     if (_enemyManager.enemies[i].GetComponent<MeshRenderer>().isVisible)
-                        if (PointingToEnemy(_enemyManager.enemies[i]))
-                        {
-                            _enemyManager.enemies[i].TakeDamage(user.damage);
-                            
-                            break;
-                        }
+                        if (hit != null)
+                            if (hit.Value.collider == _enemyManager.enemies[i]._collider)
+                            {
+                                _enemyManager.enemies[i].TakeDamage(user.damage);
+
+                                break;
+                            }
                 }
                 else
                 {
                     Debug.LogError("Enemy " + _enemyManager.enemies[i].name + " has no mesh renderer");
                 }
             }
-
     }
 
-    /// <summary>
-    /// Checks if the weapon is pointing to a specific enemy.
-    /// </summary>
-    /// <param name="enemy"></param>
-    /// <returns></returns>
-    public bool PointingToEnemy(Enemy enemy)
+    private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
     {
-        RayManager pointDetector = new();
+        float time = 0f;
 
-        return pointDetector.PointingToObject(_weaponParent, enemy.transform, enemy._collider);
+        Vector3 startPos = trail.transform.position;
+
+        while (time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(startPos, hit.point, time);
+            time += Time.deltaTime / trail.time;
+            yield return null;
+        }
+
+        trail.transform.position = hit.point;
+        Destroy(trail.gameObject, trail.time);
     }
 
     /// <summary>

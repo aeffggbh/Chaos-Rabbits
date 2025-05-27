@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Level 3.unity
     guid: 35ec07f079725d143adbb66cb5dede0a
   - enabled: 1
+    path: Assets/Scenes/Menu/Game Win.unity
+    guid: dc67c4dc3b7f6f244b6f19af47e0b9cb
+  - enabled: 1
     path: Assets/Scenes/Menu/CheckExit.unity
     guid: 4565751401703854a906575be0c55268
   - enabled: 1
@@ -26,9 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu/Credits.unity
     guid: 94c13f243a8ebd249ac626da29a1ffbc
-  - enabled: 1
-    path: Assets/Scenes/Menu/Game Win.unity
-    guid: dc67c4dc3b7f6f244b6f19af47e0b9cb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

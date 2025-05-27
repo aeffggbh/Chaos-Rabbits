@@ -87,6 +87,5 @@ AssetOrigin:
   productId: 127325
   packageName: Particle Pack
   packageVersion: 3.1
-  assetPath: Assets/UnityTechnologies/ParticlePack/EffectExamples/Fire & Explosion
-    Effects/Textures/SphereNormal.tif
+  assetPath: Assets/Textures/explosion/SphereNormal.tif
   uploadId: 691001

@@ -25,6 +25,9 @@ public class LevelTrigger : MonoBehaviour
 
     private void Update()
     {
+        if (CheatsController.instance.levelTriggerLocation != transform)
+            CheatsController.instance.levelTriggerLocation = transform;
+
         if (SceneController.currentScene != SceneController.GameStates.FINAL_LEVEL)
         {
             _enemyCounter = _enemyTotal - _enemyManager.enemies.Count;

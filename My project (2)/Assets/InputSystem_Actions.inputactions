@@ -862,6 +862,17 @@
                     "action": "Pause Toggle",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32891ca8-6e25-42ac-ab53-7c68d03ee2f8",
+                    "path": "<DualShockGamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Pause Toggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -911,6 +922,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5018afd0-328a-4077-95ea-8d4ef1d0cf0e",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "NextLevel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a3f4e5e8-0e7a-4a41-8f95-fe0c202dc084",
                     "path": "<Keyboard>/f10",
                     "interactions": "",
@@ -922,11 +944,33 @@
                 },
                 {
                     "name": "",
+                    "id": "496dcc95-690b-46d9-9ddc-9ad11d7f4679",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "GodMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "271c0b7b-dcb5-44db-b0a1-37acded7d33c",
                     "path": "<Keyboard>/f11",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "FlashMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d8c5a600-21ef-4dc2-96a1-97401bb920b0",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
                     "action": "FlashMode",
                     "isComposite": false,
                     "isPartOfComposite": false

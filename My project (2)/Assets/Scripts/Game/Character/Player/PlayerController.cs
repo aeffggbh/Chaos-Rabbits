@@ -145,28 +145,34 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private Weapon PointedWeapon()
     {
+        RayManager hitDetector = new();
+        RaycastHit? hit = null; // Use a nullable RaycastHit
+
+        if (hitDetector.PointingToObject(_cineMachineCamera.transform, 50f, out RaycastHit hitInfo))
+            hit = hitInfo; 
+
         for (int i = 0; i < WeaponManager.instance.weapons.Count; i++)
             if (WeaponManager.instance.weapons[i] != null)
-                if (PointingToWeapon(WeaponManager.instance.weapons[i]))
+                if (hit.Value.collider == WeaponManager.instance.weapons[i].GetComponent<Collider>())
                     return WeaponManager.instance.weapons[i];
 
         return null;
     }
 
-    /// <summary>
-    /// Checks if the player is pointing to a specific weapon within a certain distance.
-    /// </summary>
-    /// <param name="weapon"></param>
-    /// <returns></returns>
-    private bool PointingToWeapon(Weapon weapon)
-    {
-        RayManager _pointDetection = new();
+    ///// <summary>
+    ///// Checks if the player is pointing to a specific weapon within a certain distance.
+    ///// </summary>
+    ///// <param name="weapon"></param>
+    ///// <returns></returns>
+    //private bool PointingToWeapon(Weapon weapon)
+    //{
+    //    RayManager _pointDetection = new();
 
-        return _pointDetection.PointingToObject(_cineMachineCamera.transform, weapon.transform, weapon.GetComponent<Collider>()) &&
-                !_holdingWeapon &&
-                _pointDetection.GetDistanceToObject() <= _maxWeaponDistance;
+    //    return _pointDetection.PointingToObject(_cineMachineCamera.transform, weapon.transform, weapon.GetComponent<Collider>()) &&
+    //            !_holdingWeapon &&
+    //            _pointDetection.GetDistanceToObject() <= _maxWeaponDistance;
 
-    }
+    //}
 
     /// <summary>
     /// Handles the jump action when the player presses the jump button.

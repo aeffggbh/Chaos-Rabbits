@@ -18,8 +18,6 @@ public class Player : Character
     {
         DontDestroyOnLoad(gameObject);
 
-        currentHealth = maxHealth;
-
         IsWeaponUser = true;
 
         _forceRequest = null;
@@ -81,6 +79,9 @@ public class Player : Character
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        if (GameManager.paused)
+            return;
 
         //MOVEMENT
         {

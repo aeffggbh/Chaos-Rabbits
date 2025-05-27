@@ -9,6 +9,7 @@ public class CheatsController : MonoBehaviour
     [SerializeField] private InputActionReference _nextLevel;
     [SerializeField] private InputActionReference _godMode;
     [SerializeField] private InputActionReference _flashMode;
+    [SerializeField] public Transform levelTriggerLocation;
     public bool _isGodMode;
     public bool _isFlashMode;
 
@@ -46,7 +47,8 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnFlashMode(InputAction.CallbackContext context)
     {
-        _isFlashMode = !_isFlashMode;
+        if (SceneController.IsGameplay(SceneController.currentScene))
+            _isFlashMode = !_isFlashMode;
     }
 
     /// <summary>
@@ -55,7 +57,8 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnGodMode(InputAction.CallbackContext context)
     {
-        _isGodMode = !_isGodMode;
+        if (SceneController.IsGameplay(SceneController.currentScene))
+            _isGodMode = !_isGodMode;
     }
 
     /// <summary>
@@ -64,7 +67,12 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnNextLevel(InputAction.CallbackContext context)
     {
-        SceneController.GoToScene(SceneController.currentScene + 1);
+        if (SceneController.IsGameplay(SceneController.currentScene))
+        {
+            if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
+                playerController.transform.position = levelTriggerLocation.position;
+            SceneController.GoToScene(SceneController.currentScene + 1);
+        }
     }
 
     /// <summary>
@@ -76,4 +84,3 @@ public class CheatsController : MonoBehaviour
         _isFlashMode = false;
     }
 }
-    
