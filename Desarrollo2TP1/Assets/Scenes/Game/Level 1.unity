@@ -5394,6 +5394,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 900060209327047562, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
+      propertyPath: UpdateMethod
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2379559946069581313, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
       propertyPath: field of view
       value: 57
@@ -5468,7 +5472,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cinemachineCamera: {fileID: 2079905743}
-  _cinemachineBrain: {fileID: 0}
 --- !u!114 &1848662120 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1208381593176583515, guid: 14b4843005492284399b9568cbecee44, type: 3}
