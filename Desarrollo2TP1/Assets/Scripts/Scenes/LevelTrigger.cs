@@ -33,8 +33,11 @@ public class LevelTrigger : MonoBehaviour
             if (_enemyTotal <= 0)
                 _enemyTotal = _enemyManager.enemies.Count;
 
-            _enemyCounter = _enemyTotal - _enemyManager.enemies.Count;
-            _enemyCounterText.SetText(_enemyCounter + " / " + _enemyTotal);
+            if (_enemyManager)
+            {
+                _enemyCounter = _enemyTotal - _enemyManager.enemies.Count;
+                _enemyCounterText.SetText(_enemyCounter + " / " + _enemyTotal);
+            }
         }
     }
 
@@ -56,7 +59,7 @@ public class LevelTrigger : MonoBehaviour
         else
             //check if the enemies are all dead.
             if (_enemyManager.enemies.Count == 0)
-                SceneController.GoToScene(SceneController.currentScene + 1);
+            SceneController.GoToScene(SceneController.currentScene + 1);
     }
 
 }

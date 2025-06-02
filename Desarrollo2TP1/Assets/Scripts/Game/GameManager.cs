@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,7 +43,13 @@ public static class GameManager
                 savedPlayer = null;
             }
 
-            GameObject.Destroy(CinemachineManager.instance.gameObject);
+            CinemachineBrain _cineMachineBrain = null;
+
+            if (ServiceProvider.TryGetService<CinemachineBrain>(out var cinemachineBrain))
+                _cineMachineBrain = cinemachineBrain;
+
+            if (_cineMachineBrain != null)
+                GameObject.Destroy(_cineMachineBrain.gameObject);
 
             initialized = false;
         }

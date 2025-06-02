@@ -37,9 +37,9 @@ internal class Bullet : MonoBehaviour
     {
         Character hitCharacter = collision.gameObject.GetComponent<Character>();
 
-        if (hitCharacter != null)
+        if (hitCharacter != null && hitCharacter != this)
         {
-            if (hitCharacter is Enemy || hitCharacter is Player)
+            if (hitCharacter is Character)
             {
                 hitCharacter.TakeDamage(_damage);
                 Debug.Log("Shot " + hitCharacter.name + " for " + _damage + " damage");

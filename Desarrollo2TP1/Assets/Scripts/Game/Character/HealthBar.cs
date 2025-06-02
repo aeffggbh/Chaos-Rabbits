@@ -15,4 +15,10 @@ public class HealthBar : MonoBehaviour
     {
         slider.value = health;
     }
+
+    private void FixedUpdate()
+    {
+        //copiar forward de la camara accediendo a ella con el service
+        this.transform.forward = CinemachineManager.instance.transform.forward;
+    }
 }
