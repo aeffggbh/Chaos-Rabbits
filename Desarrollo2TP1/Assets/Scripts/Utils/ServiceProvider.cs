@@ -20,7 +20,7 @@ public static class ServiceProvider
         if (!Services.TryAdd(typeof(T), service) && overrideIfFound)
             Services[typeof(T)] = service;
     }
-    public static object GetService(Type type)
+    public static object GetService(Type type)  
     {
         return Services.GetValueOrDefault(type);
     }
