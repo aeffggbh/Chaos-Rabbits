@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 /// Represents a weapon that can be held by a character.
 /// </summary>
 [Serializable]
+[RequireComponent(typeof(AudioSource))]
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private Bullet _prefabBullet;
@@ -23,7 +24,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int weaponLayerIndex;
     [SerializeField] private BulletSpawner _bulletSpawner;
     [SerializeField] private TrailRenderer _hitscanTrail;
-
+    [SerializeField] private SoundManager _soundManager;
+    private AudioSource _audioSource;
     private Vector3 _defaultPos;
     private Type _opponentType;
 
@@ -35,7 +37,6 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-
         if (!_prefabBullet && !_usesHitscan)
             Debug.LogError(nameof(_prefabBullet) + " is null");
 
@@ -46,20 +47,17 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void ResetSpawnPos()
-    {
-
-        //_bulletSpawner.transform.position += _weaponParent.GetComponent<CinemachineCamera>().transform.forward * 0.5f;
-        //_bulletSpawner.transform.position += _weaponParent.right * 0.1f;
-        //_bulletSpawner.transform.position += _weaponParent.up * 0.1f;
-    }
-
-
     private void Start()
     {
-        _bulletSpawner = BulletSpawner.instance;
+        if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
+            _enemyManager = enemyManager;
 
-        ResetSpawnPos();
+        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
+            _soundManager = soundManager;
+
+        _audioSource = GetComponent<AudioSource>();
+
+        _bulletSpawner = BulletSpawner.instance;
 
         if (!_shootAction)
             //es un warning porque no nos va a importar si es un enemigo
@@ -98,8 +96,9 @@ public class Weapon : MonoBehaviour
     {
         CheckExistence();
 
-        if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
-            _enemyManager = enemyManager;
+        //if (!_enemyManager)
+        //    if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
+        //        _enemyManager = enemyManager;
 
         if (_debugUser)
         {
@@ -109,6 +108,7 @@ public class Weapon : MonoBehaviour
                 Debug.LogWarning("No user (" + name + ") assigned.");
         }
     }
+
     /// <summary>
     /// Destroys weapons left at level 1 when player gets to the next level
     /// </summary>
@@ -135,7 +135,6 @@ public class Weapon : MonoBehaviour
     /// </summary>
     private void ResetPos()
     {
-
         _defaultPos = _weaponParent.transform.position;
         _defaultPos += _weaponParent.right;
         _defaultPos += -_weaponParent.up * 1.2f;
@@ -163,6 +162,8 @@ public class Weapon : MonoBehaviour
     {
         if (GameManager.paused)
             return;
+
+        _soundManager.PlaySound(SoundType.SHOOT, )
 
         Debug.Log("instance");
         if (!_usesHitscan)
