@@ -163,7 +163,7 @@ public class Weapon : MonoBehaviour
         if (GameManager.paused)
             return;
 
-        _soundManager.PlaySound(SoundType.SHOOT, )
+        _soundManager.PlaySound(SoundType.SHOOT, _audioSource);
 
         Debug.Log("instance");
         if (!_usesHitscan)
