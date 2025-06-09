@@ -60,13 +60,14 @@ public class Weapon : MonoBehaviour
         _bulletSpawner = BulletSpawner.instance;
 
         if (!_shootAction)
-            //es un warning porque no nos va a importar si es un enemigo
+            //it's a warning becausw we don't care if it's an enemy
             Debug.LogWarning(nameof(_shootAction) + " is null");
         else
             _shootAction.action.started += OnShoot;
 
         if (user == null)
         {
+            //it's a warning because it also displays with dropped weapons
             Debug.LogWarning(nameof(user) + " is null");
             Drop();
         }
