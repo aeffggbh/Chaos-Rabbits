@@ -267,23 +267,6 @@ public class Weapon : MonoBehaviour
             }
     }
 
-    //private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
-    //{
-    //    float time = 0f;
-
-    //    Vector3 startPos = trail.transform.position;
-
-    //    while (time < 1)
-    //    {
-    //        trail.transform.position = Vector3.Lerp(startPos, hit.point, time);
-    //        time += Time.deltaTime / trail.time;
-    //        yield return null;
-    //    }
-
-    //    trail.transform.position = hit.point;
-    //    Destroy(trail.gameObject, trail.time);
-    //}
-
     /// <summary>
     /// Sets the user of the weapon based on the character type provided.
     /// </summary>

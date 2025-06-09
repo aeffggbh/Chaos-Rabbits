@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 using static SceneController;
-
 /// <summary>
 /// Class to call the methods on SceneController from the UI.
 /// </summary>
 public class SceneControllerWrapper : MonoBehaviour
 {
+    public void GoTo(GameStates state)
+    {
+        SceneController.GoToScene(state);
+    }
     public void GoToGameOver()
     {
         SceneController.GoToScene(GameStates.GAMEOVER);
