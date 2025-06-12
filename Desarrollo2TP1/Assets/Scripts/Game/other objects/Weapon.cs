@@ -260,7 +260,9 @@ public class Weapon : MonoBehaviour
             Rigidbody rb = trail.gameObject.AddComponent<Rigidbody>();
             rb.freezeRotation = true;
 
-            rb.AddForce(_weaponParent.transform.forward * hitDistance * 2f, ForceMode.Impulse);
+            float force = hitDistance * 2f;
+
+            rb.AddForce(_weaponParent.transform.forward * force, ForceMode.Impulse);
 
             Destroy(trail.gameObject, hitDistance / 500f);
         }
