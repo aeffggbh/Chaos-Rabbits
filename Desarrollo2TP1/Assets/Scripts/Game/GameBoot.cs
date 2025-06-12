@@ -14,9 +14,7 @@ public class GameBoot : MonoBehaviour
     void Start()
     {
         if (!GameManager.initialized)
-        {
             InitializeGame();
-        }
         else
             Debug.Log("Not resetting game");
     }
@@ -32,6 +30,7 @@ public class GameBoot : MonoBehaviour
             _playerController = playerController;
 
 
+
         if (!_defaultWeapon)
             _defaultWeapon = _playerController.currentWeapon;
 
@@ -43,8 +42,6 @@ public class GameBoot : MonoBehaviour
         GameManager.pauseButton = _pauseButton;
 
         GameManager.initialized = true;
-        if (GameManager.cheatsController == null)
-            GameManager.cheatsController = CheatsController.instance;
     }
 
 

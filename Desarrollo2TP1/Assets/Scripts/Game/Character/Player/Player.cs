@@ -13,6 +13,8 @@ public class Player : Character
     private bool _grounded;
     private Vector3 _calculatedMovement;
     private bool _isGodMode;
+    private SoundManager _soundManager;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
@@ -28,13 +30,10 @@ public class Player : Character
         rb = GetComponent<Rigidbody>();
     }
 
-    /// <summary>
-    /// Requests god mode for the player character.
-    /// </summary>
-    /// <param name="godMode"></param>
-    public void RequestGodMode(bool godMode)
+    public void RequestSound(SoundManager soundManager, AudioSource audioSource)
     {
-        _isGodMode = godMode;
+        _soundManager = soundManager;
+        _audioSource = audioSource;
     }
 
     /// <summary>
@@ -118,6 +117,7 @@ public class Player : Character
     /// </summary>
     private void Jump()
     {
+        _soundManager.PlaySound(SoundType.JUMP, _audioSource);
         _grounded = false;
         rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
     }
@@ -126,7 +126,7 @@ public class Player : Character
     public override void Die()
     {
         if (!_isGodMode)
-            SceneController.GoToScene(SceneController.GameStates.GAMEOVER);
+            SceneController.GoToScene(SceneController.GameState.GAMEOVER);
     }
 
     public override void TakeDamage(float damage)

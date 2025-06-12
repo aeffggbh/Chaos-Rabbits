@@ -28,7 +28,7 @@ public class LevelTrigger : MonoBehaviour
         if (CheatsController.instance.levelTriggerLocation != transform)
             CheatsController.instance.levelTriggerLocation = transform;
 
-        if (SceneController.currentScene != SceneController.GameStates.FINAL_LEVEL)
+        if (SceneController.currentScene != SceneController.GameState.FINAL_LEVEL)
         {
             if (_enemyTotal <= 0)
                 _enemyTotal = _enemyManager.enemies.Count;
@@ -54,8 +54,8 @@ public class LevelTrigger : MonoBehaviour
     {
         SceneController.CheckCurrentScene();
 
-        if (SceneController.currentScene == SceneController.GameStates.FINAL_LEVEL)
-            SceneController.GoToScene(SceneController.GameStates.GAMEWIN);
+        if (SceneController.currentScene == SceneController.GameState.FINAL_LEVEL)
+            SceneController.GoToScene(SceneController.GameState.GAMEWIN);
         else
             //check if the enemies are all dead.
             if (_enemyManager.enemies.Count == 0)

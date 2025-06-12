@@ -141,8 +141,8 @@ public abstract class Enemy : Character
                 break;
         }
 
-        //if (!isExplodingEnemy)
-        //    _lookAtTrarget.Look(_targetLook);
+        if (!isExplodingEnemy)
+            _lookAtTrarget.Look(_targetLook);
     }
 
     /// <summary>

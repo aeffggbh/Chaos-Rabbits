@@ -6,42 +6,42 @@ using static SceneController;
 /// </summary>
 public class SceneControllerWrapper : MonoBehaviour
 {
-    public void GoTo(GameStates state)
+    public void GoTo(GameState state)
     {
         SceneController.GoToScene(state);
     }
     public void GoToGameOver()
     {
-        SceneController.GoToScene(GameStates.GAMEOVER);
+        SceneController.GoToScene(GameState.GAMEOVER);
     }
 
     public void GoToMainMenu()
     {
-        SceneController.GoToScene(GameStates.MAINMENU);
+        SceneController.GoToScene(GameState.MAINMENU);
     }
 
     public void GoToLevel1()
     {
-        SceneController.GoToScene(GameStates.LEVEL1);
+        SceneController.GoToScene(GameState.LEVEL1);
     }
 
     public void GoToLevel2()
     {
-        SceneController.GoToScene(GameStates.LEVEL2);
+        SceneController.GoToScene(GameState.LEVEL2);
     }
 
     public void GoToLevel3()
     {
-        SceneController.GoToScene(GameStates.FINAL_LEVEL);
+        SceneController.GoToScene(GameState.FINAL_LEVEL);
     }
 
     public void GoToCredits()
     {
-        SceneController.GoToScene(GameStates.CREDITS);
+        SceneController.GoToScene(GameState.CREDITS);
     }
     public void CheckExit()
     {
-        SceneController.GoToScene(GameStates.CHECKEXIT);
+        SceneController.GoToScene(GameState.CHECKEXIT);
     }
     public void ExitGame()
     {

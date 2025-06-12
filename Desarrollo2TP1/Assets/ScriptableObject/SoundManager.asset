@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9cb046eed10654a86eeece44d701ce, type: 3}
   m_Name: SoundManager
   m_EditorClassIdentifier: 
-  soundClips: []
+  soundClips:
+  - {fileID: 8300000, guid: 72b511a0b8a001e4eadac1f2245ca372, type: 3}
+  - {fileID: 8300000, guid: 40d02a9490e371e48a6543256a7ed730, type: 3}
+  - {fileID: 8300000, guid: 77917e82f6c400a45860a163f01d4a13, type: 3}
+  - {fileID: 8300000, guid: 9a67847dad0df084688a2dcdadd2e9ed, type: 3}
+  - {fileID: 8300000, guid: 2955c8e0a3af2db4db33f5042fb75c06, type: 3}
+  - {fileID: 8300000, guid: ebf504a1340f70b4381f81383d16913a, type: 3}

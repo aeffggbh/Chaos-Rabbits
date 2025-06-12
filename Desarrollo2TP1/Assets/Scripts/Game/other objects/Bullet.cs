@@ -9,7 +9,8 @@ internal class Bullet : MonoBehaviour
 {
     [SerializeField] private float force;
     [SerializeField] private Rigidbody _rb;
-    private float _damage;
+    private Character _whoIsFiring;
+    private Weapon _originWeapon;
 
     private void Awake()
     {
@@ -22,11 +23,15 @@ internal class Bullet : MonoBehaviour
     /// <param name="wParent"></param>
     /// <param name="opponentType"></param>
     /// <param name="damage"></param>
-    public void Fire(Transform wParent, Type opponentType, float damage)
+    public void Fire(Transform wParent, Character whoIsFiring, Weapon weapon)
     {
-        _rb.AddForce(wParent.transform.forward * force * Time.fixedDeltaTime, ForceMode.Impulse);
+        Debug.Log("Firing bullet from " + wParent.name + " with damage: " + whoIsFiring.damage);
 
-        _damage = damage;
+        _rb.AddForce(force * Time.fixedDeltaTime * wParent.forward, ForceMode.Impulse);
+
+        _whoIsFiring = whoIsFiring;
+
+        _originWeapon = weapon;
     }
 
     /// <summary>
@@ -37,15 +42,14 @@ internal class Bullet : MonoBehaviour
     {
         Character hitCharacter = collision.gameObject.GetComponent<Character>();
 
-        if (hitCharacter != null && hitCharacter != this)
-        {
+        if (hitCharacter != null && hitCharacter != _whoIsFiring)
             if (hitCharacter is Character)
             {
-                hitCharacter.TakeDamage(_damage);
-                Debug.Log("Shot " + hitCharacter.name + " for " + _damage + " damage");
+                hitCharacter.TakeDamage(_whoIsFiring.damage);
+                Debug.Log("Shot " + hitCharacter.name + " for " + _whoIsFiring.damage + " damage");
             }
-        }
 
-        Destroy(this.gameObject);
+        if (collision.gameObject != _originWeapon && collision.gameObject != _whoIsFiring.gameObject)
+            Destroy(gameObject);
     }
 }

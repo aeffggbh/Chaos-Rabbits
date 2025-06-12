@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 /// Reads input and decides actions taken by the player
 /// </summary>
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference _grabAction;
     [SerializeField] private CinemachineBrain _cineMachineBrain;
     [SerializeField] private GameObject _head;
+    [SerializeField] private GameObject _bulletSpawn;
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
     [SerializeField] private float _force;
@@ -33,6 +35,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 _3DMovement;
     private ForceRequest _forceRequest;
     private bool _holdingWeapon;
+    private AudioSource _audioSource;
+    private SoundManager _soundManager;
 
     private void Awake()
     {
@@ -52,6 +56,8 @@ public class PlayerController : MonoBehaviour
             _dropAction.action.started -= DropWeapon;
         if (_grabAction)
             _grabAction.action.started -= GrabWeapon;
+
+        //TODO: do this every time you set a service
         ServiceProvider.SetService<PlayerController>(null);
     }
 
@@ -119,7 +125,15 @@ public class PlayerController : MonoBehaviour
             _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
         }
 
-        
+        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
+            _soundManager = soundManager;
+
+        _audioSource = GetComponent<AudioSource>();
+
+        _player.RequestSound(_soundManager, _audioSource);
+
+        if (!_bulletSpawn)
+            Debug.LogError(nameof(_bulletSpawn) + " is null");
     }
 
     /// <summary>
@@ -140,6 +154,7 @@ public class PlayerController : MonoBehaviour
                 _holdingWeapon = true;
                 currentWeapon = weaponToGrab;
                 currentWeapon.SetUser(_player, typeof(Player));
+                currentWeapon.SetBulletSpawn(_bulletSpawn);
                 currentWeapon.user = _player;
                 currentWeapon.Hold();
             }
@@ -170,7 +185,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit? hit = null; // Use a nullable RaycastHit
 
         if (hitDetector.PointingToObject(_cineMachineCamera.transform, 50f, out RaycastHit hitInfo))
-            hit = hitInfo; 
+            hit = hitInfo;
 
         for (int i = 0; i < WeaponManager.instance.weapons.Count; i++)
             if (WeaponManager.instance.weapons[i] != null)
@@ -179,21 +194,6 @@ public class PlayerController : MonoBehaviour
 
         return null;
     }
-
-    ///// <summary>
-    ///// Checks if the player is pointing to a specific weapon within a certain distance.
-    ///// </summary>
-    ///// <param name="weapon"></param>
-    ///// <returns></returns>
-    //private bool PointingToWeapon(Weapon weapon)
-    //{
-    //    RayManager _pointDetection = new();
-
-    //    return _pointDetection.PointingToObject(_cineMachineCamera.transform, weapon.transform, weapon.GetComponent<Collider>()) &&
-    //            !_holdingWeapon &&
-    //            _pointDetection.GetDistanceToObject() <= _maxWeaponDistance;
-
-    //}
 
     /// <summary>
     /// Handles the jump action when the player presses the jump button.
@@ -251,8 +251,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GodModeCheck();
-
         if (_cineMachineBrain != null)
         {
             if (_moveInput.x != 0 || _moveInput.y != 0)
@@ -276,14 +274,6 @@ public class PlayerController : MonoBehaviour
         else
             Debug.LogError(nameof(_player) + " is null");
 
-    }
-
-    /// <summary>
-    /// Checks if the player is in god mode and applies it if so.
-    /// </summary>
-    private void GodModeCheck()
-    {
-        _player.RequestGodMode(GameManager.cheatsController._isGodMode);
     }
 
     private void OnDrawGizmos()
@@ -319,7 +309,7 @@ public class PlayerController : MonoBehaviour
     {
         _moveInput = context.ReadValue<Vector2>();
 
-        if (GameManager.cheatsController._isFlashMode)
+        if (CheatsController.instance.IsFlashMode())
             _currentSpeed = _runSpeed;
         else if (_currentSpeed == _runSpeed)
             _currentSpeed = _walkSpeed;

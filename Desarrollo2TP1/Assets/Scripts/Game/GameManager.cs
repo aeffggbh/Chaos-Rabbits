@@ -8,23 +8,23 @@ using UnityEngine.InputSystem;
 public static class GameManager
 {
     //responsible for replayability and general game variables
-    public static CheatsController cheatsController;
     public static bool initialized = false;
     public static PlayerController savedPlayer;
     public static Weapon defaultWeapon;
     public static InputActionReference pauseButton;
     public static bool paused = false;
+    public static SoundManager soundManager;
 
     /// <summary>
     /// Checks if the game should be reset based on the target scene.
     /// </summary>
     /// <param name="targetScene"></param>
     /// <returns></returns>
-    public static bool ShouldReset(SceneController.GameStates targetScene)
+    public static bool ShouldReset(SceneController.GameState targetScene)
     {
-        return targetScene == SceneController.GameStates.MAINMENU ||
-            SceneController.previousScene == SceneController.GameStates.GAMEOVER ||
-            SceneController.previousScene == SceneController.GameStates.GAMEWIN;
+        return targetScene == SceneController.GameState.MAINMENU ||
+            SceneController.previousScene == SceneController.GameState.GAMEOVER ||
+            SceneController.previousScene == SceneController.GameState.GAMEWIN;
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public static class GameManager
     {
         if (initialized)
         {
-            cheatsController.Reset();
+            CheatsController.instance.Reset();
             //savedPlayer.currentWeapon = defaultWeapon;
             //savedPlayer.ResetPlayer();
             if (savedPlayer != null)

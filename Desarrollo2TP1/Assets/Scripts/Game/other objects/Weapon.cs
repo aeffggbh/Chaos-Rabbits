@@ -15,14 +15,14 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Bullet _prefabBullet;
     [SerializeField] private InputActionReference _shootAction;
     [SerializeField] private Transform _weaponParent;
-    [SerializeField] private EnemyManager _enemyManager;
     [Header("User")]
     [SerializeField] public Character user;
     [Header("Hitscan")]
     [SerializeField] private bool _usesHitscan;
     [SerializeField] private bool _debugUser;
     [SerializeField] private int weaponLayerIndex;
-    [SerializeField] private BulletSpawner _bulletSpawner;
+    [SerializeField] private GameObject _bulletSpawn;
+    [SerializeField] private GameObject _tip;
     [SerializeField] private TrailRenderer _hitscanTrail;
     [SerializeField] private SoundManager _soundManager;
     private AudioSource _audioSource;
@@ -49,15 +49,29 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
-        if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
-            _enemyManager = enemyManager;
-
         if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
             _soundManager = soundManager;
 
         _audioSource = GetComponent<AudioSource>();
 
-        _bulletSpawner = BulletSpawner.instance;
+        //_bulletSpawner = BulletSpawner.instance;
+
+        if (!_bulletSpawn)
+        {
+            if (_tip)
+            {
+                _bulletSpawn = _tip;
+                Debug.LogWarning("No bullet spawn. Assigned the tip as the spawn");
+            }
+            else
+                Debug.LogError(nameof(_bulletSpawn) + " is null.");
+        }
+
+        if (_bulletSpawn && !_tip)
+        {
+            _tip = _bulletSpawn;
+            Debug.LogWarning("No tip. Assigned the bullet spawn as the tip");
+        }
 
         if (!_shootAction)
             //it's a warning becausw we don't care if it's an enemy
@@ -78,9 +92,6 @@ public class Weapon : MonoBehaviour
 
             if (user.GetType() == typeof(Player))
             {
-                if (!_enemyManager)
-                    Debug.LogError(nameof(_enemyManager) + " is null");
-
                 Hold();
             }
             else if (user.GetType() == typeof(Enemy))
@@ -97,10 +108,6 @@ public class Weapon : MonoBehaviour
     {
         CheckExistence();
 
-        //if (!_enemyManager)
-        //    if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
-        //        _enemyManager = enemyManager;
-
         if (_debugUser)
         {
             if (user)
@@ -116,7 +123,7 @@ public class Weapon : MonoBehaviour
     private void CheckExistence()
     {
         SceneController.CheckCurrentScene();
-        if (!user && (int)SceneController.currentScene != (int)SceneController.GameStates.LEVEL1)
+        if (!user && (int)SceneController.currentScene != (int)SceneController.GameState.LEVEL1)
             Destroy(gameObject);
     }
 
@@ -164,16 +171,20 @@ public class Weapon : MonoBehaviour
         if (GameManager.paused)
             return;
 
-        //_soundManager.PlaySound(SoundType.SHOOT, _audioSource);
-
-        Debug.Log("instance");
+        if (_soundManager)
+            _soundManager.PlaySound(SoundType.SHOOT, _audioSource);
+        else
+            Debug.LogError("SoundManager does not exist");
+        
         if (!_usesHitscan)
         {
-            Debug.Log("bullet");
             var newBullet = Instantiate(_prefabBullet,
-                                        _bulletSpawner.transform.position,
-                                        _bulletSpawner.transform.rotation);
-            newBullet.Fire(_weaponParent, _opponentType, user.damage);
+                                        _bulletSpawn.transform.position,
+                                        _bulletSpawn.transform.rotation);
+            if (newBullet)
+                newBullet.Fire(_bulletSpawn.transform, user, this);
+            else
+                Debug.LogError("Bullet prefab is null or not set correctly.");
         }
         else if (user.GetType() != typeof(Enemy))
         {
@@ -219,6 +230,11 @@ public class Weapon : MonoBehaviour
         if (!GetComponent<Rigidbody>())
             gameObject.AddComponent<Rigidbody>();
 
+        if (_tip)
+            _bulletSpawn = _tip;
+        else
+            Debug.LogError(nameof(_tip) + " is null");
+
         gameObject.layer = 0;
     }
 
@@ -231,7 +247,7 @@ public class Weapon : MonoBehaviour
             return;
 
         RayManager hitDetector = new();
-        RaycastHit? hit = null; // Use a nullable RaycastHit
+        RaycastHit? hit = null;
 
         float hitDistance = 100f;
 
@@ -247,25 +263,13 @@ public class Weapon : MonoBehaviour
             rb.AddForce(_weaponParent.transform.forward * 1000f, ForceMode.Impulse);
         }
 
-        if (_enemyManager)
-            for (int i = 0; i < _enemyManager.enemies.Count; i++)
-            {
-                if (_enemyManager.enemies[i].GetComponent<MeshRenderer>() != null)
-                {
-                    if (_enemyManager.enemies[i].GetComponent<MeshRenderer>().isVisible)
-                        if (hit != null)
-                            if (hit.Value.collider == _enemyManager.enemies[i]._collider)
-                            {
-                                _enemyManager.enemies[i].TakeDamage(user.damage);
+        if (hit != null)
+        {
+            Enemy enemy = hit.Value.collider.gameObject.GetComponent<Enemy>();
 
-                                break;
-                            }
-                }
-                else
-                {
-                    Debug.LogError("Enemy " + _enemyManager.enemies[i].name + " has no mesh renderer");
-                }
-            }
+            if (enemy)
+                enemy.TakeDamage(user.damage);
+        }
     }
 
     /// <summary>
@@ -281,5 +285,12 @@ public class Weapon : MonoBehaviour
             user = character as Enemy;
 
         SetOpponent();
+    }
+
+    public void SetBulletSpawn(GameObject spawn)
+    {
+        Debug.Log(spawn.name + " is now the bullet spawn for " + name);
+
+        _bulletSpawn = spawn;
     }
 }

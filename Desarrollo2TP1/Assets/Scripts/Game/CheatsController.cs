@@ -11,10 +11,20 @@ public class CheatsController : MonoBehaviour
     [SerializeField] private InputActionReference _flashMode;
     [SerializeField] public Transform levelTriggerLocation;
     [SerializeField] public CheatsLogger logger;
-    public bool _isGodMode;
-    public bool _isFlashMode;
+    private bool _isGodMode;
+    private bool _isFlashMode;
 
     public static CheatsController instance;
+
+    public bool IsGodMode()
+    {
+        return _isGodMode;
+    }
+
+    public bool IsFlashMode()
+    {
+        return _isFlashMode;
+    }
 
     private void Awake()
     {

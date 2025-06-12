@@ -16,8 +16,14 @@ public class SoundManager : ScriptableObject
 {
     [SerializeField] private AudioClip[] soundClips;
 
+    private void OnDestroy()
+    {
+        ServiceProvider.SetService<SoundManager>(null);
+    }
+
     public void PlaySound(SoundType sound, AudioSource source, float volume = 1f)
     {
         source.PlayOneShot(soundClips[(int)sound], volume);
     }
+
 }

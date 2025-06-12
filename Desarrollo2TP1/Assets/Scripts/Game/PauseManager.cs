@@ -6,6 +6,8 @@ using static SceneController;
 /// <summary>
 /// Manages the pause menu
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
+
 public class PauseManager : MonoBehaviour
 {
     [Header("Menu")]
@@ -16,6 +18,8 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private GameObject _firstButtonA;
     [SerializeField] private GameObject _firstButtonB;
     private bool paused = false;
+    private AudioSource _audioSource;
+    private SoundManager _soundManager;
 
     private void Start()
     {
@@ -33,6 +37,11 @@ public class PauseManager : MonoBehaviour
         if (!_checkExitMenu)
             Debug.LogError(nameof(_checkExitMenu) + " is null");
 
+        if (!_audioSource)
+            _audioSource = GetComponent<AudioSource>();
+
+        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
+            _soundManager = soundManager;
     }
 
     private void Update()
@@ -85,6 +94,9 @@ public class PauseManager : MonoBehaviour
                 _pauseMenu.SetActive(false);
             eventSystem.SetSelectedGameObject(_firstButtonB);
         }
+
+        PlayButtonSound();
+
     }
 
     /// <summary>
@@ -99,7 +111,9 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         GameManager.SetPause(false);
         paused = false;
-        SceneController.GoToScene(SceneController.GameStates.MAINMENU);
+        SceneController.GoToScene(SceneController.GameState.MAINMENU);
+
+        PlayButtonSound();
     }
 
     public void BackToPause()
@@ -110,6 +124,8 @@ public class PauseManager : MonoBehaviour
             _pauseMenu.SetActive(true);
             eventSystem.SetSelectedGameObject(_firstButtonA);
         }
+
+        PlayButtonSound();
     }
 
     public void ResumeGame()
@@ -121,12 +137,18 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         GameManager.SetPause(false);
         paused = false;
+        PlayButtonSound();
         CheckCursor();
     }
 
     public void ExitGame()
     {
         SceneController.ExitGame();
+    }
+
+    private void PlayButtonSound()
+    {
+        _soundManager.PlaySound(SoundType.CONFIRM, _audioSource);
     }
 
     private void CheckCursor()
