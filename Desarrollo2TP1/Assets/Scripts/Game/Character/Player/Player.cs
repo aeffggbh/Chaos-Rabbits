@@ -12,7 +12,6 @@ public class Player : Character
     private float _jumpForce;
     private bool _grounded;
     private Vector3 _calculatedMovement;
-    private bool _isGodMode;
     private SoundManager _soundManager;
     private AudioSource _audioSource;
 
@@ -125,13 +124,13 @@ public class Player : Character
 
     public override void Die()
     {
-        if (!_isGodMode)
+        if (!CheatsController.instance.IsGodMode())
             SceneController.GoToScene(SceneController.GameState.GAMEOVER);
     }
 
     public override void TakeDamage(float damage)
     {
-        if (!_isGodMode)
+        if (!CheatsController.instance.IsGodMode())
             base.TakeDamage(damage);
         else
             Debug.Log("Cannot take damage!");
