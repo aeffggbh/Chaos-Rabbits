@@ -175,7 +175,7 @@ public class Weapon : MonoBehaviour
             _soundManager.PlaySound(SoundType.SHOOT, _audioSource);
         else
             Debug.LogError("SoundManager does not exist");
-        
+
         if (!_usesHitscan)
         {
             var newBullet = Instantiate(_prefabBullet,
@@ -255,12 +255,14 @@ public class Weapon : MonoBehaviour
         {
             hit = hitInfo;
 
-            TrailRenderer trail = Instantiate(_hitscanTrail, _weaponParent.position, Quaternion.identity);
+            TrailRenderer trail = Instantiate(_hitscanTrail, _tip.transform.position, Quaternion.identity);
 
             Rigidbody rb = trail.gameObject.AddComponent<Rigidbody>();
             rb.freezeRotation = true;
 
-            rb.AddForce(_weaponParent.transform.forward * 1000f, ForceMode.Impulse);
+            rb.AddForce(_weaponParent.transform.forward * hitDistance * 2f, ForceMode.Impulse);
+
+            Destroy(trail.gameObject, hitDistance / 500f);
         }
 
         if (hit != null)
@@ -270,6 +272,8 @@ public class Weapon : MonoBehaviour
             if (enemy)
                 enemy.TakeDamage(user.damage);
         }
+
+
     }
 
     /// <summary>

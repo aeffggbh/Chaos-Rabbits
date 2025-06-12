@@ -43,11 +43,10 @@ internal class Bullet : MonoBehaviour
         Character hitCharacter = collision.gameObject.GetComponent<Character>();
 
         if (hitCharacter != null && hitCharacter != _whoIsFiring)
-            if (hitCharacter is Character)
-            {
-                hitCharacter.TakeDamage(_whoIsFiring.damage);
-                Debug.Log("Shot " + hitCharacter.name + " for " + _whoIsFiring.damage + " damage");
-            }
+        {
+            hitCharacter.TakeDamage(_whoIsFiring.damage);
+            Debug.Log("Shot " + hitCharacter.name + " for " + _whoIsFiring.damage + " damage");
+        }
 
         if (collision.gameObject != _originWeapon && collision.gameObject != _whoIsFiring.gameObject)
             Destroy(gameObject);
