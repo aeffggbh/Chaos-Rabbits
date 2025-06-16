@@ -34,9 +34,9 @@ public static class GameManager
     {
         if (initialized)
         {
-            CheatsController.instance.Reset();
-            //savedPlayer.currentWeapon = defaultWeapon;
-            //savedPlayer.ResetPlayer();
+            if (CheatsController.instance)
+                CheatsController.instance.Reset();
+
             if (savedPlayer != null)
             {
                 GameObject.Destroy(savedPlayer.gameObject);

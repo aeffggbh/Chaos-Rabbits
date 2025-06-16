@@ -119,11 +119,14 @@ public class PlayerController : MonoBehaviour
         _cineMachineBrain = CinemachineManager.instance.GetComponent<CinemachineBrain>();
 
         if (!_cineMachineBrain)
-            Debug.Log(nameof(_cineMachineBrain) + " is null");
-        else
         {
-            _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
+            _cineMachineBrain = GameObject.Find("CinemachineBrain")?.GetComponent<CinemachineBrain>();
         }
+
+        if (_cineMachineBrain)
+            _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
+        else
+            Debug.Log(nameof(_cineMachineBrain) + " is null");
 
         if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
             _soundManager = soundManager;
@@ -360,7 +363,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void DestroyPlayer()
     {
-        Destroy(_cineMachineBrain);
+        Destroy(_cineMachineBrain.gameObject);
         Destroy(gameObject);
     }
 

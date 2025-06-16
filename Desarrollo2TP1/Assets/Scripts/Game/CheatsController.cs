@@ -87,6 +87,12 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnNextLevel(InputAction.CallbackContext context)
     {
+        if (instance)
+            GoToNextLevel();
+    }
+
+    private void GoToNextLevel()
+    {
         if (SceneController.IsGameplay(SceneController.currentScene) && !GameManager.paused)
         {
             if (ServiceProvider.TryGetService<PlayerController>(out var playerController))

@@ -28,12 +28,12 @@ public class LevelTrigger : MonoBehaviour
         if (CheatsController.instance.levelTriggerLocation != transform)
             CheatsController.instance.levelTriggerLocation = transform;
 
-        if (SceneController.currentScene != SceneController.GameState.FINAL_LEVEL)
+        if (SceneController.currentScene != SceneController.GameState.FINAL_LEVEL && SceneController.IsGameplay(SceneController.currentScene))
         {
             if (_enemyTotal <= 0)
                 _enemyTotal = _enemyManager.enemies.Count;
 
-            if (_enemyManager)
+            if (_enemyManager && _enemyCounterText)
             {
                 _enemyCounter = _enemyTotal - _enemyManager.enemies.Count;
                 _enemyCounterText.SetText(_enemyCounter + " / " + _enemyTotal);
@@ -41,7 +41,7 @@ public class LevelTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
             OnTrigger();
