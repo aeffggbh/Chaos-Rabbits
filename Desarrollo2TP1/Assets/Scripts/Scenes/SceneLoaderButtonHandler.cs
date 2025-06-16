@@ -18,7 +18,6 @@ public class SceneLoaderButtonHandler : MonoBehaviour
         _button ??= GetComponent<Button>();
     }
 
-
     private void OnEnable()
     {
         _button.onClick.AddListener(HandleClick);

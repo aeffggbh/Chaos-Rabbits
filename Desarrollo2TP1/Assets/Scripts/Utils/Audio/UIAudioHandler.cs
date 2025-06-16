@@ -15,7 +15,7 @@ public class UIAudioHandler : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else
-            Destroy(gameObject, 1f);
+            Destroy(gameObject);
     }
 
     private void Start()

@@ -108,12 +108,13 @@ public class PauseManager : MonoBehaviour
             _checkExitMenu.SetActive(false);
         if (_pauseMenu)
             _pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
         GameManager.SetPause(false);
         paused = false;
-        SceneController.GoToScene(SceneController.GameState.MAINMENU);
+
+        Time.timeScale = 1f;
 
         PlayButtonSound();
+        SceneController.GoToScene(SceneController.GameState.MAINMENU);
     }
 
     public void BackToPause()
