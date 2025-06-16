@@ -212,6 +212,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.CompareTag("Player Resetter"))
+        {
+            
+            return;
+        }
+
         if (other.gameObject.CompareTag("Floor"))
         {
             if (_player)
