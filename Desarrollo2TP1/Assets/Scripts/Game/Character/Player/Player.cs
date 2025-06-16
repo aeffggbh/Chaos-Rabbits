@@ -116,7 +116,7 @@ public class Player : Character
     /// </summary>
     private void Jump()
     {
-        _soundManager.PlaySound(SoundType.JUMP, _audioSource);
+        _soundManager.PlaySound(SFXType.JUMP, _audioSource);
         _grounded = false;
         rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
     }

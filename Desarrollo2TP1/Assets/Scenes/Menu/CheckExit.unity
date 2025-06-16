@@ -464,30 +464,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4876741453578382014, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4876741453578382014, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ExitGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 6930249695120783546, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6930249695120783546, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GoToPreviousScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 6930249695120783546, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SceneControllerWrapper, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7491852358115226511, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
-      propertyPath: m_MatchWidthOrHeight
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8384844236538407676, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -571,10 +547,6 @@ PrefabInstance:
     - target: {fileID: 9218340081244224477, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 9218340081244224477, guid: f3a297adc0efab440b76f327aa59bc6c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

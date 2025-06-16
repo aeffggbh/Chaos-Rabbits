@@ -1,6 +1,10 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
+using UnityEngine.Rendering;
 
-public enum SoundType
+public enum SFXType
 {
     SHOOT,
     EXPLOSION,
@@ -21,9 +25,12 @@ public class SoundManager : ScriptableObject
         ServiceProvider.SetService<SoundManager>(null);
     }
 
-    public void PlaySound(SoundType sound, AudioSource source, float volume = 1f)
+    public void PlaySound(SFXType sound, AudioSource source, float volume = 1f)
     {
         source.PlayOneShot(soundClips[(int)sound], volume);
     }
-
+    internal void PlaySound(AudioClip clip, AudioSource source)
+    {
+        source.PlayOneShot(clip);
+    }
 }

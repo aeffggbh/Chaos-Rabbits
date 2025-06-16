@@ -62,7 +62,7 @@ public class ExplosionManager : MonoBehaviour
 
     private void Explode()
     {
-        _soundManager.PlaySound(SoundType.EXPLOSION, _audioSource);
+        _soundManager.PlaySound(SFXType.EXPLOSION, _audioSource);
         _explosionPrefab.SetActive(true);
         _explosionImminent = false;
         _timeForExplosion = 0;

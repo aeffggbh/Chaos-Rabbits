@@ -4,7 +4,7 @@ public class SoundBoot : MonoBehaviour
 {
     [SerializeField] SoundManager _soundManager;
 
-    private void Start()
+    private void Awake()
     {
         if (_soundManager)
             ServiceProvider.SetService<SoundManager>(_soundManager, true);

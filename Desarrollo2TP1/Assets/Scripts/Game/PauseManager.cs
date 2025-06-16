@@ -148,7 +148,7 @@ public class PauseManager : MonoBehaviour
 
     private void PlayButtonSound()
     {
-        _soundManager.PlaySound(SoundType.CONFIRM, _audioSource);
+        _soundManager.PlaySound(SFXType.CONFIRM, _audioSource);
     }
 
     private void CheckCursor()

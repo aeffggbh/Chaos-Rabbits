@@ -172,7 +172,7 @@ public class Weapon : MonoBehaviour
             return;
 
         if (_soundManager)
-            _soundManager.PlaySound(SoundType.SHOOT, _audioSource);
+            _soundManager.PlaySound(SFXType.SHOOT, _audioSource);
         else
             Debug.LogError("SoundManager does not exist");
 
