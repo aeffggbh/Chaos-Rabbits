@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 [Serializable]
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(WeaponAnimationController))]
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private Bullet _prefabBullet;
@@ -25,6 +26,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject _tip;
     [SerializeField] private TrailRenderer _hitscanTrail;
     [SerializeField] private SoundManager _soundManager;
+    private WeaponAnimationController _weaponAnimation;
     private AudioSource _audioSource;
     private Vector3 _defaultPos;
     private Type _opponentType;
@@ -91,9 +93,7 @@ public class Weapon : MonoBehaviour
                 Debug.LogError(nameof(user) + " is not a weapon user");
 
             if (user.GetType() == typeof(Player))
-            {
                 Hold();
-            }
             else if (user.GetType() == typeof(Enemy))
                 if (_usesHitscan)
                     Debug.LogError("Enemies cannot use hitscan. Deactivate the hitscan option!");
@@ -102,6 +102,10 @@ public class Weapon : MonoBehaviour
 
         }
 
+        _weaponAnimation = GetComponent<WeaponAnimationController>();
+
+        if (!_weaponAnimation)
+            Debug.LogError("WeaponAnimationController is not assigned to " + name);
     }
 
     private void Update()
@@ -195,6 +199,7 @@ public class Weapon : MonoBehaviour
         else
             Debug.LogError("Enemy cannot use hitscan. Deactivate the hitscan option!");
 
+        _weaponAnimation.Shoot();
     }
 
     /// <summary>
@@ -204,6 +209,13 @@ public class Weapon : MonoBehaviour
     {
         if (GameManager.paused)
             return;
+
+        Animate();
+
+        BoxCollider collider = GetComponent<BoxCollider>();
+
+        if (collider)
+            collider.enabled = false;
 
         DontDestroyOnLoad(this);
 
@@ -225,6 +237,13 @@ public class Weapon : MonoBehaviour
         if (GameManager.paused)
             return;
 
+        Deanimate();
+
+        BoxCollider collider = GetComponent<BoxCollider>();
+
+        if (collider)
+            collider.enabled = true;
+
         transform.SetParent(null);
         user = null;
         if (!GetComponent<Rigidbody>())
@@ -236,6 +255,7 @@ public class Weapon : MonoBehaviour
             Debug.LogError(nameof(_tip) + " is null");
 
         gameObject.layer = 0;
+
     }
 
     /// <summary>
@@ -298,5 +318,23 @@ public class Weapon : MonoBehaviour
         Debug.Log(spawn.name + " is now the bullet spawn for " + name);
 
         _bulletSpawn = spawn;
+    }
+
+    public void Animate()
+    {
+        if (!_weaponAnimation)
+            _weaponAnimation = GetComponent<WeaponAnimationController>();
+
+        if (_weaponAnimation)
+            _weaponAnimation.ActivateAnimation();
+    }
+
+    public void Deanimate()
+    {
+        if (!_weaponAnimation)
+            _weaponAnimation = GetComponent<WeaponAnimationController>();
+
+        if (_weaponAnimation)
+            _weaponAnimation.DeactivateAnimation();
     }
 }

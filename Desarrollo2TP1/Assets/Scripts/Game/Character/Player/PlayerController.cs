@@ -98,12 +98,9 @@ public class PlayerController : MonoBehaviour
         else
             _grabAction.action.started += GrabWeapon;
 
-
         if (!_head)
             Debug.LogError("Player has no head!");
 
-        if (!currentWeapon)
-            Debug.LogError("Player has no weapon!");
 
         if (_maxWeaponDistance < 1)
             Debug.LogWarning("Distance to weapon is too low!");
@@ -116,6 +113,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        if (!currentWeapon)
+            Debug.LogError("Player has no weapon!");
+        else
+            currentWeapon.Hold();
+
         _cineMachineBrain = CinemachineManager.instance.GetComponent<CinemachineBrain>();
 
         if (!_cineMachineBrain)
@@ -215,12 +217,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player Resetter"))
-        {
-            
-            return;
-        }
-
         if (other.gameObject.CompareTag("Floor"))
         {
             if (_player)

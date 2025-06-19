@@ -25,7 +25,7 @@ internal class Bullet : MonoBehaviour
     /// <param name="damage"></param>
     public void Fire(Transform wParent, Character whoIsFiring, Weapon weapon)
     {
-        Debug.Log("Firing bullet from " + wParent.name);
+        Debug.Log("Firing bullet from " + wParent.name + " by " + whoIsFiring);
 
         _rb.AddForce(force * Time.fixedDeltaTime * wParent.forward, ForceMode.Impulse);
 

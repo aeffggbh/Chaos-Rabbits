@@ -135,7 +135,8 @@ public abstract class Enemy : Character
                 break;
             case States.ATTACK:
                 Attack();
-                _targetLook = _playerController.transform.position;
+                if (_playerController)
+                    _targetLook = _playerController.transform.position;
                 break;
             default:
                 break;
