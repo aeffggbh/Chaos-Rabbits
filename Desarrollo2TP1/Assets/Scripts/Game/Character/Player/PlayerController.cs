@@ -192,12 +192,16 @@ public class PlayerController : MonoBehaviour
         if (hitDetector.PointingToObject(_cineMachineCamera.transform, 50f, out RaycastHit hitInfo))
             hit = hitInfo;
 
-        for (int i = 0; i < WeaponManager.instance.weapons.Count; i++)
-            if (WeaponManager.instance.weapons[i] != null)
-                if (hit.Value.collider == WeaponManager.instance.weapons[i].GetComponent<Collider>())
-                    return WeaponManager.instance.weapons[i];
+        if (hit != null)
+        {
+            Weapon weapon = hit.Value.collider.gameObject.GetComponent<Weapon>();
+
+            if (weapon)
+                return weapon;
+        }
 
         return null;
+
     }
 
     /// <summary>
