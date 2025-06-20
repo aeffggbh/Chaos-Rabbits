@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     {
         _player = GetComponent<Player>();
 
-        _holdingWeapon = true;
+        _holdingWeapon = false;
 
         _moveInput = new Vector2(0, 0);
 
