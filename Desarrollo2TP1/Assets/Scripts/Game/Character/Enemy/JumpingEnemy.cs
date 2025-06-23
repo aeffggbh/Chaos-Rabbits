@@ -60,14 +60,12 @@ public class JumpingEnemy : Enemy
 
     }
 
-    //TODO: Pasar funcion a ray manager?
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         if (Time.time > _timer + _rate)
         {
             _timer = Time.time;
-            Vector3 origin = transform.position + Vector3.up * 0.1f;
-            return Physics.Raycast(origin, Vector3.down, _groundCheckDistance);
+            return RayManager.IsGrounded(transform, _groundCheckDistance);
         }
         return false;
     }

@@ -3,18 +3,18 @@
 /// <summary>
 /// A utility class that allows a GameObject to smoothly look at a target position.
 /// </summary>
-public class LookAtTarget : MonoBehaviour
+public static class LookAtTarget
 {
-    public float speed = 2f;
+    public static float speed = 2f;
 
-    public void Look(Vector3 target)
+    public static void Look(Vector3 target, Transform origin)
     {
-        Quaternion initialRotation = transform.rotation;
-        target.y = transform.position.y; 
-        Quaternion lookRotation = Quaternion.LookRotation(target - transform.position);
+        Quaternion initialRotation = origin.rotation;
+        target.y = origin.position.y; 
+        Quaternion lookRotation = Quaternion.LookRotation(target - origin.position);
         float time = Time.deltaTime * speed;
 
-        transform.rotation = Quaternion.Slerp(initialRotation, lookRotation, time);
+        origin.rotation = Quaternion.Slerp(initialRotation, lookRotation, time);
 
         return;
     }

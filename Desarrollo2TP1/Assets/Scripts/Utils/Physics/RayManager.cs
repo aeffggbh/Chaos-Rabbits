@@ -4,9 +4,15 @@ using UnityEngine;
 /// <summary>
 /// Manages raycasting operations in the game.
 /// </summary>
-public class RayManager
+public static class RayManager
 {
-    public bool PointingToObject(Transform start, float maxDistance, out RaycastHit hitInfo)
+    public static bool IsGrounded(Transform transform, float groundDistance)
+    {
+        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        return Physics.Raycast(origin, Vector3.down, groundDistance);
+    }
+
+    public static bool PointingToObject(Transform start, float maxDistance, out RaycastHit hitInfo)
     {
         Ray ray = new(start.position, start.forward);
 

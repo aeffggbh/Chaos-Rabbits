@@ -33,7 +33,6 @@ public abstract class Enemy : Character
     protected Vector3 _counterMovement;
     protected AnimationController animationController;
     protected PlayerController _playerController;
-    protected LookAtTarget _lookAtTrarget;
     protected States currentState = States.PATROL;
     protected bool isExplodingEnemy;
 
@@ -47,8 +46,6 @@ public abstract class Enemy : Character
 
         if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
             _manager = enemyManager;
-
-        _lookAtTrarget = gameObject.AddComponent<LookAtTarget>();
 
         _rb = gameObject.GetComponent<Rigidbody>();
 
@@ -136,7 +133,7 @@ public abstract class Enemy : Character
         }
 
         if (!isExplodingEnemy)
-            _lookAtTrarget.Look(_targetLook);
+            LookAtTarget.Look(_targetLook, transform);
     }
 
     /// <summary>

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 /// <summary>
 /// Service locator
 /// </summary>
-/// //TODO: agregar a la camara
 public static class ServiceProvider
 {
     private static readonly Dictionary<Type, object> Services = new();

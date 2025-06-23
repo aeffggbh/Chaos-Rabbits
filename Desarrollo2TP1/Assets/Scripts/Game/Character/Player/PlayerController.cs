@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 //TODO: ponerle summary a todo lo que no lo tiene
 //TODO: NO PUEDEN HABER COMENTARIOS QUE NO SEAN SUMMARIES.
 // NO PUEDE HABER NADA EN ESPAÑOL
-// No pueden haber errores de ortografìa (ver si hay configs para eso)
+// No pueden haber errores de ortografia (ver si hay configs para eso)
 // Ponerle un asset a la bala... No la pelotita :3
 // saca los find
 // 7/7 se entrega uwu
@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
         if (_grabAction)
             _grabAction.action.started -= GrabWeapon;
 
-        //TODO: do this every time you set a service
         ServiceProvider.SetService<PlayerController>(null);
     }
 
@@ -124,8 +123,8 @@ public class PlayerController : MonoBehaviour
 
         _cineMachineBrain = CinemachineManager.instance.GetComponent<CinemachineBrain>();
 
-        if (!_cineMachineBrain)
-            _cineMachineBrain = GameObject.Find("CinemachineBrain")?.GetComponent<CinemachineBrain>();
+        //if (!_cineMachineBrain)
+        //    _cineMachineBrain = GameObject.Find("CinemachineBrain")?.GetComponent<CinemachineBrain>();
 
         if (_cineMachineBrain)
             _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
@@ -188,10 +187,9 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private Weapon GetPointedWeapon()
     {
-        RayManager hitDetector = new();
         RaycastHit? hit = null; // Use a nullable RaycastHit
 
-        if (hitDetector.PointingToObject(_cineMachineCamera.transform, 50f, out RaycastHit hitInfo))
+        if (RayManager.PointingToObject(_cineMachineCamera.transform, 50f, out RaycastHit hitInfo))
             hit = hitInfo;
 
         if (hit != null)

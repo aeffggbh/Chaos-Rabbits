@@ -21,6 +21,11 @@ public class EnemyManager : MonoBehaviour
         ServiceProvider.SetService<EnemyManager>(this, true);
     }
 
+    private void OnDestroy()
+    {
+        ServiceProvider.SetService<EnemyManager>(null);
+    }
+
     private void Start()
     {
         if (enemies.Count == 0)

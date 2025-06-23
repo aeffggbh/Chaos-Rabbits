@@ -229,12 +229,11 @@ public class Weapon : MonoBehaviour
         if (GameManager.paused)
             return;
 
-        RayManager hitDetector = new();
         RaycastHit? hit = null;
 
         float hitDistance = 100f;
 
-        if (hitDetector.PointingToObject(_weaponParent, hitDistance, out RaycastHit hitInfo))
+        if (RayManager.PointingToObject(_weaponParent, hitDistance, out RaycastHit hitInfo))
         {
             hit = hitInfo;
 
