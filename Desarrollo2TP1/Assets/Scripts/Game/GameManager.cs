@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Manages overal gameplay variables
+/// Manages overal gameplay variables and replayability
 /// </summary>
 public static class GameManager
 {
-    //responsible for replayability and general game variables
     public static bool initialized = false;
     public static PlayerController savedPlayer;
     public static Weapon defaultWeapon;

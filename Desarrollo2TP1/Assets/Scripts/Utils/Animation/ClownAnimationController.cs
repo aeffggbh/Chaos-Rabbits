@@ -16,6 +16,7 @@ public class ClownAnimationController : AnimationController
             animator.SetBool("isWalking", false);
     }
 
+    //todo: USE THIS
     public void Death()
     {
         if (animator != null)

@@ -15,7 +15,7 @@ public class SceneLoaderButtonHandler : MonoBehaviour
 
     private void Awake()
     {
-        _button ??= GetComponent<Button>();
+        _button = GetComponent<Button>();
     }
 
     private void OnEnable()

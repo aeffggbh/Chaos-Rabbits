@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//TODO: usar using para las estaticas
+
 /// <summary>
 /// Controller for managing scene transitions and game states.
 /// </summary>
@@ -30,7 +32,6 @@ public static class SceneController
     }
 
     public static GameState currentScene = GameState.NONE;
-    //so I can go back to the previous scene if I put "no" on checkexit
     public static GameState previousScene = GameState.NONE;
     public static GameState lastGameplayScene = GameState.NONE;
 
@@ -88,10 +89,19 @@ public static class SceneController
     {
         GameStateType type = GetStateType(targetScene);
 
-        if (type == GameStateType.SPECIFIC)
-            CheckSpecificScene(targetScene);
-        else
-            CheckUtilScene(targetScene);
+        switch (type)
+        {
+            case GameStateType.SPECIFIC:
+                CheckSpecificScene(targetScene);
+                break;
+            case GameStateType.UTIL:
+                CheckUtilScene(targetScene);
+                break;
+            case GameStateType.NONE:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
@@ -115,6 +125,7 @@ public static class SceneController
             previousScene = GameState.MAINMENU;
             Debug.LogWarning("No previous scene, going to main menu");
         }
+
         GoToScene(previousScene);
     }
 

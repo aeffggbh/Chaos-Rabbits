@@ -58,7 +58,6 @@ public class LevelTrigger : MonoBehaviour
         if (SceneController.currentScene == SceneController.GameState.FINAL_LEVEL)
             SceneController.GoToScene(SceneController.GameState.GAMEWIN);
         else
-            //check if the enemies are all dead.
             if (_enemyManager.enemies.Count == 0)
             SceneController.GoToScene(SceneController.currentScene + 1);
     }

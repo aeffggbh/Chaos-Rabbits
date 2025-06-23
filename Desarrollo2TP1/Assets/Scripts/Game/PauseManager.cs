@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using static SceneController;
 
 /// <summary>
 /// Manages the pause menu

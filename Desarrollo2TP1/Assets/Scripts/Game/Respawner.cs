@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Respawner : MonoBehaviour
 {
     [SerializeField] public Transform respawnPos;
+    //TODO: move the object list to the manager, otherwise I have to assign the objects to each wall xd
     [SerializeField] private List<GameObject> _objectsToRespawn;
 
     private void OnCollisionEnter(Collision collision)

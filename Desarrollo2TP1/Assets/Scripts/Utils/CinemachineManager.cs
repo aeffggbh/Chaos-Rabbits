@@ -1,7 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-//TODO: en vez de un singleton añadir a serviceprovider
 public class CinemachineManager : MonoBehaviour
 {
     public static CinemachineManager instance;

@@ -1,8 +1,4 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
-using UnityEngine.Rendering;
 
 public enum SFXType
 {
@@ -28,9 +24,5 @@ public class SoundManager : ScriptableObject
     public void PlaySound(SFXType sound, AudioSource source, float volume = 1f)
     {
         source.PlayOneShot(soundClips[(int)sound], volume);
-    }
-    internal void PlaySound(AudioClip clip, AudioSource source)
-    {
-        source.PlayOneShot(clip);
     }
 }

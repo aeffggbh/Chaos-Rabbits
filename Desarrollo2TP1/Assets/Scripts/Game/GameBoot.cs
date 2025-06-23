@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 // This class is responsible for initializing the game and setting up the GameManager at the start of the game
 public class GameBoot : MonoBehaviour
 {
-    [SerializeField] private Weapon _defaultWeapon;
     [SerializeField] private InputActionReference _pauseButton;
     private PlayerController _playerController;
 
@@ -29,13 +28,9 @@ public class GameBoot : MonoBehaviour
         if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
             _playerController = playerController;
 
-        if (!_defaultWeapon)
-            _defaultWeapon = _playerController.currentWeapon;
-
         if (!_pauseButton)
             Debug.LogError(nameof(_pauseButton) + " is null");
 
-        GameManager.defaultWeapon = _defaultWeapon;
         GameManager.savedPlayer = _playerController;
         GameManager.pauseButton = _pauseButton;
 
