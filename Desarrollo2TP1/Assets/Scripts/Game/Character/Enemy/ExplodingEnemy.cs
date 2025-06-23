@@ -32,7 +32,8 @@ public class ExplodingEnemy : Enemy
             _exploded = true;
         }
     }
-
+    
+    //TODO: sacar metodos vacios
     protected override void ActivateChase()
     { }
 

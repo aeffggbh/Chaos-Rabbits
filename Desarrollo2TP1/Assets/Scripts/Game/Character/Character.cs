@@ -51,12 +51,7 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Handles the death of the character.
     /// </summary>
-    public abstract void Die();
-
-    /// <summary>
-    /// Deletes the character object from the game.
-    /// </summary>
-    public void DeleteCharacterObject()
+    public virtual void Die()
     {
         gameObject.SetActive(false);
         Destroy(gameObject);

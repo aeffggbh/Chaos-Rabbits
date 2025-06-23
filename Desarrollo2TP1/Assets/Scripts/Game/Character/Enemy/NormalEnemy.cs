@@ -69,13 +69,8 @@ public class NormalEnemy : Enemy
             Debug.LogError("AnimationController is null for " + gameObject.name);
     }
 
+    //TODO: METODO VACIOOOOOOOOOO
     protected override void ActivateAttack()
     {
-    }
-
-    public override void Die()
-    {
-        base.Die();
-        DeleteCharacterObject();
     }
 }

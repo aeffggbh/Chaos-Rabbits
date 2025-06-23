@@ -22,7 +22,6 @@ public class JumpingEnemy : Enemy
         _jumpForce = _playerController.GetJumpForce() / 2;
         _currentJumpForce = _jumpForce;
         _defaultMoveSpeed = _moveSpeed;
-        //no conviene que sea tan rapido
         _patrolSpeed /= 2;
         _chasingSpeed /= 2;
     }
@@ -38,7 +37,7 @@ public class JumpingEnemy : Enemy
         if (_timeSinceAttacked > _manager.attackTimer)
         {
             _timeSinceAttacked = 0;
-            JumpAtPlayer();
+            BoostMovement();
         }
     }
 
@@ -61,6 +60,7 @@ public class JumpingEnemy : Enemy
 
     }
 
+    //TODO: Pasar funcion a ray manager?
     private bool IsGrounded()
     {
         if (Time.time > _timer + _rate)
@@ -82,16 +82,10 @@ public class JumpingEnemy : Enemy
         _moveSpeed = _chasingSpeed;
     }
 
-    private void JumpAtPlayer()
+    private void BoostMovement()
     {
         _currentJumpForce = _jumpForce * _jumpForceMultiplier;
         _moveSpeed = _defaultMoveSpeed * _speedMultiplier;
-    }
-
-    public override void Die()
-    {
-        base.Die();
-        DeleteCharacterObject();
     }
 
     private void ResetJumpForce()

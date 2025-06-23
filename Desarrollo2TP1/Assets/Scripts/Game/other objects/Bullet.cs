@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 internal class Bullet : MonoBehaviour
 {
-    [SerializeField] private float force;
+    [SerializeField] private float _force;
     [SerializeField] private Rigidbody _rb;
     private Character _whoIsFiring;
     private Weapon _originWeapon;
@@ -27,7 +27,7 @@ internal class Bullet : MonoBehaviour
     {
         Debug.Log("Firing bullet from " + wParent.name + " by " + whoIsFiring);
 
-        _rb.AddForce(force * Time.fixedDeltaTime * wParent.forward, ForceMode.Impulse);
+        _rb.AddForce(_force * Time.fixedDeltaTime * wParent.forward, ForceMode.Impulse);
 
         _whoIsFiring = whoIsFiring;
 

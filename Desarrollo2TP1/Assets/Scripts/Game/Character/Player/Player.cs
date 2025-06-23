@@ -7,7 +7,7 @@ using UnityEngine;
 public class Player : Character
 {
     private ForceRequest _forceRequest;
-    private Rigidbody rb;
+    private Rigidbody _rb;
     private bool _isJumping;
     private float _jumpForce;
     private bool _grounded;
@@ -26,7 +26,7 @@ public class Player : Character
         _isJumping = false;
         _grounded = true;
 
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     public void RequestSound(SoundManager soundManager, AudioSource audioSource)
@@ -78,36 +78,39 @@ public class Player : Character
     {
         base.FixedUpdate();
 
-        //MOVEMENT
+        HandleMovement();
+
+        HandleJump();
+    }
+
+    private void HandleMovement()
+    {
+        if (_forceRequest != null)
         {
-            if (_forceRequest != null)
+            if (_forceRequest.direction != _calculatedMovement)
+                _forceRequest.direction = _calculatedMovement;
+
+            if (_forceRequest.forceMode == ForceMode.Impulse)
             {
-                if (_forceRequest.direction != _calculatedMovement)
-                    _forceRequest.direction = _calculatedMovement;
+                _forceRequest._counterMovement = new Vector3
+                    (-_rb.linearVelocity.x * _forceRequest._counterMovementForce,
+                    0,
+                    -_rb.linearVelocity.z * _forceRequest._counterMovementForce);
 
-                if (_forceRequest.forceMode == ForceMode.Impulse)
-                {
-                    _forceRequest._counterMovement = new Vector3
-                        (-rb.linearVelocity.x * _forceRequest._counterMovementForce,
-                        0,
-                        -rb.linearVelocity.z * _forceRequest._counterMovementForce);
-
-                    rb.AddForce((_forceRequest.direction * _forceRequest.speed + _forceRequest._counterMovement) * Time.fixedDeltaTime,
-                                ForceMode.Impulse);
-                }
+                _rb.AddForce((_forceRequest.direction * _forceRequest.speed + _forceRequest._counterMovement) * Time.fixedDeltaTime,
+                            ForceMode.Impulse);
             }
-
         }
+    }
 
-        //JUMPING
+    private void HandleJump()
+    {
+        if (_isJumping)
         {
-            if (_isJumping)
-            {
-                if (_grounded)
-                    Jump();
+            if (_grounded)
+                Jump();
 
-                _isJumping = false;
-            }
+            _isJumping = false;
         }
     }
 
@@ -118,7 +121,7 @@ public class Player : Character
     {
         _soundManager.PlaySound(SFXType.JUMP, _audioSource);
         _grounded = false;
-        rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+        _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
     }
 
 

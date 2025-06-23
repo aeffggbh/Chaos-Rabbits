@@ -16,13 +16,10 @@ public abstract class Enemy : Character
     }
 
     public EnemyManager _manager;
-    public BoxCollider _collider;
-    protected Transform _head;
     protected Rigidbody _rb;
     protected Vector3 _targetWalk;
     protected Vector3 _targetLook;
     protected Vector3 _moveDir;
-    protected bool _pausedPatrol;
     protected float _moveSpeed;
     protected float _attackRange;
     protected float _timeSinceAttacked;
@@ -51,8 +48,6 @@ public abstract class Enemy : Character
         if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
             _manager = enemyManager;
 
-        _collider = gameObject.GetComponent<BoxCollider>();
-        _head = transform.Find("head"); ;
         _lookAtTrarget = gameObject.AddComponent<LookAtTarget>();
 
         _rb = gameObject.GetComponent<Rigidbody>();
@@ -69,8 +64,6 @@ public abstract class Enemy : Character
         else
             Debug.LogError(nameof(EnemyManager) + " is null");
 
-        _pausedPatrol = false;
-
         _idleTimer = _patrolTimer;
         _idleCurrentTime = 0f;
 
@@ -80,7 +73,7 @@ public abstract class Enemy : Character
 
         ActivatePatrol();
 
-        isExplodingEnemy = this.GetComponent<ExplodingEnemy>() != null;
+        isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
 
         if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
             _playerController = playerController;
@@ -237,12 +230,6 @@ public abstract class Enemy : Character
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + _moveDir * 2);
-    }
-
     /// <summary>
     /// Activates the idle state of the enemy, where it waits before patrolling again.
     /// </summary>
@@ -294,8 +281,8 @@ public abstract class Enemy : Character
         Debug.Log("DIE");
 
         _manager.enemies.Remove(this);
-        //gameObject.SetActive(false);
-        //Destroy(gameObject);
+
+        base.Die();
     }
 
     public override void TakeDamage(float damage)

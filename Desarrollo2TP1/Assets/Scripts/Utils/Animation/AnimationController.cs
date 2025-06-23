@@ -21,4 +21,18 @@ public abstract class AnimationController : MonoBehaviour
             Debug.LogError("Animator component not found on " + gameObject.name);
     }
 
+    public void ActivateAnimation()
+    {
+        CheckAnimator();
+
+        animator.enabled = true;
+    }
+
+    public void DeactivateAnimation()
+    {
+        CheckAnimator();
+
+        animator.enabled = false;
+    }
+
 }

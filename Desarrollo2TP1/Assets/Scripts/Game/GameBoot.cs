@@ -11,10 +11,10 @@ public class GameBoot : MonoBehaviour
     [SerializeField] private InputActionReference _pauseButton;
     private PlayerController _playerController;
 
-    void Start()
+    private void Start()
     {
         if (!GameManager.initialized)
-            InitializeGame();
+            InitializeGameManager();
         else
             Debug.Log("Not resetting game");
     }
@@ -22,14 +22,12 @@ public class GameBoot : MonoBehaviour
     /// <summary>
     /// Initializes the game by setting up the GameManager
     /// </summary>
-    private void InitializeGame()
+    private void InitializeGameManager()
     {
         Debug.Log("Resetting game");
 
         if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
             _playerController = playerController;
-
-
 
         if (!_defaultWeapon)
             _defaultWeapon = _playerController.currentWeapon;

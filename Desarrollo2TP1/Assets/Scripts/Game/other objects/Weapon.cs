@@ -29,7 +29,6 @@ public class Weapon : MonoBehaviour
     private WeaponAnimationController _weaponAnimation;
     private AudioSource _audioSource;
     private Vector3 _defaultPos;
-    private Type _opponentType;
 
     private void OnDestroy()
     {
@@ -48,15 +47,12 @@ public class Weapon : MonoBehaviour
             Drop();
         }
     }
-
     private void Start()
     {
         if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
             _soundManager = soundManager;
 
         _audioSource = GetComponent<AudioSource>();
-
-        //_bulletSpawner = BulletSpawner.instance;
 
         if (!_bulletSpawn)
         {
@@ -76,14 +72,12 @@ public class Weapon : MonoBehaviour
         }
 
         if (!_shootAction)
-            //it's a warning becausw we don't care if it's an enemy
             Debug.LogWarning(nameof(_shootAction) + " is null");
         else
             _shootAction.action.started += OnShoot;
 
         if (user == null)
         {
-            //it's a warning because it also displays with dropped weapons
             Debug.LogWarning(nameof(user) + " is null");
             Drop();
         }
@@ -97,9 +91,6 @@ public class Weapon : MonoBehaviour
             else if (user.GetType() == typeof(Enemy))
                 if (_usesHitscan)
                     Debug.LogError("Enemies cannot use hitscan. Deactivate the hitscan option!");
-
-            SetOpponent();
-
         }
 
         _weaponAnimation = GetComponent<WeaponAnimationController>();
@@ -129,30 +120,6 @@ public class Weapon : MonoBehaviour
         SceneController.CheckCurrentScene();
         if (!user && (int)SceneController.currentScene != (int)SceneController.GameState.LEVEL1)
             Destroy(gameObject);
-    }
-
-    /// <summary>
-    /// Sets the opponent type based on the user type.
-    /// </summary>
-    private void SetOpponent()
-    {
-        if (user.GetType() == typeof(Enemy))
-            _opponentType = typeof(Player);
-        else
-            _opponentType = typeof(Enemy);
-    }
-
-    /// <summary>
-    /// Resets the position of the weapon to a default position relative to the weapon parent.
-    /// </summary>
-    private void ResetPos()
-    {
-        _defaultPos = _weaponParent.transform.position;
-        _defaultPos += _weaponParent.right;
-        _defaultPos += -_weaponParent.up * 1.2f;
-        _defaultPos += _weaponParent.forward * 2;
-        transform.position = _defaultPos;
-        transform.localScale = Vector3.one;
     }
 
     /// <summary>
@@ -219,7 +186,6 @@ public class Weapon : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
-        ResetPos();
         transform.eulerAngles = _weaponParent.eulerAngles;
 
         transform.SetParent(_weaponParent);
@@ -309,10 +275,9 @@ public class Weapon : MonoBehaviour
             user = character as Player;
         else if (characterType == typeof(Enemy))
             user = character as Enemy;
-
-        SetOpponent();
     }
 
+    //TODO: fix the whole bullet spawn stuff
     public void SetBulletSpawn(GameObject spawn)
     {
         Debug.Log(spawn.name + " is now the bullet spawn for " + name);
@@ -324,8 +289,7 @@ public class Weapon : MonoBehaviour
     {
         if (!_weaponAnimation)
             _weaponAnimation = GetComponent<WeaponAnimationController>();
-
-        if (_weaponAnimation)
+        else
             _weaponAnimation.ActivateAnimation();
     }
 
@@ -333,8 +297,7 @@ public class Weapon : MonoBehaviour
     {
         if (!_weaponAnimation)
             _weaponAnimation = GetComponent<WeaponAnimationController>();
-
-        if (_weaponAnimation)
+        else
             _weaponAnimation.DeactivateAnimation();
     }
 }

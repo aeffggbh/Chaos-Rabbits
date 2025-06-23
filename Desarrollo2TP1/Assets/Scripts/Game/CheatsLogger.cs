@@ -7,7 +7,7 @@ public class CheatsLogger : MonoBehaviour
     [SerializeField] private float _timeToBanish;
     [SerializeField] private float _currentTime;
     private string _cheatText;
-    private bool _isSomethingShowing;
+    private bool _isTextShowing;
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class CheatsLogger : MonoBehaviour
 
     private void Update()
     {
-        if (_isSomethingShowing && _currentTime < _timeToBanish)
+        if (_isTextShowing && _currentTime < _timeToBanish)
         {
             _currentTime += Time.deltaTime;
             _cheatLogText.text = _cheatText;
@@ -34,7 +34,7 @@ public class CheatsLogger : MonoBehaviour
             {
                 _currentTime = 0f;
                 _cheatLogText.text = "";
-                _isSomethingShowing = false;
+                _isTextShowing = false;
             }
         }
     }
@@ -42,7 +42,7 @@ public class CheatsLogger : MonoBehaviour
     public void RequestText(string whatActive)
     {
         _cheatText = whatActive;
-        _isSomethingShowing = true;
+        _isTextShowing = true;
     }
 
     public void RequestText(string whatActive, bool toggle)
@@ -54,6 +54,6 @@ public class CheatsLogger : MonoBehaviour
         else
             _cheatText += " OFF!";
 
-        _isSomethingShowing = true;
+        _isTextShowing = true;
     }
 }
