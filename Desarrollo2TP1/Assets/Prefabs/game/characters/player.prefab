@@ -253,7 +253,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3479683220790735162}
-  - component: {fileID: 4376057859275766683}
   - component: {fileID: 2216777404909310643}
   m_Layer: 0
   m_Name: bulletSpawn
@@ -277,18 +276,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8536552224511825266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4376057859275766683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799241602799130403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51155627a021c7545b9a12c0e21fcd6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &2216777404909310643
 AudioSource:
   m_ObjectHideFlags: 0
@@ -734,7 +721,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6342060266662945706}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0034988888, y: 0.42292142, z: -0.0016329987, w: 0.90615815}
+  m_LocalRotation: {x: 0.28198773, y: 0.0017440998, z: -0.0005126187, w: 0.95941633}
   m_LocalPosition: {x: 0, y: 3.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -814,7 +801,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 0
   PanAxis:
-    Value: 50.038727
+    Value: 0.20831299
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -824,7 +811,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: 0.44246265
+    Value: 32.7578
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
@@ -1021,7 +1008,6 @@ MonoBehaviour:
   _dropAction: {fileID: -6697303918269174070, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _grabAction: {fileID: -542590151754964402, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _cineMachineBrain: {fileID: 900060209327047562, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
-  _head: {fileID: 5590687065756655424}
   _bulletSpawn: {fileID: 1799241602799130403}
   _walkSpeed: 40
   _runSpeed: 60
@@ -1183,9 +1169,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8402522496641810630}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.900001, y: -1.35, z: 3.600002}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.01655027, y: 0.17251232, z: 0.09405322, w: 0.980367}
+  m_LocalPosition: {x: 2.77, y: -1.4, z: 2.27}
+  m_LocalScale: {x: 1.22, y: 1.22, z: 1.22}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8536552224511825266}

@@ -18,7 +18,7 @@ public abstract class AnimationController : MonoBehaviour
         if (animator == null)
             animator = GetComponent<Animator>();
         if (animator == null)
-            Debug.LogError("Animator component not found on " + gameObject.name);
+            Debug.LogWarning("Animator component not found on " + gameObject.name);
     }
 
     public void ActivateAnimation()

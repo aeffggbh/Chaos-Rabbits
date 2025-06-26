@@ -18,14 +18,13 @@ public class Weapon : MonoBehaviour
     [Header("Hitscan")]
     [SerializeField] private bool _usesHitscan;
     [SerializeField] private bool _debugUser;
-    [SerializeField] private int weaponLayerIndex;
-    [SerializeField] private GameObject _bulletSpawn;
+    [SerializeField] private int _weaponLayerIndex;
+    [SerializeField] private GameObject _centerSpawn;
     [SerializeField] private GameObject _tip;
     [SerializeField] private TrailRenderer _hitscanTrail;
     [SerializeField] private SoundManager _soundManager;
     private WeaponAnimationController _weaponAnimation;
     private AudioSource _audioSource;
-    private Vector3 _defaultPos;
 
     private void OnDestroy()
     {
@@ -51,22 +50,8 @@ public class Weapon : MonoBehaviour
 
         _audioSource = GetComponent<AudioSource>();
 
-        if (!_bulletSpawn)
-        {
-            if (_tip)
-            {
-                _bulletSpawn = _tip;
-                Debug.LogWarning("No bullet spawn. Assigned the tip as the spawn");
-            }
-            else
-                Debug.LogError(nameof(_bulletSpawn) + " is null.");
-        }
-
-        if (_bulletSpawn && !_tip)
-        {
-            _tip = _bulletSpawn;
-            Debug.LogWarning("No tip. Assigned the bullet spawn as the tip");
-        }
+        if (!_tip)
+            Debug.LogError(nameof(_tip) + " is null.");
 
         if (!_shootAction)
             Debug.LogWarning(nameof(_shootAction) + " is null");
@@ -94,6 +79,10 @@ public class Weapon : MonoBehaviour
 
         if (!_weaponAnimation)
             Debug.LogError("WeaponAnimationController is not assigned to " + name);
+
+        if (!_centerSpawn)
+            if (user.GetType() == typeof(Player))
+                Debug.LogError(nameof(_centerSpawn) + " is null.");
     }
 
     private void Update()
@@ -146,18 +135,18 @@ public class Weapon : MonoBehaviour
 
         if (!_usesHitscan)
         {
+            GameObject spawn = _centerSpawn ? _centerSpawn : _tip;
+
             var newBullet = Instantiate(_prefabBullet,
-                                        _bulletSpawn.transform.position,
-                                        _bulletSpawn.transform.rotation);
+                                        spawn.transform.position,
+                                        spawn.transform.rotation);
             if (newBullet)
-                newBullet.Fire(_bulletSpawn.transform, user, this);
+                newBullet.Fire(spawn.transform, user, this);
             else
                 Debug.LogError("Bullet prefab is null or not set correctly.");
         }
         else if (user.GetType() != typeof(Enemy))
         {
-            Debug.Log("hitscan");
-
             HitscanShot();
         }
         else
@@ -189,7 +178,7 @@ public class Weapon : MonoBehaviour
         if (GetComponent<Rigidbody>())
             Destroy(GetComponent<Rigidbody>());
 
-        gameObject.layer = weaponLayerIndex;
+        gameObject.layer = _weaponLayerIndex;
     }
 
     /// <summary>
@@ -213,7 +202,7 @@ public class Weapon : MonoBehaviour
             gameObject.AddComponent<Rigidbody>();
 
         if (_tip)
-            _bulletSpawn = _tip;
+            _centerSpawn = _tip;
         else
             Debug.LogError(nameof(_tip) + " is null");
 
@@ -233,7 +222,7 @@ public class Weapon : MonoBehaviour
 
         float hitDistance = 100f;
 
-        if (RayManager.PointingToObject(_weaponParent, hitDistance, out RaycastHit hitInfo))
+        if (RayManager.PointingToObject(_centerSpawn.transform, hitDistance, out RaycastHit hitInfo))
         {
             hit = hitInfo;
 
@@ -244,10 +233,12 @@ public class Weapon : MonoBehaviour
 
             float force = hitDistance * 2f;
 
-            rb.AddForce(_weaponParent.transform.forward * force, ForceMode.Impulse);
+            rb.AddForce(_centerSpawn.transform.forward * force, ForceMode.Impulse);
 
             Destroy(trail.gameObject, hitDistance / 500f);
         }
+
+        Debug.Log(hit.Value.collider.gameObject.name + " hit by " + name + " at distance: " + hitDistance);
 
         if (hit != null)
         {
@@ -278,7 +269,7 @@ public class Weapon : MonoBehaviour
     {
         Debug.Log(spawn.name + " is now the bullet spawn for " + name);
 
-        _bulletSpawn = spawn;
+        _centerSpawn = spawn;
     }
 
     public void Animate()
