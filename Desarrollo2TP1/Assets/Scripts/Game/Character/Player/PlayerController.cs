@@ -16,6 +16,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(PlayerAnimationController))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -45,10 +46,12 @@ public class PlayerController : MonoBehaviour
     private bool _holdingWeapon;
     private AudioSource _audioSource;
     private SoundManager _soundManager;
+    private PlayerAnimationController _playerAnimation;
 
     private void Awake()
     {
         ServiceProvider.SetService<PlayerController>(this, true);
+        _playerAnimation = GetComponent<PlayerAnimationController>();
     }
 
     private void OnDestroy()
@@ -123,9 +126,6 @@ public class PlayerController : MonoBehaviour
 
         _cineMachineBrain = CinemachineManager.instance.GetComponent<CinemachineBrain>();
 
-        //if (!_cineMachineBrain)
-        //    _cineMachineBrain = GameObject.Find("CinemachineBrain")?.GetComponent<CinemachineBrain>();
-
         if (_cineMachineBrain)
             _cineMachineCamera = _cineMachineBrain.GetComponent<Camera>();
         else
@@ -163,6 +163,7 @@ public class PlayerController : MonoBehaviour
                 currentWeapon.SetBulletSpawn(_bulletSpawn);
                 currentWeapon.user = _player;
                 currentWeapon.Hold();
+                _playerAnimation.GrabWeapon();
             }
         }
     }
@@ -178,6 +179,7 @@ public class PlayerController : MonoBehaviour
             {
                 _holdingWeapon = false;
                 currentWeapon.Drop();
+                _playerAnimation.DropWeapon();
             }
     }
 
@@ -297,6 +299,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     private void OnCancelMove(InputAction.CallbackContext context)
     {
+        _playerAnimation.StopWalking();
+
         _moveInput = context.ReadValue<Vector2>();
         if (_forceRequest != null)
             _forceRequest.direction = _moveInput;
@@ -316,6 +320,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     private void OnMove(InputAction.CallbackContext context)
     {
+        _playerAnimation.Walk();
+
         _moveInput = context.ReadValue<Vector2>();
 
         if (CheatsController.instance.IsFlashMode())
@@ -328,7 +334,7 @@ public class PlayerController : MonoBehaviour
             direction = _3DMovement,
             speed = _currentSpeed,
             acceleration = _force,
-            _counterMovementForce = _counterMovementForce,
+            counterMovementForce = _counterMovementForce,
             forceMode = ForceMode.Impulse
         };
 

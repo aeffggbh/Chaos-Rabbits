@@ -93,9 +93,9 @@ public class Player : Character
             if (_forceRequest.forceMode == ForceMode.Impulse)
             {
                 _forceRequest._counterMovement = new Vector3
-                    (-_rb.linearVelocity.x * _forceRequest._counterMovementForce,
+                    (-_rb.linearVelocity.x * _forceRequest.counterMovementForce,
                     0,
-                    -_rb.linearVelocity.z * _forceRequest._counterMovementForce);
+                    -_rb.linearVelocity.z * _forceRequest.counterMovementForce);
 
                 _rb.AddForce((_forceRequest.direction * _forceRequest.speed + _forceRequest._counterMovement) * Time.fixedDeltaTime,
                             ForceMode.Impulse);
