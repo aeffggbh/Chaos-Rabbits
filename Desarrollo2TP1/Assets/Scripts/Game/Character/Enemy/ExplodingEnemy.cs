@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Represents an enemy that explodes when it gets close to the player.
 /// </summary>
-public class ExplodingEnemy : Enemy
+public partial class ExplodingEnemy : Enemy, IAttackBehavior
 {
     private AngryAnimationController _angryAnimation;
     private ExplosionManager _explosionManager;
@@ -32,28 +32,16 @@ public class ExplodingEnemy : Enemy
             _exploded = true;
         }
     }
-    
-    //TODO: sacar metodos vacios
-    protected override void ActivateChase()
-    { }
 
-    protected override void ActivateIdle()
-    { }
-
-    protected override void Attack()
-    { }
-
-    protected override void ActivateAttack()
+    public void ActivateAttack()
     {
         _angryAnimation.Attack();
         _explosionManager.StartExplotion();
     }
 
-    protected override void Move()
-    { }
-
-    public override void Die()
+    //TODO: also this... I cant do anything about it!!!
+    public void Attack()
     {
-        base.Die();
+        Debug.Log(nameof(ExplodingEnemy) + " is about to EXPLODE");
     }
 }

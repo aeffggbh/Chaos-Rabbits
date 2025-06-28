@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an enemy that jumps towards the player.
 /// </summary>
-public class JumpingEnemy : Enemy
+public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBehavior, IIdleBehavior
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _jumpForceMultiplier = 3.5f;
@@ -14,7 +14,6 @@ public class JumpingEnemy : Enemy
     private float _timer;
     private float _rate = 0.5f;
     
-
     protected override void Start()
     {
         base.Start();
@@ -27,12 +26,12 @@ public class JumpingEnemy : Enemy
     }
 
 
-    protected override void ActivateChase()
+    public void ActivateChase()
     {
         _moveSpeed = _chasingSpeed;
     }
 
-    protected override void Attack()
+    public void Attack()
     {
         if (_timeSinceAttacked > _manager.attackTimer)
         {
@@ -41,7 +40,7 @@ public class JumpingEnemy : Enemy
         }
     }
 
-    protected override void Move()
+    public void Move()
     {
         if (IsGrounded())
         {
@@ -60,7 +59,7 @@ public class JumpingEnemy : Enemy
 
     }
 
-    public bool IsGrounded()
+    private bool IsGrounded()
     {
         if (Time.time > _timer + _rate)
         {
@@ -70,12 +69,12 @@ public class JumpingEnemy : Enemy
         return false;
     }
 
-    protected override void ActivateIdle()
+    public void ActivateIdle()
     {
         ResetJumpForce();
     }
 
-    protected override void ActivateAttack()
+    public void ActivateAttack()
     {
         _moveSpeed = _chasingSpeed;
     }

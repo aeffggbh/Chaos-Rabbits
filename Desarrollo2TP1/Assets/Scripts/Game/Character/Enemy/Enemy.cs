@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -33,8 +35,15 @@ public abstract class Enemy : Character
     protected Vector3 _counterMovement;
     protected AnimationController animationController;
     protected PlayerController _playerController;
-    protected States currentState = States.PATROL;
+    protected States currentState = States.NONE;
     protected bool isExplodingEnemy;
+    protected Coroutine _currentStateCoroutine;
+    protected Coroutine _rangeCheckCoroutine;
+    protected IChaseBehavior _chaseBehavior;
+    protected IAttackBehavior _attackBehavior;
+    protected IIdleBehavior _idleBehavior;
+    protected IPatrolBehavior _patrolBehavior;
+    protected IMovementBehavior _movementBehavior;
 
     protected override void Start()
     {
@@ -61,19 +70,114 @@ public abstract class Enemy : Character
         else
             Debug.LogError(nameof(EnemyManager) + " is null");
 
-        _idleTimer = _patrolTimer;
+        _idleTimer = _patrolTimer * 3;
         _idleCurrentTime = 0f;
 
         _timeSinceAttacked = 0;
 
         _moveSpeed = _patrolSpeed;
 
-        ActivatePatrol();
-
         isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
 
         if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
             _playerController = playerController;
+
+        _chaseBehavior = this as IChaseBehavior;
+        _attackBehavior = this as IAttackBehavior;
+        _idleBehavior = this as IIdleBehavior;
+        _patrolBehavior = this as IPatrolBehavior;
+        _movementBehavior = this as IMovementBehavior;
+
+        StartStateMachine();
+
+    }
+
+    private void StartStateMachine()
+    {
+        if (_rangeCheckCoroutine != null)
+        {
+            StopCoroutine(_rangeCheckCoroutine);
+            _rangeCheckCoroutine = null;
+        }
+
+        _rangeCheckCoroutine = StartCoroutine(RangeCheckCoroutine());
+
+        SwitchState(States.PATROL);
+    }
+
+    private void SwitchState(States state)
+    {
+        if (state == currentState)
+            return;
+
+        if (_currentStateCoroutine != null)
+        {
+            StopCoroutine(_currentStateCoroutine);
+            _currentStateCoroutine = null;
+        }
+
+        currentState = state;
+
+        switch (state)
+        {
+            case States.IDLE:
+                _currentStateCoroutine = StartCoroutine(StartIdleCoroutine());
+                break;
+            case States.PATROL:
+                _currentStateCoroutine = StartCoroutine(StartPatrolCoroutine());
+                break;
+            case States.CHASE:
+                _currentStateCoroutine = StartCoroutine(StartChaseCoroutine());
+                break;
+            case States.ATTACK:
+                _currentStateCoroutine = StartCoroutine(StartAttackCoroutine());
+                break;
+            default:
+                break;
+        }
+    }
+
+    private IEnumerator StartAttackCoroutine()
+    {
+        if (_attackBehavior != null)
+        {
+            _attackBehavior.ActivateAttack();
+
+            _timeSinceAttacked = 0;
+
+            while (currentState == States.ATTACK)
+            {
+                _targetLook = _playerController.transform.position;
+                _attackBehavior.Attack();
+                _timeSinceAttacked += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
+
+    private IEnumerator StartChaseCoroutine()
+    {
+        if (_chaseBehavior != null)
+        {
+            _chaseBehavior.ActivateChase();
+
+            while (currentState == States.CHASE)
+            {
+                Chase();
+                yield return null;
+            }
+        }
+
+    }
+
+    private IEnumerator RangeCheckCoroutine()
+    {
+        while (true)
+        {
+            CheckRange();
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     /// <summary>
@@ -102,88 +206,16 @@ public abstract class Enemy : Character
     {
         base.FixedUpdate();
 
-        _counterMovement = new Vector3
-                       (-_rb.linearVelocity.x * _manager.counterMovementForce,
-                       0,
-                       -_rb.linearVelocity.z * _manager.counterMovementForce);
-        Move();
-
-        CheckTimers();
-
-        CheckRange();
-
-        switch (currentState)
+        if (_movementBehavior != null)
         {
-            case States.IDLE:
-                Idle();
-                break;
-            case States.PATROL:
-                Patrol();
-                break;
-            case States.CHASE:
-                Chase();
-                break;
-            case States.ATTACK:
-                Attack();
-                if (_playerController)
-                    _targetLook = _playerController.transform.position;
-                break;
-            default:
-                break;
-        }
+            _counterMovement = new Vector3
+                           (-_rb.linearVelocity.x * _manager.counterMovementForce,
+                           0,
+                           -_rb.linearVelocity.z * _manager.counterMovementForce);
 
-        if (!isExplodingEnemy)
+            _movementBehavior.Move();
+
             LookAtTarget.Look(_targetLook, transform);
-    }
-
-    /// <summary>
-    /// Handles the idle state of the enemy.
-    /// </summary>
-    private void Idle()
-    {
-        if (_idleCurrentTime > _idleTimer)
-        {
-            _idleCurrentTime = 0;
-            currentState = States.PATROL;
-            ActivatePatrol();
-        }
-    }
-
-    /// <summary>
-    /// Handles the patrol state of the enemy.
-    /// </summary>
-    private void Patrol()
-    {
-        if (Vector3.Distance(transform.position, _targetWalk) < 0.5f || _patrolCurrentTime > _patrolTimer)
-        {
-            _patrolCurrentTime = 0;
-            _moveSpeed = 0;
-            _moveDir = Vector3.zero;
-            currentState = States.IDLE;
-            ActivateIdle();
-        }
-    }
-
-    /// <summary>
-    /// Checks and updates the timers for different states of the enemy.
-    /// </summary>
-    private void CheckTimers()
-    {
-        switch (currentState)
-        {
-            case States.IDLE:
-                _idleCurrentTime += Time.fixedDeltaTime;
-                break;
-            case States.PATROL:
-                _patrolCurrentTime += Time.fixedDeltaTime;
-                break;
-            case States.CHASE:
-                break;
-            case States.ATTACK:
-                _timeSinceAttacked += Time.fixedDeltaTime;
-                break;
-            default:
-                break;
         }
     }
 
@@ -203,42 +235,25 @@ public abstract class Enemy : Character
     /// </summary>
     private void CheckRange()
     {
-        if (GetPlayerDistance() <= _attackRange && currentState != States.ATTACK)
-        {
-            _timeSinceAttacked = 0;
-            ActivateAttack();
-            currentState = States.ATTACK;
-        }
-        else if (GetPlayerDistance() > _attackRange && currentState != States.PATROL)
+        float distance = GetPlayerDistance();
+
+        if (distance <= _attackRange && currentState != States.ATTACK)
+            SwitchState(States.ATTACK);
+        else if (distance > _attackRange && currentState != States.PATROL)
             currentState = States.NONE;
 
-        if (currentState != States.CHASE && GetPlayerDistance() <= _chaseRange && currentState != States.ATTACK)
-        {
-            currentState = States.CHASE;
-            ActivateChase();
-        }
-        if (GetPlayerDistance() > _chaseRange && currentState != States.PATROL)
-        {
-            if (currentState != States.IDLE)
-            {
-                currentState = States.PATROL;
-                ActivatePatrol();
-            }
-        }
+        if (currentState != States.CHASE && distance <= _chaseRange && currentState != States.ATTACK)
+            SwitchState(States.CHASE);
+        if (distance > _chaseRange && currentState != States.PATROL)
+            SwitchState(States.PATROL);
     }
 
-    /// <summary>
-    /// Activates the idle state of the enemy, where it waits before patrolling again.
-    /// </summary>
-    protected abstract void ActivateIdle();
-
-    /// <summary>
-    /// Activates the patrol state of the enemy, where it moves to a random point within a defined range.
-    /// </summary>
-    virtual protected void ActivatePatrol()
+    protected IEnumerator StartPatrolCoroutine()
     {
         currentState = States.PATROL;
+
         _patrolCurrentTime = 0;
+
         float randomZ = UnityEngine.Random.Range(-_manager.walkRange, _manager.walkRange);
         float randomX = UnityEngine.Random.Range(-_manager.walkRange, _manager.walkRange);
 
@@ -247,31 +262,33 @@ public abstract class Enemy : Character
                                      transform.position.z + randomZ);
 
         _targetLook = _targetWalk;
-
         _moveDir = (_targetWalk - transform.position).normalized;
         _moveDir.y = 0;
         _moveSpeed = _patrolSpeed;
+
+        float start = Time.time;
+
+        while (Vector3.Distance(transform.position, _targetWalk) > 0.5f &&
+              (Time.time - start) < _patrolTimer)
+            yield return null;
+
+        SwitchState(States.IDLE);
     }
 
-    /// <summary>
-    /// Manages the movement behaviour of the enemy, which can vary based on the type of enemy.
-    /// </summary>
-    protected abstract void Move();
+    private IEnumerator StartIdleCoroutine()
+    {
+        if (_idleBehavior != null)
+        {
+            _idleBehavior.ActivateIdle();
 
-    /// <summary>
-    /// Activates the chase state of the enemy, where it usually moves towards the player character.
-    /// </summary>
-    protected abstract void ActivateChase();
+            _moveSpeed = 0;
+            _moveDir = Vector3.zero;
 
-    /// <summary>
-    /// Handles the attack logic of the enemy, which can vary based on the type of enemy.
-    /// </summary>
-    protected abstract void Attack();
+            yield return new WaitForSeconds(_idleTimer);
 
-    /// <summary>
-    /// Activates the attack state of the enemy, which is called when the enemy is close enough to the player character.
-    /// </summary>
-    protected abstract void ActivateAttack();
+            SwitchState(States.PATROL);
+        }
+    }
 
     public override void Die()
     {

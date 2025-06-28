@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Represents a normal enemy that shoots the player
 /// </summary>
-public class NormalEnemy : Enemy
+public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavior, IMovementBehavior, IIdleBehavior
 {
     private ClownAnimationController _clownAnimation;
     private Weapon _enemyWeapon;
@@ -22,20 +22,18 @@ public class NormalEnemy : Enemy
         _clownAnimation = animationController as ClownAnimationController;
     }
 
-    protected override void ActivatePatrol()
+    public void ActivatePatrol()
     {
-        base.ActivatePatrol();
-
         if (animationController != null)
             _clownAnimation.Walk();
     }
-    protected override void ActivateChase()
+    public void ActivateChase()
     {
         _moveSpeed = _chasingSpeed;
         _moveDir = GetPlayerDirection();
     }
 
-    protected override void Attack()
+    public void Attack()
     {
         _rb.linearVelocity = Vector3.zero;
         if (_moveSpeed > 0)
@@ -49,7 +47,7 @@ public class NormalEnemy : Enemy
             _enemyWeapon.Fire();
         }
     }
-    protected override void Move()
+    public void Move()
     {
         if (_moveSpeed > 0)
             _clownAnimation.Walk();
@@ -59,7 +57,7 @@ public class NormalEnemy : Enemy
         _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
-    protected override void ActivateIdle()
+    public void ActivateIdle()
     {
         _rb.linearVelocity = Vector3.zero;
 
@@ -69,8 +67,9 @@ public class NormalEnemy : Enemy
             Debug.LogError("AnimationController is null for " + gameObject.name);
     }
 
-    //TODO: METODO VACIOOOOOOOOOO
-    protected override void ActivateAttack()
+    //todo: I cant do anything about this, can I?
+    public void ActivateAttack()
     {
+        Debug.Log(nameof(NormalEnemy) + " is about to attack");
     }
 }
