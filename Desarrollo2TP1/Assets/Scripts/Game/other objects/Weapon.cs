@@ -23,6 +23,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject _tip;
     [SerializeField] private TrailRenderer _hitscanTrail;
     [SerializeField] private SoundManager _soundManager;
+    [SerializeField] private Vector3 pickupScale = new(0.2f, 0.2f, 0.2f);
+    [SerializeField] private Vector3 dropScale;
     private WeaponAnimationController _weaponAnimation;
     private AudioSource _audioSource;
 
@@ -45,6 +47,8 @@ public class Weapon : MonoBehaviour
     }
     private void Start()
     {
+        dropScale = transform.localScale;
+
         if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
             _soundManager = soundManager;
 
@@ -172,9 +176,12 @@ public class Weapon : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
-        transform.eulerAngles = _weaponParent.eulerAngles;
-
         transform.SetParent(_weaponParent);
+
+        transform.localScale = pickupScale;
+
+        transform.rotation = Quaternion.identity;
+
         if (GetComponent<Rigidbody>())
             Destroy(GetComponent<Rigidbody>());
 
@@ -197,6 +204,9 @@ public class Weapon : MonoBehaviour
             collider.enabled = true;
 
         transform.SetParent(null);
+
+        transform.localScale = dropScale;
+
         user = null;
         if (!GetComponent<Rigidbody>())
             gameObject.AddComponent<Rigidbody>();
@@ -207,6 +217,7 @@ public class Weapon : MonoBehaviour
             Debug.LogError(nameof(_tip) + " is null");
 
         gameObject.layer = 0;
+
 
     }
 
@@ -223,32 +234,31 @@ public class Weapon : MonoBehaviour
         float hitDistance = 100f;
 
         if (RayManager.PointingToObject(_centerSpawn.transform, hitDistance, out RaycastHit hitInfo))
-        {
             hit = hitInfo;
 
-            TrailRenderer trail = Instantiate(_hitscanTrail, _tip.transform.position, Quaternion.identity);
+        TrailRenderer trail = Instantiate(_hitscanTrail, _tip.transform.position, Quaternion.identity);
 
-            Rigidbody rb = trail.gameObject.AddComponent<Rigidbody>();
-            rb.freezeRotation = true;
+        Rigidbody rb = trail.gameObject.AddComponent<Rigidbody>();
+        rb.freezeRotation = true;
 
-            float force = hitDistance * 2f;
+        float force = hitDistance * 2f;
 
-            rb.AddForce(_centerSpawn.transform.forward * force, ForceMode.Impulse);
+        rb.AddForce(_centerSpawn.transform.forward * force, ForceMode.Impulse);
 
-            Destroy(trail.gameObject, hitDistance / 500f);
-        }
+        Destroy(trail.gameObject, hitDistance / 500f);
 
-        Debug.Log(hit.Value.collider.gameObject.name + " hit by " + name + " at distance: " + hitDistance);
-
-        if (hit != null)
+        if (hit.HasValue)
         {
-            Enemy enemy = hit.Value.collider.gameObject.GetComponent<Enemy>();
+            Debug.Log(hit.Value.collider.gameObject.name + " hit by " + name + " at distance: " + hitDistance);
 
-            if (enemy)
-                enemy.TakeDamage(user.damage);
+            if (hit != null)
+            {
+                Enemy enemy = hit.Value.collider.gameObject.GetComponent<Enemy>();
+
+                if (enemy)
+                    enemy.TakeDamage(user.damage);
+            }
         }
-
-
     }
 
     /// <summary>

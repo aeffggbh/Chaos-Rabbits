@@ -5453,19 +5453,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3097114643618647872, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.90615815
+      value: 0.9070055
       objectReference: {fileID: 0}
     - target: {fileID: 3097114643618647872, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0034988888
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3097114643618647872, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.4229214
+      value: 0.42111883
       objectReference: {fileID: 0}
     - target: {fileID: 3097114643618647872, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0016329986
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3097114643618647872, guid: 5eefa655b1d570b43b70bb72faed2677, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6483,6 +6483,22 @@ PrefabInstance:
       propertyPath: _enemyManager
       value: 
       objectReference: {fileID: 1900951392}
+    - target: {fileID: 336562531666434674, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: TiltAxis.Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 336562531666434674, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: TiltAxis.Center
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 336562531666434674, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: TiltAxis.Range.x
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 336562531666434674, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: TiltAxis.Range.y
+      value: 26.7
+      objectReference: {fileID: 0}
     - target: {fileID: 695330196414658549, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _damage
       value: 20
@@ -6593,10 +6609,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8536552224511825266, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.52
+      value: 3.5199997
       objectReference: {fileID: 0}
     - target: {fileID: 8536552224511825266, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536552224511825266, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9070055
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536552224511825266, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536552224511825266, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.42111883
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536552224511825266, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
