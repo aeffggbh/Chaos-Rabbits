@@ -1,0 +1,10 @@
+using System;
+
+public static class EventTriggerer
+{
+    public static void Trigger<T>(T eventType) where T : IEvent
+    {
+        if (EventProvider.EventListeners.TryGetValue(typeof(T), out var action))
+            (action as Action<T>)?.Invoke(eventType);
+    }
+}
