@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public static class GameManager
 {
     public static bool initialized = false;
-    public static PlayerController savedPlayer;
+    public static PlayerMediator savedPlayer;
     public static Weapon defaultWeapon;
     public static InputActionReference pauseButton;
     public static bool paused = false;
@@ -33,8 +33,8 @@ public static class GameManager
     {
         if (initialized)
         {
-            if (CheatsController.instance)
-                CheatsController.instance.Reset();
+            if (CheatsController.Instance)
+                CheatsController.Instance.Reset();
 
             if (savedPlayer != null)
             {

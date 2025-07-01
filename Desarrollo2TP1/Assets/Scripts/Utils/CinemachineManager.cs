@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class CinemachineManager : MonoBehaviour
 {
-    public static CinemachineManager instance;
+    public static CinemachineManager Instance;
     [SerializeField] CinemachineCamera _cinemachineCamera;
     private CinemachineBrain _cinemachineBrain;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else

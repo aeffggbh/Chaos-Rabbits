@@ -261,19 +261,6 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Sets the user of the weapon based on the character type provided.
-    /// </summary>
-    /// <param name="character"></param>
-    /// <param name="characterType"></param>
-    public void SetUser(Character character, Type characterType)
-    {
-        if (characterType == typeof(Player))
-            user = character as Player;
-        else if (characterType == typeof(Enemy))
-            user = character as Enemy;
-    }
-
     //TODO: fix the whole bullet spawn stuff
     public void SetBulletSpawn(GameObject spawn)
     {

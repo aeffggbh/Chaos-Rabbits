@@ -14,7 +14,7 @@ public class CheatsController : MonoBehaviour
     private bool _isGodMode;
     private bool _isFlashMode;
 
-    public static CheatsController instance;
+    public static CheatsController Instance;
 
     public bool IsGodMode()
     {
@@ -28,8 +28,8 @@ public class CheatsController : MonoBehaviour
 
     private void Awake()
     {
-        if (!instance)
-            instance = this;
+        if (!Instance)
+            Instance = this;
         else
             Destroy(this);
     }
@@ -87,7 +87,7 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnNextLevel(InputAction.CallbackContext context)
     {
-        if (instance)
+        if (Instance)
             GoToNextLevel();
     }
 
@@ -95,7 +95,7 @@ public class CheatsController : MonoBehaviour
     {
         if (SceneController.IsGameplay(SceneController.currentScene) && !GameManager.paused)
         {
-            if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
+            if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
                 playerController.transform.position = levelTriggerLocation.position;
             SceneController.GoToScene(SceneController.currentScene + 1);
 

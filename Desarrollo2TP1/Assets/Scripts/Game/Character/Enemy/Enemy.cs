@@ -34,7 +34,7 @@ public abstract class Enemy : Character
     protected float _idleCurrentTime;
     protected Vector3 _counterMovement;
     protected AnimationController animationController;
-    protected PlayerController _playerController;
+    protected PlayerMediator _playerController;
     protected States currentState = States.NONE;
     protected bool isExplodingEnemy;
     protected Coroutine _currentStateCoroutine;
@@ -79,7 +79,7 @@ public abstract class Enemy : Character
 
         isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
 
-        if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
+        if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
             _playerController = playerController;
 
         _chaseBehavior = this as IChaseBehavior;
