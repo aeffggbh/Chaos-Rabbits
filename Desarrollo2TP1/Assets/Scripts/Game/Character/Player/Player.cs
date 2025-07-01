@@ -1,19 +1,38 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Represents the player character in the game.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioListener))]
+[RequireComponent(typeof(PlayerAnimationController))]
 public class Player : Character
 {
-    private ForceRequest _forceRequest;
+    private IPlayerMovement _movement;
+    private IPlayerJump _jump;
+    private IPlayerWeaponHandler _weaponHandler;
+    private ISoundPlayer _soundPlayer;
+
+    public IPlayerMovement Movement { get { return _movement; } }
+
     private Rigidbody _rb;
+
+    [Header("Movement")]
+    [SerializeField] private float _walkSpeed;
+    [SerializeField] private float _runSpeed;
+    [SerializeField] private float _acceleration;
+    [SerializeField] private float _counterMovementForce;
+    private Vector3 currentDirection;
+    [Header("Jump")]
+    [SerializeField] private float _jumpForce;
     private bool _isJumping;
-    private float _jumpForce;
-    private bool _grounded;
-    private Vector3 _calculatedMovement;
-    private SoundManager _soundManager;
-    private AudioSource _audioSource;
+    [Header("Weapon")]
+    [SerializeField] public Weapon currentWeapon;
+    [SerializeField] private Transform _weaponParent;
+    [Header("Sound")]
+    [SerializeField] private AudioSource _audioSource;
 
     private void Awake()
     {
@@ -21,39 +40,34 @@ public class Player : Character
 
         IsWeaponUser = true;
 
-        _forceRequest = null;
-        _jumpForce = 0f;
-        _isJumping = false;
-        _grounded = true;
-
+        _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody>();
     }
 
-    public void RequestSound(SoundManager soundManager, AudioSource audioSource)
+    protected override void Start()
     {
-        _soundManager = soundManager;
-        _audioSource = audioSource;
+        base.Start();
+
+        _movement = new PlayerMovement(_rb, _runSpeed, _walkSpeed, _acceleration, _counterMovementForce);
+        _soundPlayer = new SoundPlayer(_audioSource);
+        _jump = new PlayerJump(_rb, _soundPlayer);
+        _soundPlayer.SetAudioSource(GetComponent<AudioSource>());
+
     }
 
-    /// <summary>
-    /// Requests a force to be applied to the player character.
-    /// </summary>
-    /// <param name="forceRequest"></param>
-    public void RequestForce(ForceRequest forceRequest)
+    public void RequestMovementDirection(Vector3 direction)
     {
-        //instantForceRequests.Add(forceRequest);
-        _forceRequest = forceRequest;
+        currentDirection = direction;
     }
 
     /// <summary>
     /// Requests jump information for the player character.
     /// </summary>
-    /// <param name="isJumping"></param>
+    /// <param name="shouldJump"></param>
     /// <param name="jumpForce"></param>
-    public void RequestJumpInfo(bool isJumping, float jumpForce)
+    public void RequestJumpInfo(bool shouldJump)
     {
-        _isJumping = isJumping;
-        _jumpForce = jumpForce;
+        shouldJump = true;
     }
 
     /// <summary>
@@ -62,81 +76,45 @@ public class Player : Character
     /// <param name="grounded"></param>
     public void RequestGroundedState(bool grounded)
     {
-        _grounded = grounded;
+        _jump.IsGrounded = grounded;
     }
 
-    /// <summary>
-    /// Requests movement for the player character based on calculated movement vector.
-    /// </summary>
-    /// <param name="calculatedMovement"></param>
-    public void RequestMovement(Vector3 calculatedMovement)
+    public void RequestWeaponGrab(Weapon weapon)
     {
-        _calculatedMovement = calculatedMovement;
+        _weaponHandler.GrabWeapon(weapon);
+    }
+
+    public void RequestWeaponDrop()
+    {
+        _weaponHandler.DropWeapon();
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        HandleMovement();
+        _movement.Move(currentDirection);
 
-        HandleJump();
+        _jump.Jump(_jumpForce, _isJumping);
     }
-
-    private void HandleMovement()
-    {
-        if (_forceRequest != null)
-        {
-            if (_forceRequest.direction != _calculatedMovement)
-                _forceRequest.direction = _calculatedMovement;
-
-            if (_forceRequest.forceMode == ForceMode.Impulse)
-            {
-                _forceRequest._counterMovement = new Vector3
-                    (-_rb.linearVelocity.x * _forceRequest.counterMovementForce,
-                    0,
-                    -_rb.linearVelocity.z * _forceRequest.counterMovementForce);
-
-                _rb.AddForce((_forceRequest.direction * _forceRequest.speed + _forceRequest._counterMovement) * Time.fixedDeltaTime,
-                            ForceMode.Impulse);
-            }
-        }
-    }
-
-    private void HandleJump()
-    {
-        if (_isJumping)
-        {
-            if (_grounded)
-                Jump();
-
-            _isJumping = false;
-        }
-    }
-
-    /// <summary>
-    /// Applies an impulse force to the player character to make it jump.
-    /// </summary>
-    private void Jump()
-    {
-        _soundManager.PlaySound(SFXType.JUMP, _audioSource);
-        _grounded = false;
-        _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-    }
-
 
     public override void Die()
     {
-        if (!CheatsController.instance.IsGodMode())
+        if (!CheatsController.Instance.IsGodMode())
             SceneController.GoToScene(SceneController.GameState.GAMEOVER);
     }
 
     public override void TakeDamage(float damage)
     {
-        if (!CheatsController.instance.IsGodMode())
+        if (!CheatsController.Instance.IsGodMode())
             base.TakeDamage(damage);
         else
             Debug.Log("Cannot take damage!");
+    }
+
+    public float GetJumpForce()
+    {
+        return _jumpForce;
     }
 
 }

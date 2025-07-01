@@ -18,7 +18,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     {
         base.Start();
 
-        _jumpForce = _playerController.GetJumpForce() / 2;
+        _jumpForce = _playerController.player.GetJumpForce() / 2;
         _currentJumpForce = _jumpForce;
         _defaultMoveSpeed = _moveSpeed;
         _patrolSpeed /= 2;
@@ -99,7 +99,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+            PlayerMediator player = collision.gameObject.GetComponent<PlayerMediator>();
             if (player != null)
                 player.TakeDamage(damage);
         }

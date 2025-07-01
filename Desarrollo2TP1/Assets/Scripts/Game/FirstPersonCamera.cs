@@ -20,7 +20,7 @@ public class FirstPersonCamera : MonoBehaviour
 
     private void Start()
     {
-        actualCamera = CinemachineManager.instance.transform;
+        actualCamera = CinemachineManager.Instance.transform;
         
     }
 

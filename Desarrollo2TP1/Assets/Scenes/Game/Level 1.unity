@@ -5382,17 +5382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3d887a20f23c64389a841a5a5cb0fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1716998513 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 155055454107216654, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
-  m_PrefabInstance: {fileID: 3110874808498124743}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beae295d0b75e114c80bfbb6c8bed3ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1722131416 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3513784242843811667, guid: 90871efdb7d17444387af83701deccc4, type: 3}
@@ -6463,22 +6452,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 155055454107216654, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
-      propertyPath: damage
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 155055454107216654, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
-      propertyPath: maxHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 155055454107216654, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
-      propertyPath: currentHealth
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 206364977575523154, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: user
       value: 
-      objectReference: {fileID: 1716998513}
+      objectReference: {fileID: 0}
     - target: {fileID: 206364977575523154, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _enemyManager
       value: 
@@ -6497,7 +6474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 336562531666434674, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: TiltAxis.Range.y
-      value: 26.7
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 695330196414658549, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _damage
@@ -6506,7 +6483,7 @@ PrefabInstance:
     - target: {fileID: 695330196414658549, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _player
       value: 
-      objectReference: {fileID: 1716998513}
+      objectReference: {fileID: 0}
     - target: {fileID: 695330196414658549, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _weapon
       value: 
@@ -6534,7 +6511,7 @@ PrefabInstance:
     - target: {fileID: 792379586821680978, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: user
       value: 
-      objectReference: {fileID: 1716998513}
+      objectReference: {fileID: 0}
     - target: {fileID: 792379586821680978, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _usesHitscan
       value: 1

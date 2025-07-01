@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class GameBoot : MonoBehaviour
 {
     [SerializeField] private InputActionReference _pauseButton;
-    private PlayerController _playerController;
+    private PlayerMediator _playerController;
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class GameBoot : MonoBehaviour
     {
         Debug.Log("Resetting game");
 
-        if (ServiceProvider.TryGetService<PlayerController>(out var playerController))
+        if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
             _playerController = playerController;
 
         if (!_pauseButton)

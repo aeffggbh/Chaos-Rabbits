@@ -25,8 +25,8 @@ public class LevelTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (CheatsController.instance.levelTriggerLocation != transform)
-            CheatsController.instance.levelTriggerLocation = transform;
+        if (CheatsController.Instance.levelTriggerLocation != transform)
+            CheatsController.Instance.levelTriggerLocation = transform;
 
         if (SceneController.currentScene != SceneController.GameState.FINAL_LEVEL && 
             SceneController.IsGameplay(SceneController.currentScene))
