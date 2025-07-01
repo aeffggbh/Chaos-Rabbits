@@ -6508,6 +6508,10 @@ PrefabInstance:
       propertyPath: _cineMachineBrain
       value: 
       objectReference: {fileID: 200817024}
+    - target: {fileID: 695330196414658549, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+      propertyPath: _maxWeaponDistance
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 792379586821680978, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: user
       value: 
