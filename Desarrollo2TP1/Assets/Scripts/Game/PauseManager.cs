@@ -18,7 +18,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private GameObject _firstButtonB;
     private bool paused = false;
     private AudioSource _audioSource;
-    private SoundManager _soundManager;
+    private ISoundPlayer _soundPlayer;
 
     private void Start()
     {
@@ -39,8 +39,7 @@ public class PauseManager : MonoBehaviour
         if (!_audioSource)
             _audioSource = GetComponent<AudioSource>();
 
-        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
-            _soundManager = soundManager;
+        _soundPlayer = new SoundPlayer(_audioSource);
     }
 
     private void Update()
@@ -148,18 +147,7 @@ public class PauseManager : MonoBehaviour
 
     private void PlayButtonSound()
     {
-        if (!_soundManager)
-        {
-            Debug.LogError(nameof(_soundManager) + " is null");
-            return;
-        }
-        else if (!_audioSource)
-        {
-            Debug.LogError(nameof(_audioSource) + " is null");
-            return;
-        }
-
-        _soundManager.PlaySound(SFXType.CONFIRM, _audioSource);
+        _soundPlayer.PlaySound(SFXType.CONFIRM);
     }
 
     private void CheckCursor()

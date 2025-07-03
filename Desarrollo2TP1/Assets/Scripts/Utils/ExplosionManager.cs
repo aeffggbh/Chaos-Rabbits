@@ -15,7 +15,7 @@ public class ExplosionManager : MonoBehaviour
     private bool _exploded = false;
     private float _timeForExplosion;
     private AudioSource _audioSource;
-    private SoundManager _soundManager;
+    private ISoundPlayer _soundPlayer;
 
     private void Awake()
     {
@@ -25,12 +25,7 @@ public class ExplosionManager : MonoBehaviour
         if (_explosionRange < 0.1f)
             Debug.LogError("Explosion range was not defined or it's too low");
         _audioSource = GetComponent<AudioSource>();
-    }
-
-    private void Start()
-    {
-        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
-            _soundManager = soundManager;
+        _soundPlayer = new SoundPlayer(_audioSource);
     }
 
     private void Update()
@@ -40,10 +35,7 @@ public class ExplosionManager : MonoBehaviour
             _timeForExplosion += Time.deltaTime;
 
             if (_timeForExplosion >= _secondsForExplosion)
-            {
                 Explode();
-                
-            }
         }
 
         if (_exploded)
@@ -61,7 +53,7 @@ public class ExplosionManager : MonoBehaviour
 
     private void Explode()
     {
-        _soundManager.PlaySound(SFXType.EXPLOSION, _audioSource);
+        _soundPlayer.PlaySound(SFXType.EXPLOSION);
         _explosionPrefab.SetActive(true);
         _explosionImminent = false;
         _timeForExplosion = 0;
@@ -77,7 +69,7 @@ public class ExplosionManager : MonoBehaviour
         return _exploded;
     }
 
-    public void StartExplotion()
+    public void StartExplosion()
     {
         _explosionImminent = true;
     }

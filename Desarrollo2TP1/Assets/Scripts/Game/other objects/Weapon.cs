@@ -22,11 +22,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject _centerSpawn;
     [SerializeField] private GameObject _tip;
     [SerializeField] private TrailRenderer _hitscanTrail;
-    [SerializeField] private SoundManager _soundManager;
     [SerializeField] private Vector3 pickupScale = new(0.2f, 0.2f, 0.2f);
     [SerializeField] private Vector3 dropScale;
     private WeaponAnimationController _weaponAnimation;
     private AudioSource _audioSource;
+    private ISoundPlayer _soundPlayer;
 
     private void OnDestroy()
     {
@@ -49,10 +49,9 @@ public class Weapon : MonoBehaviour
     {
         dropScale = transform.localScale;
 
-        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
-            _soundManager = soundManager;
-
         _audioSource = GetComponent<AudioSource>();
+
+        _soundPlayer = new SoundPlayer(_audioSource);
 
         if (!_tip)
             Debug.LogError(nameof(_tip) + " is null.");
@@ -132,10 +131,7 @@ public class Weapon : MonoBehaviour
         if (GameManager.paused)
             return;
 
-        if (_soundManager)
-            _soundManager.PlaySound(SFXType.SHOOT, _audioSource);
-        else
-            Debug.LogError("SoundManager does not exist");
+        _soundPlayer?.PlaySound(SFXType.SHOOT);
 
         if (!_usesHitscan)
         {

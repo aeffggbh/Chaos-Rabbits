@@ -36,7 +36,7 @@ public partial class ExplodingEnemy : Enemy, IAttackBehavior
     public void ActivateAttack()
     {
         _angryAnimation.Attack();
-        _explosionManager.StartExplotion();
+        _explosionManager.StartExplosion();
     }
 
     //TODO: also this... I cant do anything about it!!!

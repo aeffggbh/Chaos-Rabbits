@@ -4,14 +4,14 @@ using UnityEngine;
 public class UIAudioHandler : MonoBehaviour
 {
     private AudioSource _audioSource;
-    private SoundManager _soundManager;
-    public static UIAudioHandler instance;
+    public static UIAudioHandler Instance;
+    private ISoundPlayer _soundPlayer;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -22,13 +22,12 @@ public class UIAudioHandler : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
 
-        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
-            _soundManager = soundManager;
+        _soundPlayer = new SoundPlayer(_audioSource);
     }
 
     public void PlaySound()
     {
-        //TODO: in back to menu it still doesnt work very well
-        _soundManager?.PlaySound(SFXType.CONFIRM, _audioSource);
+        if (_soundPlayer != null) 
+            _soundPlayer.PlaySound(SFXType.CONFIRM);
     }
 }

@@ -1,8 +1,6 @@
-﻿
+﻿using UnityEngine;
 
-using UnityEngine;
-using UnityEngine.Playables;
-
+[RequireComponent(typeof(AudioSource))]
 public class SoundPlayer : ISoundPlayer
 {
     private AudioSource _audioSource;

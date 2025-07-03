@@ -30,7 +30,7 @@ public class SceneLoaderButtonHandler : MonoBehaviour
 
     private void HandleClick()
     {
-        UIAudioHandler.instance.PlaySound();
+        UIAudioHandler.Instance.PlaySound();
 
         SceneController.GoToScene(state);
     }
