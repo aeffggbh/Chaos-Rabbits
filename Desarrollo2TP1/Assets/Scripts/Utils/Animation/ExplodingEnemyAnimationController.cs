@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Controller for the angry character animations.
 /// </summary>
-public class AngryAnimationController : AnimationController
+public class ExplodingEnemyAnimationController : AnimationController
 {
     public void Attack()
     {

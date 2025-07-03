@@ -6,9 +6,9 @@ public class PlayerSceneHandler : IPlayerSceneHandler
     private CinemachineBrain _cineMachineBrain;
     private PlayerMediator _controller;
 
-    public PlayerSceneHandler(CinemachineBrain cineMachineBrain)
+    public PlayerSceneHandler()
     {
-        _cineMachineBrain = cineMachineBrain;
+        _cineMachineBrain = CineMachineManager.Instance.cineMachineBrain;
 
         if (ServiceProvider.TryGetService<PlayerMediator>(out var controller))
             _controller = controller;

@@ -43,8 +43,8 @@ internal class Bullet : MonoBehaviour
 
         if (hitCharacter != null && hitCharacter != _whoIsFiring)
         {
-            hitCharacter.TakeDamage(_whoIsFiring.damage);
-            Debug.Log("Shot " + hitCharacter.name + " for " + _whoIsFiring.damage + " damage");
+            hitCharacter.TakeDamage(_whoIsFiring.Damage);
+            Debug.Log("Shot " + hitCharacter.name + " for " + _whoIsFiring.Damage + " damage");
         }
 
         if (collision.gameObject != _originWeapon && collision.gameObject != _whoIsFiring.gameObject)

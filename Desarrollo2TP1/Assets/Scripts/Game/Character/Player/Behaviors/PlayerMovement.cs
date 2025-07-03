@@ -1,7 +1,4 @@
-﻿
-using System;
-using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : IPlayerMovement
@@ -12,6 +9,7 @@ public class PlayerMovement : IPlayerMovement
     private float _counterMovementForce;
     private float _runSpeed;
     private float _walkSpeed;
+    Vector3 counterMovement = Vector3.zero;
 
     public float CurrentSpeed
     {
@@ -29,12 +27,15 @@ public class PlayerMovement : IPlayerMovement
         _walkSpeed = walkSpeed;
     }
 
-    public void Move(Vector3 direction)
+    public void Move(Vector3 direction, IPlayerMovementCalculator calculator)
     {
         if (direction == Vector3.zero)
             return;
 
-        Vector3 counterMovement = Vector3.zero;
+        ////recalculate in case the camera rotates
+        //Vector2 inputDirection = new(direction.x, direction.z);
+        //Vector3 movementDirection = calculator.GetDirection(inputDirection);
+
         counterMovement.x = -_rb.linearVelocity.x * _counterMovementForce;
         counterMovement.z = -_rb.linearVelocity.z * _counterMovementForce;
 
@@ -43,21 +44,21 @@ public class PlayerMovement : IPlayerMovement
     }
 
 
-    public void Move(InputAction.CallbackContext context, IPlayerMovementCalculator calculator, 
+    public void Move(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
         PlayerAnimationController animation, Player player)
     {
         animation.Walk();
 
         CheckFlash();
-        Vector3 movementDirection = calculator.GetDirection(context.ReadValue<Vector2>());
-        player.RequestMovementDirection(movementDirection);
+        //Vector3 movementDirection = calculator.GetDirection(context.ReadValue<Vector2>());
+        player.RequestMovementDirection(context.ReadValue<Vector2>());
     }
 
     public void StopMoving(Player player, PlayerAnimationController animation)
     {
         _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0);
 
-        player.RequestMovementDirection(new(0, _rb.linearVelocity.y, 0));
+        player.RequestMovementDirection(Vector2.zero);
         animation.StopWalking();
     }
 
@@ -66,6 +67,6 @@ public class PlayerMovement : IPlayerMovement
         if (CheatsController.Instance.IsFlashMode())
             _currentSpeed = _runSpeed;
         else if (_currentSpeed == _runSpeed)
-            _currentSpeed = _runSpeed;
+            _currentSpeed = _walkSpeed;
     }
 }

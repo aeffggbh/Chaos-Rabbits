@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 //TODO: ponerle summary a todo lo que no lo tiene
 //TODO: NO PUEDEN HABER COMENTARIOS QUE NO SEAN SUMMARIES.
 // NO PUEDE HABER NADA EN ESPAÑOL
-// No pueden haber errores de ortografia (ver si hay configs para eso)
 // Ponerle un asset a la bala... No la pelotita :3
 // saca los find
 // 7/7 se entrega uwu
@@ -30,7 +29,6 @@ public class PlayerMediator : MonoBehaviour
     public InputActionReference GrabAction { get { return _grabAction; } set { _grabAction = value; } }
 
 
-    [SerializeField] private CinemachineBrain _cineMachineBrain;
     [SerializeField] private GameObject _bulletSpawn;
     [SerializeField] private float _maxWeaponDistance;
     [SerializeField] private float _grabDropCooldown;
@@ -46,6 +44,12 @@ public class PlayerMediator : MonoBehaviour
     private void Awake()
     {
         ServiceProvider.SetService<PlayerMediator>(this, true);
+
+        _playerInput = new PlayerInputHandler();
+    }
+
+    private void Start()
+    {
         _playerAnimation = GetComponent<PlayerAnimationController>();
         player = GetComponent<Player>();
 
@@ -60,37 +64,15 @@ public class PlayerMediator : MonoBehaviour
             _weaponParent
             );
 
-        _playerInput = new PlayerInputHandler();
-
-        _playerScene = new PlayerSceneHandler(_cineMachineBrain);
-
+        _playerScene = new PlayerSceneHandler();
 
         if (_maxWeaponDistance < 1)
             Debug.LogWarning("Distance to weapon is too low!");
 
         if (_grabDropCooldown <= 0)
             Debug.LogWarning("The cooldown when grabbing and dropping the weapon is too low. This may cause glitches");
-    }
-
-    private void Start()
-    {
-        InitCamera();
-
         if (!_bulletSpawn)
             Debug.LogError(nameof(_bulletSpawn) + " is null");
-
-
-    }
-
-    private void InitCamera()
-    {
-        if (!_cineMachineBrain)
-            _cineMachineBrain = CineMachineManager.Instance.GetComponent<CinemachineBrain>();
-
-        if (_cineMachineBrain)
-            _playerMovement.SetCamera(_cineMachineBrain.GetComponent<Camera>());
-        else
-            Debug.LogError(nameof(CinemachineBrain) + " is null");
     }
 
     private void OnEnable()
@@ -120,6 +102,12 @@ public class PlayerMediator : MonoBehaviour
             player?.RequestGroundedState(true);
     }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+            player?.RequestGroundedState(false);
+    }
+
     /// <summary>
     /// Applies damage to the player character when it collides with an enemy or takes damage from a weapon.
     /// </summary>
@@ -134,7 +122,7 @@ public class PlayerMediator : MonoBehaviour
     /// </summary>
     public void Destroy()
     {
-        Destroy(_cineMachineBrain.gameObject);
+        Destroy(CineMachineManager.Instance.cineMachineBrain.gameObject);
         Destroy(gameObject);
     }
 

@@ -23,12 +23,21 @@ public class PlayerMovementCalculator : IPlayerMovementCalculator
         if (!Camera)
             return new(moveInput.x, 0, moveInput.y);
 
+        moveInput.Normalize();
         Vector3 forward = Camera.transform.forward;
         Vector3 right = Camera.transform.right;
 
         forward.y = 0;
         right.y = 0;
+        forward.Normalize();
+        right.Normalize();
 
-        return (forward * moveInput.y + right * moveInput.x).normalized;
+        Vector3 movement = forward * moveInput.y + right * moveInput.x;
+        movement.y = 0;
+
+        if (movement.sqrMagnitude > 1f)
+            movement.Normalize();
+
+        return movement;
     }
 }

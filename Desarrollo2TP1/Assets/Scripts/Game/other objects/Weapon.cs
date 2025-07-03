@@ -244,7 +244,7 @@ public class Weapon : MonoBehaviour
                 Enemy enemy = hit.Value.collider.gameObject.GetComponent<Enemy>();
 
                 if (enemy)
-                    enemy.TakeDamage(user.damage);
+                    enemy.TakeDamage(user.Damage);
             }
         }
     }

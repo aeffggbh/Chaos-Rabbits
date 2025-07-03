@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,21 +19,22 @@ public class Player : Character
     public IPlayerMovement Movement { get { return _movement; } }
 
     private Rigidbody _rb;
-
+    [Header("Character")]
+    [SerializeField] private float _damage;
     [Header("Movement")]
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _counterMovementForce;
-    private Vector3 currentDirection;
+    private Vector2 currentDirection;
     [Header("Jump")]
     [SerializeField] private float _jumpForce;
-    private bool _isJumping;
     [Header("Weapon")]
     [SerializeField] public Weapon currentWeapon;
     [SerializeField] private Transform _weaponParent;
     [Header("Sound")]
     [SerializeField] private AudioSource _audioSource;
+    private IPlayerMovementCalculator _playerCalculator;
 
     private void Awake()
     {
@@ -42,6 +44,7 @@ public class Player : Character
 
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody>();
+        Damage = _damage;
     }
 
     protected override void Start()
@@ -51,11 +54,12 @@ public class Player : Character
         _movement = new PlayerMovement(_rb, _runSpeed, _walkSpeed, _acceleration, _counterMovementForce);
         _soundPlayer = new SoundPlayer(_audioSource);
         _jump = new PlayerJump(_rb, _soundPlayer);
+        _playerCalculator = new PlayerMovementCalculator();
         _soundPlayer.SetAudioSource(GetComponent<AudioSource>());
 
     }
 
-    public void RequestMovementDirection(Vector3 direction)
+    public void RequestMovementDirection(Vector2 direction)
     {
         currentDirection = direction;
     }
@@ -67,7 +71,7 @@ public class Player : Character
     /// <param name="jumpForce"></param>
     public void RequestJumpInfo(bool shouldJump)
     {
-        shouldJump = true;
+        _jump.SetJumpState(shouldJump);
     }
 
     /// <summary>
@@ -93,9 +97,10 @@ public class Player : Character
     {
         base.FixedUpdate();
 
-        _movement.Move(currentDirection);
-
-        _jump.Jump(_jumpForce, _isJumping);
+        Vector3 calculatedMovement = _playerCalculator.GetDirection(currentDirection);
+        _movement.Move(calculatedMovement, _playerCalculator);
+        
+        _jump.Jump(_jumpForce);
     }
 
     public override void Die()

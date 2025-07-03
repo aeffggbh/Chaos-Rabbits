@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IPlayerJump
 {
-    void Jump(float force, bool shouldJump);
+    void SetJumpState(bool isJumping);
+    void Jump(float force);
     bool IsGrounded { get; set; }
 }
