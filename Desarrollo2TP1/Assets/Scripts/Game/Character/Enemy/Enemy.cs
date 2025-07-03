@@ -49,7 +49,7 @@ public abstract class Enemy : Character
     {
         base.Start();
 
-        damage = 10.0f;
+        Damage = 10.0f;
 
         IsWeaponUser = false;
 

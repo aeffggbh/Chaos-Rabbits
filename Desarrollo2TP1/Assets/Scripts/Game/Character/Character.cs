@@ -1,15 +1,36 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Base class for all characters in the game.
 /// </summary>
-public abstract class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour, IDamageable
 {
-    public bool IsWeaponUser { get; set; }
-    public float damage;
-    public float maxHealth;
-    public float currentHealth;
-    protected HealthBar _healthbar;
+    public float MaxHealth { get; set; }
+    public float Damage { get; set; }
+    public float CurrentHealth { get; protected set; }
+
+    public bool IsWeaponUser { get; protected set; }
+
+    //protected HealthBar _healthBar;
+    protected IHealthBar _healthBar;
+         
+    virtual protected void Start()
+    {
+        MaxHealth = 100f;
+        CurrentHealth = MaxHealth;
+
+        InitHealthBar();
+    }
+
+    private void InitHealthBar()
+    {
+        _healthBar = GetComponentInChildren<IHealthBar>();
+        if (_healthBar != null)
+            _healthBar.UpdateHealth(CurrentHealth, MaxHealth);
+        else
+            Debug.LogError($"{_healthBar} is null");
+    }
 
     /// <summary>
     /// Makes the character take damage and updates its health.
@@ -17,29 +38,15 @@ public abstract class Character : MonoBehaviour
     /// <param name="damage"></param>
     virtual public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-        if (currentHealth <= 0f)
+        CurrentHealth -= damage;
+
+        if (CurrentHealth <= 0f)
         {
-            currentHealth = 0f;
-            if (this is ExplodingEnemy &&
-                this.currentHealth <= 0f)
-                Destroy(this.gameObject);
+            CurrentHealth = 0f;
             Die();
         }
-        Debug.Log("Current health: " + currentHealth);
-        _healthbar.SetCurrentHealth(currentHealth);
-    }
-
-    virtual protected void Start()
-    {
-        maxHealth = 100.0f;
-        currentHealth = maxHealth;
-
-        _healthbar = GetComponentInChildren<HealthBar>();
-        if (!_healthbar)
-            Debug.LogError("HealthBar component is missing on " + gameObject.name);
         else
-            _healthbar.SetMaxHealth(maxHealth);
+            _healthBar.UpdateHealth(CurrentHealth, MaxHealth);
     }
 
     virtual protected void FixedUpdate()
@@ -53,7 +60,6 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     public virtual void Die()
     {
-        gameObject.SetActive(false);
         Destroy(gameObject);
     }
 }

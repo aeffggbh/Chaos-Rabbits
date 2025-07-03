@@ -101,7 +101,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         {
             PlayerMediator player = collision.gameObject.GetComponent<PlayerMediator>();
             if (player != null)
-                player.TakeDamage(damage);
+                player.TakeDamage(Damage);
         }
     }
 }

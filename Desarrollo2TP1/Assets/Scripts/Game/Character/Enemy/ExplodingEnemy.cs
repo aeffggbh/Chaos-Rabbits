@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public partial class ExplodingEnemy : Enemy, IAttackBehavior
 {
-    private AngryAnimationController _angryAnimation;
+    private ExplodingEnemyAnimationController _angryAnimation;
     private ExplosionManager _explosionManager;
     private bool _exploded;
 
@@ -13,8 +13,8 @@ public partial class ExplodingEnemy : Enemy, IAttackBehavior
     {
         base.Start();
         _exploded = false;
-        animationController = gameObject.AddComponent<AngryAnimationController>();
-        _angryAnimation = animationController as AngryAnimationController;
+        animationController = gameObject.AddComponent<ExplodingEnemyAnimationController>();
+        _angryAnimation = animationController as ExplodingEnemyAnimationController;
         _explosionManager = GetComponent<ExplosionManager>();
         if (_explosionManager == null)
             Debug.LogError("ExplosionManager is null for " + gameObject.name);
@@ -26,7 +26,7 @@ public partial class ExplodingEnemy : Enemy, IAttackBehavior
         if (_explosionManager.Exploded() && !_exploded)
         {
             if (GetPlayerDistance() < _explosionManager._explosionRange)
-                GameManager.savedPlayer.TakeDamage(damage);
+                GameManager.savedPlayer.TakeDamage(Damage);
 
             Die();
             _exploded = true;

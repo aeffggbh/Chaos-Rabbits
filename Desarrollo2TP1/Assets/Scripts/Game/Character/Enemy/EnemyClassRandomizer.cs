@@ -9,6 +9,7 @@ public class EnemyClassRandomizer : MonoBehaviour
     [SerializeField] private GameObject _jumpingEnemyPrefab;
     [SerializeField] private GameObject _normalEnemyPrefab;
     [SerializeField] private GameObject _explodingEnemyPrefab;
+    [SerializeField] private Type debugType = typeof(ExplodingEnemy);
 
     /// <summary>
     /// Array of enemy types to randomly choose from.
@@ -33,7 +34,8 @@ public class EnemyClassRandomizer : MonoBehaviour
         int index = UnityEngine.Random.Range(0, enemyTypes.Length);
         Type chosenType = enemyTypes[index];
 
-        //chosenType = typeof(NormalEnemy);
+        if (debugType != null)
+            chosenType = debugType;
 
         GameObject modelInstance = null;
 
