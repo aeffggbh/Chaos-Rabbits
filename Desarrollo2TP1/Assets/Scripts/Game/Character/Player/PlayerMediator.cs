@@ -29,7 +29,7 @@ public class PlayerMediator : MonoBehaviour
     public InputActionReference GrabAction { get { return _grabAction; } set { _grabAction = value; } }
 
 
-    [SerializeField] private GameObject _bulletSpawn;
+    [SerializeField] private GameObject _bulletSpawnGO;
     [SerializeField] private float _maxWeaponDistance;
     [SerializeField] private float _grabDropCooldown;
 
@@ -56,7 +56,7 @@ public class PlayerMediator : MonoBehaviour
         _playerMovement = new PlayerMovementCalculator();
 
         _playerWeapon = new PlayerWeaponHandler(
-            _bulletSpawn,
+            _bulletSpawnGO,
             _maxWeaponDistance,
             _grabDropCooldown,
             player.currentWeapon,
@@ -71,8 +71,8 @@ public class PlayerMediator : MonoBehaviour
 
         if (_grabDropCooldown <= 0)
             Debug.LogWarning("The cooldown when grabbing and dropping the weapon is too low. This may cause glitches");
-        if (!_bulletSpawn)
-            Debug.LogError(nameof(_bulletSpawn) + " is null");
+        if (!_bulletSpawnGO)
+            Debug.LogError(nameof(_bulletSpawnGO) + " is null");
     }
 
     private void OnEnable()

@@ -138,15 +138,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabBullet: {fileID: 7637650232631434396, guid: 5f8dda5cf4003dd48850d933bc9d6843, type: 3}
   _shootAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _weaponParent: {fileID: 0}
   user: {fileID: 0}
-  _usesHitscan: 0
   _debugUser: 0
-  _weaponLayerIndex: 0
-  _centerSpawn: {fileID: 0}
-  _tip: {fileID: 9074543560536277174}
+  _usesHitscan: 0
   _hitscanTrail: {fileID: 2309883103529357667, guid: 501a9a698837b9841bda7e7c41f20101, type: 3}
-  _soundManager: {fileID: 11400000, guid: 15df097b5c7b8e94d9c024313a1e1abb, type: 2}
+  _weaponLayerIndex: 0
+  _centerSpawnGO: {fileID: 0}
+  _tipGO: {fileID: 9074543560536277174}
   pickupScale: {x: 0.2, y: 0.2, z: 0.2}
   dropScale: {x: 0, y: 0, z: 0}
 --- !u!65 &2042793353892467015

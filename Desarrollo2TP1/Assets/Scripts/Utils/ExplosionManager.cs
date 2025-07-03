@@ -7,7 +7,7 @@ using UnityEngine;
 public class ExplosionManager : MonoBehaviour
 {
     [SerializeField] private float _secondsForExplosion;
-    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _explosionPrefabGO;
     [SerializeField] private float _explosionDuration;
     [SerializeField] public float _explosionRange;
     private float _currentExplosionDuration;
@@ -20,7 +20,7 @@ public class ExplosionManager : MonoBehaviour
     private void Awake()
     {
         _timeForExplosion = 0;
-        _explosionPrefab.SetActive(false);
+        _explosionPrefabGO.SetActive(false);
         _currentExplosionDuration = 0;
         if (_explosionRange < 0.1f)
             Debug.LogError("Explosion range was not defined or it's too low");
@@ -44,7 +44,7 @@ public class ExplosionManager : MonoBehaviour
 
             if (_currentExplosionDuration > _explosionDuration)
             {
-                _explosionPrefab.SetActive(false);
+                _explosionPrefabGO.SetActive(false);
                 _currentExplosionDuration = 0;
                 Destroy(gameObject);
             }
@@ -54,7 +54,7 @@ public class ExplosionManager : MonoBehaviour
     private void Explode()
     {
         _soundPlayer.PlaySound(SFXType.EXPLOSION);
-        _explosionPrefab.SetActive(true);
+        _explosionPrefabGO.SetActive(true);
         _explosionImminent = false;
         _timeForExplosion = 0;
         _exploded = true;

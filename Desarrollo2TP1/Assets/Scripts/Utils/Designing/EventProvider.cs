@@ -21,7 +21,7 @@ public static class EventProvider
             _eventListeners[typeof(T)] = listener;
     }
 
-    public static void Unsuscribe<T>(Action<T> listener) where T : IEvent
+    public static void Unsubscribe<T>(Action<T> listener) where T : IEvent
     {
         if (_eventListeners.TryGetValue(typeof(T), out var existingDelegate))
         {

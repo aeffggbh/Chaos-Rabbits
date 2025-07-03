@@ -20,8 +20,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private TrailRenderer _hitscanTrail;
     [Header("Setup")]
     [SerializeField] private int _weaponLayerIndex;
-    [SerializeField] private GameObject _centerSpawn;
-    [SerializeField] private GameObject _tip;
+    [SerializeField] private GameObject _centerSpawnGO;
+    [SerializeField] private GameObject _tipGO;
     [SerializeField] private Vector3 pickupScale = new(0.2f, 0.2f, 0.2f);
     [SerializeField] private Vector3 dropScale;
     private WeaponAnimationController _weaponAnimation;
@@ -47,8 +47,8 @@ public class Weapon : MonoBehaviour
 
         _soundPlayer = new SoundPlayer(_audioSource);
 
-        if (!_tip)
-            Debug.LogError(nameof(_tip) + " is null.");
+        if (!_tipGO)
+            Debug.LogError(nameof(_tipGO) + " is null.");
 
         if (!_shootAction)
             Debug.LogWarning(nameof(_shootAction) + " is null");
@@ -75,9 +75,9 @@ public class Weapon : MonoBehaviour
         if (!_weaponAnimation)
             Debug.LogError("WeaponAnimationController is not assigned to " + name);
 
-        if (!_centerSpawn)
+        if (_centerSpawnGO != null && user != null)
             if (user.GetType() == typeof(Player))
-                Debug.LogError(nameof(_centerSpawn) + " is null.");
+                Debug.LogError(nameof(_centerSpawnGO) + " is null.");
     }
 
     private void Update()
@@ -127,7 +127,7 @@ public class Weapon : MonoBehaviour
 
         if (!_usesHitscan)
         {
-            GameObject spawn = _centerSpawn ? _centerSpawn : _tip;
+            GameObject spawn = _centerSpawnGO ? _centerSpawnGO : _tipGO;
 
             var newBullet = Instantiate(_prefabBullet,
                                         spawn.transform.position,
@@ -199,10 +199,10 @@ public class Weapon : MonoBehaviour
         if (!GetComponent<Rigidbody>())
             gameObject.AddComponent<Rigidbody>();
 
-        if (_tip)
-            _centerSpawn = _tip;
+        if (_tipGO)
+            _centerSpawnGO = _tipGO;
         else
-            Debug.LogError(nameof(_tip) + " is null");
+            Debug.LogError(nameof(_tipGO) + " is null");
 
         gameObject.layer = 0;
 
@@ -221,17 +221,17 @@ public class Weapon : MonoBehaviour
 
         float hitDistance = 100f;
 
-        if (RayManager.PointingToObject(_centerSpawn.transform, hitDistance, out RaycastHit hitInfo))
+        if (RayManager.PointingToObject(_centerSpawnGO.transform, hitDistance, out RaycastHit hitInfo))
             hit = hitInfo;
 
-        TrailRenderer trail = Instantiate(_hitscanTrail, _tip.transform.position, Quaternion.identity);
+        TrailRenderer trail = Instantiate(_hitscanTrail, _tipGO.transform.position, Quaternion.identity);
 
         Rigidbody rb = trail.gameObject.AddComponent<Rigidbody>();
         rb.freezeRotation = true;
 
         float force = hitDistance * 2f;
 
-        rb.AddForce(_centerSpawn.transform.forward * force, ForceMode.Impulse);
+        rb.AddForce(_centerSpawnGO.transform.forward * force, ForceMode.Impulse);
 
         Destroy(trail.gameObject, hitDistance / 500f);
 
@@ -254,7 +254,7 @@ public class Weapon : MonoBehaviour
     {
         Debug.Log(spawn.name + " is now the bullet spawn for " + name);
 
-        _centerSpawn = spawn;
+        _centerSpawnGO = spawn;
     }
 
     public void Animate()

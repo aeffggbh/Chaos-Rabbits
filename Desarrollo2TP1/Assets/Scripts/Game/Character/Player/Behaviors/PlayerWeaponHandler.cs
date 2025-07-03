@@ -6,7 +6,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
     public Weapon CurrentWeapon { get; set; }
 
     private Transform _weaponParent;
-    private GameObject _bulletSpawn;
+    private GameObject _bulletSpawnGO;
     private readonly float _grabDropCooldown;
     private float _maxWeaponDistance;
     PlayerAnimationController _animationController;
@@ -14,7 +14,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
 
     public PlayerWeaponHandler(GameObject bulletSpawn, float maxWeaponDistance, float grabDropCooldown, Weapon currentWeapon, PlayerAnimationController playerAnimation, Transform weaponParent)
     {
-        _bulletSpawn = bulletSpawn;
+        _bulletSpawnGO = bulletSpawn;
         _maxWeaponDistance = maxWeaponDistance;
         _grabDropCooldown = grabDropCooldown;
         CurrentWeapon = currentWeapon;
@@ -62,7 +62,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
 
         CurrentWeapon = weapon;
         weapon.user = _playerController.player;
-        CurrentWeapon.SetBulletSpawn(_bulletSpawn);
+        CurrentWeapon.SetBulletSpawn(_bulletSpawnGO);
         //TODO: send weaponParent by parameter here?
         CurrentWeapon.Hold(_weaponParent);
         _animationController?.GrabWeapon();

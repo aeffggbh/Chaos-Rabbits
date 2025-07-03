@@ -451,9 +451,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b46ef290f330ce4abe409606badf480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lookX: {fileID: 8549862357171753276}
-  _lookY: {fileID: 1667733075886942998}
-  actualCamera: {fileID: 0}
+  _lookXGO: {fileID: 8549862357171753276}
+  _lookYGO: {fileID: 1667733075886942998}
+  actualCamera: {fileID: 8536552224511825266}
   _bodyDelay: 2
 --- !u!1 &2448541891737937328
 GameObject:
@@ -1101,9 +1101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beae295d0b75e114c80bfbb6c8bed3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  maxHealth: 100
-  currentHealth: 100
+  _damage: 0
   _walkSpeed: 40
   _runSpeed: 100
   _acceleration: 20
@@ -1267,8 +1265,7 @@ MonoBehaviour:
   _jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _dropAction: {fileID: -6697303918269174070, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _grabAction: {fileID: -542590151754964402, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _cineMachineBrain: {fileID: 0}
-  _bulletSpawn: {fileID: 1799241602799130403}
+  _bulletSpawnGO: {fileID: 1799241602799130403}
   _maxWeaponDistance: 6
   _grabDropCooldown: 0.2
   player: {fileID: 155055454107216654}

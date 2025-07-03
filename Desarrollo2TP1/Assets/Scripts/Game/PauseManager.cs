@@ -10,12 +10,12 @@ using UnityEngine.InputSystem;
 public class PauseManager : MonoBehaviour
 {
     [Header("Menu")]
-    [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private GameObject _checkExitMenu;
+    [SerializeField] private GameObject _pauseMenuGO;
+    [SerializeField] private GameObject _checkExitMenuGO;
     [Header("Events")]
     [SerializeField] EventSystem eventSystem;
-    [SerializeField] private GameObject _firstButtonA;
-    [SerializeField] private GameObject _firstButtonB;
+    [SerializeField] private GameObject _firstButtonAGO;
+    [SerializeField] private GameObject _firstButtonBGO;
     private bool paused = false;
     private AudioSource _audioSource;
     private ISoundPlayer _soundPlayer;
@@ -30,11 +30,11 @@ public class PauseManager : MonoBehaviour
         else
             Debug.LogWarning("GameManager not initialized, cannot set pause button");
 
-        if (!_pauseMenu)
-            Debug.LogError(nameof(_pauseMenu) + " is null");
+        if (!_pauseMenuGO)
+            Debug.LogError(nameof(_pauseMenuGO) + " is null");
 
-        if (!_checkExitMenu)
-            Debug.LogError(nameof(_checkExitMenu) + " is null");
+        if (!_checkExitMenuGO)
+            Debug.LogError(nameof(_checkExitMenuGO) + " is null");
 
         if (!_audioSource)
             _audioSource = GetComponent<AudioSource>();
@@ -44,7 +44,7 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
-        if (paused && !_pauseMenu.activeSelf)
+        if (paused && !_pauseMenuGO.activeSelf)
             paused = false;
     }
 
@@ -61,17 +61,17 @@ public class PauseManager : MonoBehaviour
             Time.timeScale = paused ? 0f : 1f;
 
             if (paused)
-                eventSystem.SetSelectedGameObject(_firstButtonA);
+                eventSystem.SetSelectedGameObject(_firstButtonAGO);
             else
                 eventSystem.SetSelectedGameObject(null);
 
-            if (_pauseMenu)
-                _pauseMenu.SetActive(paused);
+            if (_pauseMenuGO)
+                _pauseMenuGO.SetActive(paused);
 
             GameManager.SetPause(paused);
 
-            if (_checkExitMenu)
-                _checkExitMenu.SetActive(false);
+            if (_checkExitMenuGO)
+                _checkExitMenuGO.SetActive(false);
 
         }
         else
@@ -85,12 +85,12 @@ public class PauseManager : MonoBehaviour
     /// </summary>
     public void CheckExit()
     {
-        if (_checkExitMenu)
+        if (_checkExitMenuGO)
         {
-            _checkExitMenu.SetActive(true);
-            if (_pauseMenu)
-                _pauseMenu.SetActive(false);
-            eventSystem.SetSelectedGameObject(_firstButtonB);
+            _checkExitMenuGO.SetActive(true);
+            if (_pauseMenuGO)
+                _pauseMenuGO.SetActive(false);
+            eventSystem.SetSelectedGameObject(_firstButtonBGO);
         }
 
         PlayButtonSound();
@@ -102,10 +102,10 @@ public class PauseManager : MonoBehaviour
     /// </summary>
     public void BackToMenu()
     {
-        if (_checkExitMenu)
-            _checkExitMenu.SetActive(false);
-        if (_pauseMenu)
-            _pauseMenu.SetActive(false);
+        if (_checkExitMenuGO)
+            _checkExitMenuGO.SetActive(false);
+        if (_pauseMenuGO)
+            _pauseMenuGO.SetActive(false);
         GameManager.SetPause(false);
         paused = false;
 
@@ -117,11 +117,11 @@ public class PauseManager : MonoBehaviour
 
     public void BackToPause()
     {
-        if (_checkExitMenu)
+        if (_checkExitMenuGO)
         {
-            _checkExitMenu.SetActive(false);
-            _pauseMenu.SetActive(true);
-            eventSystem.SetSelectedGameObject(_firstButtonA);
+            _checkExitMenuGO.SetActive(false);
+            _pauseMenuGO.SetActive(true);
+            eventSystem.SetSelectedGameObject(_firstButtonAGO);
         }
 
         PlayButtonSound();
@@ -129,10 +129,10 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        if (_pauseMenu)
-            _pauseMenu.SetActive(false);
-        if (_checkExitMenu)
-            _checkExitMenu.SetActive(false);
+        if (_pauseMenuGO)
+            _pauseMenuGO.SetActive(false);
+        if (_checkExitMenuGO)
+            _checkExitMenuGO.SetActive(false);
         Time.timeScale = 1f;
         GameManager.SetPause(false);
         paused = false;

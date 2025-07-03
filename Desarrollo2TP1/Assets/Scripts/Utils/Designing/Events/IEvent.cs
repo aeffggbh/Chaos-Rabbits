@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public interface IEvent
 {
-    string Name { get; }
+    GameObject TriggeredByGO { get; set; } 
 }

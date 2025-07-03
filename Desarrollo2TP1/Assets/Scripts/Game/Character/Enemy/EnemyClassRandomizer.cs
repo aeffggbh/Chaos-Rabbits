@@ -6,9 +6,9 @@ using UnityEngine;
 /// </summary>
 public class EnemyClassRandomizer : MonoBehaviour
 {
-    [SerializeField] private GameObject _jumpingEnemyPrefab;
-    [SerializeField] private GameObject _normalEnemyPrefab;
-    [SerializeField] private GameObject _explodingEnemyPrefab;
+    [SerializeField] private GameObject _jumpingEnemyPrefabGO;
+    [SerializeField] private GameObject _normalEnemyPrefabGO;
+    [SerializeField] private GameObject _explodingEnemyPrefabGO;
     [SerializeField] private Type debugType = typeof(ExplodingEnemy);
 
     /// <summary>
@@ -37,18 +37,18 @@ public class EnemyClassRandomizer : MonoBehaviour
         if (debugType != null)
             chosenType = debugType;
 
-        GameObject modelInstance = null;
+        GameObject modelInstanceGO = null;
 
         if (chosenType == typeof(JumpingEnemy))
-            modelInstance = Instantiate(_jumpingEnemyPrefab, transform);
+            modelInstanceGO = Instantiate(_jumpingEnemyPrefabGO, transform);
         else if (chosenType == typeof(NormalEnemy))
-            modelInstance = Instantiate(_normalEnemyPrefab, transform);
+            modelInstanceGO = Instantiate(_normalEnemyPrefabGO, transform);
         else if (chosenType == typeof(ExplodingEnemy))
-            modelInstance = Instantiate(_explodingEnemyPrefab, transform);
+            modelInstanceGO = Instantiate(_explodingEnemyPrefabGO, transform);
 
-        if (modelInstance == null)
+        if (modelInstanceGO == null)
             Debug.LogError("No model found in " + gameObject.name);
         else
-            modelInstance.AddComponent(chosenType);
+            modelInstanceGO.AddComponent(chosenType);
     }
 }

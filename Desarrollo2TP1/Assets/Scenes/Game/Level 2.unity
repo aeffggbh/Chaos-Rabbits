@@ -7476,6 +7476,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 943675269}
     - target: {fileID: 6349197884403927553, guid: b162533554c1e394eb4bea82852a87fc, type: 3}
+      propertyPath: _pauseMenuGO
+      value: 
+      objectReference: {fileID: 1556734280}
+    - target: {fileID: 6349197884403927553, guid: b162533554c1e394eb4bea82852a87fc, type: 3}
       propertyPath: _firstButtonA
       value: 
       objectReference: {fileID: 1556734279}
@@ -7485,6 +7489,18 @@ PrefabInstance:
       objectReference: {fileID: 618046432}
     - target: {fileID: 6349197884403927553, guid: b162533554c1e394eb4bea82852a87fc, type: 3}
       propertyPath: _checkExitMenu
+      value: 
+      objectReference: {fileID: 618046433}
+    - target: {fileID: 6349197884403927553, guid: b162533554c1e394eb4bea82852a87fc, type: 3}
+      propertyPath: _firstButtonAGO
+      value: 
+      objectReference: {fileID: 1556734279}
+    - target: {fileID: 6349197884403927553, guid: b162533554c1e394eb4bea82852a87fc, type: 3}
+      propertyPath: _firstButtonBGO
+      value: 
+      objectReference: {fileID: 618046432}
+    - target: {fileID: 6349197884403927553, guid: b162533554c1e394eb4bea82852a87fc, type: 3}
+      propertyPath: _checkExitMenuGO
       value: 
       objectReference: {fileID: 618046433}
     - target: {fileID: 7679691018174579005, guid: b162533554c1e394eb4bea82852a87fc, type: 3}
