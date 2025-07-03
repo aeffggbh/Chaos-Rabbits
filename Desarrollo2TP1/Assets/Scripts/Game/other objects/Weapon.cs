@@ -12,16 +12,16 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private Bullet _prefabBullet;
     [SerializeField] private InputActionReference _shootAction;
-    [SerializeField] private Transform _weaponParent;
     [Header("User")]
     [SerializeField] public Character user;
+    [SerializeField] private bool _debugUser;
     [Header("Hitscan")]
     [SerializeField] private bool _usesHitscan;
-    [SerializeField] private bool _debugUser;
+    [SerializeField] private TrailRenderer _hitscanTrail;
+    [Header("Setup")]
     [SerializeField] private int _weaponLayerIndex;
     [SerializeField] private GameObject _centerSpawn;
     [SerializeField] private GameObject _tip;
-    [SerializeField] private TrailRenderer _hitscanTrail;
     [SerializeField] private Vector3 pickupScale = new(0.2f, 0.2f, 0.2f);
     [SerializeField] private Vector3 dropScale;
     private WeaponAnimationController _weaponAnimation;
@@ -38,12 +38,6 @@ public class Weapon : MonoBehaviour
     {
         if (!_prefabBullet && !_usesHitscan)
             Debug.LogError(nameof(_prefabBullet) + " is null");
-
-        if (!_weaponParent)
-        {
-            Debug.LogWarning(nameof(_weaponParent) + " is null");
-            Drop();
-        }
     }
     private void Start()
     {
@@ -71,8 +65,6 @@ public class Weapon : MonoBehaviour
             if (!user.IsWeaponUser)
                 Debug.LogError(nameof(user) + " is not a weapon user");
 
-            if (user.GetType() == typeof(Player))
-                Hold();
             else if (user.GetType() == typeof(Enemy))
                 if (_usesHitscan)
                     Debug.LogError("Enemies cannot use hitscan. Deactivate the hitscan option!");
@@ -158,7 +150,7 @@ public class Weapon : MonoBehaviour
     /// <summary>
     /// Holds the weapon, making it a child of the weapon parent and resetting its position and rotation.
     /// </summary>
-    public void Hold()
+    public void Hold(Transform _weaponParent)
     {
         if (GameManager.paused)
             return;

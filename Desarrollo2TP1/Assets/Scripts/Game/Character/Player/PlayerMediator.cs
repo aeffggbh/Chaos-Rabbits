@@ -37,6 +37,7 @@ public class PlayerMediator : MonoBehaviour
 
     [SerializeField] public Player player;
     [SerializeField] private PlayerAnimationController _playerAnimation;
+    [SerializeField] private Transform _weaponParent;
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
     private IPlayerInputHandler _playerInput;
@@ -55,7 +56,8 @@ public class PlayerMediator : MonoBehaviour
             _maxWeaponDistance,
             _grabDropCooldown,
             player.currentWeapon,
-            _playerAnimation
+            _playerAnimation,
+            _weaponParent
             );
 
         _playerInput = new PlayerInputHandler();

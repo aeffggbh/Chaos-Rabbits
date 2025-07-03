@@ -1273,6 +1273,7 @@ MonoBehaviour:
   _grabDropCooldown: 0.2
   player: {fileID: 155055454107216654}
   _playerAnimation: {fileID: 7551713182701535122}
+  _weaponParent: {fileID: 2363987645471641430}
 --- !u!1 &8402522496641810630
 GameObject:
   m_ObjectHideFlags: 0
