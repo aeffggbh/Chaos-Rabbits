@@ -1007,11 +1007,11 @@ GameObject:
   - component: {fileID: 3795132662069019572}
   - component: {fileID: 5507194340101399981}
   - component: {fileID: 155055454107216654}
-  - component: {fileID: 695330196414658549}
   - component: {fileID: 1911516370216717831}
   - component: {fileID: 7960126370605106343}
   - component: {fileID: 915007802524771920}
   - component: {fileID: 7551713182701535122}
+  - component: {fileID: 5399720175571696743}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -1112,28 +1112,6 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   _weaponParent: {fileID: 2363987645471641430}
   _audioSource: {fileID: 0}
---- !u!114 &695330196414658549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7912271763414076063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb3d887a20f23c64389a841a5a5cb0fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _dropAction: {fileID: -6697303918269174070, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _grabAction: {fileID: -542590151754964402, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _cineMachineBrain: {fileID: 0}
-  _bulletSpawn: {fileID: 1799241602799130403}
-  _maxWeaponDistance: 10
-  _grabDropCooldown: 0.2
-  player: {fileID: 155055454107216654}
-  _playerAnimation: {fileID: 7551713182701535122}
 --- !u!95 &1911516370216717831
 Animator:
   serializedVersion: 7
@@ -1273,6 +1251,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9609134a7ed02cd4b89075f3700160b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5399720175571696743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912271763414076063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05995bc0917362447a7dced8e92c25fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _dropAction: {fileID: -6697303918269174070, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _grabAction: {fileID: -542590151754964402, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _cineMachineBrain: {fileID: 0}
+  _bulletSpawn: {fileID: 1799241602799130403}
+  _maxWeaponDistance: 6
+  _grabDropCooldown: 0.2
+  player: {fileID: 155055454107216654}
+  _playerAnimation: {fileID: 7551713182701535122}
 --- !u!1 &8402522496641810630
 GameObject:
   m_ObjectHideFlags: 0

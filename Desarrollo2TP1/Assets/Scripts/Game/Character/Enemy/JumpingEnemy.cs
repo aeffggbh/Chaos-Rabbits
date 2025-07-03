@@ -18,7 +18,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     {
         base.Start();
 
-        _jumpForce = _playerController.player.GetJumpForce() / 2;
+        _jumpForce = _playerMediator.player.GetJumpForce() / 2;
         _currentJumpForce = _jumpForce;
         _defaultMoveSpeed = _moveSpeed;
         _patrolSpeed /= 2;

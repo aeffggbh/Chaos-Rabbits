@@ -1,11 +1,12 @@
-using Unity.Cinemachine;
+﻿using Unity.Cinemachine;
 using UnityEngine;
 
-public class CinemachineManager : MonoBehaviour
+[RequireComponent(typeof(CinemachineBrain))]
+[RequireComponent(typeof(Camera))]
+public class CineMachineManager : MonoBehaviour
 {
-    public static CinemachineManager Instance;
-    [SerializeField] CinemachineCamera _cinemachineCamera;
-    private CinemachineBrain _cinemachineBrain;
+    public static CineMachineManager Instance;
+    public CinemachineBrain cineMachineBrain;
 
     private void Awake()
     {
@@ -17,7 +18,7 @@ public class CinemachineManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        _cinemachineBrain = this.GetComponent<CinemachineBrain>();
+        cineMachineBrain = this.GetComponent<CinemachineBrain>();
     }
-        
+
 }

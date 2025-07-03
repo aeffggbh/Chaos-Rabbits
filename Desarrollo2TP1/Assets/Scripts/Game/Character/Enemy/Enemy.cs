@@ -34,7 +34,7 @@ public abstract class Enemy : Character
     protected float _idleCurrentTime;
     protected Vector3 _counterMovement;
     protected AnimationController animationController;
-    protected PlayerMediator _playerController;
+    protected PlayerMediator _playerMediator;
     protected States currentState = States.NONE;
     protected bool isExplodingEnemy;
     protected Coroutine _currentStateCoroutine;
@@ -80,7 +80,7 @@ public abstract class Enemy : Character
         isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
 
         if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
-            _playerController = playerController;
+            _playerMediator = playerController;
 
         _chaseBehavior = this as IChaseBehavior;
         _attackBehavior = this as IAttackBehavior;
@@ -147,9 +147,17 @@ public abstract class Enemy : Character
 
             while (currentState == States.ATTACK)
             {
-                _targetLook = _playerController.transform.position;
-                _attackBehavior.Attack();
-                _timeSinceAttacked += Time.deltaTime;
+                if (_playerMediator)
+                {
+                    _targetLook = _playerMediator.transform.position;
+                    _attackBehavior.Attack();
+                    _timeSinceAttacked += Time.deltaTime;
+                }
+                else
+                {
+                    if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
+                        _playerMediator = playerController;
+                }
                 yield return null;
             }
         }
@@ -186,8 +194,8 @@ public abstract class Enemy : Character
     /// <returns></returns>
     protected float GetPlayerDistance()
     {
-        if (_playerController)
-            return Vector3.Distance(transform.position, _playerController.transform.position);
+        if (_playerMediator)
+            return Vector3.Distance(transform.position, _playerMediator.transform.position);
         return 0;
     }
 
@@ -197,7 +205,7 @@ public abstract class Enemy : Character
     /// <returns></returns>
     protected Vector3 GetPlayerDirection()
     {
-        Vector3 playerDir = (_playerController.transform.position - transform.position).normalized;
+        Vector3 playerDir = (_playerMediator.transform.position - transform.position).normalized;
         playerDir.y = 0;
         return playerDir;
     }
@@ -227,7 +235,7 @@ public abstract class Enemy : Character
         //Debug.Log("Player direction:" + GetPlayerDirection());
         _moveDir = GetPlayerDirection();
 
-        _targetLook = _playerController.transform.position;
+        _targetLook = _playerMediator.transform.position;
     }
 
     /// <summary>

@@ -48,9 +48,7 @@ public class PlayerMediator : MonoBehaviour
         _playerAnimation = GetComponent<PlayerAnimationController>();
         player = GetComponent<Player>();
 
-        _playerMovement = new PlayerMovementCalculator(
-            _cineMachineBrain
-            );
+        _playerMovement = new PlayerMovementCalculator();
 
         _playerWeapon = new PlayerWeaponHandler(
             _bulletSpawn,
@@ -85,7 +83,7 @@ public class PlayerMediator : MonoBehaviour
     private void InitCamera()
     {
         if (!_cineMachineBrain)
-            _cineMachineBrain = CinemachineManager.Instance.GetComponent<CinemachineBrain>();
+            _cineMachineBrain = CineMachineManager.Instance.GetComponent<CinemachineBrain>();
 
         if (_cineMachineBrain)
             _playerMovement.SetCamera(_cineMachineBrain.GetComponent<Camera>());

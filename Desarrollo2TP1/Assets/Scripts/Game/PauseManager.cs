@@ -148,6 +148,17 @@ public class PauseManager : MonoBehaviour
 
     private void PlayButtonSound()
     {
+        if (!_soundManager)
+        {
+            Debug.LogError(nameof(_soundManager) + " is null");
+            return;
+        }
+        else if (!_audioSource)
+        {
+            Debug.LogError(nameof(_audioSource) + " is null");
+            return;
+        }
+
         _soundManager.PlaySound(SFXType.CONFIRM, _audioSource);
     }
 
