@@ -3,10 +3,12 @@ using UnityEngine;
 /// <summary>
 /// Represents a normal enemy that shoots the player
 /// </summary>
-public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavior, IMovementBehavior, IIdleBehavior
+public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavior, IMovementBehavior, IIdleBehavior, IWeaponUser
 {
     private ClownAnimationController _clownAnimation;
     private Weapon _enemyWeapon;
+
+    public Weapon CurrentWeapon { get => _enemyWeapon; set { _enemyWeapon = value; } }
 
     private void OnEnable()
     {
@@ -67,7 +69,6 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
             Debug.LogError("AnimationController is null for " + gameObject.name);
     }
 
-    //todo: I cant do anything about this, can I?
     public void ActivateAttack()
     {
         Debug.Log(nameof(NormalEnemy) + " is about to attack");

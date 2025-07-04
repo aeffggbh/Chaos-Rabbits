@@ -9,7 +9,7 @@ public class EnemyClassRandomizer : MonoBehaviour
     [SerializeField] private GameObject _jumpingEnemyPrefabGO;
     [SerializeField] private GameObject _normalEnemyPrefabGO;
     [SerializeField] private GameObject _explodingEnemyPrefabGO;
-    [SerializeField] private Type debugType = typeof(ExplodingEnemy);
+    [SerializeField] private Type debugType = typeof(NormalEnemy);
 
     /// <summary>
     /// Array of enemy types to randomly choose from.

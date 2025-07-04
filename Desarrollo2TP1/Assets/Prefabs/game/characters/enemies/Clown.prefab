@@ -494,6 +494,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f62f7dc06bd890d4aab43b8fd635fe02, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7484666173985750711}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f62f7dc06bd890d4aab43b8fd635fe02, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4929658473877734493}
   m_SourcePrefab: {fileID: 100100000, guid: f62f7dc06bd890d4aab43b8fd635fe02, type: 3}
 --- !u!4 &29195826951822826 stripped
 Transform:
@@ -519,15 +522,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabBullet: {fileID: 7637650232631434396, guid: 5f8dda5cf4003dd48850d933bc9d6843, type: 3}
   _shootAction: {fileID: 0}
-  _weaponParent: {fileID: 3279059185185944212}
   user: {fileID: 0}
-  _usesHitscan: 0
   _debugUser: 0
-  weaponLayerIndex: 0
-  _bulletSpawn: {fileID: 0}
-  _tip: {fileID: 7292788700790019908}
+  _usesHitscan: 0
   _hitscanTrail: {fileID: 0}
-  _soundManager: {fileID: 0}
+  _weaponLayerIndex: 0
+  _centerSpawnGO: {fileID: 0}
+  _tipGO: {fileID: 805134842924844880}
+  pickupScale: {x: 0.2, y: 0.2, z: 0.2}
+  dropScale: {x: 0, y: 0, z: 0}
 --- !u!82 &7484666173985750711
 AudioSource:
   m_ObjectHideFlags: 0
@@ -625,6 +628,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4929658473877734493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805134842924844880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2dbe3023538a944a2fd75912cf363a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4526227156773918466
 PrefabInstance:
   m_ObjectHideFlags: 0

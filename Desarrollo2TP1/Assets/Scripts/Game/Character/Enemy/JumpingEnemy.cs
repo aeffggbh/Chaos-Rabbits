@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Represents an enemy that jumps towards the player.
@@ -9,6 +10,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     [SerializeField] private float _jumpForceMultiplier = 3.5f;
     [SerializeField] private float _speedMultiplier = 2f;
     [SerializeField] private float _groundCheckDistance = 0.3f;
+
     private float _defaultMoveSpeed;
     private float _currentJumpForce;
     private float _timer;
@@ -24,7 +26,6 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         _patrolSpeed /= 2;
         _chasingSpeed /= 2;
     }
-
 
     public void ActivateChase()
     {
@@ -50,13 +51,18 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
                 ResetMoveSpeed();
             }
 
-            Vector3 velocity = _rb.linearVelocity;
-            velocity.y = _currentJumpForce;
-            _rb.linearVelocity = velocity;
+            ActivateJump();
         }
 
         _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse); 
 
+    }
+
+    private void ActivateJump()
+    {
+        Vector3 velocity = _rb.linearVelocity;
+        velocity.y = _currentJumpForce;
+        _rb.linearVelocity = velocity;
     }
 
     private bool IsGrounded()

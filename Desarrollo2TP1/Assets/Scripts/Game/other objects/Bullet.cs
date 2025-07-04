@@ -1,19 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Represents a bullet that can be fired by a weapon.
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BulletPhysics))]
 internal class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _force;
-    [SerializeField] private Rigidbody _rb;
-    private Character _whoIsFiring;
-    private Weapon _originWeapon;
+    private IWeaponUser _whoIsFiring;
+    private BulletPhysics _bulletPhysics;
+    private GameObject _originWeapon;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        _bulletPhysics = GetComponent<BulletPhysics>();
     }
 
     /// <summary>
@@ -22,15 +22,20 @@ internal class Bullet : MonoBehaviour
     /// <param name="wParent"></param>
     /// <param name="opponentType"></param>
     /// <param name="damage"></param>
-    public void Fire(Transform wParent, Character whoIsFiring, Weapon weapon)
+    public void Fire(Transform wParent, IWeaponUser whoIsFiring)
     {
         Debug.Log("Firing bullet from " + wParent.name + " by " + whoIsFiring);
 
-        _rb.AddForce(_force * Time.fixedDeltaTime * wParent.forward, ForceMode.Impulse);
-
         _whoIsFiring = whoIsFiring;
+        if (_whoIsFiring.CurrentWeapon != null)
+            _originWeapon = whoIsFiring.CurrentWeapon.gameObject;
+        else
+        {
+            Debug.LogError("user has no weapon to fire with..");
+            return;
+        }
 
-        _originWeapon = weapon;
+        _bulletPhysics.Fire(wParent);
     }
 
     /// <summary>
@@ -39,15 +44,40 @@ internal class Bullet : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        Character hitCharacter = collision.gameObject.GetComponent<Character>();
+        HandleCollision(collision.gameObject);
+    }
 
-        if (hitCharacter != null && hitCharacter != _whoIsFiring)
-        {
-            hitCharacter.TakeDamage(_whoIsFiring.Damage);
-            Debug.Log("Shot " + hitCharacter.name + " for " + _whoIsFiring.Damage + " damage");
-        }
+    private void HandleCollision(GameObject collision)
+    {
+        if (ShouldIgnoreCollision(collision))
+            return;
 
-        if (collision.gameObject != _originWeapon && collision.gameObject != _whoIsFiring.gameObject)
-            Destroy(gameObject);
+        TryApplyDamage(collision);
+
+        Destroy(gameObject);
+
+        //Character hitCharacter = collision.gameObject.GetComponent<Character>();
+
+        //if (hitCharacter != null && hitCharacter != _whoIsFiring)
+        //{
+        //    hitCharacter.TakeDamage(_whoIsFiring.Damage);
+        //    Debug.Log("Shot " + hitCharacter.name + " for " + _whoIsFiring.Damage + " damage");
+        //}
+
+        //if (collision.gameObject != _originWeapon && collision.gameObject != _whoIsFiring.gameObject)
+        //    Destroy(gameObject);
+    }
+
+    private void TryApplyDamage(GameObject collision)
+    {
+        var damageable = collision.GetComponent<IDamageable>();
+
+        if (damageable != null)
+            damageable.TakeDamage(_whoIsFiring.Damage);
+    }
+
+    private bool ShouldIgnoreCollision(GameObject collision)
+    {
+        return collision == _originWeapon || collision == _whoIsFiring.gameObject;
     }
 }

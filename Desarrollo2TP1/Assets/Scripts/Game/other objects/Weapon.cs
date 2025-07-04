@@ -48,7 +48,7 @@ public class Weapon : MonoBehaviour
         _soundPlayer = new SoundPlayer(_audioSource);
 
         if (!_tipGO)
-            Debug.LogError(nameof(_tipGO) + " is null.");
+            Debug.LogError(nameof(_tipGO) + " is null. for " + this.gameObject);
 
         if (!_shootAction)
             Debug.LogWarning(nameof(_shootAction) + " is null");
@@ -133,7 +133,7 @@ public class Weapon : MonoBehaviour
                                         spawn.transform.position,
                                         spawn.transform.rotation);
             if (newBullet)
-                newBullet.Fire(spawn.transform, user, this);
+                newBullet.Fire(spawn.transform, user as IWeaponUser);
             else
                 Debug.LogError("Bullet prefab is null or not set correctly.");
         }

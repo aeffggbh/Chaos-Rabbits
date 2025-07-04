@@ -17,12 +17,13 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
         _bulletSpawnGO = bulletSpawn;
         _maxWeaponDistance = maxWeaponDistance;
         _grabDropCooldown = grabDropCooldown;
-        CurrentWeapon = currentWeapon;
         _animationController = playerAnimation;
         _weaponParent = weaponParent;
 
         if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
             _playerController = playerController;
+
+        CurrentWeapon = _playerController.player.CurrentWeapon;
     }
 
     /// <summary>
@@ -61,10 +62,11 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
             DropWeapon();
 
         CurrentWeapon = weapon;
-        weapon.user = _playerController.player;
+        CurrentWeapon.user = _playerController.player;
         CurrentWeapon.SetBulletSpawn(_bulletSpawnGO);
         //TODO: send weaponParent by parameter here?
         CurrentWeapon.Hold(_weaponParent);
+        _playerController.player.CurrentWeapon = CurrentWeapon;
         _animationController?.GrabWeapon();
     }
 

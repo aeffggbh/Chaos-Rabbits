@@ -59,7 +59,7 @@ public class PlayerMediator : MonoBehaviour
             _bulletSpawnGO,
             _maxWeaponDistance,
             _grabDropCooldown,
-            player.currentWeapon,
+            player.CurrentWeapon,
             _playerAnimation,
             _weaponParent
             );

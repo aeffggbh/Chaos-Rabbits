@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(AudioListener))]
 [RequireComponent(typeof(PlayerAnimationController))]
-public class Player : Character
+public class Player : Character, IWeaponUser
 {
     private IPlayerMovement _movement;
     private IPlayerJump _jump;
@@ -30,11 +30,12 @@ public class Player : Character
     [Header("Jump")]
     [SerializeField] private float _jumpForce;
     [Header("Weapon")]
-    [SerializeField] public Weapon currentWeapon;
+    [SerializeField] private Weapon _currentWeapon;
     [SerializeField] private Transform _weaponParent;
     [Header("Sound")]
     [SerializeField] private AudioSource _audioSource;
     private IPlayerMovementCalculator _playerCalculator;
+    public Weapon CurrentWeapon { get => _currentWeapon; set { _currentWeapon = value; } }
 
     private void Awake()
     {
