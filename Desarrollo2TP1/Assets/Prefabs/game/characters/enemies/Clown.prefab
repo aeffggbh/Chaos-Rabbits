@@ -527,8 +527,8 @@ MonoBehaviour:
   _usesHitscan: 0
   _hitscanTrail: {fileID: 0}
   _weaponLayerIndex: 0
-  _centerSpawnGO: {fileID: 0}
-  _tipGO: {fileID: 805134842924844880}
+  _centerSpawnGO: {fileID: 7292788700790019908}
+  _tipGO: {fileID: 7292788700790019908}
   pickupScale: {x: 0.2, y: 0.2, z: 0.2}
   dropScale: {x: 0, y: 0, z: 0}
 --- !u!82 &7484666173985750711

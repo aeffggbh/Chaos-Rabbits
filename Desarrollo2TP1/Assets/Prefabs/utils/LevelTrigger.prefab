@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 338845788217957267}
   m_Layer: 0
   m_Name: LevelTrigger
-  m_TagString: Untagged
+  m_TagString: LevelTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -44,7 +44,8 @@ internal class Bullet : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        HandleCollision(collision.gameObject);
+        if (!collision.CompareTag("LevelTrigger"))
+            HandleCollision(collision.gameObject);
     }
 
     private void HandleCollision(GameObject collision)

@@ -9,6 +9,7 @@ TagManager:
   - enemy
   - Player Resetter
   - Wall
+  - LevelTrigger
   layers:
   - Default
   - TransparentFX
