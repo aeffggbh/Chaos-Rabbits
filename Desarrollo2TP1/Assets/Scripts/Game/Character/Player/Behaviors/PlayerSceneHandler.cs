@@ -1,23 +1,15 @@
 ﻿
-using Unity.Cinemachine;
+//using Unity.Cinemachine;
 
-public class PlayerSceneHandler : IPlayerSceneHandler
-{
-    private CinemachineBrain _cineMachineBrain;
-    private PlayerMediator _controller;
+//public class PlayerSceneHandler : IPlayerSceneHandler
+//{
+//    private CinemachineBrain _cineMachineBrain;
 
-    public PlayerSceneHandler()
-    {
-        _cineMachineBrain = CineMachineManager.Instance.cineMachineBrain;
+//    public void CheckPlayerDestroy(IActivateSceneEvent sceneEvent)
+//    {
+//        IMenuState incomingMenu = (sceneEvent as ActivateMenuEvent)?.NewState;
 
-        if (ServiceProvider.TryGetService<PlayerMediator>(out var controller))
-            _controller = controller;
-    }
-
-    public void CheckPlayerDestroy()
-    {
-        SceneController.CheckCurrentScene();
-        if (!SceneController.IsGameplay(SceneController.currentScene))
-            _controller?.Destroy();
-    }
-}
+//        if (incomingMenu is MainMenuState)
+//            PlayerMediator.PlayerInstance?.Destroy();
+//    }
+//}

@@ -7,15 +7,12 @@ using UnityEngine.InputSystem;
 // This class is responsible for initializing the game and setting up the GameManager at the start of the game
 public class GameBoot : MonoBehaviour
 {
-    [SerializeField] private InputActionReference _pauseButton;
-    private PlayerMediator _playerController;
-
     private void Start()
     {
-        if (!GameManager.initialized)
-            InitializeGameManager();
-        else
-            Debug.Log("Not resetting game");
+        //if (!GameManager.initialized)
+        //    InitializeGameManager();
+        //else
+        //    Debug.Log("Not resetting game");
     }
 
     /// <summary>
@@ -23,18 +20,12 @@ public class GameBoot : MonoBehaviour
     /// </summary>
     private void InitializeGameManager()
     {
-        Debug.Log("Resetting game");
+        //if (GameManager.savedPlayer != null)
+        //    return;
 
-        if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
-            _playerController = playerController;
+        //Debug.Log("Resetting game");
 
-        if (!_pauseButton)
-            Debug.LogError(nameof(_pauseButton) + " is null");
-
-        GameManager.savedPlayer = _playerController;
-        GameManager.pauseButton = _pauseButton;
-
-        GameManager.initialized = true;
+        //GameManager.initialized = true;
     }
 
 

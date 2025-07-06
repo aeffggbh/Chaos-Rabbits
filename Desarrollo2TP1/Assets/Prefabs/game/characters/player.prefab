@@ -1008,10 +1008,10 @@ GameObject:
   - component: {fileID: 5507194340101399981}
   - component: {fileID: 155055454107216654}
   - component: {fileID: 1911516370216717831}
-  - component: {fileID: 7960126370605106343}
   - component: {fileID: 915007802524771920}
   - component: {fileID: 7551713182701535122}
   - component: {fileID: 5399720175571696743}
+  - component: {fileID: 4134970206781325940}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -1101,13 +1101,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beae295d0b75e114c80bfbb6c8bed3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
+  _damage: 20
   _walkSpeed: 40
   _runSpeed: 100
   _acceleration: 20
   _counterMovementForce: 3
   _jumpForce: 5
-  currentWeapon: {fileID: 0}
+  _currentWeapon: {fileID: 0}
   _weaponParent: {fileID: 2363987645471641430}
   _audioSource: {fileID: 0}
 --- !u!95 &1911516370216717831
@@ -1132,14 +1132,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!81 &7960126370605106343
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7912271763414076063}
-  m_Enabled: 1
 --- !u!82 &915007802524771920
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1268,9 +1260,17 @@ MonoBehaviour:
   _bulletSpawnGO: {fileID: 1799241602799130403}
   _maxWeaponDistance: 6
   _grabDropCooldown: 0.2
-  player: {fileID: 155055454107216654}
+  _player: {fileID: 0}
   _playerAnimation: {fileID: 7551713182701535122}
   _weaponParent: {fileID: 2363987645471641430}
+--- !u!81 &4134970206781325940
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912271763414076063}
+  m_Enabled: 1
 --- !u!1 &8402522496641810630
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5413971636392424739}
   - component: {fileID: 8045682175829576837}
   - component: {fileID: 8875614288137218688}
-  - component: {fileID: 3453958998523425887}
+  - component: {fileID: 5426212143748397848}
   m_Layer: 0
   m_Name: inv_wall (3)
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3453958998523425887
+--- !u!114 &5426212143748397848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,11 +118,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 402017424146229754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa5d9a7fa9246c47934d38661563a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57e160dffe990f944b634a2b65565759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPos: {fileID: 0}
-  _objectsToRespawn: []
+  _GOToRespawn: []
 --- !u!1 &1785465243163303982
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 3165942970433694296}
   - component: {fileID: 2585297646988023200}
   - component: {fileID: 8747351088333519526}
-  - component: {fileID: 2333371497028745978}
+  - component: {fileID: 2237941756729483902}
   m_Layer: 0
   m_Name: inv_wall (4)
   m_TagString: Player Resetter
@@ -232,7 +232,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2333371497028745978
+--- !u!114 &2237941756729483902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,11 +241,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1785465243163303982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa5d9a7fa9246c47934d38661563a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57e160dffe990f944b634a2b65565759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPos: {fileID: 0}
-  _objectsToRespawn: []
+  _GOToRespawn: []
 --- !u!1 &2871238270534614781
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 4432672532722633333}
   - component: {fileID: 1182737806456507121}
   - component: {fileID: 6735981667247991195}
-  - component: {fileID: 7735944833527425600}
+  - component: {fileID: 8047659707937113698}
   m_Layer: 0
   m_Name: inv_wall (2)
   m_TagString: Untagged
@@ -355,7 +355,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7735944833527425600
+--- !u!114 &8047659707937113698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -364,11 +364,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2871238270534614781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa5d9a7fa9246c47934d38661563a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57e160dffe990f944b634a2b65565759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPos: {fileID: 0}
-  _objectsToRespawn: []
+  _GOToRespawn: []
 --- !u!1 &6056796787204264567
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 3713451453309542976}
   - component: {fileID: 5358947642518640645}
   - component: {fileID: 2261680690644079956}
-  - component: {fileID: 4109980597006396706}
+  - component: {fileID: 346331263757892015}
   m_Layer: 0
   m_Name: inv_floor
   m_TagString: Untagged
@@ -478,7 +478,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4109980597006396706
+--- !u!114 &346331263757892015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -487,11 +487,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6056796787204264567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa5d9a7fa9246c47934d38661563a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57e160dffe990f944b634a2b65565759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPos: {fileID: 0}
-  _objectsToRespawn: []
+  _GOToRespawn: []
 --- !u!1 &6546594526170692584
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,13 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf7b69f69341604db3588a7fad25e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _respawnerList:
-  - {fileID: 4109980597006396706}
-  - {fileID: 5358071541395942591}
-  - {fileID: 666227751254725238}
-  - {fileID: 7735944833527425600}
-  - {fileID: 3453958998523425887}
-  - {fileID: 2333371497028745978}
+  _handlersList: []
   _respawnPoint: {fileID: 0}
 --- !u!1 &7265267100832199045
 GameObject:
@@ -562,7 +556,7 @@ GameObject:
   - component: {fileID: 6407197318853251522}
   - component: {fileID: 9042531977446572502}
   - component: {fileID: 2176875824790112322}
-  - component: {fileID: 666227751254725238}
+  - component: {fileID: 2849385753956049824}
   m_Layer: 0
   m_Name: inv_wall (1)
   m_TagString: Untagged
@@ -659,7 +653,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &666227751254725238
+--- !u!114 &2849385753956049824
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -668,11 +662,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7265267100832199045}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa5d9a7fa9246c47934d38661563a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57e160dffe990f944b634a2b65565759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPos: {fileID: 0}
-  _objectsToRespawn: []
+  _GOToRespawn: []
 --- !u!1 &9079329028359780692
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +679,7 @@ GameObject:
   - component: {fileID: 8437617914164390759}
   - component: {fileID: 7069408288816401628}
   - component: {fileID: 1527334138932480284}
-  - component: {fileID: 5358071541395942591}
+  - component: {fileID: 8737353599117519026}
   m_Layer: 0
   m_Name: inv_roof
   m_TagString: Untagged
@@ -782,7 +776,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5358071541395942591
+--- !u!114 &8737353599117519026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -791,8 +785,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 9079329028359780692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa5d9a7fa9246c47934d38661563a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57e160dffe990f944b634a2b65565759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPos: {fileID: 0}
-  _objectsToRespawn: []
+  _GOToRespawn: []

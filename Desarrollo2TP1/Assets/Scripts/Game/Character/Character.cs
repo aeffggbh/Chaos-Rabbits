@@ -1,16 +1,13 @@
-using System;
 using UnityEngine;
 
 /// <summary>
 /// Base class for all characters in the game.
 /// </summary>
-public abstract class Character : MonoBehaviour, IDamageable
+public abstract class Character : MonoBehaviour, IDamageable, IHealthData
 {
     public float MaxHealth { get; set; }
     public float Damage { get; set; }
     public float CurrentHealth { get; protected set; }
-
-    public bool IsWeaponUser { get; protected set; }
 
     //protected HealthBar _healthBar;
     protected IHealthBar _healthBar;
@@ -51,7 +48,7 @@ public abstract class Character : MonoBehaviour, IDamageable
 
     virtual protected void FixedUpdate()
     {
-        if (GameManager.paused)
+        if (PauseManager.Paused)
             return;
     }
 

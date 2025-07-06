@@ -3,70 +3,67 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : IPlayerMovement
 {
-    private readonly Rigidbody _rb;
-    private float _currentSpeed;
-    private float _acceleration;
-    private float _counterMovementForce;
-    private float _runSpeed;
-    private float _walkSpeed;
     Vector3 counterMovement = Vector3.zero;
 
-    public float CurrentSpeed
+    IPhysicsMovementData _data;
+
+    public float CurrentSpeed { get => _data.CurrentSpeed; set => _data.CurrentSpeed = value; }
+
+    public PlayerMovement(IPhysicsMovementData data)
     {
-        get { return _currentSpeed; }
-        set { _currentSpeed = value; }
+        _data = data;
+
+        if (_data.CurrentSpeed == 0)
+            _data.CurrentSpeed = _data.WalkSpeed;
     }
 
-    public PlayerMovement(Rigidbody rb, float runSpeed, float walkSpeed, float acceleration, float counterMovementForce)
-    {
-        _rb = rb;
-        _currentSpeed = walkSpeed;
-        _acceleration = acceleration;
-        _counterMovementForce = counterMovementForce;
-        _runSpeed = runSpeed;
-        _walkSpeed = walkSpeed;
-    }
-
+    /// <summary>
+    /// Moves the player to a certain direction
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="calculator"></param>
     public void Move(Vector3 direction, IPlayerMovementCalculator calculator)
     {
         if (direction == Vector3.zero)
             return;
 
-        ////recalculate in case the camera rotates
-        //Vector2 inputDirection = new(direction.x, direction.z);
-        //Vector3 movementDirection = calculator.GetDirection(inputDirection);
+        counterMovement.x = -_data.Rb.linearVelocity.x * _data.CounterMovementForce;
+        counterMovement.z = -_data.Rb.linearVelocity.z * _data.CounterMovementForce;
 
-        counterMovement.x = -_rb.linearVelocity.x * _counterMovementForce;
-        counterMovement.z = -_rb.linearVelocity.z * _counterMovementForce;
-
-        Vector3 force = (direction * _currentSpeed + counterMovement) * _acceleration;
-        _rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Impulse);
+        Vector3 force = (direction * _data.CurrentSpeed + counterMovement) * _data.Acceleration;
+        _data.Rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
-
+    /// <summary>
+    /// Reads the player input for the movement
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="calculator"></param>
+    /// <param name="animation"></param>
+    /// <param name="player"></param>
     public void Move(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
-        PlayerAnimationController animation, Player player)
+        PlayerAnimationController animation, IPlayerData player)
     {
         animation.Walk();
 
         CheckFlash();
-        //Vector3 movementDirection = calculator.GetDirection(context.ReadValue<Vector2>());
-        player.RequestMovementDirection(context.ReadValue<Vector2>());
+
+        (player as Player)?.RequestMovementDirection(context.ReadValue<Vector2>());
     }
 
-    public void StopMoving(Player player, PlayerAnimationController animation)
+    public void StopMoving(IPlayerData player, PlayerAnimationController animation)
     {
-        _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0);
+        _data.Rb.linearVelocity = new Vector3(0, _data.Rb.linearVelocity.y, 0);
 
-        player.RequestMovementDirection(Vector2.zero);
+        (player as Player)?.RequestMovementDirection(Vector2.zero);
         animation.StopWalking();
     }
 
     private void CheckFlash()
     {
         if (CheatsController.Instance.IsFlashMode())
-            _currentSpeed = _runSpeed;
-        else if (_currentSpeed == _runSpeed)
-            _currentSpeed = _walkSpeed;
+            _data.CurrentSpeed = _data.RunSpeed;
+        else if (_data.CurrentSpeed == _data.RunSpeed)
+            _data.CurrentSpeed = _data.WalkSpeed;
     }
 }

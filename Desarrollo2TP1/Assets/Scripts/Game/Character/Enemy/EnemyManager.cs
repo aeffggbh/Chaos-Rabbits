@@ -23,7 +23,7 @@ public class EnemyManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        ServiceProvider.SetService<EnemyManager>(null);
+        ServiceProvider.SetService<EnemyManager>(null, true);
     }
 
     private void Start()

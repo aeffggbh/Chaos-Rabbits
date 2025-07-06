@@ -20,16 +20,16 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     {
         base.Start();
 
-        _jumpForce = _playerMediator.player.GetJumpForce() / 2;
+        _jumpForce = PlayerMediator.PlayerInstance.Player.GetJumpForce() / 2;
         _currentJumpForce = _jumpForce;
-        _defaultMoveSpeed = _moveSpeed;
+        _defaultMoveSpeed = _currentSpeed;
         _patrolSpeed /= 2;
         _chasingSpeed /= 2;
     }
 
     public void ActivateChase()
     {
-        _moveSpeed = _chasingSpeed;
+        _currentSpeed = _chasingSpeed;
     }
 
     public void Attack()
@@ -54,15 +54,15 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
             ActivateJump();
         }
 
-        _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse); 
+        Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse); 
 
     }
 
     private void ActivateJump()
     {
-        Vector3 velocity = _rb.linearVelocity;
+        Vector3 velocity = Rb.linearVelocity;
         velocity.y = _currentJumpForce;
-        _rb.linearVelocity = velocity;
+        Rb.linearVelocity = velocity;
     }
 
     private bool IsGrounded()
@@ -82,13 +82,13 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
 
     public void ActivateAttack()
     {
-        _moveSpeed = _chasingSpeed;
+        _currentSpeed = _chasingSpeed;
     }
 
     private void BoostMovement()
     {
         _currentJumpForce = _jumpForce * _jumpForceMultiplier;
-        _moveSpeed = _defaultMoveSpeed * _speedMultiplier;
+        _currentSpeed = _defaultMoveSpeed * _speedMultiplier;
     }
 
     private void ResetJumpForce()
@@ -98,7 +98,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
 
     private void ResetMoveSpeed()
     {
-        _moveSpeed = _defaultMoveSpeed;
+        _currentSpeed = _defaultMoveSpeed;
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RespawnHandlerManager : MonoBehaviour
 {
-    [SerializeField] private List<RespawnHandler> _handlersList;
+    [SerializeField] private List<RespawnLimit> _handlersList;
     [SerializeField] private Transform _respawnPoint;
 
     private void Awake()
@@ -16,7 +16,9 @@ public class RespawnHandlerManager : MonoBehaviour
 
     private void AssignSpawnPoint()
     {
-        for (int i = 0; i < _handlersList.Count; i++)
-            _handlersList[i].respawnPos = _respawnPoint;
+        if (_respawnPoint != null)
+            for (int i = 0; i < _handlersList.Count; i++)
+                if (_handlersList[i] != null)
+                    _handlersList[i].respawnPos = _respawnPoint;
     }
 }

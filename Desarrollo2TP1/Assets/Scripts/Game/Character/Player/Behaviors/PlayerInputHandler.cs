@@ -14,8 +14,7 @@ public class PlayerInputHandler : IPlayerInputHandler
 
     public PlayerInputHandler()
     {
-        if (ServiceProvider.TryGetService<PlayerMediator>(out var controller))
-            _controller = controller;
+        _controller = PlayerMediator.PlayerInstance;
 
         _moveAction = _controller.MoveAction;
         _jumpAction = _controller.JumpAction;

@@ -6,7 +6,7 @@ using UnityEngine;
 /// Base class for all enemies in the game.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public abstract class Enemy : Character
+public abstract class Enemy : Character, IPhysicsMovementData
 {
     protected enum States
     {
@@ -17,12 +17,9 @@ public abstract class Enemy : Character
         ATTACK
     }
 
-    public EnemyManager _manager;
-    protected Rigidbody _rb;
+    protected EnemyManager _manager;
     protected Vector3 _targetWalk;
     protected Vector3 _targetLook;
-    protected Vector3 _moveDir;
-    protected float _moveSpeed;
     protected float _attackRange;
     protected float _timeSinceAttacked;
     protected float _chaseRange;
@@ -32,9 +29,9 @@ public abstract class Enemy : Character
     protected float _patrolCurrentTime;
     protected float _idleTimer;
     protected float _idleCurrentTime;
-    protected Vector3 _counterMovement;
     protected AnimationController animationController;
     protected PlayerMediator _playerMediator;
+
     protected States currentState = States.NONE;
     protected bool isExplodingEnemy;
     protected Coroutine _currentStateCoroutine;
@@ -45,18 +42,32 @@ public abstract class Enemy : Character
     protected IPatrolBehavior _patrolBehavior;
     protected IMovementBehavior _movementBehavior;
 
+    protected float _currentSpeed;
+    protected Vector3 _moveDir;
+    protected Rigidbody _rb;
+    protected Vector3 _counterMovement;
+    protected float _acceleration;
+    protected float _counterMovementForce;
+    protected float _runSpeed;
+    protected float _walkSpeed;
+
+    public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
+    public float Acceleration { get => _acceleration; set => _acceleration = value; }
+    public float CounterMovementForce { get => _counterMovementForce; set => _counterMovementForce = value; }
+    public float RunSpeed { get => _runSpeed; set => _runSpeed = value; }
+    public float WalkSpeed { get => _walkSpeed; set => _walkSpeed = value; }
+    public Rigidbody Rb { get => _rb; set => _rb = value; }
+
     protected override void Start()
     {
         base.Start();
 
         Damage = 10.0f;
 
-        IsWeaponUser = false;
-
         if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
             _manager = enemyManager;
 
-        _rb = gameObject.GetComponent<Rigidbody>();
+        Rb = gameObject.GetComponent<Rigidbody>();
 
         if (_manager != null)
         {
@@ -75,12 +86,11 @@ public abstract class Enemy : Character
 
         _timeSinceAttacked = 0;
 
-        _moveSpeed = _patrolSpeed;
+        _currentSpeed = _patrolSpeed;
 
         isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
 
-        if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
-            _playerMediator = playerController;
+        _playerMediator = PlayerMediator.PlayerInstance;
 
         _chaseBehavior = this as IChaseBehavior;
         _attackBehavior = this as IAttackBehavior;
@@ -153,11 +163,7 @@ public abstract class Enemy : Character
                     _attackBehavior.Attack();
                     _timeSinceAttacked += Time.deltaTime;
                 }
-                else
-                {
-                    if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
-                        _playerMediator = playerController;
-                }
+
                 yield return null;
             }
         }
@@ -205,9 +211,14 @@ public abstract class Enemy : Character
     /// <returns></returns>
     protected Vector3 GetPlayerDirection()
     {
-        Vector3 playerDir = (_playerMediator.transform.position - transform.position).normalized;
-        playerDir.y = 0;
-        return playerDir;
+        if (_playerMediator)
+        {
+            Vector3 playerDir = (_playerMediator.transform.position - transform.position).normalized;
+            playerDir.y = 0;
+            return playerDir;
+        }
+
+        return Vector3.zero;
     }
 
     protected override void FixedUpdate()
@@ -217,9 +228,9 @@ public abstract class Enemy : Character
         if (_movementBehavior != null)
         {
             _counterMovement = new Vector3
-                           (-_rb.linearVelocity.x * _manager.counterMovementForce,
+                           (-Rb.linearVelocity.x * _manager.counterMovementForce,
                            0,
-                           -_rb.linearVelocity.z * _manager.counterMovementForce);
+                           -Rb.linearVelocity.z * _manager.counterMovementForce);
 
             _movementBehavior.Move();
 
@@ -235,7 +246,8 @@ public abstract class Enemy : Character
         //Debug.Log("Player direction:" + GetPlayerDirection());
         _moveDir = GetPlayerDirection();
 
-        _targetLook = _playerMediator.transform.position;
+        if (_playerMediator != null)
+            _targetLook = _playerMediator.transform.position;
     }
 
     /// <summary>
@@ -272,7 +284,7 @@ public abstract class Enemy : Character
         _targetLook = _targetWalk;
         _moveDir = (_targetWalk - transform.position).normalized;
         _moveDir.y = 0;
-        _moveSpeed = _patrolSpeed;
+        _currentSpeed = _patrolSpeed;
 
         float start = Time.time;
 
@@ -289,7 +301,7 @@ public abstract class Enemy : Character
         {
             _idleBehavior.ActivateIdle();
 
-            _moveSpeed = 0;
+            _currentSpeed = 0;
             _moveDir = Vector3.zero;
 
             yield return new WaitForSeconds(_idleTimer);
@@ -306,10 +318,4 @@ public abstract class Enemy : Character
 
         base.Die();
     }
-
-    public override void TakeDamage(float damage)
-    {
-        base.TakeDamage(damage);
-    }
-
 }

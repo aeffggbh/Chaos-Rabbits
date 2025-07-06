@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(AudioListener))]
 [RequireComponent(typeof(PlayerAnimationController))]
-public class Player : Character, IWeaponUser
+public class Player : Character, IPlayerData
 {
     private IPlayerMovement _movement;
     private IPlayerJump _jump;
@@ -22,6 +22,7 @@ public class Player : Character, IWeaponUser
     [Header("Character")]
     [SerializeField] private float _damage;
     [Header("Movement")]
+    private float _currentSpeed;
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
     [SerializeField] private float _acceleration;
@@ -35,24 +36,44 @@ public class Player : Character, IWeaponUser
     [Header("Sound")]
     [SerializeField] private AudioSource _audioSource;
     private IPlayerMovementCalculator _playerCalculator;
+
     public Weapon CurrentWeapon { get => _currentWeapon; set { _currentWeapon = value; } }
+    public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
+    public float Acceleration { get => _acceleration; set => _acceleration = value; }
+    public float CounterMovementForce { get => _counterMovementForce; set => _counterMovementForce = value; }
+    public float RunSpeed { get => _runSpeed; set => _runSpeed = value; }
+    public float WalkSpeed { get => _walkSpeed; set => _walkSpeed = value; }
+    public Rigidbody Rb { get => _rb; set => _rb = value; }
+    public Transform WeaponParent { get => _weaponParent; set => _weaponParent = value; }
+
+    public Player(IPlayerData data)
+    {
+        CurrentWeapon = data.CurrentWeapon;
+        CurrentSpeed = data.CurrentSpeed;
+        Acceleration = data.Acceleration;
+        CounterMovementForce = data.CounterMovementForce;
+        RunSpeed = data.RunSpeed;
+        WalkSpeed = data.WalkSpeed;
+        Rb = data.Rb;
+        WeaponParent = data.WeaponParent;
+    }
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
-        IsWeaponUser = true;
 
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody>();
         Damage = _damage;
+
+        if (PlayerDataProvider.DefaultPlayerData == null)
+            PlayerDataProvider.SetDefaultPlayer(this);
     }
 
     protected override void Start()
     {
         base.Start();
 
-        _movement = new PlayerMovement(_rb, _runSpeed, _walkSpeed, _acceleration, _counterMovementForce);
+        _movement = new PlayerMovement(this);
         _soundPlayer = new SoundPlayer(_audioSource);
         _jump = new PlayerJump(_rb, _soundPlayer);
         _playerCalculator = new PlayerMovementCalculator();
@@ -100,14 +121,16 @@ public class Player : Character, IWeaponUser
 
         Vector3 calculatedMovement = _playerCalculator.GetDirection(currentDirection);
         _movement.Move(calculatedMovement, _playerCalculator);
-        
+
         _jump.Jump(_jumpForce);
     }
 
     public override void Die()
     {
         if (!CheatsController.Instance.IsGodMode())
-            SceneController.GoToScene(SceneController.GameState.GAMEOVER);
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject));
+
+        //SceneLoader.Instance.LoadScene(new GameOverState());
     }
 
     public override void TakeDamage(float damage)

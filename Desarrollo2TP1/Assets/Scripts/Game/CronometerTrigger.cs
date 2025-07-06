@@ -37,7 +37,8 @@ public class CronometerTrigger : MonoBehaviour
 
         if (_currentTime > _goalTime)
             //if it reaches this, it means it didn't arrive in time!
-            SceneController.GoToScene(SceneController.GameState.GAMEOVER);
+            //SceneLoader.Instance.LoadScene(new GameOverState());
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject));
     }
 
     /// <summary>

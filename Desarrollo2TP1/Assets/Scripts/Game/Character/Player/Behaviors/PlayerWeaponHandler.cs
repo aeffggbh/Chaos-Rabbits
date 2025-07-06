@@ -20,10 +20,9 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
         _animationController = playerAnimation;
         _weaponParent = weaponParent;
 
-        if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
-            _playerController = playerController;
+        _playerController = PlayerMediator.PlayerInstance;
 
-        CurrentWeapon = _playerController.player.CurrentWeapon;
+        CurrentWeapon = _playerController.Player.CurrentWeapon;
     }
 
     /// <summary>
@@ -62,11 +61,10 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
             DropWeapon();
 
         CurrentWeapon = weapon;
-        CurrentWeapon.user = _playerController.player;
+        CurrentWeapon.user = PlayerMediator.PlayerInstance.Player;
         CurrentWeapon.SetBulletSpawn(_bulletSpawnGO);
-        //TODO: send weaponParent by parameter here?
         CurrentWeapon.Hold(_weaponParent);
-        _playerController.player.CurrentWeapon = CurrentWeapon;
+        _playerController.Player.CurrentWeapon = CurrentWeapon;
         _animationController?.GrabWeapon();
     }
 

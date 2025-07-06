@@ -3,6 +3,7 @@ using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 //TODO: poner que no se puedan deseleccionar los botones para que no se joda con el joystick.
 //TODO: ponerle summary a todo lo que no lo tiene
@@ -33,38 +34,61 @@ public class PlayerMediator : MonoBehaviour
     [SerializeField] private float _maxWeaponDistance;
     [SerializeField] private float _grabDropCooldown;
 
-    [SerializeField] public Player player;
+    [SerializeField] private Player _player;
     [SerializeField] private PlayerAnimationController _playerAnimation;
     [SerializeField] private Transform _weaponParent;
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
     private IPlayerInputHandler _playerInput;
-    private IPlayerSceneHandler _playerScene;
+    //private IPlayerSceneHandler _playerScene;
+
+    private static PlayerMediator _instance;
+
+    public Player Player { get => _player; set => _player = value; }
+    public static PlayerMediator PlayerInstance { get => _instance; }
 
     private void Awake()
     {
-        ServiceProvider.SetService<PlayerMediator>(this, true);
+        if (_instance == null)
+        {
+            _instance = this;
+
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
 
         _playerInput = new PlayerInputHandler();
     }
 
     private void Start()
     {
+
         _playerAnimation = GetComponent<PlayerAnimationController>();
-        player = GetComponent<Player>();
+        _player = GetComponent<Player>();
 
         _playerMovement = new PlayerMovementCalculator();
+
+        if (_bulletSpawnGO == null)
+        {
+            Debug.LogWarning($"No bullet spawn found for {gameObject.name}");
+        }
+
+        if (_weaponParent == null)
+        {
+            Debug.LogWarning($"No parent for weapons");
+        }
+
+        //_playerScene = new PlayerSceneHandler();
 
         _playerWeapon = new PlayerWeaponHandler(
             _bulletSpawnGO,
             _maxWeaponDistance,
             _grabDropCooldown,
-            player.CurrentWeapon,
+            _player.CurrentWeapon,
             _playerAnimation,
             _weaponParent
             );
-
-        _playerScene = new PlayerSceneHandler();
 
         if (_maxWeaponDistance < 1)
             Debug.LogWarning("Distance to weapon is too low!");
@@ -77,35 +101,32 @@ public class PlayerMediator : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerInput.Enable();
+        //todo: null reference?
+        _playerInput?.Enable();
     }
 
     private void OnDisable()
     {
-        _playerInput.Disable();
+        //null reference??
+        _playerInput?.Disable();
     }
 
     private void OnDestroy()
     {
-        _playerInput.Disable();
-        ServiceProvider.SetService<PlayerMediator>(null);
-    }
-
-    private void Update()
-    {
-        _playerScene.CheckPlayerDestroy();
+        if (_playerInput != null)
+            _playerInput.Disable();
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Floor"))
-            player?.RequestGroundedState(true);
+            _player?.RequestGroundedState(true);
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
-            player?.RequestGroundedState(false);
+            _player?.RequestGroundedState(false);
     }
 
     /// <summary>
@@ -114,7 +135,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
-        player.TakeDamage(damage);
+        _player.TakeDamage(damage);
     }
 
     /// <summary>
@@ -122,8 +143,11 @@ public class PlayerMediator : MonoBehaviour
     /// </summary>
     public void Destroy()
     {
-        Destroy(CineMachineManager.Instance.cineMachineBrain.gameObject);
-        Destroy(gameObject);
+        if (CineMachineManager.Instance.cineMachineBrain && gameObject)
+        {
+            Destroy(CineMachineManager.Instance.cineMachineBrain.gameObject);
+            Destroy(gameObject);
+        }
     }
 
     /// <summary>
@@ -132,7 +156,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnGrabWeapon(InputAction.CallbackContext context)
     {
-        if (GameManager.paused)
+        if (PauseManager.Paused)
             return;
 
         _playerWeapon.GrabPointedWeapon(_playerMovement.Camera);
@@ -144,7 +168,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnDropWeapon(InputAction.CallbackContext context)
     {
-        if (GameManager.paused)
+        if (PauseManager.Paused)
             return;
 
         _playerWeapon.DropWeapon();
@@ -156,7 +180,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnJump(InputAction.CallbackContext context)
     {
-        player.RequestJumpInfo(true);
+        _player.RequestJumpInfo(true);
     }
 
     /// <summary>
@@ -165,7 +189,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnCancelMove(InputAction.CallbackContext context)
     {
-        player.Movement.StopMoving(player, _playerAnimation);
+        _player.Movement.StopMoving(_player, _playerAnimation);
     }
 
     /// <summary>
@@ -174,6 +198,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        player.Movement.Move(context, _playerMovement, _playerAnimation, player);
+        _player.Movement.Move(context, _playerMovement, _playerAnimation, _player);
     }
+
 }

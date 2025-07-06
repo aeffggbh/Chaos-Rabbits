@@ -28,8 +28,7 @@ public class LevelTrigger : MonoBehaviour
         if (CheatsController.Instance.levelTriggerLocation != transform)
             CheatsController.Instance.levelTriggerLocation = transform;
 
-        if (SceneController.currentScene != SceneController.GameState.FINAL_LEVEL && 
-            SceneController.IsGameplay(SceneController.currentScene))
+        if (!GameSceneController.Instance.IsSceneLoaded(GameplayScene.FinalLevelIndex))
         {
             if (_enemyTotal <= 0)
                 _enemyTotal = _enemyManager.enemies.Count;
@@ -42,7 +41,7 @@ public class LevelTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
             OnTrigger();
@@ -53,13 +52,13 @@ public class LevelTrigger : MonoBehaviour
     /// </summary>
     private void OnTrigger()
     {
-        SceneController.CheckCurrentScene();
+        //SceneController.CheckCurrentScene();
 
-        if (SceneController.currentScene == SceneController.GameState.FINAL_LEVEL)
-            SceneController.GoToScene(SceneController.GameState.GAMEWIN);
-        else
-            if (_enemyManager.enemies.Count == 0)
-            SceneController.GoToScene(SceneController.currentScene + 1);
+        if (GameSceneController.Instance.IsSceneLoaded(GameplayScene.FinalLevelIndex))
+            //SceneLoader.Instance.LoadScene(new GameWinState());
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(),gameObject));
+        else if (_enemyManager.enemies.Count == 0)
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
     }
 
 }

@@ -41,6 +41,8 @@ public class Weapon : MonoBehaviour
     }
     private void Start()
     {
+        EventProvider.Subscribe<IActivateSceneEvent>(CheckExistence);
+
         dropScale = transform.localScale;
 
         _audioSource = GetComponent<AudioSource>();
@@ -62,7 +64,7 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            if (!user.IsWeaponUser)
+            if (user is not IWeaponUser)
                 Debug.LogError(nameof(user) + " is not a weapon user");
 
             else if (user.GetType() == typeof(Enemy))
@@ -82,8 +84,6 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        CheckExistence();
-
         if (_debugUser)
         {
             if (user)
@@ -96,10 +96,14 @@ public class Weapon : MonoBehaviour
     /// <summary>
     /// Destroys weapons left at level 1 when player gets to the next level
     /// </summary>
-    private void CheckExistence()
+    private void CheckExistence(IActivateSceneEvent sceneEvent)
     {
-        SceneController.CheckCurrentScene();
-        if (!user && (int)SceneController.currentScene != (int)SceneController.GameState.LEVEL1)
+        IScene.Index index = sceneEvent.SceneIndex;
+
+        bool IsGameplay = GameSceneController.Instance.IsGameplay(index);
+
+        //SceneController.CheckCurrentScene();
+        if (!user && index != GameplayScene.Level1Index && IsGameplay && this != null)
             Destroy(gameObject);
     }
 
@@ -120,7 +124,7 @@ public class Weapon : MonoBehaviour
     /// </summary>
     public void Fire()
     {
-        if (GameManager.paused)
+        if (PauseManager.Paused)
             return;
 
         _soundPlayer?.PlaySound(SFXType.SHOOT);
@@ -152,7 +156,7 @@ public class Weapon : MonoBehaviour
     /// </summary>
     public void Hold(Transform _weaponParent)
     {
-        if (GameManager.paused)
+        if (PauseManager.Paused)
             return;
 
         Animate();
@@ -181,7 +185,7 @@ public class Weapon : MonoBehaviour
     /// </summary>
     public void Drop()
     {
-        if (GameManager.paused)
+        if (PauseManager.Paused)
             return;
 
         Deanimate();
@@ -214,7 +218,7 @@ public class Weapon : MonoBehaviour
     /// </summary>
     public void HitscanShot()
     {
-        if (GameManager.paused)
+        if (PauseManager.Paused)
             return;
 
         RaycastHit? hit = null;

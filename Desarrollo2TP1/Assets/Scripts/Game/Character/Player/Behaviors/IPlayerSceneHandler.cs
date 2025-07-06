@@ -1,5 +1,5 @@
 ﻿
-public interface IPlayerSceneHandler
-{
-    void CheckPlayerDestroy();
-}
+//public interface IPlayerSceneHandler
+//{
+//   void CheckPlayerDestroy();
+//}

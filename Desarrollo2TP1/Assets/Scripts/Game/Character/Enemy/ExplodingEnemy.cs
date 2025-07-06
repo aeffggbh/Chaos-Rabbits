@@ -48,7 +48,7 @@ public partial class ExplodingEnemy : Enemy
         if (myEvent.TriggeredByGO == gameObject)
         {
             EventProvider.Unsubscribe<EffectStartedEvent>(HandleEffectStart);
-            _playerMediator.player.TakeDamage(Damage);
+            PlayerMediator.PlayerInstance.TakeDamage(Damage);
         }
     }
 

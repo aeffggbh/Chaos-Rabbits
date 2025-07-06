@@ -61,7 +61,7 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnFlashMode(InputAction.CallbackContext context)
     {
-        if (SceneController.IsGameplay(SceneController.currentScene) && !GameManager.paused)
+        if (GameSceneController.Instance.IsTypeLoaded<GameplayScene>() && !PauseManager.Paused)
         {
             _isFlashMode = !_isFlashMode;
             logger.RequestText("Flash Mode", _isFlashMode);
@@ -74,7 +74,7 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnGodMode(InputAction.CallbackContext context)
     {
-        if (SceneController.IsGameplay(SceneController.currentScene) && !GameManager.paused)
+        if (GameSceneController.Instance.IsTypeLoaded<GameplayScene>() && !PauseManager.Paused)
         {
             _isGodMode = !_isGodMode;
             logger.RequestText("God Mode", _isGodMode);
@@ -93,11 +93,16 @@ public class CheatsController : MonoBehaviour
 
     private void GoToNextLevel()
     {
-        if (SceneController.IsGameplay(SceneController.currentScene) && !GameManager.paused)
+        if (GameSceneController.Instance.IsTypeLoaded<GameplayScene>() && !PauseManager.Paused)
         {
-            if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
-                playerController.transform.position = levelTriggerLocation.position;
-            SceneController.GoToScene(SceneController.currentScene + 1);
+            //if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
+            //    playerController.transform.position = levelTriggerLocation.position;
+
+            PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
+
+            //SceneLoader.Instance.LoadNextLevel();
+            //TODO: make a bool to know if it should actually load the new level and unload the previous
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
 
             logger.RequestText("Gone to next level");
         }

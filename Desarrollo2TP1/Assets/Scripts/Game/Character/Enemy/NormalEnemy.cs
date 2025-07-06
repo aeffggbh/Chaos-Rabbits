@@ -12,7 +12,6 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
 
     private void OnEnable()
     {
-        IsWeaponUser = true;
         _enemyWeapon = GetComponentInChildren<WeaponHolder>().currentWeapon;
         _enemyWeapon.user = this;
     }
@@ -31,17 +30,18 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
     }
     public void ActivateChase()
     {
-        _moveSpeed = _chasingSpeed;
+        _currentSpeed = _chasingSpeed;
         _moveDir = GetPlayerDirection();
     }
 
     public void Attack()
     {
-        _rb.linearVelocity = Vector3.zero;
-        if (_moveSpeed > 0)
+        Rb.linearVelocity = Vector3.zero;
+        if (_currentSpeed > 0)
         {
-            _moveSpeed = 0;
-            _clownAnimation.StopWalking();
+            _currentSpeed = 0;
+            if (_clownAnimation != null)
+                _clownAnimation.StopWalking();
         }
         if (_timeSinceAttacked > _manager.attackTimer)
         {
@@ -51,22 +51,23 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
     }
     public void Move()
     {
-        if (_moveSpeed > 0)
-            _clownAnimation.Walk();
-        else
-            _clownAnimation.StopWalking();
+        if (_clownAnimation != null)
+        {
+            if (_currentSpeed > 0)
+                _clownAnimation.Walk();
+            else
+                _clownAnimation.StopWalking();
+        }
 
-        _rb.AddForce((_moveDir * _moveSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
+        Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     public void ActivateIdle()
     {
-        _rb.linearVelocity = Vector3.zero;
+        Rb.linearVelocity = Vector3.zero;
 
         if (animationController != null)
             _clownAnimation.StopWalking();
-        else
-            Debug.LogError("AnimationController is null for " + gameObject.name);
     }
 
     public void ActivateAttack()
