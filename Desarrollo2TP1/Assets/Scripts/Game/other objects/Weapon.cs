@@ -98,11 +98,11 @@ public class Weapon : MonoBehaviour
     /// </summary>
     private void CheckExistence(IActivateSceneEvent sceneEvent)
     {
-        IScene.Index index = sceneEvent.SceneIndex;
+        int index = sceneEvent.Index;
 
         bool IsGameplay = GameSceneController.Instance.IsGameplay(index);
 
-        if (!user && index != GameplayScene.Level1Index && IsGameplay && this != null)
+        if (!user && index != GameplaySceneData.Level1Index && IsGameplay && this != null)
             Destroy(gameObject);
     }
 

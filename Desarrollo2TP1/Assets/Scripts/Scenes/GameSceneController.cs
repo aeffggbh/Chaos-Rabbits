@@ -6,9 +6,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameSceneController : MonoBehaviour
 {
+    [SerializeField] public SceneAssetContainer sceneReferenceContainer;
     public static GameSceneController Instance;
-    private IScene.Index _previousScene;
-    public IScene.Index PreviousScene => _previousScene;
 
     private void Awake()
     {
@@ -29,7 +28,7 @@ public class GameSceneController : MonoBehaviour
         EventProvider.Unsubscribe<IActivateSceneEvent>(CheckCursor);
     }
 
-    public bool IsTypeLoaded<T>() where T : IScene
+    public bool IsTypeLoaded<T>() where T : ISceneData
     {
         return SceneLoader.Instance.IsTypeLoaded<T>();
     }
@@ -38,9 +37,7 @@ public class GameSceneController : MonoBehaviour
     {
         (scene as IUnloadPreviousLevelCommand)?.UnloadPreviousLevel();
 
-        IScene.Index index = scene.SceneIndex;
-
-        index = scene.SceneIndex;
+        int index = scene.Index;
 
         var activeScene = SceneLoader.Instance.GetActiveScene();
 
@@ -54,19 +51,16 @@ public class GameSceneController : MonoBehaviour
             SceneLoader.Instance.LoadScene(index);
         else
             SceneLoader.Instance.SetActiveScene(index);
-
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex((int)index))
-            _previousScene = activeScene;
     }
 
-    public bool IsSceneLoaded(IScene.Index index)
+    public bool IsSceneLoaded(int index)
     {
         return SceneLoader.Instance.IsSceneLoaded(index);
     }
 
     private void CheckCursor(IActivateSceneEvent sceneEvent)
     {
-        var index = sceneEvent.SceneIndex;
+        var index = sceneEvent.Index;
 
         if (IsGameplay(index))
         {
@@ -85,8 +79,8 @@ public class GameSceneController : MonoBehaviour
         SceneLoader.Instance.UnloadGameplay();
     }
 
-    public bool IsGameplay(IScene.Index index)
+    public bool IsGameplay(int index)
     {
-        return SceneLoader.Instance.IsGameplay((int)index);
+        return SceneLoader.Instance.IsGameplay(index);
     }
 }

@@ -13,9 +13,9 @@ public class SoundPlayer : ISoundPlayer
             _soundManager = soundManager;
     }
 
-    public void PlaySound(SFXType type)
+    public void PlaySound(SFXType type, float volume = 1f)
     {
-        _soundManager.PlaySound(type, _audioSource);
+        _soundManager.PlaySound(type, _audioSource, volume);
     }
 
     public void SetAudioSource(AudioSource audioSource)

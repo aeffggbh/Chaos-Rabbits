@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static IScene;
+using static ISceneData;
 
 /// <summary>
 /// Controller for managing scene loading and unloading
@@ -46,16 +48,16 @@ public class SceneLoader : MonoBehaviour
         Application.Quit();
     }
 
-    public void LoadScene(IScene.Index newScene)
+    public void LoadScene(int newScene)
     {
         StartCoroutine(LoadSceneCoroutine(newScene));
     }
 
-    public IScene.Index GetActiveScene()
+    public int GetActiveScene()
     {
         Scene activeScene = SceneManager.GetActiveScene();
 
-        return (IScene.Index)activeScene.buildIndex;
+        return (int)activeScene.buildIndex;
     }
 
     public void UnloadAll()
@@ -67,7 +69,7 @@ public class SceneLoader : MonoBehaviour
         sceneList.Clear();
     }
 
-    public IEnumerator LoadSceneCoroutine(IScene.Index newScene)
+    public IEnumerator LoadSceneCoroutine(int newScene)
     {
         if (IsSceneLoaded(newScene))
             yield break;
@@ -99,7 +101,7 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    public bool SetActiveScene(IScene.Index newScene)
+    public bool SetActiveScene(int newScene)
     {
         Scene scene = FindInList(newScene);
 
@@ -123,7 +125,7 @@ public class SceneLoader : MonoBehaviour
         SceneManager.UnloadSceneAsync(scene);
     }
 
-    public void UnloadScene(IScene.Index newScene)
+    public void UnloadScene(int newScene)
     {
         Scene scene = FindInList(newScene);
 
@@ -133,7 +135,7 @@ public class SceneLoader : MonoBehaviour
         UnloadScene(scene);
     }
 
-    public Scene FindInList(IScene.Index newScene)
+    public Scene FindInList(int newScene)
     {
         Scene _scene = new();
 
@@ -149,7 +151,7 @@ public class SceneLoader : MonoBehaviour
         return _scene;
     }
 
-    public bool IsSceneLoaded(IScene.Index index)
+    public bool IsSceneLoaded(int index)
     {
         foreach (var scene in sceneList)
         {
@@ -160,14 +162,14 @@ public class SceneLoader : MonoBehaviour
         return false;
     }
 
-    public bool IsTypeLoaded<T>() where T : IScene
+    public bool IsTypeLoaded<T>() where T : ISceneData
     {
         bool IsLoaded = false;
 
         foreach (var scene in sceneList)
         {
             if (typeof(T) == typeof(MenuScene))
-                IsLoaded = scene.buildIndex == (int)MenuScene.MenuIndex;
+                IsLoaded = scene.buildIndex == MenuScene.Index;
             else
                 IsLoaded = IsGameplay(scene.buildIndex);
 
@@ -180,7 +182,7 @@ public class SceneLoader : MonoBehaviour
 
     public void UnloadGameplay()
     {
-        if (!IsTypeLoaded<GameplayScene>())
+        if (!IsTypeLoaded<GameplaySceneData>())
             return;
 
         var toUnloadList = new List<Scene>();
@@ -200,6 +202,16 @@ public class SceneLoader : MonoBehaviour
 
     public bool IsGameplay(int index)
     {
-        return index >= (int)GameplayScene.Level1Index && index <= (int)GameplayScene.FinalLevelIndex;
+        return index >= (int)GameplaySceneData.Level1Index && index <= (int)GameplaySceneData.FinalLevelIndex;
     }
+
+#if UNITY_EDITOR    
+    public static int GetIndex(SceneAsset asset)
+    {
+        if (!asset)
+            return 0;
+
+        return SceneUtility.GetBuildIndexByScenePath(AssetDatabase.GetAssetPath(asset));
+    }
+#endif
 }

@@ -60,4 +60,10 @@ public class UIAudioHandler : MonoBehaviour
         if (_soundPlayer != null)
             _soundPlayer.PlaySound(SFXType.CONFIRM);
     }
+
+    public void PlayLevelUpSound()
+    {
+        if(_soundPlayer != null)
+            _soundPlayer.PlaySound(SFXType.LEVEL_UP);
+    }
 }

@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc99301c16a2d44eabb3b03de103367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneReferenceContainer: {fileID: 11400000, guid: db2d6f0cf2ae4ca40b31cdbc357f986b, type: 2}
 --- !u!114 &2081046814
 MonoBehaviour:
   m_ObjectHideFlags: 0

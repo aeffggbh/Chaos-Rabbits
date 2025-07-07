@@ -1,6 +1,7 @@
-//TODO: make sure all interfaces have an explicit encapsulation (public, private or protected)
+using UnityEditor;
 
 public interface IActivateSceneEvent : IEvent
 {
-    public IScene.Index SceneIndex { get; }
+    int Index { get; }
+    void GetIndex();
 }

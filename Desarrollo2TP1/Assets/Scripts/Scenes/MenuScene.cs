@@ -1,18 +1,5 @@
 
-using System;
-
-public class MenuScene : IScene
+public class MenuScene : ISceneData
 {
-    public MenuScene(IMenuState menuEnter)
-    {
-        if (MenuManager.Instance)
-            MenuManager.Instance.TransitionToState(menuEnter);
-        else
-            MenuManager.Instance.TransitionToState(new MainMenuState());
-    }
-
-    public bool IsPersistent => false;
-
-    public static IScene.Index MenuIndex => IScene.Index.MENU;
-    public IScene.Index buildIndex => MenuIndex;
+    public static int Index => GameSceneController.Instance.sceneReferenceContainer.MenuScene;
 }

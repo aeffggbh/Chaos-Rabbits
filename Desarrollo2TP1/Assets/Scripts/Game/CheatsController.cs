@@ -61,7 +61,7 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnFlashMode(InputAction.CallbackContext context)
     {
-        if (GameSceneController.Instance.IsTypeLoaded<GameplayScene>() && !PauseManager.Paused)
+        if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isFlashMode = !_isFlashMode;
             logger.RequestText("Flash Mode", _isFlashMode);
@@ -74,7 +74,7 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnGodMode(InputAction.CallbackContext context)
     {
-        if (GameSceneController.Instance.IsTypeLoaded<GameplayScene>() && !PauseManager.Paused)
+        if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isGodMode = !_isGodMode;
             logger.RequestText("God Mode", _isGodMode);
@@ -93,7 +93,7 @@ public class CheatsController : MonoBehaviour
 
     private void GoToNextLevel()
     {
-        if (GameSceneController.Instance.IsTypeLoaded<GameplayScene>() && !PauseManager.Paused)
+        if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
 

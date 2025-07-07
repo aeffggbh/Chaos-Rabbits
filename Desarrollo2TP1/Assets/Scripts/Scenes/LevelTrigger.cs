@@ -32,7 +32,7 @@ public class LevelTrigger : MonoBehaviour
             if (CheatsController.Instance.levelTriggerLocation != transform)
                 CheatsController.Instance.levelTriggerLocation = transform;
 
-        if (!GameSceneController.Instance.IsSceneLoaded(GameplayScene.FinalLevelIndex))
+        if (!GameSceneController.Instance.IsSceneLoaded(GameplaySceneData.FinalLevelIndex))
         {
             if (_enemyTotal <= 0)
                 _enemyTotal = _enemyManager.Enemies.Count;
@@ -56,7 +56,7 @@ public class LevelTrigger : MonoBehaviour
     /// </summary>
     private void OnTrigger()
     {
-        if (GameSceneController.Instance.IsSceneLoaded(GameplayScene.FinalLevelIndex))
+        if (GameSceneController.Instance.IsSceneLoaded(GameplaySceneData.FinalLevelIndex))
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(), gameObject));
         else if (_enemyManager.Enemies.Count == 0)
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));

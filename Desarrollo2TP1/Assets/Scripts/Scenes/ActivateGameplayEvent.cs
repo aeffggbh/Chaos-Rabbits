@@ -1,15 +1,16 @@
+using UnityEditor;
 using UnityEngine;
 
 public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCommand
 {
-    private static IScene.Index _index = GameplayScene.Level1Index;
-    private static IScene.Index _levelToUnload = IScene.Index.NONE;
-    private static IScene.Index _newLevel = IScene.Index.NONE;
+    private static int _currentIndex = -1;
+    private static int _levelToUnloadIndex = -1;
+    private static int _newLevelIndex = -1;
     private bool _nextLevel = false;
     private GameObject _source;
-    public IScene.Index SceneIndex => _index;
+    public int Index => _currentIndex;
     public bool NewLevel { get => _nextLevel; }
-    public IScene.Index NextLevel { get => _index != IScene.Index.FINAL_LEVEL ? _index + 1 : GameplayScene.Level1Index; }
+    public int NextLevel { get => _currentIndex != GameplaySceneData.FinalLevelIndex ? _currentIndex + 1 : GameplaySceneData.Level1Index; }
     public GameObject TriggeredByGO { get => _source; }
 
     public ActivateGameplayEvent(GameObject source, bool nextLevel)
@@ -18,20 +19,20 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
             EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(source));
 
         MenuManager.Instance.HideAllPanels();
-        _levelToUnload = _index;
-        _newLevel = NextLevel;
+        _levelToUnloadIndex = _currentIndex;
+        _newLevelIndex = NextLevel;
         _nextLevel = nextLevel;
         _source = source;
     }
 
-    public ActivateGameplayEvent(GameObject source, IScene.Index level)
+    public ActivateGameplayEvent(GameObject source, int levelIndex)
     {
         if (PauseManager.Paused)
             PauseManager.Paused = false;
 
         MenuManager.Instance.HideAllPanels();
-        _levelToUnload = _index;
-        _newLevel = level;
+        _levelToUnloadIndex = _currentIndex;
+        _newLevelIndex = levelIndex;
         _nextLevel = true;
         _source = source;
     }
@@ -40,17 +41,26 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
     {
         if (_nextLevel)
         {
-            IScene.Index levelToUnload = _levelToUnload == IScene.Index.NONE ? _index : _levelToUnload;
-            IScene.Index levelToLoad = _newLevel == IScene.Index.NONE ? NextLevel : _newLevel;
+
+            int levelToUnloadIndex = _levelToUnloadIndex == -1 ? _currentIndex : _levelToUnloadIndex;
+            int levelToLoadIndex = _newLevelIndex == -1 ? NextLevel : _newLevelIndex;
 
             _nextLevel = false;
 
-            SceneLoader.Instance.UnloadScene(levelToUnload);
+            SceneLoader.Instance.UnloadScene(levelToUnloadIndex);
 
-            _index = levelToLoad;
+            _currentIndex = levelToLoadIndex;
 
-            _levelToUnload = IScene.Index.NONE;
-            _newLevel = IScene.Index.NONE;
+            if (levelToLoadIndex != GameplaySceneData.Level1Index)
+                UIAudioHandler.Instance.PlayLevelUpSound();
+
+            _levelToUnloadIndex = -1;
+            _newLevelIndex = -1;
         }
+    }
+
+    public void GetIndex()
+    {
+        throw new System.NotImplementedException();
     }
 }
