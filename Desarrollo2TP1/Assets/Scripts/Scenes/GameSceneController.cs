@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controls which scenes are active, according to what's going on in the game

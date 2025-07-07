@@ -1,6 +1,5 @@
 ﻿
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public interface IPlayerMovementCalculator
 {

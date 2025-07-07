@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Manages raycasting operations in the game.
+/// Manages ray casting operations in the game.
 /// </summary>
 public static class RayManager
 {
@@ -16,7 +16,7 @@ public static class RayManager
     {
         Ray ray = new(start.position, start.forward);
 
-        // Perform the raycast
+        // Perform the ray cast
         if (Physics.Raycast(ray, out hitInfo, maxDistance))
         {
             return true;

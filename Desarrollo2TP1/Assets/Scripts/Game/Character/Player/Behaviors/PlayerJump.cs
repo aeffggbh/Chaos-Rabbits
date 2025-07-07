@@ -25,7 +25,7 @@ public class PlayerJump : IPlayerJump
         {
             if (IsGrounded)
             {
-                _rb.AddForce(Vector3.up * force /** Time.fixedDeltaTime*/, ForceMode.Impulse);
+                _rb.AddForce(Vector3.up * force, ForceMode.Impulse);
                 IsGrounded = false;
                 _soundPlayer.PlaySound(SFXType.JUMP);
             }

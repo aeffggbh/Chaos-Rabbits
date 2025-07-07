@@ -7,7 +7,6 @@ public class GameStarter : MonoBehaviour
     /// </summary>
     void Start()
     {
-        //actually load the menu here
         EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new MainMenuState(), gameObject));
 
         Destroy(gameObject);

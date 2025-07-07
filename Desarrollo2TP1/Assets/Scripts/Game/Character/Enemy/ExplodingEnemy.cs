@@ -26,7 +26,6 @@ public partial class ExplodingEnemy : Enemy
 
         _effectTrigger.EffectRange = _attackRange;
 
-        //_explosionManager = GetComponent<ExplosionManager>();
         if (_angryAnimation == null)
             Debug.LogError("animation is null for " + gameObject.name);
 
@@ -43,15 +42,6 @@ public partial class ExplodingEnemy : Enemy
         }
     }
 
-    private void HandleEffectStart(EffectStartedEvent myEvent)
-    {
-        if (myEvent.TriggeredByGO == gameObject)
-        {
-            EventProvider.Unsubscribe<EffectStartedEvent>(HandleEffectStart);
-            PlayerMediator.PlayerInstance.TakeDamage(Damage);
-        }
-    }
-
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -61,6 +51,21 @@ public partial class ExplodingEnemy : Enemy
 
     }
 
+    /// <summary>
+    /// Handles the start of the explosion effect, causing the player to take damage if triggered by this enemy.
+    /// </summary>
+    private void HandleEffectStart(EffectStartedEvent myEvent)
+    {
+        if (myEvent.TriggeredByGO == gameObject)
+        {
+            EventProvider.Unsubscribe<EffectStartedEvent>(HandleEffectStart);
+            PlayerMediator.PlayerInstance.TakeDamage(Damage);
+        }
+    }
+
+    /// <summary>
+    /// Initiates the explosion sequence, triggering the attack animation and effect.
+    /// </summary>
     private void StartExplosion()
     {
         _explosionTriggered = true;
@@ -68,6 +73,9 @@ public partial class ExplodingEnemy : Enemy
         _effectTrigger.TriggerEffect();
     }
 
+    /// <summary>
+    /// Handles the completion of the explosion effect and kills the enemy if triggered by this enemy.
+    /// </summary>
     private void OnExplosionComplete(EffectCompletedEvent myEvent)
     {
         if (myEvent.TriggeredByGO == gameObject)

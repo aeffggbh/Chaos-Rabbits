@@ -1,16 +1,10 @@
-﻿using System;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 //TODO: poner que no se puedan deseleccionar los botones para que no se joda con el joystick.
 //TODO: ponerle summary a todo lo que no lo tiene
 //TODO: NO PUEDEN HABER COMENTARIOS QUE NO SEAN SUMMARIES.
 // NO PUEDE HABER NADA EN ESPAÑOL
-// Ponerle un asset a la bala... No la pelotita :3
-// saca los find
 // 7/7 se entrega uwu
 
 /// <summary>
@@ -40,7 +34,6 @@ public class PlayerMediator : MonoBehaviour
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
     private IPlayerInputHandler _playerInput;
-    //private IPlayerSceneHandler _playerScene;
 
     private static PlayerMediator _instance;
 
@@ -79,8 +72,6 @@ public class PlayerMediator : MonoBehaviour
             Debug.LogWarning($"No parent for weapons");
         }
 
-        //_playerScene = new PlayerSceneHandler();
-
         _playerWeapon = new PlayerWeaponHandler(
             _bulletSpawnGO,
             _maxWeaponDistance,
@@ -101,13 +92,11 @@ public class PlayerMediator : MonoBehaviour
 
     private void OnEnable()
     {
-        //todo: null reference?
         _playerInput?.Enable();
     }
 
     private void OnDisable()
     {
-        //null reference??
         _playerInput?.Disable();
     }
 

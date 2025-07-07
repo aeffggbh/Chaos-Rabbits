@@ -23,17 +23,27 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
         _clownAnimation = animationController as ClownAnimationController;
     }
 
+    /// <summary>
+    /// Activates the patrol behavior and plays the walk animation.
+    /// </summary>
     public void ActivatePatrol()
     {
         if (animationController != null)
             _clownAnimation.Walk();
     }
+
+    /// <summary>
+    /// Activates the chase behavior and sets the movement direction towards the player.
+    /// </summary>
     public void ActivateChase()
     {
         _currentSpeed = _chasingSpeed;
         _moveDir = GetPlayerDirection();
     }
 
+    /// <summary>
+    /// Performs the attack action, stopping movement and firing the weapon if possible.
+    /// </summary>
     public void Attack()
     {
         Rb.linearVelocity = Vector3.zero;
@@ -49,6 +59,10 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
             _enemyWeapon.Fire();
         }
     }
+
+    /// <summary>
+    /// Handles the movement logic and updates the animation based on speed.
+    /// </summary>
     public void Move()
     {
         if (_clownAnimation != null)
@@ -62,6 +76,9 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
         Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
+    /// <summary>
+    /// Activates the idle behavior, stopping movement and animations.
+    /// </summary>
     public void ActivateIdle()
     {
         Rb.linearVelocity = Vector3.zero;
@@ -70,6 +87,9 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
             _clownAnimation.StopWalking();
     }
 
+    /// <summary>
+    /// Activates the attack state and logs the action.
+    /// </summary>
     public void ActivateAttack()
     {
         Debug.Log(nameof(NormalEnemy) + " is about to attack");

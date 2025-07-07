@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// A trigger that starts a timer when the player enters it.
 /// </summary>
-public class CronometerTrigger : MonoBehaviour
+public class ChronometerTrigger : MonoBehaviour
 {
     [SerializeField] private float _goalTime;
     [SerializeField] private float _currentTime;
@@ -37,7 +37,6 @@ public class CronometerTrigger : MonoBehaviour
 
         if (_currentTime > _goalTime)
             //if it reaches this, it means it didn't arrive in time!
-            //SceneLoader.Instance.LoadScene(new GameOverState());
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject));
     }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-public interface IEffectTrigger
+﻿public interface IEffectTrigger
 {
     void TriggerEffect();
     bool IsEffectActive { get; }

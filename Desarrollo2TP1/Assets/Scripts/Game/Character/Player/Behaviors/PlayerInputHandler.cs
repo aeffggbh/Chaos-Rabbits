@@ -22,6 +22,7 @@ public class PlayerInputHandler : IPlayerInputHandler
         _grabAction = _controller.GrabAction;
     }
 
+    
     public void Enable()
     {
         if (_moveAction)

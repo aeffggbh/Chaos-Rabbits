@@ -95,13 +95,8 @@ public class CheatsController : MonoBehaviour
     {
         if (GameSceneController.Instance.IsTypeLoaded<GameplayScene>() && !PauseManager.Paused)
         {
-            //if (ServiceProvider.TryGetService<PlayerMediator>(out var playerController))
-            //    playerController.transform.position = levelTriggerLocation.position;
-
             PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
 
-            //SceneLoader.Instance.LoadNextLevel();
-            //TODO: make a bool to know if it should actually load the new level and unload the previous
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
 
             logger.RequestText("Gone to next level");

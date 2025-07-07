@@ -15,7 +15,10 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     private float _currentJumpForce;
     private float _timer;
     private float _rate = 0.5f;
-    
+
+    /// <summary>
+    /// Initializes the enemy and sets up initial values.
+    /// </summary>
     protected override void Start()
     {
         base.Start();
@@ -27,11 +30,17 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         _chasingSpeed /= 2;
     }
 
+    /// <summary>
+    /// Activates the chase behavior by setting the current speed to chasing speed.
+    /// </summary>
     public void ActivateChase()
     {
         _currentSpeed = _chasingSpeed;
     }
 
+    /// <summary>
+    /// Triggers the attack behavior and boosts movement if attack cooldown has passed.
+    /// </summary>
     public void Attack()
     {
         if (_timeSinceAttacked > _manager.attackTimer)
@@ -41,6 +50,9 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         }
     }
 
+    /// <summary>
+    /// Handles the movement logic, including jumping if grounded.
+    /// </summary>
     public void Move()
     {
         if (IsGrounded())
@@ -54,10 +66,13 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
             ActivateJump();
         }
 
-        Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse); 
+        Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
 
     }
 
+    /// <summary>
+    /// Applies a jump force to the enemy's rigidbody.
+    /// </summary>
     private void ActivateJump()
     {
         Vector3 velocity = Rb.linearVelocity;
@@ -65,6 +80,9 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         Rb.linearVelocity = velocity;
     }
 
+    /// <summary>
+    /// Checks if the enemy is currently grounded using a raycast.
+    /// </summary>
     private bool IsGrounded()
     {
         if (Time.time > _timer + _rate)
@@ -75,32 +93,50 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         return false;
     }
 
+    /// <summary>
+    /// Activates the idle behavior and resets jump force.
+    /// </summary>
     public void ActivateIdle()
     {
         ResetJumpForce();
     }
 
+    /// <summary>
+    /// Activates the attack state by setting the current speed to chasing speed.
+    /// </summary>
     public void ActivateAttack()
     {
         _currentSpeed = _chasingSpeed;
     }
 
+    /// <summary>
+    /// Boosts the enemy's jump force and movement speed for an attack.
+    /// </summary>
     private void BoostMovement()
     {
         _currentJumpForce = _jumpForce * _jumpForceMultiplier;
         _currentSpeed = _defaultMoveSpeed * _speedMultiplier;
     }
 
+    /// <summary>
+    /// Resets the jump force to its default value.
+    /// </summary>
     private void ResetJumpForce()
     {
         _currentJumpForce = _jumpForce;
     }
 
+    /// <summary>
+    /// Resets the movement speed to its default value.
+    /// </summary>
     private void ResetMoveSpeed()
     {
         _currentSpeed = _defaultMoveSpeed;
     }
 
+    /// <summary>
+    /// Handles collision with the player and applies damage.
+    /// </summary>
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))

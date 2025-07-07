@@ -52,10 +52,7 @@ public class LevelTrigger : MonoBehaviour
     /// </summary>
     private void OnTrigger()
     {
-        //SceneController.CheckCurrentScene();
-
         if (GameSceneController.Instance.IsSceneLoaded(GameplayScene.FinalLevelIndex))
-            //SceneLoader.Instance.LoadScene(new GameWinState());
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(),gameObject));
         else if (_enemyManager.enemies.Count == 0)
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));

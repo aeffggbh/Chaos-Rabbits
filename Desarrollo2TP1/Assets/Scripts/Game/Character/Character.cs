@@ -9,7 +9,6 @@ public abstract class Character : MonoBehaviour, IDamageable, IHealthData
     public float Damage { get; set; }
     public float CurrentHealth { get; protected set; }
 
-    //protected HealthBar _healthBar;
     protected IHealthBar _healthBar;
          
     virtual protected void Start()

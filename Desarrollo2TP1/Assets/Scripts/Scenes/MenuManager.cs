@@ -75,5 +75,4 @@ public class MenuManager : MonoBehaviour
     }
 
     //TODO: clean "internal" stuff. Maybe I missed something
-
 }

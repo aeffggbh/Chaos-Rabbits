@@ -21,7 +21,6 @@ public class HealthBar : MonoBehaviour, IHealthBar
 
     private void FixedUpdate()
     {
-        //copiar forward de la camara accediendo a ella con el service
         this.transform.forward = CineMachineManager.Instance.transform.forward;
     }
 

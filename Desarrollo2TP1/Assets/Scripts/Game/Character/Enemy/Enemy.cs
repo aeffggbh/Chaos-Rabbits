@@ -243,7 +243,6 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// </summary>
     private void Chase()
     {
-        //Debug.Log("Player direction:" + GetPlayerDirection());
         _moveDir = GetPlayerDirection();
 
         if (_playerMediator != null)

@@ -129,8 +129,6 @@ public class Player : Character, IPlayerData
     {
         if (!CheatsController.Instance.IsGodMode())
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject));
-
-        //SceneLoader.Instance.LoadScene(new GameOverState());
     }
 
     public override void TakeDamage(float damage)

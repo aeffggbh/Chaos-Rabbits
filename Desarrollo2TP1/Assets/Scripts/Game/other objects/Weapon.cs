@@ -102,7 +102,6 @@ public class Weapon : MonoBehaviour
 
         bool IsGameplay = GameSceneController.Instance.IsGameplay(index);
 
-        //SceneController.CheckCurrentScene();
         if (!user && index != GameplayScene.Level1Index && IsGameplay && this != null)
             Destroy(gameObject);
     }
@@ -253,7 +252,6 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    //TODO: fix the whole bullet spawn stuff
     public void SetBulletSpawn(GameObject spawn)
     {
         Debug.Log(spawn.name + " is now the bullet spawn for " + name);
