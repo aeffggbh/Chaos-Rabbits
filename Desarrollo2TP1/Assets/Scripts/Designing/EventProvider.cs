@@ -4,12 +4,16 @@ using System.Collections.Generic;
 /// <summary>
 /// Service to store and trigger events
 /// </summary>
-/// 
 public static class EventProvider
 {
     private static Dictionary<Type, Delegate> _eventListeners = new();
     public static Dictionary<Type, Delegate> EventListeners { get { return _eventListeners; } }
 
+    /// <summary>
+    /// Subscribes a new action to the dictionary according to its type
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="listener"></param>
     public static void Subscribe<T>(Action<T> listener) where T : IEvent
     {
         if (_eventListeners.TryGetValue(typeof(T), out var existingDelegate))
@@ -21,6 +25,11 @@ public static class EventProvider
             _eventListeners[typeof(T)] = listener;
     }
 
+    /// <summary>
+    /// Unsubscribe a specific action from the dictionary acording to its type
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="listener"></param>
     public static void Unsubscribe<T>(Action<T> listener) where T : IEvent
     {
         if (_eventListeners.TryGetValue(typeof(T), out var existingDelegate))

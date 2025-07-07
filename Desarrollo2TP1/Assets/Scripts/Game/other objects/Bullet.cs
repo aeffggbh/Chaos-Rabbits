@@ -69,7 +69,7 @@ internal class Bullet : MonoBehaviour
     private bool ShouldIgnoreCollision(GameObject collision)
     {
         if (collision != null && _originWeapon != null && _whoIsFiring != null)
-            return collision == _originWeapon || collision == _whoIsFiring.gameObject;
+            return collision == _originWeapon || collision == _whoIsFiring.UserObject;
 
         return true;
     }

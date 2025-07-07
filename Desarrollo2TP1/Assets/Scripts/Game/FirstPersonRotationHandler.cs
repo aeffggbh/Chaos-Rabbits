@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class FirstPersonRotationHandler : MonoBehaviour
 {
     [SerializeField] private GameObject _lookXGO;
     [SerializeField] private GameObject _lookYGO;
     [SerializeField] private Transform actualCamera;
-    [SerializeField] private float _bodyDelay = 1f;
+    [SerializeField] private float _delay = 1f;
     private Vector3 camForward;
 
     private void Awake()
@@ -33,7 +31,7 @@ public class FirstPersonRotationHandler : MonoBehaviour
     {
         camForward = actualCamera.localPosition + actualCamera.forward;
 
-        LookAtTarget.Look(camForward, _lookXGO.transform, LookAtTarget.AxisLock.X, _bodyDelay);
-        LookAtTarget.Look(camForward, _lookYGO.transform, _bodyDelay);
+        LookAtTarget.Look(camForward, _lookXGO.transform, LookAtTarget.AxisLock.X, _delay);
+        LookAtTarget.Look(camForward, _lookYGO.transform, _delay);
     }
 }

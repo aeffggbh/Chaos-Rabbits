@@ -17,7 +17,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
         ATTACK
     }
 
-    protected EnemyManager _manager;
+    protected IEnemyManager _manager;
     protected Vector3 _targetWalk;
     protected Vector3 _targetLook;
     protected float _attackRange;
@@ -48,14 +48,12 @@ public abstract class Enemy : Character, IPhysicsMovementData
     protected Vector3 _counterMovement;
     protected float _acceleration;
     protected float _counterMovementForce;
-    protected float _runSpeed;
-    protected float _walkSpeed;
 
     public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
     public float Acceleration { get => _acceleration; set => _acceleration = value; }
     public float CounterMovementForce { get => _counterMovementForce; set => _counterMovementForce = value; }
-    public float RunSpeed { get => _runSpeed; set => _runSpeed = value; }
-    public float WalkSpeed { get => _walkSpeed; set => _walkSpeed = value; }
+    public float RunSpeed { get => _chasingSpeed; set => _chasingSpeed = value; }
+    public float WalkSpeed { get => _patrolSpeed; set => _patrolSpeed = value; }
     public Rigidbody Rb { get => _rb; set => _rb = value; }
 
     protected override void Start()
@@ -71,12 +69,12 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         if (_manager != null)
         {
-            _manager.enemies.Add(this);
-            _patrolTimer = _manager.patrolTimer;
-            _attackRange = _manager.attackRange;
-            _chaseRange = _manager.chaseRange;
-            _patrolSpeed = _manager.patrolSpeed;
-            _chasingSpeed = _manager.chasingSpeed;
+            _manager.Enemies.Add(this);
+            _patrolTimer = _manager.PatrolTimer;
+            _attackRange = _manager.AttackRange;
+            _chaseRange = _manager.ChaseRange;
+            _patrolSpeed = _manager.PatrolSpeed;
+            _chasingSpeed = _manager.ChasingSpeed;
         }
         else
             Debug.LogError(nameof(EnemyManager) + " is null");
@@ -228,9 +226,9 @@ public abstract class Enemy : Character, IPhysicsMovementData
         if (_movementBehavior != null)
         {
             _counterMovement = new Vector3
-                           (-Rb.linearVelocity.x * _manager.counterMovementForce,
+                           (-Rb.linearVelocity.x * _manager.CounterMovementForce,
                            0,
-                           -Rb.linearVelocity.z * _manager.counterMovementForce);
+                           -Rb.linearVelocity.z * _manager.CounterMovementForce);
 
             _movementBehavior.Move();
 
@@ -273,8 +271,8 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         _patrolCurrentTime = 0;
 
-        float randomZ = UnityEngine.Random.Range(-_manager.walkRange, _manager.walkRange);
-        float randomX = UnityEngine.Random.Range(-_manager.walkRange, _manager.walkRange);
+        float randomZ = UnityEngine.Random.Range(-_manager.WalkRange, _manager.WalkRange);
+        float randomX = UnityEngine.Random.Range(-_manager.WalkRange, _manager.WalkRange);
 
         _targetWalk = new Vector3(transform.position.x + randomX,
                                      transform.position.y,
@@ -313,7 +311,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
     {
         Debug.Log("DIE");
 
-        _manager.enemies.Remove(this);
+        _manager.Enemies.Remove(this);
 
         base.Die();
     }

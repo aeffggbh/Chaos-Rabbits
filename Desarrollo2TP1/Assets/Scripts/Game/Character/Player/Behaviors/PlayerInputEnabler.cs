@@ -1,9 +1,10 @@
 ﻿
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputHandler : IPlayerInputHandler
+/// <summary>
+/// Class to enable/disable player input
+/// </summary>
+public class PlayerInputEnabler : IPlayerInputEnabler
 {
     private InputActionReference _moveAction;
     private InputActionReference _jumpAction;
@@ -12,7 +13,10 @@ public class PlayerInputHandler : IPlayerInputHandler
 
     private PlayerMediator _controller;
 
-    public PlayerInputHandler()
+    /// <summary>
+    /// Initializes local input references
+    /// </summary>
+    public PlayerInputEnabler()
     {
         _controller = PlayerMediator.PlayerInstance;
 
@@ -22,7 +26,6 @@ public class PlayerInputHandler : IPlayerInputHandler
         _grabAction = _controller.GrabAction;
     }
 
-    
     public void Enable()
     {
         if (_moveAction)

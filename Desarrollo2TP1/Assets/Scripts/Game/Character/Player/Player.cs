@@ -45,18 +45,7 @@ public class Player : Character, IPlayerData
     public float WalkSpeed { get => _walkSpeed; set => _walkSpeed = value; }
     public Rigidbody Rb { get => _rb; set => _rb = value; }
     public Transform WeaponParent { get => _weaponParent; set => _weaponParent = value; }
-
-    public Player(IPlayerData data)
-    {
-        CurrentWeapon = data.CurrentWeapon;
-        CurrentSpeed = data.CurrentSpeed;
-        Acceleration = data.Acceleration;
-        CounterMovementForce = data.CounterMovementForce;
-        RunSpeed = data.RunSpeed;
-        WalkSpeed = data.WalkSpeed;
-        Rb = data.Rb;
-        WeaponParent = data.WeaponParent;
-    }
+    public GameObject UserObject => gameObject;
 
     private void Awake()
     {
@@ -64,9 +53,6 @@ public class Player : Character, IPlayerData
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody>();
         Damage = _damage;
-
-        if (PlayerDataProvider.DefaultPlayerData == null)
-            PlayerDataProvider.SetDefaultPlayer(this);
     }
 
     protected override void Start()

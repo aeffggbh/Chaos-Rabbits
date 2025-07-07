@@ -6,36 +6,40 @@ using UnityEngine;
 /// </summary>
 public class LevelTrigger : MonoBehaviour
 {
-    [SerializeField] private EnemyManager _enemyManager;
+    [SerializeField] private IEnemyManager _enemyManager;
     [SerializeField] private int _enemyCounter;
     [SerializeField] private int _enemyTotal;
     [SerializeField] private TextMeshProUGUI _enemyCounterText;
 
     private void Start()
     {
-        if (!_enemyManager)
-        {
-            if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
-                _enemyManager = enemyManager;
+        if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
+            _enemyManager = enemyManager;
 
+        if (_enemyManager != null)
+        {
             _enemyCounter = 0;
+
+            _enemyTotal = _enemyManager.Enemies.Count;
         }
-        _enemyTotal = _enemyManager.enemies.Count;
+        else
+            Debug.LogWarning("EnemyManager not found");
     }
 
     private void Update()
     {
-        if (CheatsController.Instance.levelTriggerLocation != transform)
-            CheatsController.Instance.levelTriggerLocation = transform;
+        if (CheatsController.Instance != null)
+            if (CheatsController.Instance.levelTriggerLocation != transform)
+                CheatsController.Instance.levelTriggerLocation = transform;
 
         if (!GameSceneController.Instance.IsSceneLoaded(GameplayScene.FinalLevelIndex))
         {
             if (_enemyTotal <= 0)
-                _enemyTotal = _enemyManager.enemies.Count;
+                _enemyTotal = _enemyManager.Enemies.Count;
 
-            if (_enemyManager && _enemyCounterText)
+            if (_enemyManager != null && _enemyCounterText)
             {
-                _enemyCounter = _enemyTotal - _enemyManager.enemies.Count;
+                _enemyCounter = _enemyTotal - _enemyManager.Enemies.Count;
                 _enemyCounterText.SetText(_enemyCounter + " / " + _enemyTotal);
             }
         }
@@ -53,8 +57,8 @@ public class LevelTrigger : MonoBehaviour
     private void OnTrigger()
     {
         if (GameSceneController.Instance.IsSceneLoaded(GameplayScene.FinalLevelIndex))
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(),gameObject));
-        else if (_enemyManager.enemies.Count == 0)
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(), gameObject));
+        else if (_enemyManager.Enemies.Count == 0)
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
     }
 

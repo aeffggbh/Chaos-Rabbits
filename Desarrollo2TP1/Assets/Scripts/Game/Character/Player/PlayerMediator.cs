@@ -33,7 +33,7 @@ public class PlayerMediator : MonoBehaviour
     [SerializeField] private Transform _weaponParent;
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
-    private IPlayerInputHandler _playerInput;
+    private IPlayerInputEnabler _playerInput;
 
     private static PlayerMediator _instance;
 
@@ -51,7 +51,7 @@ public class PlayerMediator : MonoBehaviour
         else
             Destroy(gameObject);
 
-        _playerInput = new PlayerInputHandler();
+        _playerInput = new PlayerInputEnabler();
     }
 
     private void Start()
@@ -187,7 +187,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        _player.Movement.Move(context, _playerMovement, _playerAnimation, _player);
+        _player.Movement.RequestMovement(context, _playerMovement, _playerAnimation, _player);
     }
 
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controls which scenes are active, according to what's going on in the game
@@ -35,7 +36,11 @@ public class GameSceneController : MonoBehaviour
 
     public void SetActiveScene(IActivateSceneEvent scene)
     {
+        (scene as IUnloadPreviousLevelCommand)?.UnloadPreviousLevel();
+
         IScene.Index index = scene.SceneIndex;
+
+        index = scene.SceneIndex;
 
         var activeScene = SceneLoader.Instance.GetActiveScene();
 
@@ -45,20 +50,13 @@ public class GameSceneController : MonoBehaviour
             return;
         }
 
-        (scene as IUnloadPreviousLevelCommand)?.UnloadPreviousLevel();
-
-        index = scene.SceneIndex;
-
         if (!IsSceneLoaded(index))
             SceneLoader.Instance.LoadScene(index);
-
-        if (SceneLoader.Instance.SetActiveScene(index))
-        {
-            _previousScene = activeScene;
-        }
         else
-            Debug.LogWarning($"Could not activate {index} Source: {scene.TriggeredByGO.name} (perhaps it's still loading)");
+            SceneLoader.Instance.SetActiveScene(index);
 
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex((int)index))
+            _previousScene = activeScene;
     }
 
     public bool IsSceneLoaded(IScene.Index index)

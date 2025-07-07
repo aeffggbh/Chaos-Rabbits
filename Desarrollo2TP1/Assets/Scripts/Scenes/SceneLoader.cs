@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static IScene;
 
 /// <summary>
 /// Controller for managing scene loading and unloading
@@ -89,6 +90,8 @@ public class SceneLoader : MonoBehaviour
             Debug.Log($"Loaded {newScene} successfully");
 
             sceneList.Add(scene);
+
+            SceneLoader.Instance.SetActiveScene(newScene);
         }
         else
         {

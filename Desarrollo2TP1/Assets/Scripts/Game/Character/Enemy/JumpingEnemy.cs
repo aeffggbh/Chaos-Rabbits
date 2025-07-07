@@ -43,7 +43,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     public void Attack()
     {
-        if (_timeSinceAttacked > _manager.attackTimer)
+        if (_timeSinceAttacked > _manager.AttackTimer)
         {
             _timeSinceAttacked = 0;
             BoostMovement();

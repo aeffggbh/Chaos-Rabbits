@@ -41,7 +41,7 @@ public class PlayerMovement : IPlayerMovement
     /// <param name="calculator"></param>
     /// <param name="animation"></param>
     /// <param name="player"></param>
-    public void Move(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
+    public void RequestMovement(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
         PlayerAnimationController animation, IPlayerData player)
     {
         animation.Walk();

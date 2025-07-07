@@ -25,19 +25,6 @@ public class UIAudioHandler : MonoBehaviour
         EventProvider.Subscribe<IActivateSceneEvent>(CheckListener);
     }
 
-    private void CheckListener(IActivateSceneEvent sceneEvent)
-    {
-        if (sceneEvent is ActivateGameplayEvent)
-            if (_audioListener != null)
-                _audioListener.enabled = false;
-    }
-
-    public void ActivateAudioListener()
-    {
-        if (_audioListener != null)
-            _audioListener.enabled = true;
-    }
-
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -45,6 +32,29 @@ public class UIAudioHandler : MonoBehaviour
         _soundPlayer = new SoundPlayer(_audioSource);
     }
 
+    /// <summary>
+    /// Checks if the listener should be disabled. It happens when I activate the gameplay
+    /// </summary>
+    /// <param name="sceneEvent"></param>
+    private void CheckListener(IActivateSceneEvent sceneEvent)
+    {
+        if (sceneEvent is ActivateGameplayEvent)
+            if (_audioListener != null)
+                _audioListener.enabled = false;
+    }
+    
+    /// <summary>
+    /// Enables the UI audio listener.
+    /// </summary>
+    public void ActivateAudioListener()
+    {
+        if (_audioListener != null)
+            _audioListener.enabled = true;
+    }
+
+    /// <summary>
+    /// Plays the sound of the button
+    /// </summary>
     public void PlayButtonSound()
     {
         if (_soundPlayer != null)

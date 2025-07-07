@@ -3,6 +3,6 @@
 public interface IWeaponUser : IDamageable
 {
     Weapon CurrentWeapon { get; set; }
-    GameObject gameObject { get; }
+    GameObject UserObject { get; }
     float Damage { get; }
 }

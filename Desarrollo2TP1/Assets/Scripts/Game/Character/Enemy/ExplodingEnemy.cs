@@ -9,7 +9,6 @@ using UnityEngine;
 public partial class ExplodingEnemy : Enemy
 {
     private AngryAnimationController _angryAnimation;
-    //private ExplosionManager _explosionManager;
     private IEffectTrigger _effectTrigger;
     private bool _explosionTriggered;
 

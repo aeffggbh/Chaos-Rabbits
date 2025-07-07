@@ -10,6 +10,8 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
 
     public Weapon CurrentWeapon { get => _enemyWeapon; set { _enemyWeapon = value; } }
 
+    public GameObject UserObject => gameObject;
+
     private void OnEnable()
     {
         _enemyWeapon = GetComponentInChildren<WeaponHolder>().currentWeapon;
@@ -53,7 +55,7 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
             if (_clownAnimation != null)
                 _clownAnimation.StopWalking();
         }
-        if (_timeSinceAttacked > _manager.attackTimer)
+        if (_timeSinceAttacked > _manager.AttackTimer)
         {
             _timeSinceAttacked = 0;
             _enemyWeapon.Fire();
@@ -73,7 +75,8 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
                 _clownAnimation.StopWalking();
         }
 
-        Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
+        Vector3 force = _moveDir * CurrentSpeed + _counterMovement;
+        Rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     /// <summary>

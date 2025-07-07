@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Behavior that allows the player to jump
+/// </summary>
 public class PlayerJump : IPlayerJump
 {
     private Rigidbody _rb;
-    private readonly ISoundPlayer _soundPlayer;
+    private ISoundPlayer _soundPlayer;
 
     public bool IsGrounded { get; set; }
     private bool jumpTrigger;
 
+    /// <summary>
+    /// Initializes local variables
+    /// </summary>
+    /// <param name="rb"></param>
+    /// <param name="soundPlayer"></param>
     public PlayerJump(Rigidbody rb, ISoundPlayer soundPlayer)
     {
         _rb = rb;
