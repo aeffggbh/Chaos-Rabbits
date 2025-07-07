@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4144010092534209862}
   - component: {fileID: 41433813218842539}
   - component: {fileID: 5492536635050363632}
+  - component: {fileID: 6417058489570049342}
   m_Layer: 0
   m_Name: PlayerCanvas
   m_TagString: Untagged
@@ -169,6 +170,21 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6417058489570049342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474144755751736242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b210753122e584ba6a7774cb544caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logText: {fileID: 4815307971799625173}
+  _timeToBanish: 4
+  _currentTime: 0
 --- !u!1 &1350084139651507986
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +483,7 @@ GameObject:
   - component: {fileID: 6769038839451980958}
   - component: {fileID: 4815307971799625173}
   m_Layer: 0
-  m_Name: CheatLog
+  m_Name: MessageLog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1358,10 +1374,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CheatsController
       objectReference: {fileID: 0}
-    - target: {fileID: 2642849818619695954, guid: 70f646876302eea48a1d0df7d759f258, type: 3}
-      propertyPath: logger
-      value: 
-      objectReference: {fileID: 2771227461947924096}
     - target: {fileID: 2783037154431775714, guid: 70f646876302eea48a1d0df7d759f258, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.286507
@@ -1405,31 +1417,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 462464286618230521, guid: 70f646876302eea48a1d0df7d759f258, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2771227461947924096}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70f646876302eea48a1d0df7d759f258, type: 3}
---- !u!1 &219662855614941937 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 462464286618230521, guid: 70f646876302eea48a1d0df7d759f258, type: 3}
-  m_PrefabInstance: {fileID: 389393028846572552}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2771227461947924096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 219662855614941937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34184ea9e09c1545b7dc243282a6fb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cheatLogText: {fileID: 4815307971799625173}
-  _timeToBanish: 1
-  _currentTime: 0
 --- !u!4 &2591878134986401770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2783037154431775714, guid: 70f646876302eea48a1d0df7d759f258, type: 3}

@@ -168,8 +168,8 @@ public class SceneLoader : MonoBehaviour
 
         foreach (var scene in sceneList)
         {
-            if (typeof(T) == typeof(MenuScene))
-                IsLoaded = scene.buildIndex == MenuScene.Index;
+            if (typeof(T) == typeof(MenuSceneData))
+                IsLoaded = scene.buildIndex == MenuSceneData.Index;
             else
                 IsLoaded = IsGameplay(scene.buildIndex);
 

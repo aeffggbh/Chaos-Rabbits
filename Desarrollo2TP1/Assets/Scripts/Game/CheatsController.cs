@@ -10,7 +10,6 @@ public class CheatsController : MonoBehaviour
     [SerializeField] private InputActionReference _godMode;
     [SerializeField] private InputActionReference _flashMode;
     [SerializeField] public Transform levelTriggerLocation;
-    [SerializeField] public CheatsLogger logger;
     private bool _isGodMode;
     private bool _isFlashMode;
 
@@ -51,8 +50,6 @@ public class CheatsController : MonoBehaviour
         else
             _flashMode.action.performed += OnFlashMode;
 
-        if (!logger)
-            GetComponent<CheatsLogger>();
     }
 
     /// <summary>
@@ -64,7 +61,7 @@ public class CheatsController : MonoBehaviour
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isFlashMode = !_isFlashMode;
-            logger.RequestText("Flash Mode", _isFlashMode);
+            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Flash Mode", _isFlashMode));
         }
     }
 
@@ -77,7 +74,7 @@ public class CheatsController : MonoBehaviour
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isGodMode = !_isGodMode;
-            logger.RequestText("God Mode", _isGodMode);
+            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Flash Mode", _isGodMode));
         }
     }
 
@@ -99,7 +96,7 @@ public class CheatsController : MonoBehaviour
 
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
 
-            logger.RequestText("Gone to next level");
+            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Gone to next level"));
         }
     }
 

@@ -10,7 +10,7 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
     private GameObject _source;
     public int Index => _currentIndex;
     public bool NewLevel { get => _nextLevel; }
-    public int NextLevel { get => _currentIndex != GameplaySceneData.FinalLevelIndex ? _currentIndex + 1 : GameplaySceneData.Level1Index; }
+    public int NextLevel { get => _currentIndex != GameplaySceneData.FinalLevelIndex ? _currentIndex + 1 : MenuSceneData.Index; }
     public GameObject TriggeredByGO { get => _source; }
 
     public ActivateGameplayEvent(GameObject source, bool nextLevel)
@@ -43,7 +43,11 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
         {
 
             int levelToUnloadIndex = _levelToUnloadIndex == -1 ? _currentIndex : _levelToUnloadIndex;
+
             int levelToLoadIndex = _newLevelIndex == -1 ? NextLevel : _newLevelIndex;
+
+            if (levelToLoadIndex == MenuSceneData.Index)
+                MenuManager.Instance.TransitionToState(new GameWinState());
 
             _nextLevel = false;
 
