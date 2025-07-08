@@ -1,7 +1,13 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles the weapon of the player
+/// </summary>
 public interface IPlayerWeaponHandler
 {
+    /// <summary>
+    /// Saves the weapon that the player is holding
+    /// </summary>
     Weapon CurrentWeapon { get; set; }
     /// <summary>
     /// Grabs the weapon provided by parameter

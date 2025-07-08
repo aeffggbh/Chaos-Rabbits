@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Service to store and trigger events
+/// Service to store events
 /// </summary>
 public static class EventProvider
 {

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Represents an enemy that jumps towards the player.
 /// </summary>
-public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBehavior, IIdleBehavior
+public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBehavior, IAttackActivationBehavior, IIdleBehavior
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _jumpForceMultiplier = 3.5f;
@@ -16,9 +16,6 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     private float _timer;
     private float _rate = 0.5f;
 
-    /// <summary>
-    /// Initializes the enemy and sets up initial values.
-    /// </summary>
     protected override void Start()
     {
         base.Start();

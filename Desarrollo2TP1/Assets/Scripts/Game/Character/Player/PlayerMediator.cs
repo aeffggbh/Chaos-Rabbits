@@ -1,12 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-//TODO: poner que no se puedan deseleccionar los botones para que no se joda con el joystick.
-//TODO: ponerle summary a todo lo que no lo tiene
-//TODO: NO PUEDEN HABER COMENTARIOS QUE NO SEAN SUMMARIES.
-// NO PUEDE HABER NADA EN ESPAÑOL
-// 7/7 se entrega uwu
-
 /// <summary>
 /// Reads input and decides actions taken by the player
 /// </summary>

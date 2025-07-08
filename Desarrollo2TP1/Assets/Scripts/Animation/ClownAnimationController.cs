@@ -4,22 +4,21 @@
 /// </summary>
 public class ClownAnimationController : AnimationController
 {
-    public void Walk()
+    /// <summary>
+    /// Plays the walk animation
+    /// </summary>
+    public void AnimateWalk()
     {
         if (animator != null)
             animator.SetBool("isWalking", true);
     }
 
-    public void StopWalking()
+    /// <summary>
+    /// Transitions from walk animation to idle
+    /// </summary>
+    public void AnimateStopWalking()
     {
         if (animator != null)
             animator.SetBool("isWalking", false);
-    }
-
-    //todo: USE THIS
-    public void Death()
-    {
-        if (animator != null)
-            animator.SetBool("isDead", true);
     }
 }

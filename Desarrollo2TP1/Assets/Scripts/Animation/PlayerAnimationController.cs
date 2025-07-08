@@ -1,26 +1,41 @@
 using UnityEngine;
 
+/// <summary>
+/// Controlls player animations
+/// </summary>
 public class PlayerAnimationController : AnimationController
 {
-    public void Walk()
+    /// <summary>
+    /// Plays the walk animation
+    /// </summary>
+    public void AnimateWalk()
     {
         if (animator != null)
             animator.SetBool("isWalking", true);
     }
 
-    public void StopWalking()
+    /// <summary>
+    /// Transitions from walk to idle animation
+    /// </summary>
+    public void AnimateStopWalking()
     {
         if (animator != null)
             animator.SetBool("isWalking", false);
     }
 
-    public void GrabWeapon()
+    /// <summary>
+    /// Switches from the idle animation to the grab animation
+    /// </summary>
+    public void AnimateGrabWeapon()
     {
         if (animator != null)
             animator.SetBool("isAiming", true);
     }
 
-    public void DropWeapon()
+    /// <summary>
+    /// Switches the grab animation to the idle animation
+    /// </summary>
+    public void AnimateDropWeapon()
     {
         if (animator != null)
             animator.SetBool("isAiming", false);

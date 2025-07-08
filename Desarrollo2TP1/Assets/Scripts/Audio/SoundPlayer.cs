@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Can play sounds given an audiosource
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
 public class SoundPlayer : ISoundPlayer
 {

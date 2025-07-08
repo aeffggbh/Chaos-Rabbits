@@ -1,6 +1,10 @@
-
+/// <summary>
+/// Interface for attacking behavior
+/// </summary>
 public interface IAttackBehavior
 {
-    void ActivateAttack();
+    /// <summary>
+    /// plays the Attacking behavior
+    /// </summary>
     void Attack();
 }

@@ -58,7 +58,8 @@ public partial class ExplodingEnemy : Enemy
         if (myEvent.TriggeredByGO == gameObject)
         {
             EventProvider.Unsubscribe<EffectStartedEvent>(HandleEffectStart);
-            PlayerMediator.PlayerInstance.TakeDamage(Damage);
+            if (GetPlayerDistance() < _effectTrigger.EffectRange)
+                PlayerMediator.PlayerInstance.TakeDamage(Damage);
         }
     }
 
@@ -68,7 +69,7 @@ public partial class ExplodingEnemy : Enemy
     private void StartExplosion()
     {
         _explosionTriggered = true;
-        _angryAnimation.Attack();
+        _angryAnimation.AnimateAttack();
         _effectTrigger.TriggerEffect();
     }
 

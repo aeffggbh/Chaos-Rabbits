@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Can play UI sounds from a single audiosource
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(AudioListener))]
 public class UIAudioHandler : MonoBehaviour
@@ -61,6 +64,9 @@ public class UIAudioHandler : MonoBehaviour
             _soundPlayer.PlaySound(SFXType.CONFIRM);
     }
 
+    /// <summary>
+    /// Plays a sound for levelling up
+    /// </summary>
     public void PlayLevelUpSound()
     {
         if(_soundPlayer != null)

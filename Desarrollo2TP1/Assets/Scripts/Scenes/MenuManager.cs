@@ -73,6 +73,4 @@ public class MenuManager : MonoBehaviour
         HideAllPanels();
         panel.SetActive(true);
     }
-
-    //TODO: clean "internal" stuff. Maybe I missed something
 }

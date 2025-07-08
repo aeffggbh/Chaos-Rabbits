@@ -38,6 +38,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
     protected Coroutine _rangeCheckCoroutine;
     protected IChaseBehavior _chaseBehavior;
     protected IAttackBehavior _attackBehavior;
+    protected IAttackActivationBehavior _attackActivationBehavior;
     protected IIdleBehavior _idleBehavior;
     protected IPatrolBehavior _patrolBehavior;
     protected IMovementBehavior _movementBehavior;
@@ -48,7 +49,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
     protected Vector3 _counterMovement;
     protected float _acceleration;
     protected float _counterMovementForce;
-
+    
     public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
     public float Acceleration { get => _acceleration; set => _acceleration = value; }
     public float CounterMovementForce { get => _counterMovementForce; set => _counterMovementForce = value; }
@@ -92,6 +93,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         _chaseBehavior = this as IChaseBehavior;
         _attackBehavior = this as IAttackBehavior;
+        _attackActivationBehavior = this as IAttackActivationBehavior;
         _idleBehavior = this as IIdleBehavior;
         _patrolBehavior = this as IPatrolBehavior;
         _movementBehavior = this as IMovementBehavior;
@@ -100,6 +102,9 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
     }
 
+    /// <summary>
+    /// Starts the state machine
+    /// </summary>
     private void StartStateMachine()
     {
         if (_rangeCheckCoroutine != null)
@@ -113,6 +118,10 @@ public abstract class Enemy : Character, IPhysicsMovementData
         SwitchState(States.PATROL);
     }
 
+    /// <summary>
+    /// Switches to another state
+    /// </summary>
+    /// <param name="state"></param>
     private void SwitchState(States state)
     {
         if (state == currentState)
@@ -145,11 +154,15 @@ public abstract class Enemy : Character, IPhysicsMovementData
         }
     }
 
+    /// <summary>
+    /// Executes attack logic
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartAttackCoroutine()
     {
         if (_attackBehavior != null)
         {
-            _attackBehavior.ActivateAttack();
+            _attackActivationBehavior?.ActivateAttack();
 
             _timeSinceAttacked = 0;
 
@@ -167,6 +180,10 @@ public abstract class Enemy : Character, IPhysicsMovementData
         }
     }
 
+    /// <summary>
+    /// Executes chasing logic
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartChaseCoroutine()
     {
         if (_chaseBehavior != null)
@@ -182,13 +199,17 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
     }
 
+    /// <summary>
+    /// Checks the range from the enemy to the player
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator RangeCheckCoroutine()
     {
         while (true)
         {
             CheckRange();
 
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
     }
 
@@ -225,15 +246,23 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         if (_movementBehavior != null)
         {
-            _counterMovement = new Vector3
-                           (-Rb.linearVelocity.x * _manager.CounterMovementForce,
-                           0,
-                           -Rb.linearVelocity.z * _manager.CounterMovementForce);
+            UpdateCounterMovement();
 
             _movementBehavior.Move();
 
             LookAtTarget.Look(_targetLook, transform);
         }
+    }
+
+    /// <summary>
+    /// Updates the counter movement according to the force stored locally
+    /// </summary>
+    private void UpdateCounterMovement()
+    {
+        _counterMovement = new Vector3
+                           (-Rb.linearVelocity.x * _manager.CounterMovementForce,
+                           0,
+                           -Rb.linearVelocity.z * _manager.CounterMovementForce);
     }
 
     /// <summary>
@@ -265,6 +294,10 @@ public abstract class Enemy : Character, IPhysicsMovementData
             SwitchState(States.PATROL);
     }
 
+    /// <summary>
+    /// Starts the patrolling logic
+    /// </summary>
+    /// <returns></returns>
     protected IEnumerator StartPatrolCoroutine()
     {
         currentState = States.PATROL;
@@ -292,6 +325,10 @@ public abstract class Enemy : Character, IPhysicsMovementData
         SwitchState(States.IDLE);
     }
 
+    /// <summary>
+    /// Starts the idle logic
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartIdleCoroutine()
     {
         if (_idleBehavior != null)
@@ -307,10 +344,11 @@ public abstract class Enemy : Character, IPhysicsMovementData
         }
     }
 
+    /// <summary>
+    /// Removes this enemy from the enemy list before dying
+    /// </summary>
     public override void Die()
     {
-        Debug.Log("DIE");
-
         _manager.Enemies.Remove(this);
 
         base.Die();

@@ -470,7 +470,7 @@ MonoBehaviour:
   _lookXGO: {fileID: 8549862357171753276}
   _lookYGO: {fileID: 1667733075886942998}
   actualCamera: {fileID: 8536552224511825266}
-  _delay: 1
+  _delay: 3
 --- !u!1 &2448541891737937328
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,7 +851,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6342060266662945706}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.374064, y: 0.07857815, z: -0.031827427, w: 0.92351973}
+  m_LocalRotation: {x: 0.41546917, y: 0.17461953, z: -0.081612006, w: 0.88895047}
   m_LocalPosition: {x: 0, y: 3.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -930,7 +930,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 0
   PanAxis:
-    Value: 9.726654
+    Value: 22.226608
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -940,7 +940,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: 44.1
+    Value: 50.099995
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0

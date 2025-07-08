@@ -31,7 +31,7 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
     public void ActivatePatrol()
     {
         if (animationController != null)
-            _clownAnimation.Walk();
+            _clownAnimation.AnimateWalk();
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
         {
             _currentSpeed = 0;
             if (_clownAnimation != null)
-                _clownAnimation.StopWalking();
+                _clownAnimation.AnimateStopWalking();
         }
         if (_timeSinceAttacked > _manager.AttackTimer)
         {
@@ -70,9 +70,9 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
         if (_clownAnimation != null)
         {
             if (_currentSpeed > 0)
-                _clownAnimation.Walk();
+                _clownAnimation.AnimateWalk();
             else
-                _clownAnimation.StopWalking();
+                _clownAnimation.AnimateStopWalking();
         }
 
         Vector3 force = _moveDir * CurrentSpeed + _counterMovement;
@@ -87,14 +87,6 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
         Rb.linearVelocity = Vector3.zero;
 
         if (animationController != null)
-            _clownAnimation.StopWalking();
-    }
-
-    /// <summary>
-    /// Activates the attack state and logs the action.
-    /// </summary>
-    public void ActivateAttack()
-    {
-        Debug.Log(nameof(NormalEnemy) + " is about to attack");
+            _clownAnimation.AnimateStopWalking();
     }
 }

@@ -56,9 +56,9 @@ public class MessageLogger : MonoBehaviour
         if (logMessage.IsToggle)
         {
             if (logMessage.Toggle)
-                _text += "ON!";
+                _text += " ON!";
             else
-                _text += "OFF!";
+                _text += " OFF!";
         }
         else
             _text += "!";

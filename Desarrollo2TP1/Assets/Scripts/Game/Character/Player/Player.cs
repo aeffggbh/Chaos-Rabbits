@@ -16,6 +16,9 @@ public class Player : Character, IPlayerData
     private IPlayerWeaponHandler _weaponHandler;
     private ISoundPlayer _soundPlayer;
 
+    /// <summary>
+    /// saves the data of the player movement
+    /// </summary>
     public IPlayerMovement Movement { get { return _movement; } }
 
     private Rigidbody _rb;
@@ -67,6 +70,10 @@ public class Player : Character, IPlayerData
 
     }
 
+    /// <summary>
+    /// Requests the movement direction and saves it
+    /// </summary>
+    /// <param name="direction"></param>
     public void RequestMovementDirection(Vector2 direction)
     {
         currentDirection = direction;
@@ -89,16 +96,6 @@ public class Player : Character, IPlayerData
     public void RequestGroundedState(bool grounded)
     {
         _jump.IsGrounded = grounded;
-    }
-
-    public void RequestWeaponGrab(Weapon weapon)
-    {
-        _weaponHandler.GrabWeapon(weapon);
-    }
-
-    public void RequestWeaponDrop()
-    {
-        _weaponHandler.DropWeapon();
     }
 
     protected override void FixedUpdate()
@@ -125,6 +122,10 @@ public class Player : Character, IPlayerData
             Debug.Log("Cannot take damage!");
     }
 
+    /// <summary>
+    /// Returns the jump force
+    /// </summary>
+    /// <returns></returns>
     public float GetJumpForce()
     {
         return _jumpForce;

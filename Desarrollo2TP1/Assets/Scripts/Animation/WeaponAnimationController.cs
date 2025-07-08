@@ -1,7 +1,13 @@
 
+/// <summary>
+/// Controls the weapon animations
+/// </summary>
 public class WeaponAnimationController : AnimationController
 {
-    public void Shoot()
+    /// <summary>
+    /// Plays the shoot animation
+    /// </summary>
+    public void AnimateShoot()
     {
         CheckAnimator();
 

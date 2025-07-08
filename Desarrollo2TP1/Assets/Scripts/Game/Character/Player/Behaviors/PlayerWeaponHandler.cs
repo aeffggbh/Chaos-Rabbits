@@ -65,7 +65,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
         CurrentWeapon.SetBulletSpawn(_bulletSpawnGO);
         CurrentWeapon.Hold(_weaponParent);
         _playerController.Player.CurrentWeapon = CurrentWeapon;
-        _animationController?.GrabWeapon();
+        _animationController?.AnimateGrabWeapon();
     }
 
     public void DropWeapon()
@@ -75,7 +75,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
             CurrentWeapon.user = null;
             CurrentWeapon.Drop();
             CurrentWeapon = null;
-            _animationController?.DropWeapon();
+            _animationController?.AnimateDropWeapon();
         }
     }
 }

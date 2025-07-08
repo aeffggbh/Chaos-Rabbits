@@ -147,7 +147,7 @@ public class Weapon : MonoBehaviour
         else
             Debug.LogError("Enemy cannot use hitscan. Deactivate the hitscan option!");
 
-        _weaponAnimation.Shoot();
+        _weaponAnimation.AnimateShoot();
     }
 
     /// <summary>

@@ -74,7 +74,7 @@ public class CheatsController : MonoBehaviour
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isGodMode = !_isGodMode;
-            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Flash Mode", _isGodMode));
+            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "God Mode", _isGodMode));
         }
     }
 
@@ -92,10 +92,10 @@ public class CheatsController : MonoBehaviour
     {
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
-            PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
+            if (PlayerMediator.PlayerInstance.transform != null)
+                PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
 
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
-
             EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Gone to next level"));
         }
     }

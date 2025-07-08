@@ -44,7 +44,7 @@ public class PlayerMovement : IPlayerMovement
     public void RequestMovement(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
         PlayerAnimationController animation, IPlayerData player)
     {
-        animation.Walk();
+        animation.AnimateWalk();
 
         CheckFlash();
 
@@ -56,9 +56,12 @@ public class PlayerMovement : IPlayerMovement
         _data.Rb.linearVelocity = new Vector3(0, _data.Rb.linearVelocity.y, 0);
 
         (player as Player)?.RequestMovementDirection(Vector2.zero);
-        animation.StopWalking();
+        animation.AnimateStopWalking();
     }
 
+    /// <summary>
+    /// Checks if the player is in flashmode and sets the speed accordingly
+    /// </summary>
     private void CheckFlash()
     {
         if (CheatsController.Instance.IsFlashMode())

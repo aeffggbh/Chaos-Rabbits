@@ -1,5 +1,8 @@
 using System;
 
+/// <summary>
+/// Triggers events
+/// </summary>
 public static class EventTriggerManager
 {
     public static void Trigger<T>(T myEvent) where T : IEvent

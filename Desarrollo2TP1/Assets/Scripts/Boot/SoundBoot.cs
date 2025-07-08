@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Boots up the sound
+/// </summary>
 public class SoundBoot : MonoBehaviour
 {
     [SerializeField] SoundManager _soundManager;
