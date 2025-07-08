@@ -16,6 +16,9 @@ My first game made in Unity 3D (that is not a game jam!). It’s a First Person 
   - **Level 3**: You get to the end of the level by surviving an enemy ambush!  
 
 ## Credits  
+### Dev
+- Sofi Alvarez (me!)
+
 ### Audio  
 - All audio assets sourced from [FreeSound](https://freesound.org)  
 
