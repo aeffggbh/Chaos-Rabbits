@@ -1,5 +1,7 @@
+
 # CHAOS AND RABBITS  
 *by Sofi Alvarez*
+![game_icon](https://github.com/user-attachments/assets/96e41018-a699-4c20-93ca-8feb22e555af)
 
 ## Links
 - [Itch.io](https://gensofi24.itch.io/chaos-and-rabbits) page.
@@ -30,4 +32,15 @@ My first game made in Unity 3D (that is not a game jam!). It’s a First Person 
 | Weapons                | Unity Asset Store                       | -                                           |  
 | Environment            | Unity Asset Store                       | -                                           |  
 
+![made_with_unity_icon](https://github.com/user-attachments/assets/0d2e8ff8-4b5e-48dd-a14c-1639dad3fabc)
+### Images
+![1](https://github.com/user-attachments/assets/6a94a95e-5e62-495f-aa5d-d3948af78769)
+![2](https://github.com/user-attachments/assets/002369a3-1886-4315-ad67-7cf0f1d1d98e)
+![3](https://github.com/user-attachments/assets/0b2e2099-a07e-4d76-9df4-af22bba2d563)
+![4](https://github.com/user-attachments/assets/fdba34d9-497f-4ef4-ad43-d4c7cc3234fd)
+![5](https://github.com/user-attachments/assets/c1f710cc-05c6-4680-9193-b5e1d4099ebf)
+![6](https://github.com/user-attachments/assets/8b93e0f1-ef1b-4ba0-a908-395faf6c73f0)
 
+### Gameplay video
+
+[Video](https://youtu.be/OB5HOWW-gT4) 
