@@ -11,7 +11,6 @@ public class ChronometerTrigger : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
     private bool isCronoActive = false;
 
-    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -57,7 +56,7 @@ public class ChronometerTrigger : MonoBehaviour
             Debug.LogWarning("TextMeshPro component is not assigned.");
     }
 
-    bool DidNotArriveOnTime()
+    private bool DidNotArriveOnTime()
     {
         return _currentTime <= 0f;
     }

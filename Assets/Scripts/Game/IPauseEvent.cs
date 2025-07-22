@@ -1,3 +1,3 @@
-﻿internal interface IPauseEvent : IEvent
+﻿public interface IPauseEvent : IEvent
 {
 }

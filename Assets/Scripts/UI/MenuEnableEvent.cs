@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class MenuEnableEvent : IMenuEnableEvent
 {
-    GameObject _source;
+    private GameObject _source;
     public GameObject TriggeredByGO => _source;
 
     public MenuEnableEvent(GameObject source)

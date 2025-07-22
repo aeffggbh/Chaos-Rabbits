@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : IPlayerMovement
 {
-    Vector3 counterMovement = Vector3.zero;
+    private Vector3 counterMovement = Vector3.zero;
 
-    IPhysicsMovementData _data;
+    private IPhysicsMovementData _data;
 
     public float CurrentSpeed { get => _data.CurrentSpeed; set => _data.CurrentSpeed = value; }
 
@@ -21,8 +21,7 @@ public class PlayerMovement : IPlayerMovement
     /// Moves the player to a certain direction
     /// </summary>
     /// <param name="direction"></param>
-    /// <param name="calculator"></param>
-    public void Move(Vector3 direction, IPlayerMovementCalculator calculator)
+    public void Move(Vector3 direction)
     {
         if (direction == Vector3.zero)
             return;

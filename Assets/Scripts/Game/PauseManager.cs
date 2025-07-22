@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
-    [SerializeField] InputActionReference pauseAction;
+    [SerializeField] private InputActionReference pauseAction;
     private static bool _paused = false;
 
     public static bool Paused { get => _paused; set => _paused = value; }

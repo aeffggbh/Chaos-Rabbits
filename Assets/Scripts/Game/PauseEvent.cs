@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PauseEvent : IPauseEvent
 {
-    GameObject _source;
+    private GameObject _source;
     public GameObject TriggeredByGO => _source;
 
     public PauseEvent(GameObject source)

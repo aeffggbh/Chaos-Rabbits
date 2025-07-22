@@ -15,7 +15,7 @@ public interface IPlayerMovement
     /// </summary>
     /// <param name="direction"></param>
     /// <param name="calculator"></param>
-    void Move(Vector3 direction, IPlayerMovementCalculator calculator);
+    void Move(Vector3 direction);
     /// <summary>
     /// Request information necessary for the movement of the player
     /// </summary>

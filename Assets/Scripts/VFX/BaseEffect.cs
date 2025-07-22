@@ -38,14 +38,12 @@ public abstract class BaseEffect : MonoBehaviour, IEffect
     /// <returns></returns>
     protected abstract IEnumerator EffectRoutine();
 
-
     public void Complete()
     {
         _isPlaying = false;
         OnEffectComplete?.Invoke(this);
         _effectTimer = 0f;
     }
-
 
     protected virtual void Update()
     {

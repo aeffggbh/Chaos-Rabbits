@@ -187,7 +187,7 @@ public class Weapon : MonoBehaviour
         if (PauseManager.Paused)
             return;
 
-        Deanimate();
+        DeactivateAnimation();
 
         BoxCollider collider = GetComponent<BoxCollider>();
 
@@ -267,7 +267,7 @@ public class Weapon : MonoBehaviour
             _weaponAnimation.ActivateAnimation();
     }
 
-    public void Deanimate()
+    public void DeactivateAnimation()
     {
         if (!_weaponAnimation)
             _weaponAnimation = GetComponent<WeaponAnimationController>();

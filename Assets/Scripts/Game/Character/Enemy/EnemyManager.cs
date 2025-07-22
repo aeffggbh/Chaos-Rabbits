@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: adjust this
+
 /// <summary>
 /// Manages all enemies in the game.
 /// </summary>

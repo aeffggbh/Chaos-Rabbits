@@ -35,7 +35,6 @@ public class SceneAssetContainer : ScriptableObject
     public int FinalLevelScene { get => _finalLevelSceneIndex; }
 
 
-
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset _bootScene;
     [SerializeField] private SceneAsset _menuScene;

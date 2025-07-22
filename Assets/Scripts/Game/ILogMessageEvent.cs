@@ -1,4 +1,4 @@
-﻿internal interface ILogMessageEvent : IEvent
+﻿public interface ILogMessageEvent : IEvent
 {
     string Text { get; }
     bool IsToggle { get; }

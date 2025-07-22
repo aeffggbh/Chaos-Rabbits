@@ -1,4 +1,5 @@
 using UnityEngine;
+//TODO: improve this
 
 /// <summary>
 /// Handles the buttons in the menus

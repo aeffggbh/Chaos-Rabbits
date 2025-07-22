@@ -7,7 +7,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
 
     private Transform _weaponParent;
     private GameObject _bulletSpawnGO;
-    private readonly float _grabDropCooldown;
+    private float _grabDropCooldown;
     private float _maxWeaponDistance;
     PlayerAnimationController _animationController;
     PlayerMediator _playerController;

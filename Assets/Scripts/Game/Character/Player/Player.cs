@@ -103,7 +103,7 @@ public class Player : Character, IPlayerData
         base.FixedUpdate();
 
         Vector3 calculatedMovement = _playerCalculator.GetDirection(currentDirection);
-        _movement.Move(calculatedMovement, _playerCalculator);
+        _movement.Move(calculatedMovement);
 
         _jump.Jump(_jumpForce);
     }

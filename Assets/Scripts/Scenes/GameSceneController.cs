@@ -102,7 +102,7 @@ public class GameSceneController : MonoBehaviour
     /// <summary>
     /// Unloads all the gameplay levels
     /// </summary>
-    internal void UnloadGameplay()
+    public void UnloadGameplay()
     {
         SceneLoader.Instance.UnloadGameplay();
     }

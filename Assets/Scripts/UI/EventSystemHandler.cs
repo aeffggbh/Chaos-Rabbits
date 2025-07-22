@@ -7,7 +7,7 @@ public class EventSystemHandler : MonoBehaviour
 {
     [SerializeField] private EventSystem _eventSystem;
 
-    private GameObject _selectedButton => _eventSystem.currentSelectedGameObject;
+    private GameObject SelectedButton => _eventSystem.currentSelectedGameObject;
     private GameObject _lastSelected;
 
     private void Awake()
@@ -41,7 +41,7 @@ public class EventSystemHandler : MonoBehaviour
     {
         MenuDataContainer menuDataContainer = menuEnableEvent.TriggeredByGO.GetComponent<MenuDataContainer>();
 
-        if (menuDataContainer?.SelectedButton != _selectedButton)
+        if (menuDataContainer?.SelectedButton != SelectedButton)
         {
             _eventSystem.SetSelectedGameObject(menuDataContainer.SelectedButton);
             _lastSelected = _eventSystem.currentSelectedGameObject;

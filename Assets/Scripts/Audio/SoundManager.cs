@@ -1,4 +1,7 @@
 using UnityEngine;
+//TODO: Improve this.
+// - Not single respons
+// - Its using an enum >:c
 
 /// <summary>
 /// Each sound type is saved here
