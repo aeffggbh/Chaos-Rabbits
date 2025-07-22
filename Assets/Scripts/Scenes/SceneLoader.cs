@@ -109,7 +109,7 @@ public class SceneLoader : MonoBehaviour
 
             sceneList.Add(scene);
 
-            SceneLoader.Instance.SetActiveScene(newScene);
+            SetActiveScene(newScene);
         }
         else
         {

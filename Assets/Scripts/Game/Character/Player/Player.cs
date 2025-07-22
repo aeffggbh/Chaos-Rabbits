@@ -52,7 +52,6 @@ public class Player : Character, IPlayerData
 
     private void Awake()
     {
-
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody>();
         Damage = _damage;
@@ -117,7 +116,10 @@ public class Player : Character, IPlayerData
     public override void TakeDamage(float damage)
     {
         if (!CheatsController.Instance.IsGodMode())
+        {
+            _soundPlayer.PlaySound(SFXType.TAKE_HIT);
             base.TakeDamage(damage);
+        }
         else
             Debug.Log("Cannot take damage!");
     }

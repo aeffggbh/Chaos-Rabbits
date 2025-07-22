@@ -58,6 +58,9 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnFlashMode(InputAction.CallbackContext context)
     {
+        if (Instance == null)
+            return;
+
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isFlashMode = !_isFlashMode;
@@ -71,6 +74,9 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnGodMode(InputAction.CallbackContext context)
     {
+        if (Instance == null)
+            return;
+
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isGodMode = !_isGodMode;

@@ -13,7 +13,8 @@ public enum SFXType
     JUMP,
     FOOTSTEPS,
     CONFIRM,
-    LEVEL_UP
+    LEVEL_UP,
+    TAKE_HIT
 }
 
 /// <summary>
