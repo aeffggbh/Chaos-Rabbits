@@ -27004,8 +27004,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: LEVEL 2
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ce6a8ddfcf6aca944b0994730014a465, type: 2}
+  m_sharedMaterial: {fileID: 8394834597487357511, guid: ce6a8ddfcf6aca944b0994730014a465, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -29205,7 +29205,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3358318710519751090, guid: dd4f544ee47fc1d48985c57d0107e2f8, type: 3}
       propertyPath: m_text
-      value: 'Objective: Kill all the enemies'
+      value: 'OBJECTIVE: KILL ALL THE ENEMIES'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358318710519751090, guid: dd4f544ee47fc1d48985c57d0107e2f8, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7355f0199dc1322489a7710b606c93d2, type: 2}
+    - target: {fileID: 3358318710519751090, guid: dd4f544ee47fc1d48985c57d0107e2f8, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 8394834597487357511, guid: 7355f0199dc1322489a7710b606c93d2, type: 2}
+    - target: {fileID: 3358318710519751090, guid: dd4f544ee47fc1d48985c57d0107e2f8, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7826239557180166389, guid: dd4f544ee47fc1d48985c57d0107e2f8, type: 3}
       propertyPath: m_Pivot.x
