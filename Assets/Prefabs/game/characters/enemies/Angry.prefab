@@ -457,6 +457,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 916439097795205407, guid: 62fd59bd8eaed0047b5f2e3c5d7f20a5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 62fd59bd8eaed0047b5f2e3c5d7f20a5, type: 3}
       propertyPath: m_Name
       value: Angry

@@ -115,7 +115,8 @@ public class Weapon : MonoBehaviour
         if (_debugUser)
             Debug.Log(user);
         if (user)
-            Fire();
+            if (user.GetType() == typeof(Player))
+                Fire();
     }
 
     /// <summary>

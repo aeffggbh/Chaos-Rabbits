@@ -14,7 +14,7 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
 
     private void OnEnable()
     {
-        _enemyWeapon = GetComponentInChildren<WeaponHolder>().currentWeapon;
+        _enemyWeapon = GetComponent<WeaponHolder>().currentWeapon;
         _enemyWeapon.user = this;
     }
 
