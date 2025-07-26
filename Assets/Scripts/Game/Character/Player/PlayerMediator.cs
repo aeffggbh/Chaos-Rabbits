@@ -100,18 +100,6 @@ public class PlayerMediator : MonoBehaviour
             _playerInput.Disable();
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Floor"))
-            _player?.RequestGroundedState(true);
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Floor"))
-            _player?.RequestGroundedState(false);
-    }
-
     /// <summary>
     /// Applies damage to the player character when it collides with an enemy or takes damage from a weapon.
     /// </summary>
@@ -163,7 +151,7 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnJump(InputAction.CallbackContext context)
     {
-        _player.RequestJumpInfo(true);
+        _player.Jump();
     }
 
     /// <summary>

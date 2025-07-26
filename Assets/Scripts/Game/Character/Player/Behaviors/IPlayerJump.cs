@@ -15,7 +15,8 @@ public interface IPlayerJump
     /// <param name="force"></param>
     void Jump(float force);
     /// <summary>
-    /// Saves the grounded state of the player
+    /// Checks if the player is grounded by casting a ray downwards from the feet position
     /// </summary>
-    bool IsGrounded { get; set; }
+    /// <returns></returns>
+    bool IsGrounded();
 }

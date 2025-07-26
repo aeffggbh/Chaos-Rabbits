@@ -63,7 +63,7 @@ public class Player : Character, IPlayerData
 
         _movement = new PlayerMovement(this);
         _soundPlayer = new SoundPlayer(_audioSource);
-        _jump = new PlayerJump(_rb, _soundPlayer);
+        _jump = new PlayerJump(_rb, _soundPlayer, GetComponent<CapsuleCollider>());
         _playerCalculator = new PlayerMovementCalculator();
         _soundPlayer.SetAudioSource(GetComponent<AudioSource>());
 
@@ -88,23 +88,12 @@ public class Player : Character, IPlayerData
         _jump.SetJumpState(shouldJump);
     }
 
-    /// <summary>
-    /// Requests the grounded state of the player character.
-    /// </summary>
-    /// <param name="grounded"></param>
-    public void RequestGroundedState(bool grounded)
-    {
-        _jump.IsGrounded = grounded;
-    }
-
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
         Vector3 calculatedMovement = _playerCalculator.GetDirection(currentDirection);
         _movement.Move(calculatedMovement);
-
-        _jump.Jump(_jumpForce);
     }
 
     public override void Die()
@@ -117,8 +106,8 @@ public class Player : Character, IPlayerData
     {
         if (!CheatsController.Instance.IsGodMode())
         {
-            _soundPlayer.PlaySound(SFXType.TAKE_HIT);
             base.TakeDamage(damage);
+            _soundPlayer.PlaySound(SFXType.TAKE_HIT);
         }
         else
             Debug.Log("Cannot take damage!");
@@ -131,6 +120,11 @@ public class Player : Character, IPlayerData
     public float GetJumpForce()
     {
         return _jumpForce;
+    }
+
+    public void Jump()
+    {
+        _jump.Jump(_jumpForce);
     }
 
 }
