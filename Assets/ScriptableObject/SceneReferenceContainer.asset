@@ -16,9 +16,11 @@ MonoBehaviour:
   _menuSceneIndex: 1
   _level1SceneIndex: 2
   _level2SceneIndex: 3
-  _finalLevelSceneIndex: 4
+  _level3SceneIndex: 4
+  _finalLevelSceneIndex: 5
   _bootScene: {fileID: 102900000, guid: 17d969946f814be48bb7d858cef2d3a4, type: 3}
   _menuScene: {fileID: 102900000, guid: a58f77a45a105c14097467c524be75e8, type: 3}
   _level1Scene: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
   _level2Scene: {fileID: 102900000, guid: 0c77944a766f59d458ebe0c27dbfb421, type: 3}
+  _level3Scene: {fileID: 102900000, guid: 5525c0ea7141c5747a49ea78fc60b785, type: 3}
   _finalLevelScene: {fileID: 102900000, guid: 35ec07f079725d143adbb66cb5dede0a, type: 3}
