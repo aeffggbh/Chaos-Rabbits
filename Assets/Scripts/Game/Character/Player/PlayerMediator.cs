@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 /// Reads input and decides actions taken by the player
 /// </summary>
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(CheatsController))]
 public class PlayerMediator : MonoBehaviour
 {
     [SerializeField] private InputActionReference _moveAction;
@@ -16,7 +17,6 @@ public class PlayerMediator : MonoBehaviour
     public InputActionReference JumpAction { get { return _jumpAction; } set { _jumpAction = value; } }
     public InputActionReference DropAction { get { return _dropAction; } set { _dropAction = value; } }
     public InputActionReference GrabAction { get { return _grabAction; } set { _grabAction = value; } }
-
 
     [SerializeField] private GameObject _bulletSpawnGO;
     [SerializeField] private float _maxWeaponDistance;

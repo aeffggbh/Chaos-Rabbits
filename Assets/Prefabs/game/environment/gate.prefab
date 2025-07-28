@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 1978385498546254119}
   - component: {fileID: 397035618475329071}
   m_Layer: 5
-  m_Name: nextLevel (1)
+  m_Name: nextLevelObjective
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 2073674589873950335}
   - component: {fileID: 6798489724533734194}
   m_Layer: 5
-  m_Name: nextLevel
+  m_Name: nextLevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

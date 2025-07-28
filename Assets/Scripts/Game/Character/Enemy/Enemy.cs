@@ -63,7 +63,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         Damage = 10.0f;
 
-        if (ServiceProvider.TryGetService<EnemyManager>(out var enemyManager))
+        if (ServiceProvider.TryGetService<IEnemyManager>(out var enemyManager))
             _manager = enemyManager;
 
         Rb = gameObject.GetComponent<Rigidbody>();
@@ -100,6 +100,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         StartStateMachine();
 
+        EventTriggerManager.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, _manager, gameObject));
     }
 
     /// <summary>
@@ -350,6 +351,8 @@ public abstract class Enemy : Character, IPhysicsMovementData
     public override void Die()
     {
         _manager.Enemies.Remove(this);
+        
+        EventTriggerManager.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, _manager, gameObject));
 
         base.Die();
     }

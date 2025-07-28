@@ -29,12 +29,12 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
 
     private void Awake()
     {
-        ServiceProvider.SetService<EnemyManager>(this, true);
+        ServiceProvider.SetService<IEnemyManager>(this, true);
     }
 
     private void OnDestroy()
     {
-        ServiceProvider.SetService<EnemyManager>(null, true);
+        ServiceProvider.SetService<IEnemyManager>(null, true);
     }
 
     private void Start()
