@@ -10,8 +10,7 @@ public class PlayerAnimationController : AnimationController
     /// </summary>
     public void AnimateWalk()
     {
-        if (animator != null)
-            animator.SetBool("isWalking", true);
+        animator?.SetBool("isWalking", true);
     }
 
     /// <summary>
@@ -19,8 +18,7 @@ public class PlayerAnimationController : AnimationController
     /// </summary>
     public void AnimateStopWalking()
     {
-        if (animator != null)
-            animator.SetBool("isWalking", false);
+        animator?.SetBool("isWalking", false);
     }
 
     /// <summary>
@@ -28,8 +26,7 @@ public class PlayerAnimationController : AnimationController
     /// </summary>
     public void AnimateGrabWeapon()
     {
-        if (animator != null)
-            animator.SetBool("isAiming", true);
+        animator?.SetBool("isAiming", true);
     }
 
     /// <summary>
@@ -37,7 +34,11 @@ public class PlayerAnimationController : AnimationController
     /// </summary>
     public void AnimateDropWeapon()
     {
-        if (animator != null)
-            animator.SetBool("isAiming", false);
+        animator?.SetBool("isAiming", false);
+    }
+
+    public void AnimateGrenadeThrow()
+    {
+        animator?.SetTrigger("throwGrenade");
     }
 }

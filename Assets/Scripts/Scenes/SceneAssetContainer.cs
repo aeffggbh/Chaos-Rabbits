@@ -12,6 +12,7 @@ public class SceneAssetContainer : ScriptableObject
     [SerializeField] private int _level1SceneIndex;
     [SerializeField] private int _level2SceneIndex;
     [SerializeField] private int _level3SceneIndex;
+    [SerializeField] private int _level4SceneIndex;
     [SerializeField] private int _finalLevelSceneIndex;
 
     /// <summary>
@@ -38,6 +39,10 @@ public class SceneAssetContainer : ScriptableObject
     /// Saves the level 3 scene index
     /// </summary>
     public int Level3SceneIndex { get => _level3SceneIndex; set => _level3SceneIndex = value; }
+    /// <summary>
+    /// Saves the level 4 scene index
+    /// </summary>
+    public int Level4SceneIndex { get => _level4SceneIndex; set => _level4SceneIndex = value; }
 
 
 #if UNITY_EDITOR
@@ -46,6 +51,7 @@ public class SceneAssetContainer : ScriptableObject
     [SerializeField] private SceneAsset _level1Scene;
     [SerializeField] private SceneAsset _level2Scene;
     [SerializeField] private SceneAsset _level3Scene;
+    [SerializeField] private SceneAsset _level4Scene;
     [SerializeField] private SceneAsset _finalLevelScene;
 
     /// <summary>
@@ -58,6 +64,7 @@ public class SceneAssetContainer : ScriptableObject
         _level1SceneIndex = SceneLoader.GetIndex(_level1Scene);
         _level2SceneIndex = SceneLoader.GetIndex(_level2Scene);
         _level3SceneIndex = SceneLoader.GetIndex(_level3Scene);
+        _level4SceneIndex = SceneLoader.GetIndex(_level4Scene);
         _finalLevelSceneIndex = SceneLoader.GetIndex(_finalLevelScene);
     }
 #endif
