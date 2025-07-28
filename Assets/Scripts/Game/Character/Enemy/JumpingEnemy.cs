@@ -11,6 +11,8 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     [SerializeField] private float _speedMultiplier = 2f;
     [SerializeField] private float _groundCheckDistance = 0.3f;
 
+    BoxCollider _collider;
+
     private float _defaultMoveSpeed;
     private float _currentJumpForce;
     private float _timer;
@@ -28,6 +30,8 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         _defaultMoveSpeed = _currentSpeed;
         _patrolSpeed /= 2;
         _chasingSpeed /= 2;
+
+        _collider = GetComponent<BoxCollider>();
     }
 
     /// <summary>
@@ -67,7 +71,6 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         }
 
         Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
-
     }
 
     /// <summary>
@@ -88,7 +91,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         if (Time.time > _timer + _rate)
         {
             _timer = Time.time;
-            return RayManager.IsGrounded(transform, _groundCheckDistance);
+            return RayManager.IsGrounded(_collider);
         }
         return false;
     }

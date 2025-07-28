@@ -12,10 +12,19 @@ public static class RayManager
     /// <param name="transform"></param>
     /// <param name="groundDistance"></param>
     /// <returns></returns>
-    public static bool IsGrounded(Transform transform, float groundDistance)
+    public static bool IsGrounded(Collider collider)
     {
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
-        return Physics.Raycast(origin, Vector3.down, groundDistance);
+        float rayLength = 0.2f;
+        Vector3 origin = collider.bounds.center;
+        origin.y = collider.bounds.min.y + 0.01f;
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, -collider.transform.up, out hit, rayLength))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

@@ -40,17 +40,7 @@ public class PlayerJump : IPlayerJump
 
     public bool IsGrounded()
     {
-        float rayLength = 0.1f;
-        Vector3 origin = _collider.bounds.center;
-        origin.y = _collider.bounds.min.y + 0.01f;
-
-        RaycastHit hit; 
-        if (Physics.Raycast(_collider.transform.position, -_collider.transform.up, out hit, rayLength))
-        {
-            return true;
-        }
-
-        return false;
+        return RayManager.IsGrounded(_collider);
     }
 
     
