@@ -3,30 +3,37 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour, IHealthBar
 {
-    [SerializeField] private Slider slider;
+    [SerializeField] private Image fillImage;
 
-    private float _maxHealth = 0f;
+    private float _maxValue = 0f;
+
+    private void Awake()
+    {
+        if (fillImage == null)
+            Debug.LogError("No fill image");
+    }
 
     public void SetMaxHealth(float maxHealth)
     {
-        _maxHealth = maxHealth;
-        slider.maxValue = maxHealth;
-        slider.value = maxHealth;
+        _maxValue = maxHealth;
+        fillImage.fillAmount = maxHealth;
     }
 
     public void SetCurrentHealth(float health)
     {
-        slider.value = health;
+        fillImage.fillAmount = health / _maxValue;
     }
 
     private void FixedUpdate()
     {
-        this.transform.forward = CineMachineManager.Instance.transform.forward;
+        Vector3 fw = CineMachineManager.Instance.transform.forward;
+
+        transform.forward = fw;
     }
 
     public void UpdateHealth(float currentHealth, float maxHealth)
     {
-        if (_maxHealth < maxHealth)
+        if (_maxValue < maxHealth)
             SetMaxHealth(maxHealth);
         SetCurrentHealth(currentHealth);
     }
