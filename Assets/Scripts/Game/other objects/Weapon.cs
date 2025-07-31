@@ -14,7 +14,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private InputActionReference _shootAction;
     [Header("User")]
     [SerializeField] public Character user;
-    [SerializeField] private bool _debugUser;
     [Header("Hitscan")]
     [SerializeField] private bool _usesHitscan;
     [SerializeField] private TrailRenderer _hitscanTrail;
@@ -82,17 +81,6 @@ public class Weapon : MonoBehaviour
                 Debug.LogError(nameof(_centerSpawnGO) + " is null.");
     }
 
-    private void Update()
-    {
-        if (_debugUser)
-        {
-            if (user)
-                Debug.Log("(" + name + ")" + "user: " + user.name);
-            else
-                Debug.LogWarning("No user (" + name + ") assigned.");
-        }
-    }
-
     /// <summary>
     /// Destroys weapons left at level 1 when player gets to the next level
     /// </summary>
@@ -112,8 +100,6 @@ public class Weapon : MonoBehaviour
     /// <param name="context"></param>
     private void OnShoot(InputAction.CallbackContext context)
     {
-        if (_debugUser)
-            Debug.Log(user);
         if (user)
             if (user.GetType() == typeof(Player))
                 Fire();
@@ -241,8 +227,6 @@ public class Weapon : MonoBehaviour
 
         if (hit.HasValue)
         {
-            Debug.Log(hit.Value.collider.gameObject.name + " hit by " + name + " at distance: " + hitDistance);
-
             if (hit != null)
             {
                 Enemy enemy = hit.Value.collider.gameObject.GetComponent<Enemy>();

@@ -7,7 +7,7 @@ public class RabbitAnimationController : AnimationController
         CheckAnimator();
         animator.ResetTrigger("jumpRequested");
         animator.SetTrigger("jumpRequested");
-        animator.SetBool("hasLanded", false);
+        Debug.Log("JUMP");
     }
 
     public void UpdateGround(bool isGrounded)
@@ -16,8 +16,11 @@ public class RabbitAnimationController : AnimationController
 
         if (isGrounded && !animator.GetBool("isGrounded"))
         {
-            animator.SetBool("hasLanded", true);
+            animator.SetTrigger("hasLanded");
+            Debug.Log("LAND");
         }
+        else if (isGrounded)
+            Debug.Log("GROUNDED");
 
         animator.SetBool("isGrounded", isGrounded);
     }
@@ -25,7 +28,12 @@ public class RabbitAnimationController : AnimationController
     public bool IsLanding()
     {
         CheckAnimator();
-        return animator.GetCurrentAnimatorStateInfo(0).IsName("Land") ||
+        bool isLanding = animator.GetCurrentAnimatorStateInfo(0).IsName("Land") ||
             animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+
+        if (isLanding)
+            Debug.Log("ACTUALLY LAND");
+
+        return isLanding;
     }
 }

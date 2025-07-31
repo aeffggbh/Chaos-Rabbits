@@ -8,7 +8,7 @@ using UnityEngine;
 public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBehavior, IAttackActivationBehavior, IIdleBehavior
 {
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _jumpForceMultiplier = 3.5f;
+    [SerializeField] private float _jumpForceMultiplier = 1.5f;
     [SerializeField] private float _speedMultiplier = 2f;
     [SerializeField] private float _groundCheckDistance = 0.3f;
     [SerializeField] private RabbitAnimationController _rabbitAnimation;
@@ -24,12 +24,11 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     {
         base.Start();
 
-        if (PlayerMediator.PlayerInstance.Player != null)
-            _jumpForce = PlayerMediator.PlayerInstance.Player.GetJumpForce() / 2;
-        else
-            _jumpForce = 3;
+        _jumpForce = 6f;
+
         _currentJumpForce = _jumpForce;
         _defaultMoveSpeed = _currentSpeed;
+
         _patrolSpeed /= 2;
         _chasingSpeed /= 2;
 
@@ -76,7 +75,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
             ActivateJump();
         }
 
-        if (_rabbitAnimation.IsLanding())
+        if (!_rabbitAnimation.IsLanding())
             Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
@@ -97,12 +96,14 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     private bool CanJump()
     {
-        bool isGrounded = RayManager.IsGrounded(_collider);
+        bool isGrounded = RayManager.IsGrounded(_collider, 0.1f);
 
         _rabbitAnimation.UpdateGround(isGrounded);
 
+        bool isLanding = _rabbitAnimation.IsLanding();
+
         if (Time.time > _timer + _rate &&
-            !_rabbitAnimation.IsLanding())
+            !isLanding)
         {
             _timer = Time.time;
 

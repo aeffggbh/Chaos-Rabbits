@@ -49,7 +49,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
     protected Vector3 _counterMovement;
     protected float _acceleration;
     protected float _counterMovementForce;
-    
+
     public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
     public float Acceleration { get => _acceleration; set => _acceleration = value; }
     public float CounterMovementForce { get => _counterMovementForce; set => _counterMovementForce = value; }
@@ -260,10 +260,13 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// </summary>
     private void UpdateCounterMovement()
     {
+        float counterForce = _moveDir.magnitude > 0.1f ? _manager.CounterMovementForce :
+            _manager.CounterMovementForce * 2;
+
         _counterMovement = new Vector3
-                           (-Rb.linearVelocity.x * _manager.CounterMovementForce,
+                           (-Rb.linearVelocity.x * counterForce,
                            0,
-                           -Rb.linearVelocity.z * _manager.CounterMovementForce);
+                           -Rb.linearVelocity.z * counterForce);
     }
 
     /// <summary>
@@ -308,20 +311,39 @@ public abstract class Enemy : Character, IPhysicsMovementData
         float randomZ = UnityEngine.Random.Range(-_manager.WalkRange, _manager.WalkRange);
         float randomX = UnityEngine.Random.Range(-_manager.WalkRange, _manager.WalkRange);
 
-        _targetWalk = new Vector3(transform.position.x + randomX,
-                                     transform.position.y,
-                                     transform.position.z + randomZ);
+        Vector3 dir = new(randomX, 0, randomZ);
+        dir = dir.normalized;
+
+        float distance = _manager.WalkRange;
+
+        if (RayManager.PointingToObject(transform, distance, out RaycastHit hitInfo, dir))
+            distance = hitInfo.distance * 0.8f;
+
+        _targetWalk = transform.position + (dir * distance);
 
         _targetLook = _targetWalk;
-        _moveDir = (_targetWalk - transform.position).normalized;
+        _moveDir = dir;
         _moveDir.y = 0;
         _currentSpeed = _patrolSpeed;
 
         float start = Time.time;
+        float distanceThreshold = 0.3f;
 
-        while (Vector3.Distance(transform.position, _targetWalk) > 0.5f &&
+        while (currentState == States.PATROL &&
               (Time.time - start) < _patrolTimer)
+        {
+            float distanceToTarget = Vector3.Distance(
+                new(transform.position.x, 0, transform.position.z),
+                new(_targetWalk.x, 0, _targetWalk.z));
+
+            if (distanceToTarget < distanceThreshold)
+            {
+                SwitchState(States.IDLE);
+                yield break;
+            }
+
             yield return null;
+        }
 
         SwitchState(States.IDLE);
     }
@@ -351,7 +373,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
     public override void Die()
     {
         _manager.Enemies.Remove(this);
-        
+
         EventTriggerManager.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, _manager, gameObject));
 
         base.Die();

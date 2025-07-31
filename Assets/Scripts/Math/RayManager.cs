@@ -12,9 +12,8 @@ public static class RayManager
     /// <param name="transform"></param>
     /// <param name="groundDistance"></param>
     /// <returns></returns>
-    public static bool IsGrounded(Collider collider)
+    public static bool IsGrounded(Collider collider, float rayLength = 0.2f)
     {
-        float rayLength = 0.2f;
         Vector3 origin = collider.bounds.center;
         origin.y = collider.bounds.min.y + 0.01f;
 
@@ -38,11 +37,8 @@ public static class RayManager
     {
         Ray ray = new(start.position, start.forward);
 
-        // Perform the ray cast
         if (Physics.Raycast(ray, out hitInfo, maxDistance))
-        {
             return true;
-        }
 
         return false;
     }
@@ -61,13 +57,8 @@ public static class RayManager
 
         Ray ray = new(start.position, dir);
 
-        Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red, 100f);
-
-        // Perform the ray cast
         if (Physics.Raycast(ray, out hitInfo, maxDistance))
-        {
             return true;
-        }
 
         return false;
     }
