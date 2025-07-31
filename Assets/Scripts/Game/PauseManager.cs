@@ -56,6 +56,6 @@ public class PauseManager : MonoBehaviour
         if (Paused)
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new PauseMenuState(), gameObject));
         else
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false));
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false, false));
     }
 }

@@ -28,6 +28,7 @@ public class PlayerMediator : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private PlayerAnimationController _playerAnimation;
     [SerializeField] private Transform _weaponParent;
+    [SerializeField] private GameObject _fallbackWeaponPrefab;
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
     private IPlayerInputEnabler _playerInput;
@@ -53,7 +54,6 @@ public class PlayerMediator : MonoBehaviour
 
     private void Start()
     {
-
         _playerAnimation = GetComponent<PlayerAnimationController>();
         _player = GetComponent<Player>();
 
@@ -69,13 +69,15 @@ public class PlayerMediator : MonoBehaviour
             Debug.LogWarning($"No parent for weapons");
         }
 
+        if (_fallbackWeaponPrefab == null)
+            Debug.LogWarning($"No default weapon");
+
         _playerWeapon = new PlayerWeaponHandler(
             _bulletSpawnGO,
             _maxWeaponDistance,
-            _grabDropCooldown,
-            _player.CurrentWeapon,
             _playerAnimation,
-            _weaponParent
+            _weaponParent,
+            _fallbackWeaponPrefab
             );
 
         if (_maxWeaponDistance < 1)

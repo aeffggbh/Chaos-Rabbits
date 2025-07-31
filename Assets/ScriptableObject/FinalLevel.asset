@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mechanicsList:
   - {fileID: 11400000, guid: e40dd907b5ba5664cb98f8e885732dfd, type: 2}
-  _levelIndex: 5
+  _levelIndex: 6
+  _sceneAsset: {fileID: 102900000, guid: 35ec07f079725d143adbb66cb5dede0a, type: 3}

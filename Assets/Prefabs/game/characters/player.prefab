@@ -1176,6 +1176,7 @@ MonoBehaviour:
   _player: {fileID: 0}
   _playerAnimation: {fileID: 7551713182701535122}
   _weaponParent: {fileID: 2363987645471641430}
+  _fallbackWeaponPrefab: {fileID: 3028287464951679194, guid: c1ced6b979619614db717c96b8a3e7c0, type: 3}
 --- !u!81 &4134970206781325940
 AudioListener:
   m_ObjectHideFlags: 0

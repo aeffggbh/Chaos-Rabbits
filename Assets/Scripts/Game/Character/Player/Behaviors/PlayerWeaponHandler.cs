@@ -7,22 +7,39 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
 
     private Transform _weaponParent;
     private GameObject _bulletSpawnGO;
-    private float _grabDropCooldown;
     private float _maxWeaponDistance;
     PlayerAnimationController _animationController;
     PlayerMediator _playerController;
+    GameObject _defaultWeaponPrefab;
+    Weapon _defaultWeapon;
 
-    public PlayerWeaponHandler(GameObject bulletSpawn, float maxWeaponDistance, float grabDropCooldown, Weapon currentWeapon, PlayerAnimationController playerAnimation, Transform weaponParent)
+    public PlayerWeaponHandler(GameObject bulletSpawn, float maxWeaponDistance, PlayerAnimationController playerAnimation, Transform weaponParent, GameObject defaultWeaponPrefab)
     {
         _bulletSpawnGO = bulletSpawn;
         _maxWeaponDistance = maxWeaponDistance;
-        _grabDropCooldown = grabDropCooldown;
         _animationController = playerAnimation;
         _weaponParent = weaponParent;
 
         _playerController = PlayerMediator.PlayerInstance;
 
         CurrentWeapon = _playerController.Player.CurrentWeapon;
+
+        if (CurrentWeapon != null)
+            GrabWeapon(CurrentWeapon);
+
+        _defaultWeaponPrefab = defaultWeaponPrefab;
+        _defaultWeapon = defaultWeaponPrefab.GetComponent<Weapon>();
+
+        EventProvider.Subscribe<INewLevelEvent>(OnNextLevel);
+    }
+
+    private void OnNextLevel(INewLevelEvent levelEvent)
+    {
+        if (CurrentWeapon == null)
+        {
+            GameObject.Instantiate(_defaultWeaponPrefab);
+            GrabWeapon(_defaultWeapon);
+        }
     }
 
     /// <summary>

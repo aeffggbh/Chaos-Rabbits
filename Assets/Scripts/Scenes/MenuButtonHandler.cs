@@ -58,10 +58,10 @@ public class MenuButtonHandler : MonoBehaviour
     /// <summary>
     /// Switches the scene to gameplay
     /// </summary>
-    public void ToGameplay()
+    public void Unpause()
     {
         UIAudioHandler.Instance.PlayButtonSound();
-        EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false));
+        EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(gameObject));
     }
     /// <summary>
     /// Switches the scene to level 1 specifically
