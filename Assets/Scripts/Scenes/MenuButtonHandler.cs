@@ -69,7 +69,7 @@ public class MenuButtonHandler : MonoBehaviour
     public void ToLevel1()
     {
         UIAudioHandler.Instance.PlayButtonSound();
-        EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, GameplaySceneData.Level1Index));
+        EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false, GameplaySceneData.Level1Index));
     }
     /// <summary>
     /// Exits the game

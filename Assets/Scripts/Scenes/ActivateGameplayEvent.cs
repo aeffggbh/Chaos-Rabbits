@@ -6,7 +6,7 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
     private static int _currentIndex = -1;
     private static int _levelToUnloadIndex = -1;
     private static int _newLevelIndex = -1;
-    private bool _nextLevel = false;
+    private bool _unloadPrevious = false;
     private GameObject _source;
     public int Index => _currentIndex;
     /// <summary>
@@ -15,19 +15,19 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
     public int NextLevel { get => _currentIndex != GameplaySceneData.FinalLevelIndex ? _currentIndex + 1 : MenuSceneData.Index; }
     public GameObject TriggeredByGO { get => _source; }
 
-    public ActivateGameplayEvent(GameObject source, bool nextLevel)
+    public ActivateGameplayEvent(GameObject source, bool unloadPrevious)
     {
         if (PauseManager.Paused)
-            EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(source));
+            PauseManager.Paused = false;
 
         MenuManager.Instance.HideAllPanels();
         _levelToUnloadIndex = _currentIndex;
         _newLevelIndex = NextLevel;
-        _nextLevel = nextLevel;
+        _unloadPrevious = unloadPrevious;
         _source = source;
     }
 
-    public ActivateGameplayEvent(GameObject source, int levelIndex)
+    public ActivateGameplayEvent(GameObject source, bool unloadPrevious, int levelIndex)
     {
         if (PauseManager.Paused)
             PauseManager.Paused = false;
@@ -35,33 +35,32 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
         MenuManager.Instance.HideAllPanels();
         _levelToUnloadIndex = _currentIndex;
         _newLevelIndex = levelIndex;
-        _nextLevel = true;
+        _unloadPrevious = unloadPrevious;
         _source = source;
     }
 
     public void UnloadPreviousLevel()
     {
-        if (_nextLevel)
+        if (_unloadPrevious)
         {
-
             int levelToUnloadIndex = _levelToUnloadIndex == -1 ? _currentIndex : _levelToUnloadIndex;
 
-            int levelToLoadIndex = _newLevelIndex == -1 ? NextLevel : _newLevelIndex;
-
-            if (levelToLoadIndex == MenuSceneData.Index)
-                MenuManager.Instance.TransitionToState(new GameWinState());
-
-            _nextLevel = false;
+            _unloadPrevious = false;
 
             SceneLoader.Instance.UnloadScene(levelToUnloadIndex);
-
-            _currentIndex = levelToLoadIndex;
-
-            if (levelToLoadIndex != GameplaySceneData.Level1Index)
-                UIAudioHandler.Instance.PlayLevelUpSound();
-
-            _levelToUnloadIndex = -1;
-            _newLevelIndex = -1;
         }
+
+        int levelToLoadIndex = _newLevelIndex == -1 ? NextLevel : _newLevelIndex;
+
+        if (levelToLoadIndex == MenuSceneData.Index)
+            MenuManager.Instance.TransitionToState(new GameWinState());
+
+        _currentIndex = levelToLoadIndex;
+
+        if (levelToLoadIndex != GameplaySceneData.Level1Index)
+            UIAudioHandler.Instance.PlayLevelUpSound();
+
+        _levelToUnloadIndex = -1;
+        _newLevelIndex = -1;
     }
 }
