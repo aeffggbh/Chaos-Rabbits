@@ -10,6 +10,7 @@ public class PlayerInputEnabler : IPlayerInputEnabler
     private InputActionReference _jumpAction;
     private InputActionReference _dropAction;
     private InputActionReference _grabAction;
+    private InputActionReference _lookAction;
 
     private PlayerMediator _controller;
 
@@ -24,6 +25,7 @@ public class PlayerInputEnabler : IPlayerInputEnabler
         _jumpAction = _controller.JumpAction;
         _dropAction = _controller.DropAction;
         _grabAction = _controller.GrabAction;
+        _lookAction = _controller.LookAction;
     }
 
     public void Enable()
@@ -42,6 +44,12 @@ public class PlayerInputEnabler : IPlayerInputEnabler
 
         if (_grabAction)
             _grabAction.action.started += _controller.OnGrabWeapon;
+
+        if (_lookAction)
+        {
+            _lookAction.action.started += _controller.OnLook;
+            _lookAction.action.performed += _controller.OnLook;
+        }
     }
 
     public void Disable()

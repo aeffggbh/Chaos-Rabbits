@@ -43,7 +43,7 @@ public class PlayerMovement : IPlayerMovement
     public void RequestMovement(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
         PlayerAnimationController animation, IPlayerData player)
     {
-        animation.AnimateWalk();
+        animation?.AnimateWalk();
 
         CheckFlash();
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -12,11 +13,13 @@ public class PlayerMediator : MonoBehaviour
     [SerializeField] private InputActionReference _jumpAction;
     [SerializeField] private InputActionReference _dropAction;
     [SerializeField] private InputActionReference _grabAction;
+    [SerializeField] private InputActionReference _lookAction;
 
-    public InputActionReference MoveAction { get { return _moveAction; } set { _moveAction = value; } }
-    public InputActionReference JumpAction { get { return _jumpAction; } set { _jumpAction = value; } }
-    public InputActionReference DropAction { get { return _dropAction; } set { _dropAction = value; } }
-    public InputActionReference GrabAction { get { return _grabAction; } set { _grabAction = value; } }
+    public InputActionReference MoveAction => _moveAction;
+    public InputActionReference JumpAction => _jumpAction;
+    public InputActionReference DropAction => _dropAction;
+    public InputActionReference GrabAction => _grabAction;
+    public InputActionReference LookAction => _lookAction;
 
     [SerializeField] private GameObject _bulletSpawnGO;
     [SerializeField] private float _maxWeaponDistance;
@@ -169,7 +172,17 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (this != _instance)
+            return;
+
+        if (!_playerAnimation)
+            _playerAnimation = GetComponent<PlayerAnimationController>();
         _player.Movement.RequestMovement(context, _playerMovement, _playerAnimation, _player);
     }
 
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        if (_player)
+            EventTriggerManager.Trigger<IPlayerLookEvent>(new PlayerLookEvent(gameObject, context));
+    }
 }

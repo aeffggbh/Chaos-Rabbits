@@ -61,6 +61,9 @@ public class CheatsController : MonoBehaviour
         if (Instance == null)
             return;
 
+        if (this != Instance)
+            return;
+
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isFlashMode = !_isFlashMode;
@@ -98,8 +101,9 @@ public class CheatsController : MonoBehaviour
     {
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
-            if (PlayerMediator.PlayerInstance.transform != null)
-                PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
+            if (PlayerMediator.PlayerInstance)
+                if (PlayerMediator.PlayerInstance.transform)
+                    PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
 
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
             EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Gone to next level"));

@@ -16,12 +16,18 @@ public class Level : MonoBehaviour, ILevel
             Debug.LogError("No level data");
 
         foreach (var mechanic in Mechanics)
-            (mechanic as ILevelMechanicInitialize)?.Init();
+            (mechanic as IInitMechanic)?.Init();
     }
 
     private void Start()
     {
         PlayerMediator.PlayerInstance.transform.position = _levelSpawn.position;
+    }
+
+    private void Update()
+    {
+        foreach (var mechanic in Mechanics)
+            (mechanic as IUpdateMechanic)?.Update();
     }
 
     public void Trigger()

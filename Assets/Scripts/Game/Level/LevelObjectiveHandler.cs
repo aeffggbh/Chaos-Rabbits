@@ -35,7 +35,7 @@ public class LevelObjectiveHandler : MonoBehaviour
             }
 
         if (IsObjectiveDefault())
-            _levelText.text += _defaultObjective;
+            _objectiveText.text += _defaultObjective;
     }
 
     private bool IsObjectiveDefault()

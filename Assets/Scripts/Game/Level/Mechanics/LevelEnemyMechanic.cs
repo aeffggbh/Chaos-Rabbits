@@ -1,7 +1,9 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyMechanic", menuName = "ScriptableObjects/LevelMechanics/EnemyMechanic")]
-public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicTextInfo, ILevelMechanicInitialize
+public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicTextInfo, IInitMechanic
 {
     private int _enemiesCount;
     private int _totalEnemies;
