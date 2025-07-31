@@ -3,9 +3,9 @@ using UnityEngine;
 /// <summary>
 /// Represents a normal enemy that shoots the player
 /// </summary>
-public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavior, IMovementBehavior, IIdleBehavior, IWeaponUser
+public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavior, IMovementBehavior, IIdleBehavior, IWeaponUser
 {
-    private ClownAnimationController _clownAnimation;
+    private ShooterAnimationController _clownAnimation;
     private Weapon _enemyWeapon;
 
     public Weapon CurrentWeapon { get => _enemyWeapon; set { _enemyWeapon = value; } }
@@ -21,8 +21,8 @@ public class NormalEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehavi
     protected override void Start()
     {
         base.Start();
-        animationController = gameObject.AddComponent<ClownAnimationController>();
-        _clownAnimation = animationController as ClownAnimationController;
+        animationController = gameObject.AddComponent<ShooterAnimationController>();
+        _clownAnimation = animationController as ShooterAnimationController;
     }
 
     /// <summary>

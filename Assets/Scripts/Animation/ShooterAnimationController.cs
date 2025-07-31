@@ -2,7 +2,7 @@
 /// <summary>
 /// Controller for clown animations.
 /// </summary>
-public class ClownAnimationController : AnimationController
+public class ShooterAnimationController : AnimationController
 {
     /// <summary>
     /// Plays the walk animation

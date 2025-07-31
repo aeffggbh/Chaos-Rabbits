@@ -17,7 +17,7 @@ public class EnemyClassRandomizer : MonoBehaviour
     private Type[] enemyTypes = new Type[]
     {
         typeof(JumpingEnemy),
-        typeof(NormalEnemy),
+        typeof(ShooterEnemy),
         typeof(ExplodingEnemy)
     };
 
@@ -41,7 +41,7 @@ public class EnemyClassRandomizer : MonoBehaviour
 
         if (chosenType == typeof(JumpingEnemy))
             modelInstanceGO = Instantiate(_jumpingEnemyPrefabGO, transform);
-        else if (chosenType == typeof(NormalEnemy))
+        else if (chosenType == typeof(ShooterEnemy))
             modelInstanceGO = Instantiate(_normalEnemyPrefabGO, transform);
         else if (chosenType == typeof(ExplodingEnemy))
             modelInstanceGO = Instantiate(_explodingEnemyPrefabGO, transform);

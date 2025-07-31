@@ -4,12 +4,14 @@ using UnityEngine;
 /// <summary>
 /// Represents an enemy that jumps towards the player.
 /// </summary>
+[RequireComponent(typeof(RabbitAnimationController))]
 public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBehavior, IAttackActivationBehavior, IIdleBehavior
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _jumpForceMultiplier = 3.5f;
     [SerializeField] private float _speedMultiplier = 2f;
     [SerializeField] private float _groundCheckDistance = 0.3f;
+    [SerializeField] private RabbitAnimationController _rabbitAnimation;
 
     BoxCollider _collider;
 
@@ -30,6 +32,10 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         _defaultMoveSpeed = _currentSpeed;
         _patrolSpeed /= 2;
         _chasingSpeed /= 2;
+
+        _rabbitAnimation = GetComponent<RabbitAnimationController>();
+
+        animationController = _rabbitAnimation;
 
         _collider = GetComponent<BoxCollider>();
     }
@@ -59,7 +65,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     public void Move()
     {
-        if (IsGrounded())
+        if (CanJump())
         {
             if (_currentJumpForce > _jumpForce * _jumpForceMultiplier)
             {
@@ -70,7 +76,8 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
             ActivateJump();
         }
 
-        Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
+        if (_rabbitAnimation.IsLanding())
+            Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -81,17 +88,25 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         Vector3 velocity = Rb.linearVelocity;
         velocity.y = _currentJumpForce;
         Rb.linearVelocity = velocity;
+
+        _rabbitAnimation.TriggerJump();
     }
 
     /// <summary>
     /// Checks if the enemy is currently grounded using a raycast.
     /// </summary>
-    private bool IsGrounded()
+    private bool CanJump()
     {
-        if (Time.time > _timer + _rate)
+        bool isGrounded = RayManager.IsGrounded(_collider);
+
+        _rabbitAnimation.UpdateGround(isGrounded);
+
+        if (Time.time > _timer + _rate &&
+            !_rabbitAnimation.IsLanding())
         {
             _timer = Time.time;
-            return RayManager.IsGrounded(_collider);
+
+            return isGrounded;
         }
         return false;
     }
