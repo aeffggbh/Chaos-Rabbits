@@ -708,6 +708,7 @@ GameObject:
   - component: {fileID: 336562531666434674}
   - component: {fileID: 8929887579313496365}
   - component: {fileID: 34756499269983277}
+  - component: {fileID: 5421820215055733651}
   m_Layer: 0
   m_Name: FPCamera
   m_TagString: Untagged
@@ -883,6 +884,28 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!114 &5421820215055733651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6342060266662945706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b5c2e6cd00eeb44b0b68de983fb910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseSens: 1
+  _mouseMultiplier: 0.1
+  _joystickMultiplier: 65
+  _joystickDeadZone: 0.08
+  _joystickResponseCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7912271763414076063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,6 +1169,7 @@ MonoBehaviour:
   _jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _dropAction: {fileID: -6697303918269174070, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _grabAction: {fileID: -542590151754964402, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _bulletSpawnGO: {fileID: 1799241602799130403}
   _maxWeaponDistance: 10
   _grabDropCooldown: 0.2
