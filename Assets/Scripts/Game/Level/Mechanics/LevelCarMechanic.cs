@@ -1,7 +1,12 @@
 
-public class LevelCarMechanic : ILevelMechanic, IMechanicTextInfo
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "CarMechanic", menuName = "ScriptableObjects/LevelMechanics/CarMechanic")]
+public class LevelCarMechanic : LevelMechanicSO, IMechanicTextInfo, ILevelInstanceUser
 {
-    public bool ObjectiveCompleted => true;
+    [SerializeField] private GameObject _carPrefab;
+    public override bool ObjectiveCompleted => true;
+    public GameObject UserPrefab => _carPrefab;
 
     public string GetObjectiveText()
     {

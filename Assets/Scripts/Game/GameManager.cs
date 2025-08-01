@@ -14,6 +14,7 @@ public static class GameManager
     {
         if (CheatsController.Instance)
             CheatsController.Instance.Reset();
+        EventTriggerManager.Trigger<IDeleteUserEvent>(new DeleteUserEvent(null));
         PlayerPreservedData.Reset();
     }
 }

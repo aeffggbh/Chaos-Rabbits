@@ -1,14 +1,15 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ChronometerMechanic", menuName = "ScriptableObjects/LevelMechanics/ChronometerMechanic")]
-public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpdateMechanic, IInitMechanic
+public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpdateMechanic, IInitMechanic, ILevelInstanceUser
 {
     [SerializeField] private float _goalTime;
     [SerializeField] private float _currentTime;
+    [SerializeField] private GameObject _playerPrefab;
     private bool isChronoActive = false;
     private string _objectiveText;
-
     public override bool ObjectiveCompleted => _currentTime > 0;
+    public GameObject UserPrefab => _playerPrefab;
 
     public void Init()
     {
@@ -40,7 +41,10 @@ public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpd
         }
 
         if (DidNotArriveOnTime())
+        {
+            _currentTime = 0;
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), null));
+        }
     }
 
     /// <summary>

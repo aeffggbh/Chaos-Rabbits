@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af8c738653eb784baf11ffe44738f9f, type: 3}
   m_Name: MazeMechanic
   m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 7912271763414076063, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}

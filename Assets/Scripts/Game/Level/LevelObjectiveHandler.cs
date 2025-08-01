@@ -9,7 +9,7 @@ public class LevelObjectiveHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _objectiveText;
     [SerializeField] private string _defaultObjective = "Good luck.";
     private List<LevelMechanicSO> _mechanics;
-    private string _startObjective = "OBJECTIVE: "; 
+    private string _startObjective = "OBJECTIVE: ";
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class LevelObjectiveHandler : MonoBehaviour
 
         _mechanics = level.Mechanics;
 
-        _levelText.text = "LEVEL " + level.LevelIndex.ToString();
+        _levelText.text = "LEVEL " + (level.LevelIndex - 1).ToString();
     }
 
     private void Update()

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c42ce2e8f80d7448617ec15f693339, type: 3}
   m_Name: EnemyMechanic
   m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 7912271763414076063, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}

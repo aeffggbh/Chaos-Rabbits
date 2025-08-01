@@ -3,14 +3,16 @@ using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyMechanic", menuName = "ScriptableObjects/LevelMechanics/EnemyMechanic")]
-public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicTextInfo, IInitMechanic
+public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicTextInfo, IInitMechanic, ILevelInstanceUser
 {
+    [SerializeField] private GameObject _playerPrefab;
     private int _enemiesCount;
     private int _totalEnemies;
 
     public int EnemiesCount { get => _enemiesCount; set => _enemiesCount = value; }
     public int TotalEnemies { get => _totalEnemies; set => _totalEnemies = value; }
     public override bool ObjectiveCompleted => _enemiesCount >= _totalEnemies;
+    public GameObject UserPrefab => _playerPrefab;
 
     public void Init()
     {

@@ -101,10 +101,6 @@ public class CheatsController : MonoBehaviour
     {
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
-            if (PlayerMediator.PlayerInstance)
-                if (PlayerMediator.PlayerInstance.transform)
-                    PlayerMediator.PlayerInstance.transform.position = levelTriggerLocation.position;
-
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
             EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Gone to next level"));
         }

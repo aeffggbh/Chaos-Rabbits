@@ -27,7 +27,7 @@ public class LevelTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.gameObject == level.UserGO)
             OnTrigger();
     }
 

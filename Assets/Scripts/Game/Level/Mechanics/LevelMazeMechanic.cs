@@ -1,9 +1,11 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MazeMechanic", menuName = "ScriptableObjects/LevelMechanics/MazeMechanic")]
-public class LevelMazeMechanic : LevelMechanicSO, IMechanicTextInfo
+public class LevelMazeMechanic : LevelMechanicSO, IMechanicTextInfo, ILevelInstanceUser
 {
+    [SerializeField] private GameObject _playerPrefab;
     public override bool ObjectiveCompleted => true;
+    public GameObject UserPrefab => _playerPrefab;
 
     public string GetObjectiveText()
     {

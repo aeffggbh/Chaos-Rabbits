@@ -49,6 +49,7 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
         if (_unloadPrevious)
         {
             _unloadPrevious = false;
+            EventTriggerManager.Trigger<IDeleteUserEvent>(new DeleteUserEvent(TriggeredByGO));
 
             SceneLoader.Instance.UnloadScene(levelToUnloadIndex);
         }

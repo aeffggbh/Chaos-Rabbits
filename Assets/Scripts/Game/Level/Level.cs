@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +8,10 @@ public class Level : MonoBehaviour, ILevel
 {
     [SerializeField] private LevelData _levelData;
     [SerializeField] private Transform _levelSpawn;
+    [SerializeField] private GameObject _userGO;
     public List<LevelMechanicSO> Mechanics { get => _levelData.Mechanics; set => _levelData.Mechanics = value; }
     public int LevelIndex => _levelData.LevelIndex;
+    public GameObject UserGO => _userGO;
 
     private void Awake()
     {
@@ -17,12 +20,31 @@ public class Level : MonoBehaviour, ILevel
 
         foreach (var mechanic in Mechanics)
             (mechanic as IInitMechanic)?.Init();
+
+        EventProvider.Subscribe<IDeleteUserEvent>(OnDeleteUser);
+    }
+
+    private void OnDestroy()
+    {
+        EventProvider.Unsubscribe<IDeleteUserEvent>(OnDeleteUser);
     }
 
     private void Start()
     {
-        if (PlayerMediator.PlayerInstance != null)
-            PlayerMediator.PlayerInstance.transform.position = _levelSpawn.position;
+        GameObject userObj = null;
+
+        foreach (var mechanic in Mechanics)
+            userObj = (mechanic as ILevelInstanceUser)?.UserPrefab;
+
+        _userGO = GameObject.Instantiate(userObj);
+
+        _userGO.transform.position = _levelSpawn.position;
+    }
+
+    private void OnDeleteUser(IDeleteUserEvent levelEvent)
+    {
+        if (UserGO)
+            Destroy(UserGO);
     }
 
     private void Update()
