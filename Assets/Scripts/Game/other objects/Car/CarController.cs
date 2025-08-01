@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CarInput))]
@@ -22,7 +20,9 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         _carRb = GetComponent<Rigidbody>();
-        //_carRb.centerOfMass = _centerOfMass;
+        Debug.Log(_carRb.centerOfMass);
+        if (_centerOfMass != Vector3.zero)
+            _carRb.centerOfMass = _centerOfMass;
         _carInput = GetComponent<CarInput>();
     }
 
@@ -66,9 +66,4 @@ public class CarController : MonoBehaviour
         foreach (var wheel in _wheels)
             wheel.Animate();
     }
-}
-
-public interface IModelData
-{
-    GameObject Model { get; set; }
 }
