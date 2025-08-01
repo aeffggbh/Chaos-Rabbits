@@ -40,22 +40,21 @@ public class PlayerMovement : IPlayerMovement
     /// <param name="calculator"></param>
     /// <param name="animation"></param>
     /// <param name="player"></param>
-    public void RequestMovement(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
-        PlayerAnimationController animation, IPlayerData player)
+    public void RequestMovement(InputAction.CallbackContext context, IPlayerMovementCalculator calculator, IPlayerData player)
     {
-        animation?.AnimateWalk();
+        (player as Player)?.PlayerAnimation?.AnimateWalk();
 
         CheckFlash();
 
         (player as Player)?.RequestMovementDirection(context.ReadValue<Vector2>());
     }
 
-    public void StopMoving(IPlayerData player, PlayerAnimationController animation)
+    public void StopMoving(IPlayerData player)
     {
         _data.Rb.linearVelocity = new Vector3(0, _data.Rb.linearVelocity.y, 0);
 
         (player as Player)?.RequestMovementDirection(Vector2.zero);
-        animation.AnimateStopWalking();
+        (player as Player)?.PlayerAnimation?.AnimateStopWalking();
     }
 
     /// <summary>

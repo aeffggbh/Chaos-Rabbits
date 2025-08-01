@@ -38,6 +38,7 @@ public class Player : Character, IPlayerData
     [SerializeField] private AudioSource _audioSource;
     private IPlayerMovementCalculator _playerCalculator;
     private WeaponData _savedWeaponData;
+    private PlayerAnimationController _playerAnimationController;
 
     public Weapon CurrentWeapon { get => _currentWeapon; set { _currentWeapon = value; } }
     public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
@@ -49,6 +50,7 @@ public class Player : Character, IPlayerData
     public Transform WeaponParent { get => _weaponParent; set => _weaponParent = value; }
     public GameObject UserObject => gameObject;
     public WeaponData SavedWeaponData => _savedWeaponData;
+    public PlayerAnimationController PlayerAnimation => _playerAnimationController;
 
     private void Awake()
     {
@@ -69,6 +71,8 @@ public class Player : Character, IPlayerData
                 _savedWeaponData = data.WeaponData;
             }
         }
+
+        _playerAnimationController = GetComponent<PlayerAnimationController>();
     }
     private void OnDestroy()
     {
@@ -81,7 +85,7 @@ public class Player : Character, IPlayerData
 
         _movement = new PlayerMovement(this);
         _soundPlayer = new SoundPlayer(_audioSource);
-        _jump = new PlayerJump(_rb, _soundPlayer, GetComponent<CapsuleCollider>());
+        _jump = new PlayerJump(_rb, _soundPlayer, GetComponent<CapsuleCollider>(), _playerAnimationController);
         _playerCalculator = new PlayerMovementCalculator();
         _soundPlayer.SetAudioSource(GetComponent<AudioSource>());
     }
@@ -96,22 +100,14 @@ public class Player : Character, IPlayerData
         currentDirection = direction;
     }
 
-    /// <summary>
-    /// Requests jump information for the player character.
-    /// </summary>
-    /// <param name="shouldJump"></param>
-    /// <param name="jumpForce"></param>
-    public void RequestJumpInfo(bool shouldJump)
-    {
-        _jump.SetJumpState(shouldJump);
-    }
-
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
         Vector3 calculatedMovement = _playerCalculator.GetDirection(currentDirection);
         _movement.Move(calculatedMovement);
+
+        _jump.UpdateGroundState();
     }
 
     public override void Die()

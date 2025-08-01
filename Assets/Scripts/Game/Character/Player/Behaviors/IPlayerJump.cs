@@ -5,11 +5,6 @@
 public interface IPlayerJump
 {
     /// <summary>
-    /// Sets a jump state with the provided bool
-    /// </summary>
-    /// <param name="isJumping"></param>
-    void SetJumpState(bool isJumping);
-    /// <summary>
     /// Applies the force provided and jumps with it
     /// </summary>
     /// <param name="force"></param>
@@ -19,4 +14,8 @@ public interface IPlayerJump
     /// </summary>
     /// <returns></returns>
     bool IsGrounded();
+    /// <summary>
+    /// Updates the grounded state
+    /// </summary>
+    void UpdateGroundState();
 }

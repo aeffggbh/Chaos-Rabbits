@@ -1,15 +1,14 @@
-using UnityEngine;
 
-public class RabbitAnimationController : AnimationController
+public class JumpAnimationController : AnimationController
 {
-    public void TriggerJump()
+    public void AnimateTriggerJump()
     {
         CheckAnimator();
         animator.ResetTrigger("jumpRequested");
         animator.SetTrigger("jumpRequested");
     }
 
-    public void UpdateGround(bool isGrounded)
+    public void AnimateGrounded(bool isGrounded)
     {
         CheckAnimator();
 
@@ -19,7 +18,7 @@ public class RabbitAnimationController : AnimationController
         animator.SetBool("isGrounded", isGrounded);
     }
 
-    public bool IsLanding()
+    public bool IsLandingAnimationPlaying()
     {
         CheckAnimator();
         bool isLanding = animator.GetCurrentAnimatorStateInfo(0).IsName("Land") ||

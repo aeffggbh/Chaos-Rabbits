@@ -23,12 +23,11 @@ public interface IPlayerMovement
     /// <param name="calculator"></param>
     /// <param name="animation"></param>
     /// <param name="player"></param>
-    void RequestMovement(InputAction.CallbackContext context, IPlayerMovementCalculator calculator,
-        PlayerAnimationController animation, IPlayerData player);
+    void RequestMovement(InputAction.CallbackContext context, IPlayerMovementCalculator calculator, IPlayerData player);
     /// <summary>
     /// Stops the player from moving
     /// </summary>
     /// <param name="player"></param>
     /// <param name="animation"></param>
-    void StopMoving(IPlayerData player, PlayerAnimationController animation);
+    void StopMoving(IPlayerData player);
 }

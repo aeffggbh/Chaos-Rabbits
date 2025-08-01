@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: ChronometerMechanic
   m_EditorClassIdentifier: 
   _goalTime: 30
-  _currentTime: 0
+  _currentTime: 24.502565
+  _playerPrefab: {fileID: 7912271763414076063, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}

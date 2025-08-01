@@ -4,11 +4,11 @@ using UnityEngine;
 /// Plays a sound in an animation
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
-public class AnimationSound : MonoBehaviour
+public class AnimationSoundPlayer : MonoBehaviour
 {
     private ISoundPlayer _soundPlayer;
 
-    private void Awake()
+    virtual protected void Awake()
     {
         AudioSource audioSource = GetComponent<AudioSource>();
         _soundPlayer = new SoundPlayer(audioSource);

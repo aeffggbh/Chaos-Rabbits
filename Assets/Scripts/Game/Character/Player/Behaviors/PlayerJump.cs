@@ -9,39 +9,44 @@ public class PlayerJump : IPlayerJump
     private Rigidbody _rb;
     private ISoundPlayer _soundPlayer;
 
-    private bool _isJumping;
     private CapsuleCollider _collider;
+    private PlayerAnimationController _playerAnimationController;
+    private bool _grounded;
 
     /// <summary>
     /// Initializes local variables
     /// </summary>
     /// <param name="rb"></param>
     /// <param name="soundPlayer"></param>
-    public PlayerJump(Rigidbody rb, ISoundPlayer soundPlayer, CapsuleCollider collider)
+    public PlayerJump(Rigidbody rb, ISoundPlayer soundPlayer, CapsuleCollider collider, PlayerAnimationController animationController)
     {
         _rb = rb;
         _soundPlayer = soundPlayer;
         _collider = collider;
-    }
-
-    public void SetJumpState(bool isJumping)
-    {
-        _isJumping = isJumping;
+        _playerAnimationController = animationController;
     }
 
     public void Jump(float force)
     {
-        if (IsGrounded())
+        if (_grounded)
         {
             _rb.AddForce(Vector3.up * force, ForceMode.Impulse);
             _soundPlayer.PlaySound(SFXType.JUMP);
+            _playerAnimationController.AnimateTriggerJump();
         }
     }
 
     public bool IsGrounded()
     {
-        return RayManager.IsGrounded(_collider);
+        bool grounded = RayManager.IsGrounded(_collider);
+
+        _playerAnimationController.AnimateGrounded(grounded);
+
+        return grounded;
     }
 
-    
+    public void UpdateGroundState()
+    {
+        _grounded = IsGrounded();
+    }
 }

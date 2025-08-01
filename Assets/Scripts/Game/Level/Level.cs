@@ -23,15 +23,7 @@ public class Level : MonoBehaviour, ILevel
             (mechanic as IInitMechanic)?.Init();
 
         EventProvider.Subscribe<IDeleteUserEvent>(OnDeleteUser);
-    }
 
-    private void OnDestroy()
-    {
-        EventProvider.Unsubscribe<IDeleteUserEvent>(OnDeleteUser);
-    }
-
-    private void Start()
-    {
         GameObject userObj = null;
 
         foreach (var mechanic in Mechanics)
@@ -41,6 +33,15 @@ public class Level : MonoBehaviour, ILevel
 
         _userGO.transform.position = _levelSpawn.position;
         
+    }
+
+    private void OnDestroy()
+    {
+        EventProvider.Unsubscribe<IDeleteUserEvent>(OnDeleteUser);
+    }
+
+    private void Start()
+    {
         EventTriggerManager.Trigger<IUserSpawnedEvent>(new UserSpawnedEvent(_userGO, _userGO.transform));
 
         if (LevelIndex != GameplaySceneData.Level1Index)

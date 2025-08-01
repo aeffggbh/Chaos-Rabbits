@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 2074308139}
   - component: {fileID: 2074308138}
   - component: {fileID: 2074308141}
+  - component: {fileID: 2074308142}
   m_Layer: 0
   m_Name: UIAudioHandler
   m_TagString: Untagged
@@ -275,7 +276,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 1000
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -373,6 +374,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074308137}
   m_Enabled: 1
+--- !u!114 &2074308142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074308137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d21c6a24b8f95c4d954cda94923dd4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2081046812
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,7 +25,6 @@ public class PlayerMediator : MonoBehaviour
     [SerializeField] private float _grabDropCooldown;
 
     [SerializeField] private Player _player;
-    [SerializeField] private PlayerAnimationController _playerAnimation;
     [SerializeField] private Transform _weaponParent;
     [SerializeField] private GameObject _fallbackWeaponPrefab;
     [SerializeField] private CheatsController _cheatsController;
@@ -47,7 +46,6 @@ public class PlayerMediator : MonoBehaviour
 
     private void Start()
     {
-        _playerAnimation = GetComponent<PlayerAnimationController>();
         _player = GetComponent<Player>();
 
         _playerMovement = new PlayerMovementCalculator();
@@ -68,7 +66,7 @@ public class PlayerMediator : MonoBehaviour
         _playerWeapon = new PlayerWeaponHandler(
             _bulletSpawnGO,
             _maxWeaponDistance,
-            _playerAnimation,
+            _player.PlayerAnimation,
             _weaponParent,
             _fallbackWeaponPrefab,
             _player.SavedWeaponData
@@ -170,7 +168,7 @@ public class PlayerMediator : MonoBehaviour
         if (!this)
             return;
 
-        _player?.Movement?.StopMoving(_player, _playerAnimation);
+        _player?.Movement?.StopMoving(_player);
     }
 
     /// <summary>
@@ -182,9 +180,7 @@ public class PlayerMediator : MonoBehaviour
         if (!this)
             return;
 
-        if (!_playerAnimation)
-            _playerAnimation = GetComponent<PlayerAnimationController>();
-        _player?.Movement?.RequestMovement(context, _playerMovement, _playerAnimation, _player);
+        _player?.Movement?.RequestMovement(context, _playerMovement, _player);
     }
 
     public void OnLook(InputAction.CallbackContext context)

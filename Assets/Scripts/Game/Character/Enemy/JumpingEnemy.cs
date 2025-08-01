@@ -4,13 +4,13 @@ using UnityEngine;
 /// <summary>
 /// Represents an enemy that jumps towards the player.
 /// </summary>
-[RequireComponent(typeof(RabbitAnimationController))]
+[RequireComponent(typeof(JumpAnimationController))]
 public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBehavior, IAttackActivationBehavior, IIdleBehavior
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _jumpForceMultiplier = 1.5f;
     [SerializeField] private float _speedMultiplier = 2f;
-    [SerializeField] private RabbitAnimationController _rabbitAnimation;
+    [SerializeField] private JumpAnimationController _rabbitAnimation;
 
     BoxCollider _collider;
 
@@ -31,7 +31,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         patrolSpeed /= 2;
         chasingSpeed /= 2;
 
-        _rabbitAnimation = GetComponent<RabbitAnimationController>();
+        _rabbitAnimation = GetComponent<JumpAnimationController>();
 
         animationController = _rabbitAnimation;
 
@@ -74,7 +74,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
             ActivateJump();
         }
 
-        if (!_rabbitAnimation.IsLanding())
+        if (!_rabbitAnimation.IsLandingAnimationPlaying())
             Rb.AddForce((moveDir * currentSpeed + counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
@@ -87,7 +87,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         velocity.y = _currentJumpForce;
         Rb.linearVelocity = velocity;
 
-        _rabbitAnimation.TriggerJump();
+        _rabbitAnimation.AnimateTriggerJump();
     }
 
     /// <summary>
@@ -97,9 +97,9 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     {
         bool isGrounded = RayManager.IsGrounded(_collider, 0.1f);
 
-        _rabbitAnimation.UpdateGround(isGrounded);
+        _rabbitAnimation.AnimateGrounded(isGrounded);
 
-        bool isLanding = _rabbitAnimation.IsLanding();
+        bool isLanding = _rabbitAnimation.IsLandingAnimationPlaying();
 
         if (Time.time > _timer + _rate &&
             !isLanding)

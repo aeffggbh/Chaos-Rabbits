@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Controlls player animations
 /// </summary>
-public class PlayerAnimationController : AnimationController
+public class PlayerAnimationController : JumpAnimationController
 {
     /// <summary>
     /// Plays the walk animation
@@ -35,10 +35,5 @@ public class PlayerAnimationController : AnimationController
     public void AnimateDropWeapon()
     {
         animator?.SetBool("isAiming", false);
-    }
-
-    public void AnimateGrenadeThrow()
-    {
-        animator?.SetTrigger("throwGrenade");
     }
 }
