@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Level4
   m_EditorClassIdentifier: 
   _mechanicsList:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b6e82c6599d91484ead17c959d88ba7e, type: 2}
   _levelIndex: 5
   _sceneAsset: {fileID: 102900000, guid: eaf25aa6efe96f3429af16a1c854ab20, type: 3}
