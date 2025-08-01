@@ -1974,50 +1974,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.22, y: 0.5861045, z: 0.17}
   m_Center: {x: 0, y: 0.28909916, z: 0.00000090152025}
---- !u!1 &98207934
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 98207936}
-  - component: {fileID: 98207935}
-  m_Layer: 0
-  m_Name: CheatsController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &98207935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 98207934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e78e4749e6cf374dac51b6798aa5172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &98207936
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 98207934}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.286507, y: 8.476437, z: 0.16144848}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &99722571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36861,7 +36817,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelData: {fileID: 11400000, guid: f16c3877a745275439877a055baace97, type: 2}
   _levelSpawn: {fileID: 1452646118}
-  _userInstance: {fileID: 0}
+  _userGO: {fileID: 0}
+  _cheatsController: {fileID: 11400000, guid: 87d205ea3c946c74799cc7830f65b5fe, type: 2}
 --- !u!114 &7488901963640536282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36883,7 +36840,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 832575519}
   - {fileID: 2082216728}
-  - {fileID: 98207936}
   - {fileID: 7488901963640536278}
   - {fileID: 885844153}
   - {fileID: 613129110}

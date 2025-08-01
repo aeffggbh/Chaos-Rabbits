@@ -104,6 +104,7 @@ public class MenuManager : MonoBehaviour
     {
         HideAllPanels();
         panel.SetActive(true);
+        EventTriggerManager.Trigger<IMenuShownEvent>(new MenuShownEvent(panel, panel.transform));
     }
 
     /// <summary>
@@ -112,8 +113,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public static void ResetGame()
     {
-        if (UIAudioHandler.Instance != null)
-            UIAudioHandler.Instance.ActivateAudioListener();
+        PauseManager.Paused = false;
 
         GameSceneController.Instance.UnloadGameplay();
 

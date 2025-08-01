@@ -18,7 +18,7 @@ public class SoundPlayer : ISoundPlayer
 
     public void PlaySound(SFXType type, float volume = 1f)
     {
-        if (PauseManager.Paused) 
+        if (PauseManager.Paused && type != SFXType.CONFIRM) 
             return;
         _soundManager.PlaySound(type, _audioSource, volume);
     }

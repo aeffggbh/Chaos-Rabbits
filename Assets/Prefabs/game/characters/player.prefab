@@ -924,7 +924,6 @@ GameObject:
   - component: {fileID: 5399720175571696743}
   - component: {fileID: 4134970206781325940}
   - component: {fileID: 1335164825875005505}
-  - component: {fileID: 6941642619997284593}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -1177,6 +1176,7 @@ MonoBehaviour:
   _playerAnimation: {fileID: 7551713182701535122}
   _weaponParent: {fileID: 2363987645471641430}
   _fallbackWeaponPrefab: {fileID: 3028287464951679194, guid: c1ced6b979619614db717c96b8a3e7c0, type: 3}
+  _cheatsController: {fileID: 11400000, guid: 87d205ea3c946c74799cc7830f65b5fe, type: 2}
 --- !u!81 &4134970206781325940
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1184,7 +1184,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7912271763414076063}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &1335164825875005505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1197,22 +1197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59c10dd05e91884f897e3de7f700254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6941642619997284593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7912271763414076063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 092c12add53057e48a9c32c11908d820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nextLevel: {fileID: 761361923888227863, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _godMode: {fileID: 8043545355996118307, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _flashMode: {fileID: -3529484207228968895, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  levelTriggerLocation: {fileID: 0}
 --- !u!1 &8402522496641810630
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,8 +12,7 @@ public static class GameManager
     /// </summary>
     public static void ResetGame()
     {
-        if (CheatsController.Instance)
-            CheatsController.Instance.Reset();
+        PlayerMediator.PlayerInstance?.CheatsController?.Reset();
         EventTriggerManager.Trigger<IDeleteUserEvent>(new DeleteUserEvent(null));
         PlayerPreservedData.Reset();
     }

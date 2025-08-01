@@ -10,7 +10,6 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _jumpForceMultiplier = 1.5f;
     [SerializeField] private float _speedMultiplier = 2f;
-    [SerializeField] private float _groundCheckDistance = 0.3f;
     [SerializeField] private RabbitAnimationController _rabbitAnimation;
 
     BoxCollider _collider;

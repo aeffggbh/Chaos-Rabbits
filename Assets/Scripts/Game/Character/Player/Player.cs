@@ -116,13 +116,13 @@ public class Player : Character, IPlayerData
 
     public override void Die()
     {
-        if (!CheatsController.Instance.IsGodMode())
+        if (!PlayerMediator.PlayerInstance.CheatsController.IsGodMode())
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject));
     }
 
     public override void TakeDamage(float damage)
     {
-        if (!CheatsController.Instance.IsGodMode())
+        if (!PlayerMediator.PlayerInstance.CheatsController.IsGodMode())
         {
             base.TakeDamage(damage);
             _soundPlayer.PlaySound(SFXType.TAKE_HIT);

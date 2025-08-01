@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -25,7 +26,7 @@ public class UIAudioHandler : MonoBehaviour
 
         _audioListener = GetComponent<AudioListener>();
 
-        EventProvider.Subscribe<IActivateSceneEvent>(CheckListener);
+        EventProvider.Subscribe<ILevelUpSoundEvent>(PlayLevelUpSound);
     }
 
     private void Start()
@@ -36,40 +37,18 @@ public class UIAudioHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks if the listener should be disabled. It happens when I activate the gameplay
-    /// </summary>
-    /// <param name="sceneEvent"></param>
-    private void CheckListener(IActivateSceneEvent sceneEvent)
-    {
-        if (sceneEvent is ActivateGameplayEvent)
-            if (_audioListener != null)
-                _audioListener.enabled = false;
-    }
-    
-    /// <summary>
-    /// Enables the UI audio listener.
-    /// </summary>
-    public void ActivateAudioListener()
-    {
-        if (_audioListener != null)
-            _audioListener.enabled = true;
-    }
-
-    /// <summary>
     /// Plays the sound of the button
     /// </summary>
     public void PlayButtonSound()
     {
-        if (_soundPlayer != null)
-            _soundPlayer.PlaySound(SFXType.CONFIRM);
+        _soundPlayer?.PlaySound(SFXType.CONFIRM);
     }
 
     /// <summary>
     /// Plays a sound for levelling up
     /// </summary>
-    public void PlayLevelUpSound()
+    public void PlayLevelUpSound(ILevelUpSoundEvent newLevelEvent)
     {
-        if(_soundPlayer != null)
-            _soundPlayer.PlaySound(SFXType.LEVEL_UP);
+        _soundPlayer?.PlaySound(SFXType.LEVEL_UP);
     }
 }

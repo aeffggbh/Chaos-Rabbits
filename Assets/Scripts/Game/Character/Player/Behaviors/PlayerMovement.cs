@@ -63,9 +63,9 @@ public class PlayerMovement : IPlayerMovement
     /// </summary>
     private void CheckFlash()
     {
-        if (CheatsController.Instance)
+        if (PlayerMediator.PlayerInstance.CheatsController)
         {
-            if (CheatsController.Instance.IsFlashMode())
+            if (PlayerMediator.PlayerInstance.CheatsController.IsFlashMode())
                 _data.CurrentSpeed = _data.RunSpeed;
             else if (_data.CurrentSpeed == _data.RunSpeed)
                 _data.CurrentSpeed = _data.WalkSpeed;

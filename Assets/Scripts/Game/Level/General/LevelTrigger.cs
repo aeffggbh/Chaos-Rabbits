@@ -18,13 +18,6 @@ public class LevelTrigger : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (CheatsController.Instance != null)
-            if (CheatsController.Instance.levelTriggerLocation != transform)
-                CheatsController.Instance.levelTriggerLocation = transform;
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player") || other.gameObject == level.UserGO)

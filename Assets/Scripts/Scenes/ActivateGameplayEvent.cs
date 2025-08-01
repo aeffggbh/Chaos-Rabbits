@@ -62,9 +62,6 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
                 MenuManager.Instance.TransitionToState(new GameWinState());
 
             _currentIndex = levelToLoadIndex;
-
-            if (levelToLoadIndex != GameplaySceneData.Level1Index)
-                UIAudioHandler.Instance.PlayLevelUpSound();
         }
 
         if (_loadNext && _unloadPrevious)

@@ -1,16 +1,8 @@
 /// <summary>
 /// The pause menu state
 /// </summary>
-public class PauseMenuState : IMenuState, IExitStateCommand
+public class PauseMenuState : IMenuState
 {
-    /// <summary>
-    /// Can unpause the game
-    /// </summary>
-    public void ExitState()
-    {
-        PauseManager.Paused = false;
-    }
-
     /// <summary>
     /// Can pause the game
     /// </summary>

@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 /// Reads input and decides actions taken by the player
 /// </summary>
 [RequireComponent(typeof(Player))]
-[RequireComponent(typeof(CheatsController))]
 public class PlayerMediator : MonoBehaviour
 {
     [SerializeField] private InputActionReference _moveAction;
@@ -29,6 +28,7 @@ public class PlayerMediator : MonoBehaviour
     [SerializeField] private PlayerAnimationController _playerAnimation;
     [SerializeField] private Transform _weaponParent;
     [SerializeField] private GameObject _fallbackWeaponPrefab;
+    [SerializeField] private CheatsController _cheatsController;
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
     private IPlayerInputEnabler _playerInput;
@@ -36,6 +36,7 @@ public class PlayerMediator : MonoBehaviour
 
     public Player Player { get => _player; set => _player = value; }
     public static PlayerMediator PlayerInstance { get => _instance; }
+    public CheatsController CheatsController => _cheatsController;
 
     private void Awake()
     {
@@ -94,8 +95,7 @@ public class PlayerMediator : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_playerInput != null)
-            _playerInput.Disable();
+        _playerInput?.Disable();
     }
 
     /// <summary>
@@ -125,6 +125,9 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnGrabWeapon(InputAction.CallbackContext context)
     {
+        if (!this)
+            return;
+
         if (PauseManager.Paused)
             return;
 
@@ -137,6 +140,9 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnDropWeapon(InputAction.CallbackContext context)
     {
+        if (!this)
+            return;
+
         if (PauseManager.Paused)
             return;
 
@@ -149,6 +155,9 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!this)
+            return;
+
         _player.Jump();
     }
 
@@ -158,7 +167,10 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnCancelMove(InputAction.CallbackContext context)
     {
-        _player.Movement.StopMoving(_player, _playerAnimation);
+        if (!this)
+            return;
+
+        _player?.Movement?.StopMoving(_player, _playerAnimation);
     }
 
     /// <summary>
@@ -167,16 +179,19 @@ public class PlayerMediator : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (this != _instance)
+        if (!this)
             return;
 
         if (!_playerAnimation)
             _playerAnimation = GetComponent<PlayerAnimationController>();
-        _player.Movement.RequestMovement(context, _playerMovement, _playerAnimation, _player);
+        _player?.Movement?.RequestMovement(context, _playerMovement, _playerAnimation, _player);
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
+        if (!this)
+            return;
+
         if (_player)
             EventTriggerManager.Trigger<IPlayerLookEvent>(new PlayerLookEvent(gameObject, context));
     }

@@ -9,6 +9,7 @@ public class Level : MonoBehaviour, ILevel
     [SerializeField] private LevelData _levelData;
     [SerializeField] private Transform _levelSpawn;
     [SerializeField] private GameObject _userGO;
+    [SerializeField] private CheatsController _cheatsController;
     public List<LevelMechanicSO> Mechanics { get => _levelData.Mechanics; set => _levelData.Mechanics = value; }
     public int LevelIndex => _levelData.LevelIndex;
     public GameObject UserGO => _userGO;
@@ -39,6 +40,11 @@ public class Level : MonoBehaviour, ILevel
         _userGO = GameObject.Instantiate(userObj);
 
         _userGO.transform.position = _levelSpawn.position;
+        
+        EventTriggerManager.Trigger<IUserSpawnedEvent>(new UserSpawnedEvent(_userGO, _userGO.transform));
+
+        if (LevelIndex != GameplaySceneData.Level1Index)
+            EventTriggerManager.Trigger<ILevelUpSoundEvent>(new LevelUpSoundEvent(gameObject));
     }
 
     private void OnDeleteUser(IDeleteUserEvent levelEvent)

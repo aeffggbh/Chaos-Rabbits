@@ -13704,7 +13704,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelData: {fileID: 11400000, guid: a5b9d2ce36afd0b4eba91c917f9ea74c, type: 2}
   _levelSpawn: {fileID: 56528221}
-  _userInstance: {fileID: 0}
+  _userGO: {fileID: 0}
+  _cheatsController: {fileID: 11400000, guid: 87d205ea3c946c74799cc7830f65b5fe, type: 2}
 --- !u!114 &1603647618
 MonoBehaviour:
   m_ObjectHideFlags: 0

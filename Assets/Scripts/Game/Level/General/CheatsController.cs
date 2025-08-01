@@ -4,16 +4,15 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Controller for cheats in the game.
 /// </summary>
-public class CheatsController : MonoBehaviour
+/// 
+[CreateAssetMenu(fileName = "CheatsController", menuName = "ScriptableObjects/CheatsController")]
+public class CheatsController : ScriptableObject
 {
     [SerializeField] private InputActionReference _nextLevel;
     [SerializeField] private InputActionReference _godMode;
     [SerializeField] private InputActionReference _flashMode;
-    [SerializeField] public Transform levelTriggerLocation;
     private bool _isGodMode;
     private bool _isFlashMode;
-
-    public static CheatsController Instance;
 
     public bool IsGodMode()
     {
@@ -23,14 +22,6 @@ public class CheatsController : MonoBehaviour
     public bool IsFlashMode()
     {
         return _isFlashMode;
-    }
-
-    private void Awake()
-    {
-        if (!Instance)
-            Instance = this;
-        else
-            Destroy(this);
     }
 
     private void OnEnable()
@@ -58,16 +49,10 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnFlashMode(InputAction.CallbackContext context)
     {
-        if (Instance == null)
-            return;
-
-        if (this != Instance)
-            return;
-
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isFlashMode = !_isFlashMode;
-            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Flash Mode", _isFlashMode));
+            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "Flash Mode", _isFlashMode));
         }
     }
 
@@ -77,13 +62,10 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnGodMode(InputAction.CallbackContext context)
     {
-        if (Instance == null)
-            return;
-
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isGodMode = !_isGodMode;
-            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "God Mode", _isGodMode));
+            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "God Mode", _isGodMode));
         }
     }
 
@@ -93,16 +75,15 @@ public class CheatsController : MonoBehaviour
     /// <param name="context"></param>
     private void OnNextLevel(InputAction.CallbackContext context)
     {
-        if (Instance)
-            GoToNextLevel();
+        GoToNextLevel();
     }
 
     private void GoToNextLevel()
     {
         if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
-            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "Gone to next level"));
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(null, true));
+            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "Gone to next level"));
         }
     }
 
