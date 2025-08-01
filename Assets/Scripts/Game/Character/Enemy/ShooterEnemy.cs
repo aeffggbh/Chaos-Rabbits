@@ -39,8 +39,8 @@ public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehav
     /// </summary>
     public void ActivateChase()
     {
-        _currentSpeed = _chasingSpeed;
-        _moveDir = GetPlayerDirection();
+        currentSpeed = chasingSpeed;
+        moveDir = GetPlayerDirection();
     }
 
     /// <summary>
@@ -49,15 +49,15 @@ public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehav
     public void Attack()
     {
         Rb.linearVelocity = Vector3.zero;
-        if (_currentSpeed > 0)
+        if (currentSpeed > 0)
         {
-            _currentSpeed = 0;
+            currentSpeed = 0;
             if (_clownAnimation != null)
                 _clownAnimation.AnimateStopWalking();
         }
-        if (_timeSinceAttacked > _manager.AttackTimer)
+        if (timeSinceAttacked > manager.AttackTimer)
         {
-            _timeSinceAttacked = 0;
+            timeSinceAttacked = 0;
             _enemyWeapon.Fire();
         }
     }
@@ -69,13 +69,13 @@ public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehav
     {
         if (_clownAnimation != null)
         {
-            if (_currentSpeed > 0)
+            if (currentSpeed > 0)
                 _clownAnimation.AnimateWalk();
             else
                 _clownAnimation.AnimateStopWalking();
         }
 
-        Vector3 force = _moveDir * CurrentSpeed + _counterMovement;
+        Vector3 force = moveDir * CurrentSpeed + counterMovement;
         Rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 

@@ -8,26 +8,26 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseEffect : MonoBehaviour, IEffect
 {
-    [SerializeField] protected float _effectDuration = 1f;
+    [SerializeField] protected float effectDuration = 1f;
 
-    protected float _effectTimer = 1f;
+    protected float effectTimer = 1f;
 
-    protected bool _isPlaying;
+    protected bool isPlaying;
 
-    public bool IsPlaying => _isPlaying;
+    public bool IsPlaying => isPlaying;
 
-    public float Duration => _effectDuration;
+    public float Duration => effectDuration;
 
     public event Action<IEffect> OnEffectComplete;
 
     public void Play()
     {
-        if (_isPlaying) 
+        if (isPlaying) 
             return;
 
-        _isPlaying = true;
+        isPlaying = true;
 
-        _effectTimer = 0f;
+        effectTimer = 0f;
 
         StartCoroutine(EffectRoutine());
     }
@@ -40,18 +40,18 @@ public abstract class BaseEffect : MonoBehaviour, IEffect
 
     public void Complete()
     {
-        _isPlaying = false;
+        isPlaying = false;
         OnEffectComplete?.Invoke(this);
-        _effectTimer = 0f;
+        effectTimer = 0f;
     }
 
     protected virtual void Update()
     {
         if (IsPlaying)
         {
-            _effectTimer += Time.deltaTime;
+            effectTimer += Time.deltaTime;
 
-            if (_effectTimer > _effectDuration)
+            if (effectTimer > effectDuration)
                 Complete();
         }
     }

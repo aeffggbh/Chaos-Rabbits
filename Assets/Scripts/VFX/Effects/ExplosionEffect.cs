@@ -32,7 +32,7 @@ public class ExplosionEffect : BaseEffect
 
         _soundPlayer.PlaySound(SFXType.EXPLOSION);
 
-        yield return new WaitForSeconds(_effectDuration);
+        yield return new WaitForSeconds(effectDuration);
 
         _effectGO.SetActive(false);
 

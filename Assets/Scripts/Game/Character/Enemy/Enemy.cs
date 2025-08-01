@@ -17,45 +17,45 @@ public abstract class Enemy : Character, IPhysicsMovementData
         ATTACK
     }
 
-    protected IEnemyManager _manager;
-    protected Vector3 _targetWalk;
-    protected Vector3 _targetLook;
-    protected float _attackRange;
-    protected float _timeSinceAttacked;
-    protected float _chaseRange;
-    protected float _chasingSpeed;
-    protected float _patrolSpeed;
-    protected float _patrolTimer;
-    protected float _patrolCurrentTime;
-    protected float _idleTimer;
-    protected float _idleCurrentTime;
+    protected IEnemyManager manager;
+    protected Vector3 targetWalk;
+    protected Vector3 targetLook;
+    protected float attackRange;
+    protected float timeSinceAttacked;
+    protected float chaseRange;
+    protected float chasingSpeed;
+    protected float patrolSpeed;
+    protected float patrolTimer;
+    protected float patrolCurrentTime;
+    protected float idleTimer;
+    protected float idleCurrentTime;
     protected AnimationController animationController;
-    protected PlayerMediator _playerMediator;
+    protected PlayerMediator playerMediator;
 
     protected States currentState = States.NONE;
     protected bool isExplodingEnemy;
-    protected Coroutine _currentStateCoroutine;
-    protected Coroutine _rangeCheckCoroutine;
-    protected IChaseBehavior _chaseBehavior;
-    protected IAttackBehavior _attackBehavior;
-    protected IAttackActivationBehavior _attackActivationBehavior;
-    protected IIdleBehavior _idleBehavior;
-    protected IPatrolBehavior _patrolBehavior;
-    protected IMovementBehavior _movementBehavior;
+    protected Coroutine currentStateCoroutine;
+    protected Coroutine rangeCheckCoroutine;
+    protected IChaseBehavior chaseBehavior;
+    protected IAttackBehavior attackBehavior;
+    protected IAttackActivationBehavior attackActivationBehavior;
+    protected IIdleBehavior idleBehavior;
+    protected IPatrolBehavior patrolBehavior;
+    protected IMovementBehavior movementBehavior;
 
-    protected float _currentSpeed;
-    protected Vector3 _moveDir;
-    protected Rigidbody _rb;
-    protected Vector3 _counterMovement;
-    protected float _acceleration;
-    protected float _counterMovementForce;
+    protected float currentSpeed;
+    protected Vector3 moveDir;
+    protected Rigidbody rb;
+    protected Vector3 counterMovement;
+    protected float acceleration;
+    protected float counterMovementForce;
 
-    public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
-    public float Acceleration { get => _acceleration; set => _acceleration = value; }
-    public float CounterMovementForce { get => _counterMovementForce; set => _counterMovementForce = value; }
-    public float RunSpeed { get => _chasingSpeed; set => _chasingSpeed = value; }
-    public float WalkSpeed { get => _patrolSpeed; set => _patrolSpeed = value; }
-    public Rigidbody Rb { get => _rb; set => _rb = value; }
+    public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
+    public float Acceleration { get => acceleration; set => acceleration = value; }
+    public float CounterMovementForce { get => counterMovementForce; set => counterMovementForce = value; }
+    public float RunSpeed { get => chasingSpeed; set => chasingSpeed = value; }
+    public float WalkSpeed { get => patrolSpeed; set => patrolSpeed = value; }
+    public Rigidbody Rb { get => rb; set => rb = value; }
 
     protected override void Start()
     {
@@ -64,43 +64,43 @@ public abstract class Enemy : Character, IPhysicsMovementData
         Damage = 10.0f;
 
         if (ServiceProvider.TryGetService<IEnemyManager>(out var enemyManager))
-            _manager = enemyManager;
+            manager = enemyManager;
 
         Rb = gameObject.GetComponent<Rigidbody>();
 
-        if (_manager != null)
+        if (manager != null)
         {
-            _manager.Enemies.Add(this);
-            _patrolTimer = _manager.PatrolTimer;
-            _attackRange = _manager.AttackRange;
-            _chaseRange = _manager.ChaseRange;
-            _patrolSpeed = _manager.PatrolSpeed;
-            _chasingSpeed = _manager.ChasingSpeed;
+            manager.Enemies.Add(this);
+            patrolTimer = manager.PatrolTimer;
+            attackRange = manager.AttackRange;
+            chaseRange = manager.ChaseRange;
+            patrolSpeed = manager.PatrolSpeed;
+            chasingSpeed = manager.ChasingSpeed;
         }
         else
             Debug.LogError(nameof(EnemyManager) + " is null");
 
-        _idleTimer = _patrolTimer * 3;
-        _idleCurrentTime = 0f;
+        idleTimer = patrolTimer * 3;
+        idleCurrentTime = 0f;
 
-        _timeSinceAttacked = 0;
+        timeSinceAttacked = 0;
 
-        _currentSpeed = _patrolSpeed;
+        currentSpeed = patrolSpeed;
 
         isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
 
-        _playerMediator = PlayerMediator.PlayerInstance;
+        playerMediator = PlayerMediator.PlayerInstance;
 
-        _chaseBehavior = this as IChaseBehavior;
-        _attackBehavior = this as IAttackBehavior;
-        _attackActivationBehavior = this as IAttackActivationBehavior;
-        _idleBehavior = this as IIdleBehavior;
-        _patrolBehavior = this as IPatrolBehavior;
-        _movementBehavior = this as IMovementBehavior;
+        chaseBehavior = this as IChaseBehavior;
+        attackBehavior = this as IAttackBehavior;
+        attackActivationBehavior = this as IAttackActivationBehavior;
+        idleBehavior = this as IIdleBehavior;
+        patrolBehavior = this as IPatrolBehavior;
+        movementBehavior = this as IMovementBehavior;
 
         StartStateMachine();
 
-        EventTriggerManager.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, _manager, gameObject));
+        EventTriggerManager.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, manager, gameObject));
     }
 
     /// <summary>
@@ -108,13 +108,13 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// </summary>
     private void StartStateMachine()
     {
-        if (_rangeCheckCoroutine != null)
+        if (rangeCheckCoroutine != null)
         {
-            StopCoroutine(_rangeCheckCoroutine);
-            _rangeCheckCoroutine = null;
+            StopCoroutine(rangeCheckCoroutine);
+            rangeCheckCoroutine = null;
         }
 
-        _rangeCheckCoroutine = StartCoroutine(RangeCheckCoroutine());
+        rangeCheckCoroutine = StartCoroutine(RangeCheckCoroutine());
 
         SwitchState(States.PATROL);
     }
@@ -128,10 +128,10 @@ public abstract class Enemy : Character, IPhysicsMovementData
         if (state == currentState)
             return;
 
-        if (_currentStateCoroutine != null)
+        if (currentStateCoroutine != null)
         {
-            StopCoroutine(_currentStateCoroutine);
-            _currentStateCoroutine = null;
+            StopCoroutine(currentStateCoroutine);
+            currentStateCoroutine = null;
         }
 
         currentState = state;
@@ -139,16 +139,16 @@ public abstract class Enemy : Character, IPhysicsMovementData
         switch (state)
         {
             case States.IDLE:
-                _currentStateCoroutine = StartCoroutine(StartIdleCoroutine());
+                currentStateCoroutine = StartCoroutine(StartIdleCoroutine());
                 break;
             case States.PATROL:
-                _currentStateCoroutine = StartCoroutine(StartPatrolCoroutine());
+                currentStateCoroutine = StartCoroutine(StartPatrolCoroutine());
                 break;
             case States.CHASE:
-                _currentStateCoroutine = StartCoroutine(StartChaseCoroutine());
+                currentStateCoroutine = StartCoroutine(StartChaseCoroutine());
                 break;
             case States.ATTACK:
-                _currentStateCoroutine = StartCoroutine(StartAttackCoroutine());
+                currentStateCoroutine = StartCoroutine(StartAttackCoroutine());
                 break;
             default:
                 break;
@@ -161,19 +161,19 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// <returns></returns>
     private IEnumerator StartAttackCoroutine()
     {
-        if (_attackBehavior != null)
+        if (attackBehavior != null)
         {
-            _attackActivationBehavior?.ActivateAttack();
+            attackActivationBehavior?.ActivateAttack();
 
-            _timeSinceAttacked = 0;
+            timeSinceAttacked = 0;
 
             while (currentState == States.ATTACK)
             {
-                if (_playerMediator)
+                if (playerMediator)
                 {
-                    _targetLook = _playerMediator.transform.position;
-                    _attackBehavior.Attack();
-                    _timeSinceAttacked += Time.deltaTime;
+                    targetLook = playerMediator.transform.position;
+                    attackBehavior.Attack();
+                    timeSinceAttacked += Time.deltaTime;
                 }
 
                 yield return null;
@@ -187,9 +187,9 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// <returns></returns>
     private IEnumerator StartChaseCoroutine()
     {
-        if (_chaseBehavior != null)
+        if (chaseBehavior != null)
         {
-            _chaseBehavior.ActivateChase();
+            chaseBehavior.ActivateChase();
 
             while (currentState == States.CHASE)
             {
@@ -220,8 +220,8 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// <returns></returns>
     protected float GetPlayerDistance()
     {
-        if (_playerMediator)
-            return Vector3.Distance(transform.position, _playerMediator.transform.position);
+        if (playerMediator)
+            return Vector3.Distance(transform.position, playerMediator.transform.position);
         return 0;
     }
 
@@ -231,9 +231,9 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// <returns></returns>
     protected Vector3 GetPlayerDirection()
     {
-        if (_playerMediator)
+        if (playerMediator)
         {
-            Vector3 playerDir = (_playerMediator.transform.position - transform.position).normalized;
+            Vector3 playerDir = (playerMediator.transform.position - transform.position).normalized;
             playerDir.y = 0;
             return playerDir;
         }
@@ -245,13 +245,13 @@ public abstract class Enemy : Character, IPhysicsMovementData
     {
         base.FixedUpdate();
 
-        if (_movementBehavior != null)
+        if (movementBehavior != null)
         {
             UpdateCounterMovement();
 
-            _movementBehavior.Move();
+            movementBehavior.Move();
 
-            LookAtTarget.Look(_targetLook, transform);
+            LookAtTarget.Look(targetLook, transform);
         }
     }
 
@@ -260,10 +260,10 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// </summary>
     private void UpdateCounterMovement()
     {
-        float counterForce = _moveDir.magnitude > 0.1f ? _manager.CounterMovementForce :
-            _manager.CounterMovementForce * 2;
+        float counterForce = moveDir.magnitude > 0.1f ? manager.CounterMovementForce :
+            manager.CounterMovementForce * 2;
 
-        _counterMovement = new Vector3
+        counterMovement = new Vector3
                            (-Rb.linearVelocity.x * counterForce,
                            0,
                            -Rb.linearVelocity.z * counterForce);
@@ -274,10 +274,10 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// </summary>
     private void Chase()
     {
-        _moveDir = GetPlayerDirection();
+        moveDir = GetPlayerDirection();
 
-        if (_playerMediator != null)
-            _targetLook = _playerMediator.transform.position;
+        if (playerMediator != null)
+            targetLook = playerMediator.transform.position;
     }
 
     /// <summary>
@@ -287,14 +287,14 @@ public abstract class Enemy : Character, IPhysicsMovementData
     {
         float distance = GetPlayerDistance();
 
-        if (distance <= _attackRange && currentState != States.ATTACK)
+        if (distance <= attackRange && currentState != States.ATTACK)
             SwitchState(States.ATTACK);
-        else if (distance > _attackRange && currentState != States.PATROL)
+        else if (distance > attackRange && currentState != States.PATROL)
             currentState = States.NONE;
 
-        if (currentState != States.CHASE && distance <= _chaseRange && currentState != States.ATTACK)
+        if (currentState != States.CHASE && distance <= chaseRange && currentState != States.ATTACK)
             SwitchState(States.CHASE);
-        if (distance > _chaseRange && currentState != States.PATROL)
+        if (distance > chaseRange && currentState != States.PATROL)
             SwitchState(States.PATROL);
     }
 
@@ -306,35 +306,35 @@ public abstract class Enemy : Character, IPhysicsMovementData
     {
         currentState = States.PATROL;
 
-        _patrolCurrentTime = 0;
+        patrolCurrentTime = 0;
 
-        float randomZ = UnityEngine.Random.Range(-_manager.WalkRange, _manager.WalkRange);
-        float randomX = UnityEngine.Random.Range(-_manager.WalkRange, _manager.WalkRange);
+        float randomZ = UnityEngine.Random.Range(-manager.WalkRange, manager.WalkRange);
+        float randomX = UnityEngine.Random.Range(-manager.WalkRange, manager.WalkRange);
 
         Vector3 dir = new(randomX, 0, randomZ);
         dir = dir.normalized;
 
-        float distance = _manager.WalkRange;
+        float distance = manager.WalkRange;
 
         if (RayManager.PointingToObject(transform, distance, out RaycastHit hitInfo, dir))
             distance = hitInfo.distance * 0.8f;
 
-        _targetWalk = transform.position + (dir * distance);
+        targetWalk = transform.position + (dir * distance);
 
-        _targetLook = _targetWalk;
-        _moveDir = dir;
-        _moveDir.y = 0;
-        _currentSpeed = _patrolSpeed;
+        targetLook = targetWalk;
+        moveDir = dir;
+        moveDir.y = 0;
+        currentSpeed = patrolSpeed;
 
         float start = Time.time;
         float distanceThreshold = 0.3f;
 
         while (currentState == States.PATROL &&
-              (Time.time - start) < _patrolTimer)
+              (Time.time - start) < patrolTimer)
         {
             float distanceToTarget = Vector3.Distance(
                 new(transform.position.x, 0, transform.position.z),
-                new(_targetWalk.x, 0, _targetWalk.z));
+                new(targetWalk.x, 0, targetWalk.z));
 
             if (distanceToTarget < distanceThreshold)
             {
@@ -354,14 +354,14 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// <returns></returns>
     private IEnumerator StartIdleCoroutine()
     {
-        if (_idleBehavior != null)
+        if (idleBehavior != null)
         {
-            _idleBehavior.ActivateIdle();
+            idleBehavior.ActivateIdle();
 
-            _currentSpeed = 0;
-            _moveDir = Vector3.zero;
+            currentSpeed = 0;
+            moveDir = Vector3.zero;
 
-            yield return new WaitForSeconds(_idleTimer);
+            yield return new WaitForSeconds(idleTimer);
 
             SwitchState(States.PATROL);
         }
@@ -372,9 +372,9 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// </summary>
     public override void Die()
     {
-        _manager.Enemies.Remove(this);
+        manager.Enemies.Remove(this);
 
-        EventTriggerManager.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, _manager, gameObject));
+        EventTriggerManager.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, manager, gameObject));
 
         base.Die();
     }

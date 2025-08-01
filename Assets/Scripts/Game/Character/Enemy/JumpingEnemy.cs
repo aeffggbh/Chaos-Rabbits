@@ -27,10 +27,10 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         _jumpForce = 6f;
 
         _currentJumpForce = _jumpForce;
-        _defaultMoveSpeed = _currentSpeed;
+        _defaultMoveSpeed = currentSpeed;
 
-        _patrolSpeed /= 2;
-        _chasingSpeed /= 2;
+        patrolSpeed /= 2;
+        chasingSpeed /= 2;
 
         _rabbitAnimation = GetComponent<RabbitAnimationController>();
 
@@ -44,7 +44,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     public void ActivateChase()
     {
-        _currentSpeed = _chasingSpeed;
+        currentSpeed = chasingSpeed;
     }
 
     /// <summary>
@@ -52,9 +52,9 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     public void Attack()
     {
-        if (_timeSinceAttacked > _manager.AttackTimer)
+        if (timeSinceAttacked > manager.AttackTimer)
         {
-            _timeSinceAttacked = 0;
+            timeSinceAttacked = 0;
             BoostMovement();
         }
     }
@@ -76,7 +76,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         }
 
         if (!_rabbitAnimation.IsLanding())
-            Rb.AddForce((_moveDir * _currentSpeed + _counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
+            Rb.AddForce((moveDir * currentSpeed + counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     public void ActivateAttack()
     {
-        _currentSpeed = _chasingSpeed;
+        currentSpeed = chasingSpeed;
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     private void BoostMovement()
     {
         _currentJumpForce = _jumpForce * _jumpForceMultiplier;
-        _currentSpeed = _defaultMoveSpeed * _speedMultiplier;
+        currentSpeed = _defaultMoveSpeed * _speedMultiplier;
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     private void ResetMoveSpeed()
     {
-        _currentSpeed = _defaultMoveSpeed;
+        currentSpeed = _defaultMoveSpeed;
     }
 
     /// <summary>

@@ -23,7 +23,7 @@ public partial class ExplodingEnemy : Enemy
         animationController = gameObject.AddComponent<AngryAnimationController>();
         _angryAnimation = animationController as AngryAnimationController;
 
-        _effectTrigger.EffectRange = _attackRange;
+        _effectTrigger.EffectRange = attackRange;
 
         if (_angryAnimation == null)
             Debug.LogError("animation is null for " + gameObject.name);
@@ -45,7 +45,7 @@ public partial class ExplodingEnemy : Enemy
     {
         base.FixedUpdate();
 
-        if (!_explosionTriggered && GetPlayerDistance() < _attackRange)
+        if (!_explosionTriggered && GetPlayerDistance() < attackRange)
             StartExplosion();
 
     }
