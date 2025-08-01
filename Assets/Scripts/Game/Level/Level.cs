@@ -63,7 +63,7 @@ public class Level : MonoBehaviour, ILevel
     public void Trigger()
     {
         if (LevelIndex == GameplaySceneData.FinalLevelIndex)
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(), gameObject));
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(), gameObject, true));
         else if (AllObjectivesCompleted())
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
         else

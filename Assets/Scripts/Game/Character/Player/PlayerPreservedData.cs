@@ -6,15 +6,14 @@ using System.Collections.Generic;
 public static class PlayerPreservedData
 {
     private static readonly Dictionary<Type, object> PreservedObjects = new();
-
-    private static bool _acceptingData = true;
+    public static bool BlockSaving { get; set; }
 
     public static void SaveData<T>(T data) where T : IData
     {
-        if (_acceptingData)
+        if (!BlockSaving)
             PreservedObjects[typeof(T)] = data;
         else
-            _acceptingData = true;
+            BlockSaving = false;
     }
 
     public static T RetrieveData<T>() where T : IData
@@ -38,6 +37,5 @@ public static class PlayerPreservedData
     public static void Reset()
     {
         PreservedObjects.Clear();
-        _acceptingData = false;
     }
 }

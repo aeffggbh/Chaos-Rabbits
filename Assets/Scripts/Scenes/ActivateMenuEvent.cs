@@ -14,8 +14,11 @@ public class ActivateMenuEvent : IActivateSceneEvent
     public GameObject TriggeredByGO { get => _source; }
     public int Index => MenuSceneData.Index;
 
-    public ActivateMenuEvent(IMenuState nextState, GameObject source)
+    public ActivateMenuEvent(IMenuState nextState, GameObject source, bool fromGameplay = false)
     {
+        if (fromGameplay)
+            PlayerPreservedData.BlockSaving = true;
+
         _state = nextState;
         _source = source;
 

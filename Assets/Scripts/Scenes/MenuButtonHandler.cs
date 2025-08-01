@@ -42,6 +42,7 @@ public class MenuButtonHandler : MonoBehaviour
     public void ToMainMenu()
     {
         UIAudioHandler.Instance.PlayButtonSound();
+        PlayerPreservedData.BlockSaving = true;
         MenuManager.Instance.TransitionToState(new MainMenuState());
     }
     /// <summary>

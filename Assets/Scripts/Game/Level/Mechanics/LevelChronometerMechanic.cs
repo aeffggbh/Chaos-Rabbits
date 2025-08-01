@@ -43,7 +43,7 @@ public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpd
         if (DidNotArriveOnTime())
         {
             _currentTime = 0;
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), null));
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), null, true));
         }
     }
 

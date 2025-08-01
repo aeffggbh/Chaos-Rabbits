@@ -58,7 +58,7 @@ public class Player : Character, IPlayerData
         _rb = GetComponent<Rigidbody>();
         Damage = _damage;
 
-        _savedWeaponData = null;
+        _playerAnimationController = GetComponent<PlayerAnimationController>();
 
         if (!PlayerPreservedData.IsEmpty())
         {
@@ -71,8 +71,6 @@ public class Player : Character, IPlayerData
                 _savedWeaponData = data.WeaponData;
             }
         }
-
-        _playerAnimationController = GetComponent<PlayerAnimationController>();
     }
     private void OnDestroy()
     {
@@ -113,7 +111,7 @@ public class Player : Character, IPlayerData
     public override void Die()
     {
         if (!PlayerMediator.PlayerInstance.CheatsController.IsGodMode())
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject));
+            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject, true));
     }
 
     public override void TakeDamage(float damage)
