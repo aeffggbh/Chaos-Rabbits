@@ -12446,7 +12446,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: c1ced6b979619614db717c96b8a3e7c0, type: 3}
 --- !u!114 &1397520167 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7053935801803942423, guid: c1ced6b979619614db717c96b8a3e7c0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7120203378508270904, guid: c1ced6b979619614db717c96b8a3e7c0, type: 3}
   m_PrefabInstance: {fileID: 1397520166}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -17343,7 +17343,7 @@ PrefabInstance:
     - target: {fileID: 5399720175571696743, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: _fallbackWeapon
       value: 
-      objectReference: {fileID: 1397520167}
+      objectReference: {fileID: 0}
     - target: {fileID: 6466919655153955967, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

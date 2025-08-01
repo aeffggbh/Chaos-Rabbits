@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IPhysicsMovementData
+public interface IPhysicsMovementData : IData
 {
     /// <summary>
     /// Current speed

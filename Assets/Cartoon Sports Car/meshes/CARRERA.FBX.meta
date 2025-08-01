@@ -1,345 +1,986 @@
 fileFormatVersion: 2
 guid: 1e079ea5c4787ca438362604af81f5c3
-timeCreated: 1516887123
-licenseType: Store
+AssetOrigin:
+  serializedVersion: 1
+  productId: 115010
+  packageName: Cartoon Sports Car
+  packageVersion: 1.0
+  assetPath: Assets/Cartoon Sports Car/meshes/CARRERA.FBX
+  uploadId: 237304
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: bottom
-    100002: brakes_LF
-    100004: brakes_LR
-    100006: //RootNode
-    100008: CARRERA
-    100010: door
-    100012: front lamp glass
-    100014: hood gap
-    100016: rear glass
-    100018: rear lamp
-    100020: wheel_LF
-    100022: wheel_LR
-    100024: windshield]
-    100026: bufera plastmasas
-    100028: reflectors
-    100030: inside
-    100032: rear_logo
-    100034: door_left_inside
-    100036: pedals
-    100038: steering wheel
-    100040: dash
-    100042: seat
-    100044: door glass
-    100046: small glass
-    100048: spoiler plastmasa
-    100050: spoileris
-    100052: brakes_LF001
-    100054: tyre
-    100056: tyre001
-    100058: wheel_LF001
-    100060: door frame
-    100062: handle
-    100064: logu gumijas
-    100066: mirror
-    100068: brakes003
-    100070: brakes004
-    100072: brakes1
-    100074: brakes2
-    100076: left door glass
-    100078: right door glass
-    100080: rim003
-    100082: rim004
-    100084: rim1
-    100086: rim2
-    100088: tyre003
-    100090: tyre004
-    100092: tyre1
-    100094: tyre2
-    100096: windows
-    100098: front lamps
-    100100: left mirror
-    100102: matte1
-    100104: rear lamps
-    100106: right mirror
-    100108: left_door
-    100110: left_door_gloss
-    100112: right_door
-    100114: right_door_gloss
-    100116: steering_wheel
-    100118: salon mirror
-    100120: MIRRORS
-    100122: spoiler1
-    100124: spoiler2
-    400000: bottom
-    400002: brakes_LF
-    400004: brakes_LR
-    400006: //RootNode
-    400008: CARRERA
-    400010: door
-    400012: front lamp glass
-    400014: hood gap
-    400016: rear glass
-    400018: rear lamp
-    400020: wheel_LF
-    400022: wheel_LR
-    400024: windshield]
-    400026: bufera plastmasas
-    400028: reflectors
-    400030: inside
-    400032: rear_logo
-    400034: door_left_inside
-    400036: pedals
-    400038: steering wheel
-    400040: dash
-    400042: seat
-    400044: door glass
-    400046: small glass
-    400048: spoiler plastmasa
-    400050: spoileris
-    400052: brakes_LF001
-    400054: tyre
-    400056: tyre001
-    400058: wheel_LF001
-    400060: door frame
-    400062: handle
-    400064: logu gumijas
-    400066: mirror
-    400068: brakes003
-    400070: brakes004
-    400072: brakes1
-    400074: brakes2
-    400076: left door glass
-    400078: right door glass
-    400080: rim003
-    400082: rim004
-    400084: rim1
-    400086: rim2
-    400088: tyre003
-    400090: tyre004
-    400092: tyre1
-    400094: tyre2
-    400096: windows
-    400098: front lamps
-    400100: left mirror
-    400102: matte1
-    400104: rear lamps
-    400106: right mirror
-    400108: left_door
-    400110: left_door_gloss
-    400112: right_door
-    400114: right_door_gloss
-    400116: steering_wheel
-    400118: salon mirror
-    400120: MIRRORS
-    400122: spoiler1
-    400124: spoiler2
-    2300000: bottom
-    2300002: brakes_LF
-    2300004: brakes_LR
-    2300006: CARRERA
-    2300008: door
-    2300010: front lamp glass
-    2300012: hood gap
-    2300014: rear glass
-    2300016: rear lamp
-    2300018: wheel_LF
-    2300020: wheel_LR
-    2300022: windshield]
-    2300024: bufera plastmasas
-    2300026: reflectors
-    2300028: inside
-    2300030: rear_logo
-    2300032: door_left_inside
-    2300034: pedals
-    2300036: steering wheel
-    2300038: dash
-    2300040: seat
-    2300042: door glass
-    2300044: small glass
-    2300046: spoiler plastmasa
-    2300048: spoileris
-    2300050: brakes_LF001
-    2300052: tyre
-    2300054: tyre001
-    2300056: wheel_LF001
-    2300058: door frame
-    2300060: handle
-    2300062: logu gumijas
-    2300064: mirror
-    2300066: brakes003
-    2300068: brakes004
-    2300070: brakes1
-    2300072: brakes2
-    2300074: left door glass
-    2300076: right door glass
-    2300078: rim003
-    2300080: rim004
-    2300082: rim1
-    2300084: rim2
-    2300086: tyre003
-    2300088: tyre004
-    2300090: tyre1
-    2300092: tyre2
-    2300094: windows
-    2300096: front lamps
-    2300098: left mirror
-    2300100: matte1
-    2300102: rear lamps
-    2300104: right mirror
-    2300106: //RootNode
-    2300108: left_door
-    2300110: left_door_gloss
-    2300112: right_door
-    2300114: right_door_gloss
-    2300116: steering_wheel
-    2300118: salon mirror
-    2300120: MIRRORS
-    2300122: spoiler1
-    2300124: spoiler2
-    3300000: bottom
-    3300002: brakes_LF
-    3300004: brakes_LR
-    3300006: CARRERA
-    3300008: door
-    3300010: front lamp glass
-    3300012: hood gap
-    3300014: rear glass
-    3300016: rear lamp
-    3300018: wheel_LF
-    3300020: wheel_LR
-    3300022: windshield]
-    3300024: bufera plastmasas
-    3300026: reflectors
-    3300028: inside
-    3300030: rear_logo
-    3300032: door_left_inside
-    3300034: pedals
-    3300036: steering wheel
-    3300038: dash
-    3300040: seat
-    3300042: door glass
-    3300044: small glass
-    3300046: spoiler plastmasa
-    3300048: spoileris
-    3300050: brakes_LF001
-    3300052: tyre
-    3300054: tyre001
-    3300056: wheel_LF001
-    3300058: door frame
-    3300060: handle
-    3300062: logu gumijas
-    3300064: mirror
-    3300066: brakes003
-    3300068: brakes004
-    3300070: brakes1
-    3300072: brakes2
-    3300074: left door glass
-    3300076: right door glass
-    3300078: rim003
-    3300080: rim004
-    3300082: rim1
-    3300084: rim2
-    3300086: tyre003
-    3300088: tyre004
-    3300090: tyre1
-    3300092: tyre2
-    3300094: windows
-    3300096: front lamps
-    3300098: left mirror
-    3300100: matte1
-    3300102: rear lamps
-    3300104: right mirror
-    3300106: //RootNode
-    3300108: left_door
-    3300110: left_door_gloss
-    3300112: right_door
-    3300114: right_door_gloss
-    3300116: steering_wheel
-    3300118: salon mirror
-    3300120: MIRRORS
-    3300122: spoiler1
-    3300124: spoiler2
-    4300000: brakes_LR
-    4300002: wheel_LR
-    4300004: brakes_LF
-    4300006: wheel_LF
-    4300008: CARRERA
-    4300010: front lamp glass
-    4300012: rear glass
-    4300014: hood gap
-    4300016: rear lamp
-    4300018: windshield]
-    4300020: door
-    4300022: bottom
-    4300024: reflectors
-    4300026: bufera plastmasas
-    4300028: inside
-    4300030: rear_logo
-    4300032: pedals
-    4300034: steering wheel
-    4300036: door_left_inside
-    4300038: dash
-    4300040: seat
-    4300042: door glass
-    4300044: small glass
-    4300046: spoileris
-    4300048: spoiler plastmasa
-    4300050: tyre
-    4300052: tyre001
-    4300054: brakes_LF001
-    4300056: wheel_LF001
-    4300058: logu gumijas
-    4300060: door frame
-    4300062: handle
-    4300064: mirror
-    4300066: rim1
-    4300068: tyre1
-    4300070: brakes1
-    4300072: tyre2
-    4300074: brakes2
-    4300076: rim2
-    4300078: rim003
-    4300080: brakes003
-    4300082: tyre003
-    4300084: tyre004
-    4300086: rim004
-    4300088: brakes004
-    4300090: windows
-    4300092: left door glass
-    4300094: right door glass
-    4300096: front lamps
-    4300098: rear lamps
-    4300100: right mirror
-    4300102: left mirror
-    4300104: matte1
-    4300106: steering_wheel
-    4300108: left_door_gloss
-    4300110: left_door
-    4300112: right_door_gloss
-    4300114: right_door
-    4300116: salon mirror
-    4300118: MIRRORS
-    4300120: spoiler1
-    4300122: spoiler2
-    9500000: //RootNode
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: bottom
+  - first:
+      1: 100002
+    second: brakes_LF
+  - first:
+      1: 100004
+    second: brakes_LR
+  - first:
+      1: 100006
+    second: //RootNode
+  - first:
+      1: 100008
+    second: CARRERA
+  - first:
+      1: 100010
+    second: door
+  - first:
+      1: 100012
+    second: front lamp glass
+  - first:
+      1: 100014
+    second: hood gap
+  - first:
+      1: 100016
+    second: rear glass
+  - first:
+      1: 100018
+    second: rear lamp
+  - first:
+      1: 100020
+    second: wheel_LF
+  - first:
+      1: 100022
+    second: wheel_LR
+  - first:
+      1: 100024
+    second: 'windshield]'
+  - first:
+      1: 100026
+    second: bufera plastmasas
+  - first:
+      1: 100028
+    second: reflectors
+  - first:
+      1: 100030
+    second: inside
+  - first:
+      1: 100032
+    second: rear_logo
+  - first:
+      1: 100034
+    second: door_left_inside
+  - first:
+      1: 100036
+    second: pedals
+  - first:
+      1: 100038
+    second: steering wheel
+  - first:
+      1: 100040
+    second: dash
+  - first:
+      1: 100042
+    second: seat
+  - first:
+      1: 100044
+    second: door glass
+  - first:
+      1: 100046
+    second: small glass
+  - first:
+      1: 100048
+    second: spoiler plastmasa
+  - first:
+      1: 100050
+    second: spoileris
+  - first:
+      1: 100052
+    second: brakes_LF001
+  - first:
+      1: 100054
+    second: tyre
+  - first:
+      1: 100056
+    second: tyre001
+  - first:
+      1: 100058
+    second: wheel_LF001
+  - first:
+      1: 100060
+    second: door frame
+  - first:
+      1: 100062
+    second: handle
+  - first:
+      1: 100064
+    second: logu gumijas
+  - first:
+      1: 100066
+    second: mirror
+  - first:
+      1: 100068
+    second: brakes003
+  - first:
+      1: 100070
+    second: brakes004
+  - first:
+      1: 100072
+    second: brakes1
+  - first:
+      1: 100074
+    second: brakes2
+  - first:
+      1: 100076
+    second: left door glass
+  - first:
+      1: 100078
+    second: right door glass
+  - first:
+      1: 100080
+    second: rim003
+  - first:
+      1: 100082
+    second: rim004
+  - first:
+      1: 100084
+    second: rim1
+  - first:
+      1: 100086
+    second: rim2
+  - first:
+      1: 100088
+    second: tyre003
+  - first:
+      1: 100090
+    second: tyre004
+  - first:
+      1: 100092
+    second: tyre1
+  - first:
+      1: 100094
+    second: tyre2
+  - first:
+      1: 100096
+    second: windows
+  - first:
+      1: 100098
+    second: front lamps
+  - first:
+      1: 100100
+    second: left mirror
+  - first:
+      1: 100102
+    second: matte1
+  - first:
+      1: 100104
+    second: rear lamps
+  - first:
+      1: 100106
+    second: right mirror
+  - first:
+      1: 100108
+    second: left_door
+  - first:
+      1: 100110
+    second: left_door_gloss
+  - first:
+      1: 100112
+    second: right_door
+  - first:
+      1: 100114
+    second: right_door_gloss
+  - first:
+      1: 100116
+    second: steering_wheel
+  - first:
+      1: 100118
+    second: salon mirror
+  - first:
+      1: 100120
+    second: MIRRORS
+  - first:
+      1: 100122
+    second: spoiler1
+  - first:
+      1: 100124
+    second: spoiler2
+  - first:
+      4: 400000
+    second: bottom
+  - first:
+      4: 400002
+    second: brakes_LF
+  - first:
+      4: 400004
+    second: brakes_LR
+  - first:
+      4: 400006
+    second: //RootNode
+  - first:
+      4: 400008
+    second: CARRERA
+  - first:
+      4: 400010
+    second: door
+  - first:
+      4: 400012
+    second: front lamp glass
+  - first:
+      4: 400014
+    second: hood gap
+  - first:
+      4: 400016
+    second: rear glass
+  - first:
+      4: 400018
+    second: rear lamp
+  - first:
+      4: 400020
+    second: wheel_LF
+  - first:
+      4: 400022
+    second: wheel_LR
+  - first:
+      4: 400024
+    second: 'windshield]'
+  - first:
+      4: 400026
+    second: bufera plastmasas
+  - first:
+      4: 400028
+    second: reflectors
+  - first:
+      4: 400030
+    second: inside
+  - first:
+      4: 400032
+    second: rear_logo
+  - first:
+      4: 400034
+    second: door_left_inside
+  - first:
+      4: 400036
+    second: pedals
+  - first:
+      4: 400038
+    second: steering wheel
+  - first:
+      4: 400040
+    second: dash
+  - first:
+      4: 400042
+    second: seat
+  - first:
+      4: 400044
+    second: door glass
+  - first:
+      4: 400046
+    second: small glass
+  - first:
+      4: 400048
+    second: spoiler plastmasa
+  - first:
+      4: 400050
+    second: spoileris
+  - first:
+      4: 400052
+    second: brakes_LF001
+  - first:
+      4: 400054
+    second: tyre
+  - first:
+      4: 400056
+    second: tyre001
+  - first:
+      4: 400058
+    second: wheel_LF001
+  - first:
+      4: 400060
+    second: door frame
+  - first:
+      4: 400062
+    second: handle
+  - first:
+      4: 400064
+    second: logu gumijas
+  - first:
+      4: 400066
+    second: mirror
+  - first:
+      4: 400068
+    second: brakes003
+  - first:
+      4: 400070
+    second: brakes004
+  - first:
+      4: 400072
+    second: brakes1
+  - first:
+      4: 400074
+    second: brakes2
+  - first:
+      4: 400076
+    second: left door glass
+  - first:
+      4: 400078
+    second: right door glass
+  - first:
+      4: 400080
+    second: rim003
+  - first:
+      4: 400082
+    second: rim004
+  - first:
+      4: 400084
+    second: rim1
+  - first:
+      4: 400086
+    second: rim2
+  - first:
+      4: 400088
+    second: tyre003
+  - first:
+      4: 400090
+    second: tyre004
+  - first:
+      4: 400092
+    second: tyre1
+  - first:
+      4: 400094
+    second: tyre2
+  - first:
+      4: 400096
+    second: windows
+  - first:
+      4: 400098
+    second: front lamps
+  - first:
+      4: 400100
+    second: left mirror
+  - first:
+      4: 400102
+    second: matte1
+  - first:
+      4: 400104
+    second: rear lamps
+  - first:
+      4: 400106
+    second: right mirror
+  - first:
+      4: 400108
+    second: left_door
+  - first:
+      4: 400110
+    second: left_door_gloss
+  - first:
+      4: 400112
+    second: right_door
+  - first:
+      4: 400114
+    second: right_door_gloss
+  - first:
+      4: 400116
+    second: steering_wheel
+  - first:
+      4: 400118
+    second: salon mirror
+  - first:
+      4: 400120
+    second: MIRRORS
+  - first:
+      4: 400122
+    second: spoiler1
+  - first:
+      4: 400124
+    second: spoiler2
+  - first:
+      23: 2300000
+    second: bottom
+  - first:
+      23: 2300002
+    second: brakes_LF
+  - first:
+      23: 2300004
+    second: brakes_LR
+  - first:
+      23: 2300006
+    second: CARRERA
+  - first:
+      23: 2300008
+    second: door
+  - first:
+      23: 2300010
+    second: front lamp glass
+  - first:
+      23: 2300012
+    second: hood gap
+  - first:
+      23: 2300014
+    second: rear glass
+  - first:
+      23: 2300016
+    second: rear lamp
+  - first:
+      23: 2300018
+    second: wheel_LF
+  - first:
+      23: 2300020
+    second: wheel_LR
+  - first:
+      23: 2300022
+    second: 'windshield]'
+  - first:
+      23: 2300024
+    second: bufera plastmasas
+  - first:
+      23: 2300026
+    second: reflectors
+  - first:
+      23: 2300028
+    second: inside
+  - first:
+      23: 2300030
+    second: rear_logo
+  - first:
+      23: 2300032
+    second: door_left_inside
+  - first:
+      23: 2300034
+    second: pedals
+  - first:
+      23: 2300036
+    second: steering wheel
+  - first:
+      23: 2300038
+    second: dash
+  - first:
+      23: 2300040
+    second: seat
+  - first:
+      23: 2300042
+    second: door glass
+  - first:
+      23: 2300044
+    second: small glass
+  - first:
+      23: 2300046
+    second: spoiler plastmasa
+  - first:
+      23: 2300048
+    second: spoileris
+  - first:
+      23: 2300050
+    second: brakes_LF001
+  - first:
+      23: 2300052
+    second: tyre
+  - first:
+      23: 2300054
+    second: tyre001
+  - first:
+      23: 2300056
+    second: wheel_LF001
+  - first:
+      23: 2300058
+    second: door frame
+  - first:
+      23: 2300060
+    second: handle
+  - first:
+      23: 2300062
+    second: logu gumijas
+  - first:
+      23: 2300064
+    second: mirror
+  - first:
+      23: 2300066
+    second: brakes003
+  - first:
+      23: 2300068
+    second: brakes004
+  - first:
+      23: 2300070
+    second: brakes1
+  - first:
+      23: 2300072
+    second: brakes2
+  - first:
+      23: 2300074
+    second: left door glass
+  - first:
+      23: 2300076
+    second: right door glass
+  - first:
+      23: 2300078
+    second: rim003
+  - first:
+      23: 2300080
+    second: rim004
+  - first:
+      23: 2300082
+    second: rim1
+  - first:
+      23: 2300084
+    second: rim2
+  - first:
+      23: 2300086
+    second: tyre003
+  - first:
+      23: 2300088
+    second: tyre004
+  - first:
+      23: 2300090
+    second: tyre1
+  - first:
+      23: 2300092
+    second: tyre2
+  - first:
+      23: 2300094
+    second: windows
+  - first:
+      23: 2300096
+    second: front lamps
+  - first:
+      23: 2300098
+    second: left mirror
+  - first:
+      23: 2300100
+    second: matte1
+  - first:
+      23: 2300102
+    second: rear lamps
+  - first:
+      23: 2300104
+    second: right mirror
+  - first:
+      23: 2300106
+    second: //RootNode
+  - first:
+      23: 2300108
+    second: left_door
+  - first:
+      23: 2300110
+    second: left_door_gloss
+  - first:
+      23: 2300112
+    second: right_door
+  - first:
+      23: 2300114
+    second: right_door_gloss
+  - first:
+      23: 2300116
+    second: steering_wheel
+  - first:
+      23: 2300118
+    second: salon mirror
+  - first:
+      23: 2300120
+    second: MIRRORS
+  - first:
+      23: 2300122
+    second: spoiler1
+  - first:
+      23: 2300124
+    second: spoiler2
+  - first:
+      33: 3300000
+    second: bottom
+  - first:
+      33: 3300002
+    second: brakes_LF
+  - first:
+      33: 3300004
+    second: brakes_LR
+  - first:
+      33: 3300006
+    second: CARRERA
+  - first:
+      33: 3300008
+    second: door
+  - first:
+      33: 3300010
+    second: front lamp glass
+  - first:
+      33: 3300012
+    second: hood gap
+  - first:
+      33: 3300014
+    second: rear glass
+  - first:
+      33: 3300016
+    second: rear lamp
+  - first:
+      33: 3300018
+    second: wheel_LF
+  - first:
+      33: 3300020
+    second: wheel_LR
+  - first:
+      33: 3300022
+    second: 'windshield]'
+  - first:
+      33: 3300024
+    second: bufera plastmasas
+  - first:
+      33: 3300026
+    second: reflectors
+  - first:
+      33: 3300028
+    second: inside
+  - first:
+      33: 3300030
+    second: rear_logo
+  - first:
+      33: 3300032
+    second: door_left_inside
+  - first:
+      33: 3300034
+    second: pedals
+  - first:
+      33: 3300036
+    second: steering wheel
+  - first:
+      33: 3300038
+    second: dash
+  - first:
+      33: 3300040
+    second: seat
+  - first:
+      33: 3300042
+    second: door glass
+  - first:
+      33: 3300044
+    second: small glass
+  - first:
+      33: 3300046
+    second: spoiler plastmasa
+  - first:
+      33: 3300048
+    second: spoileris
+  - first:
+      33: 3300050
+    second: brakes_LF001
+  - first:
+      33: 3300052
+    second: tyre
+  - first:
+      33: 3300054
+    second: tyre001
+  - first:
+      33: 3300056
+    second: wheel_LF001
+  - first:
+      33: 3300058
+    second: door frame
+  - first:
+      33: 3300060
+    second: handle
+  - first:
+      33: 3300062
+    second: logu gumijas
+  - first:
+      33: 3300064
+    second: mirror
+  - first:
+      33: 3300066
+    second: brakes003
+  - first:
+      33: 3300068
+    second: brakes004
+  - first:
+      33: 3300070
+    second: brakes1
+  - first:
+      33: 3300072
+    second: brakes2
+  - first:
+      33: 3300074
+    second: left door glass
+  - first:
+      33: 3300076
+    second: right door glass
+  - first:
+      33: 3300078
+    second: rim003
+  - first:
+      33: 3300080
+    second: rim004
+  - first:
+      33: 3300082
+    second: rim1
+  - first:
+      33: 3300084
+    second: rim2
+  - first:
+      33: 3300086
+    second: tyre003
+  - first:
+      33: 3300088
+    second: tyre004
+  - first:
+      33: 3300090
+    second: tyre1
+  - first:
+      33: 3300092
+    second: tyre2
+  - first:
+      33: 3300094
+    second: windows
+  - first:
+      33: 3300096
+    second: front lamps
+  - first:
+      33: 3300098
+    second: left mirror
+  - first:
+      33: 3300100
+    second: matte1
+  - first:
+      33: 3300102
+    second: rear lamps
+  - first:
+      33: 3300104
+    second: right mirror
+  - first:
+      33: 3300106
+    second: //RootNode
+  - first:
+      33: 3300108
+    second: left_door
+  - first:
+      33: 3300110
+    second: left_door_gloss
+  - first:
+      33: 3300112
+    second: right_door
+  - first:
+      33: 3300114
+    second: right_door_gloss
+  - first:
+      33: 3300116
+    second: steering_wheel
+  - first:
+      33: 3300118
+    second: salon mirror
+  - first:
+      33: 3300120
+    second: MIRRORS
+  - first:
+      33: 3300122
+    second: spoiler1
+  - first:
+      33: 3300124
+    second: spoiler2
+  - first:
+      43: 4300000
+    second: brakes_LR
+  - first:
+      43: 4300002
+    second: wheel_LR
+  - first:
+      43: 4300004
+    second: brakes_LF
+  - first:
+      43: 4300006
+    second: wheel_LF
+  - first:
+      43: 4300008
+    second: CARRERA
+  - first:
+      43: 4300010
+    second: front lamp glass
+  - first:
+      43: 4300012
+    second: rear glass
+  - first:
+      43: 4300014
+    second: hood gap
+  - first:
+      43: 4300016
+    second: rear lamp
+  - first:
+      43: 4300018
+    second: 'windshield]'
+  - first:
+      43: 4300020
+    second: door
+  - first:
+      43: 4300022
+    second: bottom
+  - first:
+      43: 4300024
+    second: reflectors
+  - first:
+      43: 4300026
+    second: bufera plastmasas
+  - first:
+      43: 4300028
+    second: inside
+  - first:
+      43: 4300030
+    second: rear_logo
+  - first:
+      43: 4300032
+    second: pedals
+  - first:
+      43: 4300034
+    second: steering wheel
+  - first:
+      43: 4300036
+    second: door_left_inside
+  - first:
+      43: 4300038
+    second: dash
+  - first:
+      43: 4300040
+    second: seat
+  - first:
+      43: 4300042
+    second: door glass
+  - first:
+      43: 4300044
+    second: small glass
+  - first:
+      43: 4300046
+    second: spoileris
+  - first:
+      43: 4300048
+    second: spoiler plastmasa
+  - first:
+      43: 4300050
+    second: tyre
+  - first:
+      43: 4300052
+    second: tyre001
+  - first:
+      43: 4300054
+    second: brakes_LF001
+  - first:
+      43: 4300056
+    second: wheel_LF001
+  - first:
+      43: 4300058
+    second: logu gumijas
+  - first:
+      43: 4300060
+    second: door frame
+  - first:
+      43: 4300062
+    second: handle
+  - first:
+      43: 4300064
+    second: mirror
+  - first:
+      43: 4300066
+    second: rim1
+  - first:
+      43: 4300068
+    second: tyre1
+  - first:
+      43: 4300070
+    second: brakes1
+  - first:
+      43: 4300072
+    second: tyre2
+  - first:
+      43: 4300074
+    second: brakes2
+  - first:
+      43: 4300076
+    second: rim2
+  - first:
+      43: 4300078
+    second: rim003
+  - first:
+      43: 4300080
+    second: brakes003
+  - first:
+      43: 4300082
+    second: tyre003
+  - first:
+      43: 4300084
+    second: tyre004
+  - first:
+      43: 4300086
+    second: rim004
+  - first:
+      43: 4300088
+    second: brakes004
+  - first:
+      43: 4300090
+    second: windows
+  - first:
+      43: 4300092
+    second: left door glass
+  - first:
+      43: 4300094
+    second: right door glass
+  - first:
+      43: 4300096
+    second: front lamps
+  - first:
+      43: 4300098
+    second: rear lamps
+  - first:
+      43: 4300100
+    second: right mirror
+  - first:
+      43: 4300102
+    second: left mirror
+  - first:
+      43: 4300104
+    second: matte1
+  - first:
+      43: 4300106
+    second: steering_wheel
+  - first:
+      43: 4300108
+    second: left_door_gloss
+  - first:
+      43: 4300110
+    second: left_door
+  - first:
+      43: 4300112
+    second: right_door_gloss
+  - first:
+      43: 4300114
+    second: right_door
+  - first:
+      43: 4300116
+    second: salon mirror
+  - first:
+      43: 4300118
+    second: MIRRORS
+  - first:
+      43: 4300120
+    second: spoiler1
+  - first:
+      43: 4300122
+    second: spoiler2
+  - first:
+      95: 9500000
+    second: //RootNode
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -347,26 +988,49 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -376,22 +1040,20 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 115010
-  packageName: Cartoon Sports Car
-  packageVersion: 1.0
-  assetPath: Assets/Cartoon Sports Car/meshes/CARRERA.FBX
-  uploadId: 237304

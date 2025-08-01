@@ -32,7 +32,6 @@ public class PlayerMediator : MonoBehaviour
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
     private IPlayerInputEnabler _playerInput;
-
     private static PlayerMediator _instance;
 
     public Player Player { get => _player; set => _player = value; }
@@ -40,14 +39,7 @@ public class PlayerMediator : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
+        _instance = this;
 
         _playerInput = new PlayerInputEnabler();
     }
@@ -77,7 +69,8 @@ public class PlayerMediator : MonoBehaviour
             _maxWeaponDistance,
             _playerAnimation,
             _weaponParent,
-            _fallbackWeaponPrefab
+            _fallbackWeaponPrefab,
+            _player.SavedWeaponData
             );
 
         if (_maxWeaponDistance < 1)

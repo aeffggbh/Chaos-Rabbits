@@ -33,7 +33,7 @@ public class HealthBar : MonoBehaviour, IHealthBar
 
     public void UpdateHealth(float currentHealth, float maxHealth)
     {
-        if (_maxValue < maxHealth)
+        if (_maxValue <= maxHealth)
             SetMaxHealth(maxHealth);
         SetCurrentHealth(currentHealth);
     }

@@ -1,6 +1,33 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
+public interface IPlayerSaveData : IData
+{
+    float CurrentHealth { get; set; }
+    float MaxHealth { get; set; }
+    float CurrentSpeed { get; set; }
+    public WeaponData WeaponData { get; set; }
+}
+
+public class PlayerSaveData : IPlayerSaveData
+{
+    private float _currentHealth;
+    private float _maxHealth;
+    private float _currentSpeed;
+    private WeaponData _weaponData;
+
+    public float CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
+    public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
+    public WeaponData WeaponData { get => _weaponData; set => _weaponData = value; }
+    public float MaxHealth { get => _maxHealth; set => _maxHealth = value; }
+
+    public PlayerSaveData(float currentHealth, WeaponData weaponData, float currentSpeed)
+    {
+        _currentHealth = currentHealth;
+        _weaponData = weaponData;
+        _currentSpeed = currentSpeed;
+        _maxHealth = 100f;
+    }
+}
 
 /// <summary>
 /// Represents the player character in the game.
@@ -39,6 +66,7 @@ public class Player : Character, IPlayerData
     [Header("Sound")]
     [SerializeField] private AudioSource _audioSource;
     private IPlayerMovementCalculator _playerCalculator;
+    private WeaponData _savedWeaponData;
 
     public Weapon CurrentWeapon { get => _currentWeapon; set { _currentWeapon = value; } }
     public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
@@ -49,12 +77,31 @@ public class Player : Character, IPlayerData
     public Rigidbody Rb { get => _rb; set => _rb = value; }
     public Transform WeaponParent { get => _weaponParent; set => _weaponParent = value; }
     public GameObject UserObject => gameObject;
+    public WeaponData SavedWeaponData => _savedWeaponData;
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody>();
         Damage = _damage;
+
+        _savedWeaponData = null;
+
+        if (!PlayerPreservedData.IsEmpty())
+        {
+            IPlayerSaveData data = PlayerPreservedData.RetrieveData<IPlayerSaveData>();
+
+            if (data != null)
+            {
+                _currentSpeed = data.CurrentSpeed;
+                CurrentHealth = data.CurrentHealth;
+                _savedWeaponData = data.WeaponData;
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        PlayerPreservedData.SaveData<IPlayerSaveData>(new PlayerSaveData(CurrentHealth, CurrentWeapon?.WeaponData, CurrentSpeed));
     }
 
     protected override void Start()
@@ -66,8 +113,8 @@ public class Player : Character, IPlayerData
         _jump = new PlayerJump(_rb, _soundPlayer, GetComponent<CapsuleCollider>());
         _playerCalculator = new PlayerMovementCalculator();
         _soundPlayer.SetAudioSource(GetComponent<AudioSource>());
-
     }
+
 
     /// <summary>
     /// Requests the movement direction and saves it

@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 /// </summary>
 [Serializable]
 [RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(WeaponAnimationController))]
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private Bullet _prefabBullet;
@@ -23,9 +22,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject _tipGO;
     [SerializeField] private Vector3 pickupScale = new(0.2f, 0.2f, 0.2f);
     [SerializeField] private Vector3 dropScale;
-    private WeaponAnimationController _weaponAnimation;
+    [SerializeField] WeaponData _weaponData;
     private AudioSource _audioSource;
     private ISoundPlayer _soundPlayer;
+
+    public WeaponData WeaponData { get => _weaponData; set => _weaponData = value; }
+    public GameObject BulletSpawnGO { get => _centerSpawnGO; set => _centerSpawnGO = value; }
 
     private void OnDestroy()
     {
@@ -38,11 +40,15 @@ public class Weapon : MonoBehaviour
         if (!_prefabBullet && !_usesHitscan)
             Debug.LogError(nameof(_prefabBullet) + " is null");
     }
+
+    private void Awake()
+    {
+        dropScale = transform.localScale;
+    }
+
     private void Start()
     {
         EventProvider.Subscribe<IActivateSceneEvent>(CheckExistence);
-
-        dropScale = transform.localScale;
 
         _audioSource = GetComponent<AudioSource>();
 
@@ -70,15 +76,6 @@ public class Weapon : MonoBehaviour
                 if (_usesHitscan)
                     Debug.LogError("Enemies cannot use hitscan. Deactivate the hitscan option!");
         }
-
-        _weaponAnimation = GetComponent<WeaponAnimationController>();
-
-        if (!_weaponAnimation)
-            Debug.LogError("WeaponAnimationController is not assigned to " + name);
-
-        if (_centerSpawnGO != null && user != null)
-            if (user.GetType() == typeof(Player))
-                Debug.LogError(nameof(_centerSpawnGO) + " is null.");
     }
 
     /// <summary>
@@ -117,7 +114,7 @@ public class Weapon : MonoBehaviour
 
         if (!_usesHitscan)
         {
-            GameObject spawn = _centerSpawnGO ? _centerSpawnGO : _tipGO;
+            GameObject spawn = BulletSpawnGO ? BulletSpawnGO : _tipGO;
 
             var newBullet = Instantiate(_prefabBullet,
                                         spawn.transform.position,
@@ -134,7 +131,6 @@ public class Weapon : MonoBehaviour
         else
             Debug.LogError("Enemy cannot use hitscan. Deactivate the hitscan option!");
 
-        _weaponAnimation.AnimateShoot();
     }
 
     /// <summary>
@@ -145,20 +141,16 @@ public class Weapon : MonoBehaviour
         if (PauseManager.Paused)
             return;
 
-        Animate();
-
         BoxCollider collider = GetComponent<BoxCollider>();
 
         if (collider)
             collider.enabled = false;
 
-        DontDestroyOnLoad(this);
-
         transform.SetParent(_weaponParent);
 
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
         transform.localScale = pickupScale;
-
-        transform.rotation = Quaternion.identity;
 
         if (GetComponent<Rigidbody>())
             Destroy(GetComponent<Rigidbody>());
@@ -174,8 +166,6 @@ public class Weapon : MonoBehaviour
         if (PauseManager.Paused)
             return;
 
-        DeactivateAnimation();
-
         BoxCollider collider = GetComponent<BoxCollider>();
 
         if (collider)
@@ -190,7 +180,7 @@ public class Weapon : MonoBehaviour
             gameObject.AddComponent<Rigidbody>();
 
         if (_tipGO)
-            _centerSpawnGO = _tipGO;
+            BulletSpawnGO = _tipGO;
         else
             Debug.LogError(nameof(_tipGO) + " is null");
 
@@ -211,7 +201,7 @@ public class Weapon : MonoBehaviour
 
         float hitDistance = 100f;
 
-        if (RayManager.PointingToObject(_centerSpawnGO.transform, hitDistance, out RaycastHit hitInfo))
+        if (RayManager.PointingToObject(BulletSpawnGO.transform, hitDistance, out RaycastHit hitInfo))
             hit = hitInfo;
 
         TrailRenderer trail = Instantiate(_hitscanTrail, _tipGO.transform.position, Quaternion.identity);
@@ -221,7 +211,7 @@ public class Weapon : MonoBehaviour
 
         float force = hitDistance * 2f;
 
-        rb.AddForce(_centerSpawnGO.transform.forward * force, ForceMode.Impulse);
+        rb.AddForce(BulletSpawnGO.transform.forward * force, ForceMode.Impulse);
 
         Destroy(trail.gameObject, hitDistance / 500f);
 
@@ -237,26 +227,4 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void SetBulletSpawn(GameObject spawn)
-    {
-        Debug.Log(spawn.name + " is now the bullet spawn for " + name);
-
-        _centerSpawnGO = spawn;
-    }
-
-    public void Animate()
-    {
-        if (!_weaponAnimation)
-            _weaponAnimation = GetComponent<WeaponAnimationController>();
-        else
-            _weaponAnimation.ActivateAnimation();
-    }
-
-    public void DeactivateAnimation()
-    {
-        if (!_weaponAnimation)
-            _weaponAnimation = GetComponent<WeaponAnimationController>();
-        else
-            _weaponAnimation.DeactivateAnimation();
-    }
 }

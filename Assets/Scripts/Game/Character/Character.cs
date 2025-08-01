@@ -10,11 +10,12 @@ public abstract class Character : MonoBehaviour, IDamageable, IHealthData
     public float CurrentHealth { get; protected set; }
 
     protected IHealthBar _healthBar;
-         
+
     virtual protected void Start()
     {
         MaxHealth = 100f;
-        CurrentHealth = MaxHealth;
+        if (CurrentHealth <= 0.1f)
+            CurrentHealth = MaxHealth;
 
         InitHealthBar();
     }
@@ -34,15 +35,24 @@ public abstract class Character : MonoBehaviour, IDamageable, IHealthData
     /// <param name="damage"></param>
     virtual public void TakeDamage(float damage)
     {
-        CurrentHealth -= damage;
+        SetHealth(CurrentHealth - damage, MaxHealth);
 
         if (CurrentHealth <= 0f)
         {
-            CurrentHealth = 0f;
+            SetHealth(0, MaxHealth);
             Die();
         }
-        else
-            _healthBar.UpdateHealth(CurrentHealth, MaxHealth);
+    }
+
+    virtual protected void SetHealth(float health, float maxHealth)
+    {
+        CurrentHealth = health;
+
+        if (_healthBar == null)
+            _healthBar = GetComponentInChildren<IHealthBar>();
+
+        if (health > 0f)
+            _healthBar?.UpdateHealth(CurrentHealth, maxHealth);
     }
 
     virtual protected void FixedUpdate()

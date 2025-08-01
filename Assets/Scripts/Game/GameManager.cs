@@ -14,8 +14,6 @@ public static class GameManager
     {
         if (CheatsController.Instance)
             CheatsController.Instance.Reset();
-
-        if (PlayerMediator.PlayerInstance)
-            PlayerMediator.PlayerInstance.Destroy();
+        PlayerPreservedData.Reset();
     }
 }

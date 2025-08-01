@@ -3,7 +3,7 @@
 /// <summary>
 /// Interface for the weapon users
 /// </summary>
-public interface IWeaponUser : IDamageable
+public interface IWeaponUser : IDamageable, IData
 {
     /// <summary>
     /// Saves the weapon that the user is holding

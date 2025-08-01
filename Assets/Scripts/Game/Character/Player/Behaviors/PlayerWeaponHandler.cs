@@ -13,7 +13,13 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
     GameObject _defaultWeaponPrefab;
     Weapon _defaultWeapon;
 
-    public PlayerWeaponHandler(GameObject bulletSpawn, float maxWeaponDistance, PlayerAnimationController playerAnimation, Transform weaponParent, GameObject defaultWeaponPrefab)
+    public PlayerWeaponHandler(
+        GameObject bulletSpawn,
+        float maxWeaponDistance,
+        PlayerAnimationController playerAnimation,
+        Transform weaponParent,
+        GameObject defaultWeaponPrefab,
+        WeaponData weaponToRestore = null)
     {
         _bulletSpawnGO = bulletSpawn;
         _maxWeaponDistance = maxWeaponDistance;
@@ -24,11 +30,33 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
 
         CurrentWeapon = _playerController.Player.CurrentWeapon;
 
-        if (CurrentWeapon != null)
-            GrabWeapon(CurrentWeapon);
+        Weapon weaponToGrab = null;
 
-        _defaultWeaponPrefab = defaultWeaponPrefab;
-        _defaultWeapon = defaultWeaponPrefab.GetComponent<Weapon>();
+        if (weaponToRestore && weaponToRestore.prefab && !CurrentWeapon)
+        {
+            GameObject weaponGO = GameObject.Instantiate(weaponToRestore.prefab);
+            Weapon weapon = weaponGO.GetComponent<Weapon>();
+
+            if (weapon)
+            {
+                weapon.WeaponData = weaponToRestore;
+                weaponToGrab = weapon;
+            }
+            else
+                Debug.LogError("Object " + weaponGO + " has no weapon component");
+        }
+        else if (!CurrentWeapon)
+        {
+            GameObject fallback = GameObject.Instantiate(defaultWeaponPrefab);
+
+            Weapon fall = fallback.GetComponent<Weapon>();
+
+            weaponToGrab = fall;
+        }
+        else
+            weaponToGrab = CurrentWeapon;
+
+        GrabWeapon(weaponToGrab);
 
         EventProvider.Subscribe<INewLevelEvent>(OnNextLevel);
     }
@@ -74,12 +102,15 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
 
     public void GrabWeapon(Weapon weapon)
     {
+        if (!weapon)
+            return;
+
         if (CurrentWeapon != null)
             DropWeapon();
 
         CurrentWeapon = weapon;
         CurrentWeapon.user = PlayerMediator.PlayerInstance.Player;
-        CurrentWeapon.SetBulletSpawn(_bulletSpawnGO);
+        CurrentWeapon.BulletSpawnGO = _bulletSpawnGO;
         CurrentWeapon.Hold(_weaponParent);
         _playerController.Player.CurrentWeapon = CurrentWeapon;
         _animationController?.AnimateGrabWeapon();
