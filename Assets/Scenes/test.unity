@@ -171,14 +171,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6588029030605947673, guid: 4363d0e2e600d6740ae8d914adbee163, type: 3}
-      propertyPath: m_Constraints
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 7848426495939411613, guid: 4363d0e2e600d6740ae8d914adbee163, type: 3}
-      propertyPath: _brakeForce
-      value: 530
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -292,6 +284,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1921860329 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4328367266500382, guid: 4363d0e2e600d6740ae8d914adbee163, type: 3}
+  m_PrefabInstance: {fileID: 272032385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2046468966
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +301,7 @@ GameObject:
   - component: {fileID: 2046468968}
   - component: {fileID: 2046468967}
   - component: {fileID: 2046468970}
+  - component: {fileID: 2046468971}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -378,8 +376,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046468966}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08430071, y: 0.8860775, z: -0.15906903, w: -0.42715}
-  m_LocalPosition: {x: 1034.2314, y: 1946.7405, z: 458.71396}
+  m_LocalRotation: {x: -0.10971201, y: -0.82901883, z: 0.19033189, w: -0.51426154}
+  m_LocalPosition: {x: 1018.36115, y: 1946.6519, z: 454.4645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -429,6 +427,23 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &2046468971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046468966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84de732598658e14583d0cd1b5a9737f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSmoothness: 10
+  rotSmoothness: 10
+  moveOffset: {x: 0, y: 3.84, z: -5.09}
+  rotOffset: {x: 0, y: 2.03, z: 0}
+  target: {fileID: 1921860329}
 --- !u!1 &2091074993
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,8 @@ public class Level : MonoBehaviour, ILevel
 
     private void Start()
     {
-        PlayerMediator.PlayerInstance.transform.position = _levelSpawn.position;
+        if (PlayerMediator.PlayerInstance != null)
+            PlayerMediator.PlayerInstance.transform.position = _levelSpawn.position;
     }
 
     private void Update()
