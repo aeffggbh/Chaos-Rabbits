@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public interface ILevelInstanceUser
+public interface ILevelInstantiateUser
 {
     GameObject UserPrefab { get; }
 }

@@ -4,5 +4,5 @@
 /// </summary>
 public class MenuSceneData : ISceneData
 {
-    public static int Index => GameSceneController.Instance.sceneReferenceContainer.MenuScene;
+    public static int Index => ServiceProvider.TryGetService<GameSceneController>(out var controller) ? controller.sceneReferenceContainer.MenuScene : 0;
 }

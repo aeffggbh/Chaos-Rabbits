@@ -27,7 +27,7 @@ public class Level : MonoBehaviour, ILevel
         GameObject userObj = null;
 
         foreach (var mechanic in Mechanics)
-            userObj = (mechanic as ILevelInstanceUser)?.UserPrefab;
+            userObj = (mechanic as ILevelInstantiateUser)?.UserPrefab;
 
         _userGO = GameObject.Instantiate(userObj);
 

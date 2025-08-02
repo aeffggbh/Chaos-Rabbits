@@ -5,7 +5,7 @@ public class FirstPersonRotationHandler : MonoBehaviour
     [SerializeField] private GameObject _lookXGO;
     [SerializeField] private GameObject _lookYGO;
     [SerializeField] private Transform actualCamera;
-    [SerializeField] private float _delay = 1f;
+    [SerializeField] private float _speed = 1f;
     private Vector3 camForward;
 
     private void Awake()
@@ -15,13 +15,7 @@ public class FirstPersonRotationHandler : MonoBehaviour
         if (!_lookYGO)
             Debug.LogError(nameof(_lookYGO) + " is not assigned in the inspector.");
     }
-
-    private void Start()
-    {
-        actualCamera = CineMachineManager.Instance.transform;
-        
-    }
-
+    
     private void LateUpdate()
     {
         Look();
@@ -29,9 +23,9 @@ public class FirstPersonRotationHandler : MonoBehaviour
 
     private void Look()
     {
-        camForward = actualCamera.localPosition + actualCamera.forward;
+        camForward = actualCamera.position + actualCamera.forward * 5f;
 
-        LookAtTarget.Look(camForward, _lookXGO.transform, LookAtTarget.AxisLock.X, _delay);
-        LookAtTarget.Look(camForward, _lookYGO.transform, _delay);
+        LookAtTarget.Look(camForward, _lookXGO.transform, LookAtTarget.AxisLock.X, _speed);
+        LookAtTarget.Look(camForward, _lookYGO.transform, _speed);
     }
 }

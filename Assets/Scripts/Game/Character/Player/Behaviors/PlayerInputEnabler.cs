@@ -12,43 +12,44 @@ public class PlayerInputEnabler : IPlayerInputEnabler
     private InputActionReference _grabAction;
     private InputActionReference _lookAction;
 
-    private PlayerMediator _controller;
+    private PlayerMediator _playerMediator;
 
     /// <summary>
     /// Initializes local input references
     /// </summary>
     public PlayerInputEnabler()
     {
-        _controller = PlayerMediator.PlayerInstance;
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+        _playerMediator = mediator;
 
-        _moveAction = _controller.MoveAction;
-        _jumpAction = _controller.JumpAction;
-        _dropAction = _controller.DropAction;
-        _grabAction = _controller.GrabAction;
-        _lookAction = _controller.LookAction;
+        _moveAction = _playerMediator.MoveAction;
+        _jumpAction = _playerMediator.JumpAction;
+        _dropAction = _playerMediator.DropAction;
+        _grabAction = _playerMediator.GrabAction;
+        _lookAction = _playerMediator.LookAction;
     }
 
     public void Enable()
     {
         if (_moveAction)
         {
-            _moveAction.action.performed += _controller.OnMove;
-            _moveAction.action.canceled += _controller.OnCancelMove;
+            _moveAction.action.performed += _playerMediator.OnMove;
+            _moveAction.action.canceled += _playerMediator.OnCancelMove;
         }
 
         if (_jumpAction) 
-            _jumpAction.action.started += _controller.OnJump;
+            _jumpAction.action.started += _playerMediator.OnJump;
 
         if (_dropAction)
-            _dropAction.action.started += _controller.OnDropWeapon;
+            _dropAction.action.started += _playerMediator.OnDropWeapon;
 
         if (_grabAction)
-            _grabAction.action.started += _controller.OnGrabWeapon;
+            _grabAction.action.started += _playerMediator.OnGrabWeapon;
 
         if (_lookAction)
         {
-            _lookAction.action.started += _controller.OnLook;
-            _lookAction.action.performed += _controller.OnLook;
+            _lookAction.action.started += _playerMediator.OnLook;
+            _lookAction.action.performed += _playerMediator.OnLook;
         }
     }
 
@@ -56,17 +57,17 @@ public class PlayerInputEnabler : IPlayerInputEnabler
     {
         if (_moveAction)
         {
-            _moveAction.action.started -= _controller.OnMove;
-            _moveAction.action.canceled -= _controller.OnCancelMove;
+            _moveAction.action.started -= _playerMediator.OnMove;
+            _moveAction.action.canceled -= _playerMediator.OnCancelMove;
         }
 
         if (_jumpAction)
-            _jumpAction.action.started -= _controller.OnJump;
+            _jumpAction.action.started -= _playerMediator.OnJump;
 
         if (_dropAction)
-            _dropAction.action.started -= _controller.OnDropWeapon;
+            _dropAction.action.started -= _playerMediator.OnDropWeapon;
 
         if (_grabAction)
-            _grabAction.action.started -= _controller.OnGrabWeapon;
+            _grabAction.action.started -= _playerMediator.OnGrabWeapon;
     }
 }

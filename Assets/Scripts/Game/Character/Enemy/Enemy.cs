@@ -89,7 +89,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
 
-        playerMediator = PlayerMediator.PlayerInstance;
+        ServiceProvider.TryGetService<PlayerMediator>(out playerMediator);
 
         chaseBehavior = this as IChaseBehavior;
         attackBehavior = this as IAttackBehavior;

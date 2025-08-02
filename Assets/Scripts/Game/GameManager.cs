@@ -9,7 +9,8 @@ public static class GameManager
     /// </summary>
     public static void ResetGame()
     {
-        PlayerMediator.PlayerInstance?.CheatsController?.Reset();
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+        mediator?.CheatsController?.Reset();
         EventTriggerManager.Trigger<IDeleteUserEvent>(new DeleteUserEvent(null));
         PlayerPreservedData.Reset();
     }

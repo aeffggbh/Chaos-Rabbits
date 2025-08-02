@@ -59,7 +59,10 @@ public partial class ExplodingEnemy : Enemy
         {
             EventProvider.Unsubscribe<EffectStartedEvent>(HandleEffectStart);
             if (GetPlayerDistance() < _effectTrigger.EffectRange)
-                PlayerMediator.PlayerInstance.TakeDamage(Damage);
+            {
+                ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+                mediator.TakeDamage(Damage);
+            }
         }
     }
 

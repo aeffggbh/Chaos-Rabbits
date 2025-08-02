@@ -44,17 +44,9 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public IMenuState PreviousState { get { return _previousState; } set { _previousState = value; } }
 
-    /// <summary>
-    /// The instance of the menu manager
-    /// </summary>
-    public static MenuManager Instance { get; private set; }
-
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        ServiceProvider.SetService<MenuManager>(this);
     }
 
     private void Start()
@@ -115,7 +107,8 @@ public class MenuManager : MonoBehaviour
     {
         PauseManager.Paused = false;
 
-        GameSceneController.Instance.UnloadGameplay();
+        ServiceProvider.TryGetService<GameSceneController>(out var controller);
+        controller.UnloadGameplay();
 
         GameManager.ResetGame();
     }

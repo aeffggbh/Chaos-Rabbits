@@ -4,18 +4,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovementCalculator : IPlayerMovementCalculator
 {
-    private CinemachineBrain _cineMachineBrain;
-    public Camera Camera { get; set; }
+    public CinemachineCamera Camera { get; set; }
 
     public PlayerMovementCalculator()
     {
-        _cineMachineBrain = CineMachineManager.Instance?.cineMachineBrain;
-        Camera = _cineMachineBrain?.GetComponent<Camera>();
-    }
-
-    public void SetCamera(Camera camera)
-    {
-        Camera = camera;
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+        Camera = mediator.Camera;
     }
 
     public Vector3 GetDirection(Vector2 moveInput)

@@ -110,13 +110,17 @@ public class Player : Character, IPlayerData
 
     public override void Die()
     {
-        if (!PlayerMediator.PlayerInstance.CheatsController.IsGodMode())
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+
+        if (!mediator.CheatsController.IsGodMode())
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), gameObject, true));
     }
 
     public override void TakeDamage(float damage)
     {
-        if (!PlayerMediator.PlayerInstance.CheatsController.IsGodMode())
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+
+        if (!mediator.CheatsController.IsGodMode())
         {
             base.TakeDamage(damage);
             _soundPlayer.PlaySound(SFXType.TAKE_HIT);

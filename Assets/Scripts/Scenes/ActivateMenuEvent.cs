@@ -22,7 +22,8 @@ public class ActivateMenuEvent : IActivateSceneEvent
         _state = nextState;
         _source = source;
 
-        if (MenuManager.Instance)
-            MenuManager.Instance.TransitionToState(nextState);
+        ServiceProvider.TryGetService<MenuManager>(out var menu);
+
+        menu?.TransitionToState(nextState);
     }
 }

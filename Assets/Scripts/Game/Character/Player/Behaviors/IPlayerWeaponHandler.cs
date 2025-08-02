@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 /// <summary>
@@ -23,10 +24,10 @@ public interface IPlayerWeaponHandler
     /// </summary>
     /// <param name="camera"></param>
     /// <returns></returns>
-    Weapon GetPointedWeapon(Camera camera);
+    Weapon GetPointedWeapon(CinemachineCamera camera);  
     /// <summary>
     /// Grabs the weapon that the camera is pointing at
     /// </summary>
     /// <param name="camera"></param>
-    void GrabPointedWeapon(Camera camera);
+    void GrabPointedWeapon(CinemachineCamera camera);
 }

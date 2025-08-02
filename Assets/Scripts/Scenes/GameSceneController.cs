@@ -5,25 +5,20 @@ using UnityEngine;
 /// <summary>
 /// Controls which scenes are active, according to what's going on in the game
 /// </summary>
+[RequireComponent(typeof(SceneLoader))]
 public class GameSceneController : MonoBehaviour
 {
     /// <summary>
     /// Saves the scene asset container (the scriptable object)
     /// </summary>
     [SerializeField] public SceneAssetContainer sceneReferenceContainer;
-    /// <summary>
-    /// Instance of the game scene controller
-    /// </summary>
-    public static GameSceneController Instance;
+    private SceneLoader _sceneLoader;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-            Destroy(gameObject);
+        ServiceProvider.SetService<GameSceneController>(this);
+
+        _sceneLoader = GetComponent<SceneLoader>();
 
         EventProvider.Subscribe<IActivateSceneEvent>(SetActiveScene);
         EventProvider.Subscribe<IActivateSceneEvent>(CheckCursor);
@@ -42,7 +37,7 @@ public class GameSceneController : MonoBehaviour
     /// <returns></returns>
     public bool IsTypeLoaded<T>() where T : ISceneData
     {
-        return SceneLoader.Instance.IsTypeLoaded<T>();
+        return _sceneLoader.IsTypeLoaded<T>();
     }
 
     /// <summary>
@@ -55,7 +50,7 @@ public class GameSceneController : MonoBehaviour
 
         int index = scene.Index;
 
-        var activeScene = SceneLoader.Instance.GetActiveScene();
+        var activeScene = _sceneLoader.GetActiveScene();
 
         if (activeScene == index)
         {
@@ -64,9 +59,9 @@ public class GameSceneController : MonoBehaviour
         }
 
         if (!IsSceneLoaded(index))
-            SceneLoader.Instance.LoadScene(index);
+            _sceneLoader.LoadScene(index);
         else
-            SceneLoader.Instance.SetActiveScene(index);
+            _sceneLoader.SetActiveScene(index);
     }
 
     /// <summary>
@@ -76,7 +71,7 @@ public class GameSceneController : MonoBehaviour
     /// <returns></returns>
     public bool IsSceneLoaded(int index)
     {
-        return SceneLoader.Instance.IsSceneLoaded(index);
+        return _sceneLoader.IsSceneLoaded(index);
     }
 
     /// <summary>
@@ -104,7 +99,7 @@ public class GameSceneController : MonoBehaviour
     /// </summary>
     public void UnloadGameplay()
     {
-        SceneLoader.Instance.UnloadGameplay();
+        _sceneLoader.UnloadGameplay();
     }
 
     /// <summary>
@@ -114,6 +109,11 @@ public class GameSceneController : MonoBehaviour
     /// <returns></returns>
     public bool IsGameplay(int index)
     {
-        return SceneLoader.Instance.IsGameplay(index);
+        return _sceneLoader.IsGameplay(index);
+    }
+
+    public void UnloadScene(int index)
+    {
+        _sceneLoader.UnloadScene(index);
     }
 }

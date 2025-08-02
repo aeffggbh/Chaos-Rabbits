@@ -11,6 +11,10 @@ public class SkyBoxRotator : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
     }
+    private void OnDestroy()
+    {
+        RenderSettings.skybox.SetFloat("_Rotation", 0);
+    }
 
     private void Update()
     {

@@ -21,7 +21,9 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
         if (PauseManager.Paused)
             EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(source));
 
-        MenuManager.Instance.HideAllPanels();
+        ServiceProvider.TryGetService<MenuManager>(out var menu);
+        menu.HideAllPanels();
+
         _levelToUnloadIndex = _currentIndex;
         _newLevelIndex = NextLevel;
         _unloadPrevious = unloadPrevious;
@@ -34,7 +36,9 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
         if (PauseManager.Paused)
             EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(source));
 
-        MenuManager.Instance.HideAllPanels();
+        ServiceProvider.TryGetService<MenuManager>(out var menu);
+        menu.HideAllPanels();
+
         _levelToUnloadIndex = _currentIndex;
         _newLevelIndex = levelIndex;
         _unloadPrevious = unloadPrevious;
@@ -51,7 +55,8 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
             _unloadPrevious = false;
             EventTriggerManager.Trigger<IDeleteUserEvent>(new DeleteUserEvent(TriggeredByGO));
 
-            SceneLoader.Instance.UnloadScene(levelToUnloadIndex);
+            ServiceProvider.TryGetService<GameSceneController>(out var controller);
+            controller.UnloadScene(levelToUnloadIndex);
         }
 
         if (_loadNext)
@@ -59,7 +64,11 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
             int levelToLoadIndex = _newLevelIndex == -1 ? NextLevel : _newLevelIndex;
 
             if (levelToLoadIndex == MenuSceneData.Index)
-                MenuManager.Instance.TransitionToState(new GameWinState());
+            {
+                ServiceProvider.TryGetService<MenuManager>(out var menu);
+
+                menu.TransitionToState(new GameWinState());
+            }
 
             _currentIndex = levelToLoadIndex;
         }

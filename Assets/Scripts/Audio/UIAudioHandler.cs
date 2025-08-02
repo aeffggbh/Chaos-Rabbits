@@ -11,22 +11,20 @@ public class UIAudioHandler : MonoBehaviour
 {
     private AudioSource _audioSource;
     private AudioListener _audioListener;
-    public static UIAudioHandler Instance;
     private ISoundPlayer _soundPlayer;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
+        ServiceProvider.SetService<UIAudioHandler>(this);
 
         _audioListener = GetComponent<AudioListener>();
 
         EventProvider.Subscribe<ILevelUpSoundEvent>(PlayLevelUpSound);
+    }
+
+    private void OnDestroy()
+    {
+        ServiceProvider.SetService<UIAudioHandler>(null);
     }
 
     private void Start()

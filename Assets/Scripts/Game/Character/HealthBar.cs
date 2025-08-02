@@ -26,7 +26,8 @@ public class HealthBar : MonoBehaviour, IHealthBar
 
     private void FixedUpdate()
     {
-        Vector3 fw = CineMachineManager.Instance.transform.forward;
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+        Vector3 fw = mediator.Camera.transform.forward;
 
         transform.forward = fw;
     }

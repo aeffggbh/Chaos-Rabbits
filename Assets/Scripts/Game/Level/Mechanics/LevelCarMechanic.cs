@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CarMechanic", menuName = "ScriptableObjects/LevelMechanics/CarMechanic")]
-public class LevelCarMechanic : LevelMechanicSO, IMechanicTextInfo, ILevelInstanceUser
+public class LevelCarMechanic : LevelMechanicSO, IMechanicTextInfo, ILevelInstantiateUser
 {
     [SerializeField] private GameObject _carPrefab;
     public override bool ObjectiveCompleted => true;

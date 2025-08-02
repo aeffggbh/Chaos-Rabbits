@@ -9,6 +9,7 @@ public class MessageLogger : MonoBehaviour
     [SerializeField] private float _currentTime;
     private string _text;
     private bool _isTextShowing;
+    private GameSceneController _sceneController;
 
     private void Awake()
     {
@@ -25,6 +26,12 @@ public class MessageLogger : MonoBehaviour
             Debug.LogWarning("timeToBanish is set to a very low value, it might not work as expected.");
 
         EventProvider.Subscribe<ILogMessageEvent>(RequestText);
+
+    }
+
+    private void Start()
+    {
+        ServiceProvider.TryGetService<GameSceneController>(out _sceneController);
     }
 
     private void OnDestroy()
@@ -35,6 +42,9 @@ public class MessageLogger : MonoBehaviour
 
     private void Update()
     {
+        if (!_sceneController)
+            ServiceProvider.TryGetService<GameSceneController>(out _sceneController);
+
         if (_isTextShowing && _currentTime < _timeToBanish)
         {
             _currentTime += Time.deltaTime;

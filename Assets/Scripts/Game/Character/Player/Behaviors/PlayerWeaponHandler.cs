@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerWeaponHandler : IPlayerWeaponHandler
@@ -26,7 +27,8 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
         _animationController = playerAnimation;
         _weaponParent = weaponParent;
 
-        _playerController = PlayerMediator.PlayerInstance;
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+        _playerController = mediator;
 
         CurrentWeapon = _playerController.Player.CurrentWeapon;
 
@@ -74,7 +76,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
     /// Returns the weapon that the player is currently pointing to, if any.
     /// </summary>
     /// <returns></returns>
-    public Weapon GetPointedWeapon(Camera camera)
+    public Weapon GetPointedWeapon(CinemachineCamera camera)
     {
         RaycastHit? hit = null;
 
@@ -93,7 +95,7 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
 
     }
 
-    public void GrabPointedWeapon(Camera camera)
+    public void GrabPointedWeapon(CinemachineCamera camera)
     {
         Weapon pointedWeapon = GetPointedWeapon(camera);
         if (pointedWeapon)
@@ -109,7 +111,8 @@ public class PlayerWeaponHandler : IPlayerWeaponHandler
             DropWeapon();
 
         CurrentWeapon = weapon;
-        CurrentWeapon.user = PlayerMediator.PlayerInstance.Player;
+        ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+        CurrentWeapon.user = mediator.Player;
         CurrentWeapon.BulletSpawnGO = _bulletSpawnGO;
         CurrentWeapon.Hold(_weaponParent);
         _playerController.Player.CurrentWeapon = CurrentWeapon;

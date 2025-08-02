@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyMechanic", menuName = "ScriptableObjects/LevelMechanics/EnemyMechanic")]
-public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicTextInfo, IInitMechanic, ILevelInstanceUser
+public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicTextInfo, IInitMechanic, ILevelInstantiateUser
 {
     [SerializeField] private GameObject _playerPrefab;
     private int _enemiesCount;

@@ -49,7 +49,8 @@ public class CheatsController : ScriptableObject
     /// <param name="context"></param>
     private void OnFlashMode(InputAction.CallbackContext context)
     {
-        if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
+        ServiceProvider.TryGetService<GameSceneController>(out var controller);
+        if (controller.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isFlashMode = !_isFlashMode;
             EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "Flash Mode", _isFlashMode));
@@ -62,7 +63,8 @@ public class CheatsController : ScriptableObject
     /// <param name="context"></param>
     private void OnGodMode(InputAction.CallbackContext context)
     {
-        if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
+        ServiceProvider.TryGetService<GameSceneController>(out var controller);
+        if (controller.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             _isGodMode = !_isGodMode;
             EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "God Mode", _isGodMode));
@@ -80,7 +82,8 @@ public class CheatsController : ScriptableObject
 
     private void GoToNextLevel()
     {
-        if (GameSceneController.Instance.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
+        ServiceProvider.TryGetService<GameSceneController>(out var controller);
+        if (controller.IsTypeLoaded<GameplaySceneData>() && !PauseManager.Paused)
         {
             EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(null, true));
             EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "Gone to next level"));

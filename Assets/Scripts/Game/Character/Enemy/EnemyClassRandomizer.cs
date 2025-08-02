@@ -37,18 +37,18 @@ public class EnemyClassRandomizer : MonoBehaviour
         if (debugType != null)
             chosenType = debugType;
 
-        GameObject modelInstanceGO = null;
+        GameObject modelGO = null;
 
         if (chosenType == typeof(JumpingEnemy))
-            modelInstanceGO = Instantiate(_jumpingEnemyPrefabGO, transform);
+            modelGO = Instantiate(_jumpingEnemyPrefabGO, transform);
         else if (chosenType == typeof(ShooterEnemy))
-            modelInstanceGO = Instantiate(_normalEnemyPrefabGO, transform);
+            modelGO = Instantiate(_normalEnemyPrefabGO, transform);
         else if (chosenType == typeof(ExplodingEnemy))
-            modelInstanceGO = Instantiate(_explodingEnemyPrefabGO, transform);
+            modelGO = Instantiate(_explodingEnemyPrefabGO, transform);
 
-        if (modelInstanceGO == null)
+        if (modelGO == null)
             Debug.LogError("No model found in " + gameObject.name);
         else
-            modelInstanceGO.AddComponent(chosenType);
+            modelGO.AddComponent(chosenType);
     }
 }

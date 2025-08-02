@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,19 +29,20 @@ public class PlayerMediator : MonoBehaviour
     [SerializeField] private Transform _weaponParent;
     [SerializeField] private GameObject _fallbackWeaponPrefab;
     [SerializeField] private CheatsController _cheatsController;
+    [SerializeField] private CinemachineCamera _camera;
     private IPlayerMovementCalculator _playerMovement;
     private IPlayerWeaponHandler _playerWeapon;
     private IPlayerInputEnabler _playerInput;
-    private static PlayerMediator _instance;
 
     public Player Player { get => _player; set => _player = value; }
-    public static PlayerMediator PlayerInstance { get => _instance; }
     public CheatsController CheatsController => _cheatsController;
+    public CinemachineCamera Camera => _camera;
 
     private void Awake()
     {
-        _instance = this;
+        ServiceProvider.SetService<PlayerMediator>(this, true);
 
+        _camera = GetComponentInChildren<CinemachineCamera>();
         _playerInput = new PlayerInputEnabler();
     }
 
@@ -103,18 +105,6 @@ public class PlayerMediator : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _player.TakeDamage(damage);
-    }
-
-    /// <summary>
-    /// Destroys the player and the cinemachinebrain (because they are not destroyed on load)
-    /// </summary>
-    public void Destroy()
-    {
-        if (CineMachineManager.Instance.cineMachineBrain && gameObject)
-        {
-            Destroy(CineMachineManager.Instance.cineMachineBrain.gameObject);
-            Destroy(gameObject);
-        }
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ChronometerMechanic", menuName = "ScriptableObjects/LevelMechanics/ChronometerMechanic")]
-public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpdateMechanic, IInitMechanic, ILevelInstanceUser
+public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpdateMechanic, IInitMechanic, ILevelInstantiateUser
 {
     [SerializeField] private float _goalTime;
     [SerializeField] private float _currentTime;

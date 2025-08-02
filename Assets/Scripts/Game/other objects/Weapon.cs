@@ -85,7 +85,8 @@ public class Weapon : MonoBehaviour
     {
         int index = sceneEvent.Index;
 
-        bool IsGameplay = GameSceneController.Instance.IsGameplay(index);
+        ServiceProvider.TryGetService<GameSceneController>(out var controller);
+        bool IsGameplay = controller.IsGameplay(index);
 
         if (!user && index != GameplaySceneData.Level1Index && IsGameplay && this != null)
             Destroy(gameObject);

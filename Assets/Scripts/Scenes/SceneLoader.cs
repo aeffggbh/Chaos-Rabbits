@@ -9,22 +9,10 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneLoader : MonoBehaviour
 {
-    /// <summary>
-    /// Instance of the scene loader
-    /// </summary>
-    public static SceneLoader Instance;
-
     private List<Scene> sceneList;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-            Destroy(gameObject);
-
         EventProvider.Subscribe<IExitGameEvent>(ExitGame);
 
         sceneList = new()
