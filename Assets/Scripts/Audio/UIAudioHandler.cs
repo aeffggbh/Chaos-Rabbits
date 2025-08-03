@@ -39,7 +39,7 @@ public class UIAudioHandler : MonoBehaviour
     /// </summary>
     public void PlayButtonSound()
     {
-        _soundPlayer?.PlaySound(SFXType.CONFIRM);
+        _soundPlayer?.PlaySound("confirm");
     }
 
     /// <summary>
@@ -47,6 +47,6 @@ public class UIAudioHandler : MonoBehaviour
     /// </summary>
     public void PlayLevelUpSound(ILevelUpSoundEvent newLevelEvent)
     {
-        _soundPlayer?.PlaySound(SFXType.LEVEL_UP);
+        _soundPlayer?.PlaySound("level-up");
     }
 }

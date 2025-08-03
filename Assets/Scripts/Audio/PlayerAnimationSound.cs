@@ -16,6 +16,6 @@ public class PlayerAnimationSound : AnimationSoundPlayer
     protected void PlayFootstepSound()
     {
         if (RayManager.IsGrounded(_collider))
-            PlayAnimationSound(SFXType.FOOTSTEPS, 0.5f);
+            PlayAnimationSound("footsteps", 0.5f);
     }
 }

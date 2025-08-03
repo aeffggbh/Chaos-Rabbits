@@ -30,7 +30,7 @@ public class ExplosionEffect : BaseEffect
         Debug.Log("EXPLODING");
         _effectGO.SetActive(true);
 
-        _soundPlayer.PlaySound(SFXType.EXPLOSION);
+        _soundPlayer.PlaySound("explosion");
 
         yield return new WaitForSeconds(effectDuration);
 

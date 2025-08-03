@@ -9,8 +9,9 @@ public class ShooterAnimationController : AnimationController
     /// </summary>
     public void AnimateWalk()
     {
-        if (animator != null)
-            animator.SetBool("isWalking", true);
+        CheckAnimator();
+
+        animator?.SetBool("isWalking", true);
     }
 
     /// <summary>
@@ -18,15 +19,16 @@ public class ShooterAnimationController : AnimationController
     /// </summary>
     public void AnimateStopWalking()
     {
-        if (animator != null)
-            animator.SetBool("isWalking", false);
+        CheckAnimator();
+
+        animator?.SetBool("isWalking", false);
     }
 
     public void AnimateTriggerJump()
     {
         CheckAnimator();
-        animator.ResetTrigger("jumpRequested");
-        animator.SetTrigger("jumpRequested");
+        animator?.ResetTrigger("jumpRequested");
+        animator?.SetTrigger("jumpRequested");
     }
 
     public void AnimateGrounded(bool isGrounded)
@@ -34,9 +36,9 @@ public class ShooterAnimationController : AnimationController
         CheckAnimator();
 
         if (isGrounded && !animator.GetBool("isGrounded"))
-            animator.SetTrigger("hasLanded");
+            animator?.SetTrigger("hasLanded");
 
-        animator.SetBool("isGrounded", isGrounded);
+        animator?.SetBool("isGrounded", isGrounded);
     }
 
     public bool IsLandingAnimationPlaying()

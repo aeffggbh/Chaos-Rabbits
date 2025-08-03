@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 /// <summary>
 /// Can play sounds given an audiosource
@@ -7,20 +9,22 @@
 public class SoundPlayer : ISoundPlayer
 {
     private AudioSource _audioSource;
-    private SoundManager _soundManager;
+    private SoundContainer _soundManager;
 
     public SoundPlayer(AudioSource audioSource)
     {
         _audioSource = audioSource;
-        if (ServiceProvider.TryGetService<SoundManager>(out var soundManager))
+        if (ServiceProvider.TryGetService<SoundContainer>(out var soundManager))
             _soundManager = soundManager;
     }
 
-    public void PlaySound(SFXType type, float volume = 1f)
+    public void PlaySound(string key, float volume = 1f)
     {
-        if (PauseManager.Paused && type != SFXType.CONFIRM) 
+        if (PauseManager.Paused && key != "confirm") 
             return;
-        _soundManager.PlaySound(type, _audioSource, volume);
+
+        var clip = _soundManager.GetClip(key);
+        _audioSource.PlayOneShot(clip, volume);
     }
 
     public void SetAudioSource(AudioSource audioSource)

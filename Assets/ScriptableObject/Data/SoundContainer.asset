@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa9b0f425e96a54f9712163fe17b1ca, type: 3}
+  m_Name: SoundContainer
+  m_EditorClassIdentifier: 
+  _sounds:
+  - Key: confirm
+    Clip: {fileID: 8300000, guid: 2955c8e0a3af2db4db33f5042fb75c06, type: 3}
+  - Key: explosion
+    Clip: {fileID: 8300000, guid: 40d02a9490e371e48a6543256a7ed730, type: 3}
+  - Key: take-hit
+    Clip: {fileID: 8300000, guid: c8797fb6ed03a8d4fb9d4befa8c41627, type: 3}
+  - Key: footsteps
+    Clip: {fileID: 8300000, guid: 9a67847dad0df084688a2dcdadd2e9ed, type: 3}
+  - Key: jump
+    Clip: {fileID: 8300000, guid: 77917e82f6c400a45860a163f01d4a13, type: 3}
+  - Key: level-up
+    Clip: {fileID: 8300000, guid: ebf504a1340f70b4381f81383d16913a, type: 3}
+  - Key: shoot
+    Clip: {fileID: 8300000, guid: 72b511a0b8a001e4eadac1f2245ca372, type: 3}

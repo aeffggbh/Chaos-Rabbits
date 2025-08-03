@@ -114,7 +114,7 @@ public class Weapon : MonoBehaviour
         if (PauseManager.Paused)
             return;
 
-        _soundPlayer?.PlaySound(SFXType.SHOOT);
+        _soundPlayer?.PlaySound("shoot");
 
         if (!_usesHitscan)
         {

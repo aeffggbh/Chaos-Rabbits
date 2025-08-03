@@ -7,6 +7,7 @@ public class PlayerAnimationController : JumpAnimationController
 {
     public void AnimateShoot()
     {
+        CheckAnimator();
         animator?.SetTrigger("isShooting");
     }
 
@@ -15,6 +16,7 @@ public class PlayerAnimationController : JumpAnimationController
     /// </summary>
     public void AnimateWalk()
     {
+        CheckAnimator();
         animator?.SetBool("isWalking", true);
     }
 
@@ -23,6 +25,7 @@ public class PlayerAnimationController : JumpAnimationController
     /// </summary>
     public void AnimateStopWalking()
     {
+        CheckAnimator();
         animator?.SetBool("isWalking", false);
     }
 
@@ -31,6 +34,7 @@ public class PlayerAnimationController : JumpAnimationController
     /// </summary>
     public void AnimateGrabWeapon()
     {
+        CheckAnimator();
         animator?.SetBool("isAiming", true);
     }
 
@@ -39,6 +43,7 @@ public class PlayerAnimationController : JumpAnimationController
     /// </summary>
     public void AnimateDropWeapon()
     {
+        CheckAnimator();
         animator?.SetBool("isAiming", false);
     }
 }

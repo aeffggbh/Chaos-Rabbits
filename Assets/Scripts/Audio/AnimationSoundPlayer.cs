@@ -17,10 +17,10 @@ public class AnimationSoundPlayer : MonoBehaviour
     /// <summary>
     /// Plays a sound
     /// </summary>
-    /// <param name="type"></param>
+    /// <param name="key"></param>
     /// <param name="volume"></param>
-    protected void PlayAnimationSound(SFXType type, float volume = 1f)
+    protected void PlayAnimationSound(string key, float volume = 1f)
     {
-        _soundPlayer.PlaySound(type, volume);
+        _soundPlayer.PlaySound(key, volume);
     }
 }

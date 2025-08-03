@@ -5,13 +5,13 @@ using UnityEngine;
 /// </summary>
 public class SoundBoot : MonoBehaviour
 {
-    [SerializeField] private SoundManager _soundManager;
+    [SerializeField] private SoundContainer _soundContainer;
 
     private void Awake()
     {
-        if (_soundManager)
-            ServiceProvider.SetService<SoundManager>(_soundManager, true);
+        if (_soundContainer)
+            ServiceProvider.SetService<SoundContainer>(_soundContainer, true);
         else
-            Debug.LogError(nameof(_soundManager) + " does not exist");
+            Debug.LogError(nameof(_soundContainer) + " does not exist");
     }
 }

@@ -15,6 +15,9 @@ public abstract class AnimationController : MonoBehaviour
 
     protected void CheckAnimator()
     {
+        if (PauseManager.Paused)
+            return;
+
         if (animator == null)
             animator = GetComponent<Animator>();
         if (animator == null)

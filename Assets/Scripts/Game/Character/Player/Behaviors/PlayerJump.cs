@@ -31,7 +31,7 @@ public class PlayerJump : IPlayerJump
         if (_grounded)
         {
             _rb.AddForce(Vector3.up * force, ForceMode.Impulse);
-            _soundPlayer.PlaySound(SFXType.JUMP);
+            _soundPlayer.PlaySound("jump");
             _playerAnimationController.AnimateTriggerJump();
         }
     }

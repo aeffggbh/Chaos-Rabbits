@@ -123,7 +123,7 @@ public class Player : Character, IPlayerData
         if (!mediator.CheatsController.IsGodMode())
         {
             base.TakeDamage(damage);
-            _soundPlayer.PlaySound(SFXType.TAKE_HIT);
+            _soundPlayer.PlaySound("take-hit");
         }
         else
             Debug.Log("Cannot take damage!");
