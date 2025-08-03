@@ -20,11 +20,11 @@ public class SoundPlayer : ISoundPlayer
 
     public void PlaySound(string key, float volume = 1f)
     {
-        if (PauseManager.Paused && key != "confirm") 
+        if (PauseManager.Paused && (key != "confirm" && key != "navigation")) 
             return;
 
-        var clip = _soundManager.GetClip(key);
-        _audioSource.PlayOneShot(clip, volume);
+        var clip = _soundManager?.GetClip(key);
+        _audioSource?.PlayOneShot(clip, volume);
     }
 
     public void SetAudioSource(AudioSource audioSource)

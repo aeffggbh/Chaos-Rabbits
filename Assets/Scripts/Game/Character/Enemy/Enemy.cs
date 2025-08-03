@@ -100,7 +100,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         StartStateMachine();
 
-        EventTriggerManager.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, manager, gameObject));
+        EventTriggerer.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, manager, gameObject));
     }
 
     /// <summary>
@@ -374,7 +374,7 @@ public abstract class Enemy : Character, IPhysicsMovementData
     {
         manager.Enemies.Remove(this);
 
-        EventTriggerManager.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, manager, gameObject));
+        EventTriggerer.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, manager, gameObject));
 
         base.Die();
     }

@@ -179,6 +179,6 @@ public class PlayerMediator : MonoBehaviour
             return;
 
         if (_player)
-            EventTriggerManager.Trigger<IPlayerLookEvent>(new PlayerLookEvent(gameObject, context));
+            EventTriggerer.Trigger<IPlayerLookEvent>(new PlayerLookEvent(gameObject, context));
     }
 }

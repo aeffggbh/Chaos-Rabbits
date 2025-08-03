@@ -1,15 +1,15 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 /// <summary>
 /// Handles the buttons in the menus
 /// </summary>
 public class MenuButtonHandler : MonoBehaviour
 {
-    private UIAudioHandler _audio;
     private MenuManager _menuManager;
 
     private void Start()
     {
-        ServiceProvider.TryGetService<UIAudioHandler>(out _audio);
         ServiceProvider.TryGetService<MenuManager>(out _menuManager);
     }
 
@@ -18,7 +18,7 @@ public class MenuButtonHandler : MonoBehaviour
     /// </summary>
     public void ToGameOver()
     {
-        _audio.PlayButtonSound();
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
         _menuManager.TransitionToState(new GameOverState());
     }
     /// <summary>
@@ -26,7 +26,7 @@ public class MenuButtonHandler : MonoBehaviour
     /// </summary>
     public void ToGameWin()
     {
-        _audio.PlayButtonSound();
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
         _menuManager.TransitionToState(new GameWinState());
     }
     /// <summary>
@@ -34,7 +34,7 @@ public class MenuButtonHandler : MonoBehaviour
     /// </summary>
     public void ToCredits()
     {
-        _audio.PlayButtonSound();
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
         _menuManager.TransitionToState(new CreditsState());
     }
     /// <summary>
@@ -42,7 +42,7 @@ public class MenuButtonHandler : MonoBehaviour
     /// </summary>
     public void ToCheckExit()
     {
-        _audio.PlayButtonSound();
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
         _menuManager.TransitionToState(new CheckExitState());
     }
     /// <summary>
@@ -50,7 +50,7 @@ public class MenuButtonHandler : MonoBehaviour
     /// </summary>
     public void ToMainMenu()
     {
-        _audio.PlayButtonSound();
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
         PlayerPreservedData.BlockSaving = true;
         _menuManager.TransitionToState(new MainMenuState());
     }
@@ -59,7 +59,7 @@ public class MenuButtonHandler : MonoBehaviour
     /// </summary>
     public void ToPreviousMenu()
     {
-        _audio.PlayButtonSound();
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
         IMenuState previousState = _menuManager.PreviousState;
         _menuManager.TransitionToState(previousState);
     }
@@ -68,23 +68,23 @@ public class MenuButtonHandler : MonoBehaviour
     /// </summary>
     public void Unpause()
     {
-        _audio.PlayButtonSound();
-        EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(gameObject));
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
+        EventTriggerer.Trigger<IPauseEvent>(new PauseEvent(gameObject));
     }
     /// <summary>
     /// Switches the scene to level 1 specifically
     /// </summary>
     public void ToLevel1()
     {
-        _audio.PlayButtonSound();
-        EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false, GameplaySceneData.Level1Index));
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
+        EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false, GameplaySceneData.Level1Index));
     }
     /// <summary>
     /// Exits the game
     /// </summary>
     public void ExitGame()
     {
-        _audio.PlayButtonSound();
-        EventTriggerManager.Trigger<IExitGameEvent>(new ExitGameEvent(gameObject));
+        EventTriggerer.Trigger<IButtonClickEvent>(new ButtonClickEvent(gameObject));
+        EventTriggerer.Trigger<IExitGameEvent>(new ExitGameEvent(gameObject));
     }
 }

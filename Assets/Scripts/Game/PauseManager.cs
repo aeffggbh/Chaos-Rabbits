@@ -44,7 +44,7 @@ public class PauseManager : MonoBehaviour
     /// <param name="context"></param>
     private void OnPause(InputAction.CallbackContext context)
     {
-        EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(gameObject));
+        EventTriggerer.Trigger<IPauseEvent>(new PauseEvent(gameObject));
     }
 
     private void Pause(IPauseEvent pauseEvent)
@@ -54,8 +54,8 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = Paused ? 0f : 1f;
 
         if (Paused)
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new PauseMenuState(), gameObject));
+            EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new PauseMenuState(), gameObject));
         else
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false, false));
+            EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, false, false));
     }
 }

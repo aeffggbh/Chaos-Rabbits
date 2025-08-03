@@ -48,7 +48,7 @@ public class EffectTrigger : MonoBehaviour, IEffectTrigger
     {
         yield return new WaitForSeconds(_effectDelay);
 
-        EventTriggerManager.Trigger<EffectStartedEvent>(new(gameObject, this));
+        EventTriggerer.Trigger<EffectStartedEvent>(new(gameObject, this));
 
         _effect.Play();
     }
@@ -61,7 +61,7 @@ public class EffectTrigger : MonoBehaviour, IEffectTrigger
     {
         _isEffectActive = false;
 
-        EventTriggerManager.Trigger<EffectCompletedEvent>(new(gameObject));
+        EventTriggerer.Trigger<EffectCompletedEvent>(new(gameObject));
     }
 
     private void OnDisable()

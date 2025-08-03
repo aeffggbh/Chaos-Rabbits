@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Manages ray casting operations in the game.
@@ -27,7 +28,7 @@ public static class RayManager
     }
 
     /// <summary>
-    /// Checks if I'm pointing towards an object
+    /// Checks if an object is pointing towards another object in front of it
     /// </summary>
     /// <param name="start"></param>
     /// <param name="maxDistance"></param>
@@ -38,6 +39,23 @@ public static class RayManager
         Ray ray = new(start.position, start.forward);
 
         if (Physics.Raycast(ray, out hitInfo, maxDistance))
+            return true;
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if an object is pointing towards another object in front of it with a specific mask
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="hitInfo"></param>
+    /// <returns></returns>
+    public static bool PointingToObject(Transform start, float maxDistance, out RaycastHit hitInfo, LayerMask mask)
+    {
+        Ray ray = new(start.position, start.forward);
+
+        if (Physics.Raycast(ray, out hitInfo, maxDistance, mask))
             return true;
 
         return false;

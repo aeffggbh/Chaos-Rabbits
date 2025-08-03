@@ -1,0 +1,3 @@
+﻿public interface IButtonClickEvent : IEvent
+{
+}

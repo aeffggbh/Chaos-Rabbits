@@ -96,7 +96,7 @@ public class MenuManager : MonoBehaviour
     {
         HideAllPanels();
         panel.SetActive(true);
-        EventTriggerManager.Trigger<IMenuShownEvent>(new MenuShownEvent(panel, panel.transform));
+        EventTriggerer.Trigger<IMenuShownEvent>(new MenuShownEvent(panel, panel.transform));
     }
 
     /// <summary>

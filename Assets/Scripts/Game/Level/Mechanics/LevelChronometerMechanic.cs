@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ChronometerMechanic", menuName = "ScriptableObjects/LevelMechanics/ChronometerMechanic")]
-public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpdateMechanic, IInitMechanic, ILevelInstantiateUser
+public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpdateMechanic, IMechanicInit, IMechanicInstantiateUser
 {
     [SerializeField] private float _goalTime;
     [SerializeField] private float _currentTime;
@@ -21,7 +21,7 @@ public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpd
 
         _currentTime = _goalTime;
 
-        EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "RUN!!!!!!"));
+        EventTriggerer.Trigger<ILogMessageEvent>(new LogMessageEvent(null, "RUN!!!!!!"));
         EventProvider.Subscribe<IChronometerTriggerEvent>(OnTrigger);
     }
 
@@ -43,7 +43,7 @@ public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpd
         if (DidNotArriveOnTime())
         {
             _currentTime = 0;
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), null, true));
+            EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameOverState(), null, true));
         }
     }
 

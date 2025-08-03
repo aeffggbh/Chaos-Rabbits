@@ -28,6 +28,7 @@ public class Weapon : MonoBehaviour
 
     public WeaponData WeaponData { get => _weaponData; set => _weaponData = value; }
     public GameObject BulletSpawnGO { get => _centerSpawnGO; set => _centerSpawnGO = value; }
+    public GameObject TipGO => _tipGO;
 
     private void OnDestroy()
     {

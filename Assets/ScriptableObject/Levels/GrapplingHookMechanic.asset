@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ecd29a12bdccc44bbad89aa31d8565, type: 3}
+  m_Name: GrapplingHookMechanic
+  m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 7912271763414076063, guid: c83908cbab003e341ba0cd12a9d12d18, type: 3}
+  _grappleAction: {fileID: -6494017455745318438, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _ropePrefab: {fileID: 5065742178039462601, guid: 27776a2fb1efcfb4cb1536ac84e4f2a3, type: 3}
+  _whatToGrapple:
+    serializedVersion: 2
+    m_Bits: 128

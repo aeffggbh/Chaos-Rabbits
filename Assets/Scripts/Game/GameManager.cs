@@ -11,7 +11,7 @@ public static class GameManager
     {
         ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
         mediator?.CheatsController?.Reset();
-        EventTriggerManager.Trigger<IDeleteUserEvent>(new DeleteUserEvent(null));
+        EventTriggerer.Trigger<IDeleteUserEvent>(new DeleteUserEvent(null));
         PlayerPreservedData.Reset();
     }
 }

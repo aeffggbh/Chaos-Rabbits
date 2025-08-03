@@ -10,7 +10,7 @@ public class GameStarter : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new MainMenuState(), gameObject));
+        EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new MainMenuState(), gameObject));
 
         Destroy(gameObject);
     }

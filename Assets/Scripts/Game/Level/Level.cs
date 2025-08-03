@@ -19,20 +19,25 @@ public class Level : MonoBehaviour, ILevel
         if (_levelData == null)
             Debug.LogError("No level data");
 
-        foreach (var mechanic in Mechanics)
-            (mechanic as IInitMechanic)?.Init();
-
-        EventProvider.Subscribe<IDeleteUserEvent>(OnDeleteUser);
-
         GameObject userObj = null;
+        foreach (var mechanic in Mechanics)
+        {
+            (mechanic as IMechanicInit)?.Init();
+            userObj = (mechanic as IMechanicInstantiateUser)?.UserPrefab;
+        }
+
+        if (userObj)
+            _userGO = GameObject.Instantiate(userObj);
 
         foreach (var mechanic in Mechanics)
-            userObj = (mechanic as ILevelInstantiateUser)?.UserPrefab;
-
-        _userGO = GameObject.Instantiate(userObj);
+        {
+            if (_userGO != null)
+                (mechanic as IMechanicAddComponent)?.AddNeededComponent(_userGO);
+        }
 
         _userGO.transform.position = _levelSpawn.position;
-        
+
+        EventProvider.Subscribe<IDeleteUserEvent>(OnDeleteUser);
     }
 
     private void OnDestroy()
@@ -42,10 +47,10 @@ public class Level : MonoBehaviour, ILevel
 
     private void Start()
     {
-        EventTriggerManager.Trigger<IUserSpawnedEvent>(new UserSpawnedEvent(_userGO, _userGO.transform));
+        EventTriggerer.Trigger<IUserSpawnedEvent>(new UserSpawnedEvent(_userGO, _userGO.transform));
 
         if (LevelIndex != GameplaySceneData.Level1Index)
-            EventTriggerManager.Trigger<ILevelUpSoundEvent>(new LevelUpSoundEvent(gameObject));
+            EventTriggerer.Trigger<ILevelUpSoundEvent>(new LevelUpSoundEvent(gameObject));
     }
 
     private void OnDeleteUser(IDeleteUserEvent levelEvent)
@@ -63,11 +68,11 @@ public class Level : MonoBehaviour, ILevel
     public void Trigger()
     {
         if (LevelIndex == GameplaySceneData.FinalLevelIndex)
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(), gameObject, true));
+            EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(), gameObject, true));
         else if (AllObjectivesCompleted())
-            EventTriggerManager.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
+            EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateGameplayEvent(gameObject, true));
         else
-            EventTriggerManager.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "PENDING OBJECTIVES"));
+            EventTriggerer.Trigger<ILogMessageEvent>(new LogMessageEvent(gameObject, "PENDING OBJECTIVES"));
     }
 
     public bool AllObjectivesCompleted()

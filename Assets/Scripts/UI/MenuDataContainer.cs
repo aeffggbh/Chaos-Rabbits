@@ -19,6 +19,6 @@ public class MenuDataContainer : MonoBehaviour
 
     private void OnEnable()
     {
-        EventTriggerManager.Trigger<IMenuEnableEvent>(new MenuEnableEvent(gameObject));
+        EventTriggerer.Trigger<IMenuEnableEvent>(new MenuEnableEvent(gameObject));
     }
 }

@@ -19,7 +19,7 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
     public ActivateGameplayEvent(GameObject source, bool unloadPrevious, bool loadNext = true)
     {
         if (PauseManager.Paused)
-            EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(source));
+            EventTriggerer.Trigger<IPauseEvent>(new PauseEvent(source));
 
         ServiceProvider.TryGetService<MenuManager>(out var menu);
         menu.HideAllPanels();
@@ -34,7 +34,7 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
     public ActivateGameplayEvent(GameObject source, bool unloadPrevious, int levelIndex)
     {
         if (PauseManager.Paused)
-            EventTriggerManager.Trigger<IPauseEvent>(new PauseEvent(source));
+            EventTriggerer.Trigger<IPauseEvent>(new PauseEvent(source));
 
         ServiceProvider.TryGetService<MenuManager>(out var menu);
         menu.HideAllPanels();
@@ -53,7 +53,7 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
         if (_unloadPrevious)
         {
             _unloadPrevious = false;
-            EventTriggerManager.Trigger<IDeleteUserEvent>(new DeleteUserEvent(TriggeredByGO));
+            EventTriggerer.Trigger<IDeleteUserEvent>(new DeleteUserEvent(TriggeredByGO));
 
             ServiceProvider.TryGetService<GameSceneController>(out var controller);
             controller.UnloadScene(levelToUnloadIndex);
@@ -74,7 +74,7 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
         }
 
         if (_loadNext && _unloadPrevious)
-            EventTriggerManager.Trigger<INewLevelEvent>(new NewLevelEvent(TriggeredByGO, levelToUnloadIndex));
+            EventTriggerer.Trigger<INewLevelEvent>(new NewLevelEvent(TriggeredByGO, levelToUnloadIndex));
 
         _levelToUnloadIndex = -1;
         _newLevelIndex = -1;
