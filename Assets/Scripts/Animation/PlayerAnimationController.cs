@@ -5,6 +5,11 @@ using UnityEngine;
 /// </summary>
 public class PlayerAnimationController : JumpAnimationController
 {
+    public void AnimateShoot()
+    {
+        animator?.SetTrigger("isShooting");
+    }
+
     /// <summary>
     /// Plays the walk animation
     /// </summary>

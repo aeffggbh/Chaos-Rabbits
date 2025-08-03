@@ -98,9 +98,12 @@ public class Weapon : MonoBehaviour
     /// <param name="context"></param>
     private void OnShoot(InputAction.CallbackContext context)
     {
-        if (user)
-            if (user.GetType() == typeof(Player))
-                Fire();
+        if (user?.GetType() == typeof(Player))
+        {
+            ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
+            mediator.Player.PlayerAnimation.AnimateShoot();
+            Fire();
+        }
     }
 
     /// <summary>
