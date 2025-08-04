@@ -48,7 +48,6 @@ public class PlayerInputEnabler : IPlayerInputEnabler
 
         if (_lookAction)
         {
-            _lookAction.action.started += _playerMediator.OnLook;
             _lookAction.action.performed += _playerMediator.OnLook;
         }
     }

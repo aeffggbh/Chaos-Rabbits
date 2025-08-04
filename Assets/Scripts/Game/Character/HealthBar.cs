@@ -27,7 +27,9 @@ public class HealthBar : MonoBehaviour, IHealthBar
     private void FixedUpdate()
     {
         ServiceProvider.TryGetService<PlayerMediator>(out var mediator);
-        Vector3 fw = mediator.Camera.transform.forward;
+        Vector3 fw = transform.forward;
+        if (mediator.Camera)
+            fw = mediator.Camera.transform.forward;
 
         transform.forward = fw;
     }

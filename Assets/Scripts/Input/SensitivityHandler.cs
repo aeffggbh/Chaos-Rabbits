@@ -1,9 +1,10 @@
 using NUnit.Framework;
 using System;
+using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 
-[RequireComponent(typeof(CinemachineCamera))]
+[RequireComponent(typeof(CinemachineInputAxisController))]
 public class SensitivityHandler : MonoBehaviour
 {
     [Header("Base settings")]
@@ -14,22 +15,13 @@ public class SensitivityHandler : MonoBehaviour
 
     [Header("Joystick Settings")]
     [SerializeField] private float _joystickMultiplier = 5f;
-    [SerializeField] private float _joystickDeadZone = 0.2f;
-    [SerializeField] private AnimationCurve _joystickResponseCurve = AnimationCurve.Linear(0,0,1,1);
 
-    private CinemachineCamera _camera;
-    private CinemachinePanTilt _panTilt;
+    private CinemachineInputAxisController _axisControl;
     private InputManager _inputManager;
 
     private void Awake()
     {
-        _camera = GetComponent<CinemachineCamera>();
-        if (!_camera)
-            Debug.LogError("No virtual camera found");
-
-        _panTilt = GetComponent<CinemachinePanTilt>();
-        if (!_panTilt)
-            Debug.LogError("No pan tilt found");
+        _axisControl = GetComponent<CinemachineInputAxisController>();
 
         InitInputManager();
     }
@@ -39,10 +31,7 @@ public class SensitivityHandler : MonoBehaviour
         _inputManager = new InputManager();
 
         _inputManager.RegisterProcessor(new MouseInputProcessor(_mouseMultiplier));
-        _inputManager.RegisterProcessor(new JoystickInputProcessor(
-            _joystickResponseCurve,
-            _joystickDeadZone,
-            _joystickMultiplier));
+        _inputManager.RegisterProcessor(new JoystickInputProcessor(_joystickMultiplier));
     }
 
     private void Start()
@@ -59,22 +48,12 @@ public class SensitivityHandler : MonoBehaviour
     {
         var processor = _inputManager.GetProcessorForDevice(playerLook.InputDevice);
 
-        var processedInput = processor.ProcessInput(playerLook.LookDir) * _baseSens;
+        float multiplier = processor.SensitivityMultiplier * _baseSens;
 
-        ApplyCameraRotation(processedInput);
-    }
-
-    private void ApplyCameraRotation(Vector2 lookInput)
-    {
-        if (lookInput.magnitude < 0.1f)
-            return;
-
-        var panTilt = _camera.GetComponent<CinemachinePanTilt>();
-
-        if (panTilt)
+        foreach (var c in _axisControl.Controllers)
         {
-            panTilt.PanAxis.Value += lookInput.x * Time.deltaTime;
-            panTilt.TiltAxis.Value -= lookInput.y * Time.deltaTime;
+            var sign = Math.Sign(c.Input.Gain);
+            c.Input.Gain = multiplier * sign;
         }
     }
 }

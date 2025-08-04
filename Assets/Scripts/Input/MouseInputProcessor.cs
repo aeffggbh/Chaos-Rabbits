@@ -11,12 +11,6 @@ public class MouseInputProcessor : IInputProcessor
     {
         _sensitivityMultiplier = sensitivityMultiplier;
     }
-
-    public Vector2 ProcessInput(Vector2 rawInput)
-    {
-        return rawInput * _sensitivityMultiplier;
-    }
-
     public bool CanProcessInput(InputDevice inputDevice)
     {
         return inputDevice is Mouse;

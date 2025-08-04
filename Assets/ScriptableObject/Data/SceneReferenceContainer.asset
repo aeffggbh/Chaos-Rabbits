@@ -24,5 +24,5 @@ MonoBehaviour:
   _level1Scene: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
   _level2Scene: {fileID: 102900000, guid: 0c77944a766f59d458ebe0c27dbfb421, type: 3}
   _level3Scene: {fileID: 102900000, guid: 5525c0ea7141c5747a49ea78fc60b785, type: 3}
-  _level4Scene: {fileID: 102900000, guid: eaf25aa6efe96f3429af16a1c854ab20, type: 3}
+  _level4Scene: {fileID: 102900000, guid: c5d59f46bcfeac4458af22e96c9f6ead, type: 3}
   _finalLevelScene: {fileID: 102900000, guid: 35ec07f079725d143adbb66cb5dede0a, type: 3}

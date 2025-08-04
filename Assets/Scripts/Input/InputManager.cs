@@ -18,9 +18,4 @@ public class InputManager
     {
         return _inputProcessors.FirstOrDefault(p => p.CanProcessInput(inputDevice));
     }
-
-    public Vector2 ProcessInput(Vector2 rawInput)
-    {
-        return _activeProcessor?.ProcessInput(rawInput) ?? rawInput;
-    }
 }

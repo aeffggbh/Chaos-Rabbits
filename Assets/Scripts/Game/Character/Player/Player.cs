@@ -5,7 +5,6 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(AudioListener))]
 [RequireComponent(typeof(PlayerAnimationController))]
 public class Player : Character, IPlayerData
 {
