@@ -26,7 +26,7 @@ public class LevelGrapplingHookMechanic : LevelMechanicSO, IMechanicTextInfo, IM
 
     public string GetObjectiveText()
     {
-        return "You now have a grappling hook! Try to use it on the logs. (Middle click / Left trigger)";
+        return "You now have a grappling hook! Try to use it on the logs. (Press G / L1)";
     }
 
     public void Destroy(GameObject userObj)

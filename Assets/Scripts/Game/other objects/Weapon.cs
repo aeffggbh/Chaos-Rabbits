@@ -161,6 +161,8 @@ public class Weapon : MonoBehaviour
             Destroy(GetComponent<Rigidbody>());
 
         gameObject.layer = _weaponLayerIndex;
+
+        _soundPlayer?.PlaySound("grab");
     }
 
     /// <summary>

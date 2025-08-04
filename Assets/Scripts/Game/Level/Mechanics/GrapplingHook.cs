@@ -14,6 +14,8 @@ public class GrapplingHook : MonoBehaviour
     private Vector3 _grapplePoint;
     private LayerMask _whatToGrapple;
     private SpringJoint _springJoint;
+    private AudioSource _audioSource;
+    private ISoundPlayer _soundPlayer;
     public GameObject GrappleRendererGO { get => _grappleRendererGO; set => _grappleRendererGO = value; }
     public LayerMask WhatToGrapple { get => _whatToGrapple; set => _whatToGrapple = value; }
 
@@ -24,6 +26,13 @@ public class GrapplingHook : MonoBehaviour
         _origin = playerMediator?.Player?.CurrentWeapon?.TipGO.transform;
         _grappleRenderer = GrappleRendererGO.GetComponent<LineRenderer>();
         _grappleRenderer.positionCount = 0;
+
+        _audioSource = GetComponent<AudioSource>();
+
+        if (!_audioSource)
+            gameObject.AddComponent<AudioSource>();
+
+        _soundPlayer = new SoundPlayer(_audioSource);
     }
 
     public void OnGrapple(InputAction.CallbackContext context)
@@ -42,6 +51,8 @@ public class GrapplingHook : MonoBehaviour
             _springJoint.spring = 7f;
             _springJoint.damper = 7f;
             _springJoint.massScale = 4.5f;
+
+            _soundPlayer?.PlaySound("grapple");
         }
     }
 
