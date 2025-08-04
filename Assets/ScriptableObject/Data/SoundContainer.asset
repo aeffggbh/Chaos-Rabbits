@@ -27,3 +27,9 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: ebf504a1340f70b4381f81383d16913a, type: 3}
   - Key: shoot
     Clip: {fileID: 8300000, guid: 72b511a0b8a001e4eadac1f2245ca372, type: 3}
+  - Key: grab
+    Clip: {fileID: 8300000, guid: 142bd5ce571d7254289d527dee5d8450, type: 3}
+  - Key: grapple
+    Clip: {fileID: 8300000, guid: eabfd26806cf37f4ca88b312b14992e6, type: 3}
+  - Key: navigation
+    Clip: {fileID: 8300000, guid: 58ab70435ea3f6a4cb03116791c12d07, type: 3}
