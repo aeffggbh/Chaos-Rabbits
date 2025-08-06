@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -32,6 +33,8 @@ public abstract class Enemy : Character
     protected float counterMovementForce;
 
     private IEnemyState currentState;
+    private Action _release;
+    private GameObject _prefabSource;
 
     public EnemyStats Stats { get => stats; set => stats = value; }
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
@@ -39,6 +42,7 @@ public abstract class Enemy : Character
     public PlayerMediator PlayerMediator => playerMediator;
     public Vector3 TargetLook { get => targetLook; set => targetLook = value; }
     public float TimeSinceAttacked { get => timeSinceAttacked; set => timeSinceAttacked = value; }
+    public GameObject PrefabSource { get => _prefabSource; set => _prefabSource = value; }
 
     protected override void Start()
     {
@@ -55,7 +59,7 @@ public abstract class Enemy : Character
 
         if (enemyManager != null)
         {
-            enemyManager.Enemies.Add(this);
+            enemyManager.Add(this);
             patrolTimer = stats.PatrolTimer;
             attackRange = stats.AttackRange;
             chaseRange = stats.ChaseRange;
@@ -77,6 +81,26 @@ public abstract class Enemy : Character
         ChangeState(new PatrolState(this));
 
         EventTriggerer.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, enemyManager, gameObject));
+    }
+
+    /// <summary>
+    /// Sets the function that happens when the enemy is released.
+    /// </summary>
+    /// <param name="action"></param>
+    public void SetPoolReleaseAction(Action action)
+    {
+        _release = action;
+    }
+
+    public virtual void Reset()
+    {
+        timeSinceAttacked = 0;
+        currentSpeed = patrolSpeed;
+        moveDir = Vector3.zero;
+        targetLook = Vector3.zero;
+        StopAllCoroutines();
+
+        ChangeState(new PatrolState(this));
     }
 
     /// <summary>
@@ -160,7 +184,8 @@ public abstract class Enemy : Character
 
         EventTriggerer.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, enemyManager, gameObject));
 
-        base.Die();
+        if (_release != null)
+            _release?.Invoke();
     }
 
     internal void ChangeState(IEnemyState newState)

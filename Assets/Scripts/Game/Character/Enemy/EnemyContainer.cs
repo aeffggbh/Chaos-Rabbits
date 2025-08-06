@@ -20,10 +20,22 @@ public class EnemyContainer : MonoBehaviour, IEnemyContainer
     {
         ServiceProvider.SetService<IEnemyContainer>(null, true);
     }
-
+        
     private void Start()
     {
         if (enemies.Count == 0)
             Debug.LogWarning("No enemies added!");
+    }
+
+    public void Add(Enemy enemy)
+    {
+        if (!enemies.Contains(enemy))
+            enemies.Add(enemy);
+    }
+
+    public void Remove(Enemy enemy)
+    {
+        if (enemies.Contains(enemy))
+            enemies.Remove(enemy);
     }
 }
