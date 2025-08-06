@@ -2,22 +2,84 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+public abstract class EnemyState : IEnemyState
+{
+    protected Enemy enemy;
+    protected float distanceFromPlayer = 1000;
+
+    protected EnemyState(Enemy enemy)
+    {
+        this.enemy = enemy;
+    }
+
+    public virtual void CheckRange()
+    {
+        if (enemy.PlayerMediator == null)
+            return;
+
+        distanceFromPlayer = enemy.GetPlayerDistance();
+    }
+
+    public abstract void Enter();
+
+    public abstract IEnumerator Execute();
+
+    public abstract void Exit();
+}
+
+public class IdleState : EnemyState
+{
+    private float idleTimer;
+    private float currentTime;
+    private Coroutine coroutine;
+
+    public IdleState(Enemy enemy) : base(enemy) { }
+
+    public override void CheckRange()
+    {
+        if (distanceFromPlayer <= enemy.Stats.AttackRange)
+            enemy.ChangeState(new AttackState(enemy));
+        else if (distanceFromPlayer > enemy.Stats.AttackRange &&
+            distanceFromPlayer <= enemy.Stats.ChaseRange)
+            enemy.ChangeState(new ChaseState(enemy));
+    }
+
+    public override void Enter()
+    {
+        if (enemy as IIdleBehavior == null)
+            return;
+
+        (enemy as IIdleBehavior)?.ActivateIdle();
+        enemy.CurrentSpeed = 0f;
+        currentTime = 0f;
+        enemy.MoveDir = Vector3.zero;
+        idleTimer = enemy.Stats.PatrolTimer * 3;
+
+        coroutine = enemy.StartCoroutine(Execute());
+    }
+
+    public override IEnumerator Execute()
+    {
+        yield return new WaitForSeconds(idleTimer);
+        enemy.ChangeState(new PatrolState(enemy));
+    }
+
+    public override void Exit()
+    {
+        if (coroutine != null)
+        {
+            enemy.StopCoroutine(coroutine);
+            coroutine = null;
+        }
+    }
+}
+
 /// <summary>
 /// Base class for all enemies in the game.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Enemy : Character
 {
-    protected enum States
-    {
-        NONE,
-        IDLE,
-        PATROL,
-        CHASE,
-        ATTACK
-    }
-
-    protected IEnemyContainer manager;
     protected EnemyStats stats;
     protected Vector3 targetWalk;
     protected Vector3 targetLook;
@@ -33,16 +95,8 @@ public abstract class Enemy : Character
     protected AnimationController animationController;
     protected PlayerMediator playerMediator;
 
-    protected States currentState = States.NONE;
-    protected bool isExplodingEnemy;
     protected Coroutine currentStateCoroutine;
     protected Coroutine rangeCheckCoroutine;
-    protected IChaseBehavior chaseBehavior;
-    protected IAttackBehavior attackBehavior;
-    protected IAttackActivationBehavior attackActivationBehavior;
-    protected IIdleBehavior idleBehavior;
-    protected IPatrolBehavior patrolBehavior;
-    protected IMovementBehavior movementBehavior;
 
     protected float currentSpeed;
     protected Vector3 moveDir;
@@ -51,7 +105,13 @@ public abstract class Enemy : Character
     protected float acceleration;
     protected float counterMovementForce;
 
+    private IEnemyState currentState;
+
     public EnemyStats Stats { get => stats; set => stats = value; }
+    public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
+    public Vector3 MoveDir { get => moveDir; set => moveDir = value; }
+    public PlayerMediator PlayerMediator => playerMediator;
+    public Vector3 TargetLook { get => targetLook; set => targetLook = value; }
 
     protected override void Start()
     {
@@ -63,13 +123,12 @@ public abstract class Enemy : Character
         Damage = 10.0f;
 
         if (ServiceProvider.TryGetService<IEnemyContainer>(out var enemyManager))
-            manager = enemyManager;
 
-        rb = gameObject.GetComponent<Rigidbody>();
+            rb = gameObject.GetComponent<Rigidbody>();
 
-        if (manager != null)
+        if (enemyManager != null)
         {
-            manager.Enemies.Add(this);
+            enemyManager.Enemies.Add(this);
             patrolTimer = stats.PatrolTimer;
             attackRange = stats.AttackRange;
             chaseRange = stats.ChaseRange;
@@ -86,138 +145,18 @@ public abstract class Enemy : Character
 
         currentSpeed = patrolSpeed;
 
-        isExplodingEnemy = gameObject.GetComponent<ExplodingEnemy>() != null;
-
         ServiceProvider.TryGetService<PlayerMediator>(out playerMediator);
 
-        chaseBehavior = this as IChaseBehavior;
-        attackBehavior = this as IAttackBehavior;
-        attackActivationBehavior = this as IAttackActivationBehavior;
-        idleBehavior = this as IIdleBehavior;
-        patrolBehavior = this as IPatrolBehavior;
-        movementBehavior = this as IMovementBehavior;
+        ChangeState(new PatrolState(this));
 
-        StartStateMachine();
-
-        EventTriggerer.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, manager, gameObject));
-    }
-
-    /// <summary>
-    /// Starts the state machine
-    /// </summary>
-    private void StartStateMachine()
-    {
-        if (rangeCheckCoroutine != null)
-        {
-            StopCoroutine(rangeCheckCoroutine);
-            rangeCheckCoroutine = null;
-        }
-
-        rangeCheckCoroutine = StartCoroutine(RangeCheckCoroutine());
-
-        SwitchState(States.PATROL);
-    }
-
-    /// <summary>
-    /// Switches to another state
-    /// </summary>
-    /// <param name="state"></param>
-    private void SwitchState(States state)
-    {
-        if (state == currentState)
-            return;
-
-        if (currentStateCoroutine != null)
-        {
-            StopCoroutine(currentStateCoroutine);
-            currentStateCoroutine = null;
-        }
-
-        currentState = state;
-
-        switch (state)
-        {
-            case States.IDLE:
-                currentStateCoroutine = StartCoroutine(StartIdleCoroutine());
-                break;
-            case States.PATROL:
-                currentStateCoroutine = StartCoroutine(StartPatrolCoroutine());
-                break;
-            case States.CHASE:
-                currentStateCoroutine = StartCoroutine(StartChaseCoroutine());
-                break;
-            case States.ATTACK:
-                currentStateCoroutine = StartCoroutine(StartAttackCoroutine());
-                break;
-            default:
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Executes attack logic
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator StartAttackCoroutine()
-    {
-        if (attackBehavior != null)
-        {
-            attackActivationBehavior?.ActivateAttack();
-
-            timeSinceAttacked = 0;
-
-            while (currentState == States.ATTACK)
-            {
-                if (playerMediator)
-                {
-                    targetLook = playerMediator.transform.position;
-                    attackBehavior.Attack();
-                    timeSinceAttacked += Time.deltaTime;
-                }
-
-                yield return null;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Executes chasing logic
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator StartChaseCoroutine()
-    {
-        if (chaseBehavior != null)
-        {
-            chaseBehavior.ActivateChase();
-
-            while (currentState == States.CHASE)
-            {
-                Chase();
-                yield return null;
-            }
-        }
-
-    }
-
-    /// <summary>
-    /// Checks the range from the enemy to the player
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator RangeCheckCoroutine()
-    {
-        while (true)
-        {
-            CheckRange();
-
-            yield return null;
-        }
+        EventTriggerer.Trigger<IEnemySpawnEvent>(new EnemySpawnEvent(this, enemyManager, gameObject));
     }
 
     /// <summary>
     /// Calculates the distance to the player character.
     /// </summary>
     /// <returns></returns>
-    protected float GetPlayerDistance()
+    public float GetPlayerDistance()
     {
         if (playerMediator)
             return Vector3.Distance(transform.position, playerMediator.transform.position);
@@ -244,11 +183,13 @@ public abstract class Enemy : Character
     {
         base.FixedUpdate();
 
-        if (movementBehavior != null)
+        currentState?.CheckRange();
+
+        if (this is IMovementBehavior)
         {
             UpdateCounterMovement();
 
-            movementBehavior.Move();
+            (this as IMovementBehavior).Move();
 
             LookAtTarget.Look(targetLook, transform);
         }
@@ -271,7 +212,7 @@ public abstract class Enemy : Character
     /// <summary>
     /// Handles the chase state of the enemy, moving towards the player character.
     /// </summary>
-    private void Chase()
+    public void Chase()
     {
         moveDir = GetPlayerDirection();
 
@@ -279,102 +220,26 @@ public abstract class Enemy : Character
             targetLook = playerMediator.transform.position;
     }
 
-    /// <summary>
-    /// Checks the distance to the player character and updates the enemy's state accordingly.
-    /// </summary>
-    private void CheckRange()
-    {
-        float distance = GetPlayerDistance();
-
-        if (distance <= attackRange && currentState != States.ATTACK)
-            SwitchState(States.ATTACK);
-        else if (distance > attackRange && currentState != States.PATROL)
-            currentState = States.NONE;
-
-        if (currentState != States.CHASE && distance <= chaseRange && currentState != States.ATTACK)
-            SwitchState(States.CHASE);
-        if (distance > chaseRange && currentState != States.PATROL)
-            SwitchState(States.PATROL);
-    }
-
-    /// <summary>
-    /// Starts the patrolling logic
-    /// </summary>
-    /// <returns></returns>
-    protected IEnumerator StartPatrolCoroutine()
-    {
-        currentState = States.PATROL;
-
-        patrolCurrentTime = 0;
-
-        float randomZ = UnityEngine.Random.Range(-stats.WalkRange, stats.WalkRange);
-        float randomX = UnityEngine.Random.Range(-stats.WalkRange, stats.WalkRange);
-
-        Vector3 dir = new(randomX, 0, randomZ);
-        dir = dir.normalized;
-
-        float distance = stats.WalkRange;
-
-        if (RayManager.PointingToObject(transform, distance, out RaycastHit hitInfo, dir))
-            distance = hitInfo.distance * 0.8f;
-
-        targetWalk = transform.position + (dir * distance);
-
-        targetLook = targetWalk;
-        moveDir = dir;
-        moveDir.y = 0;
-        currentSpeed = patrolSpeed;
-
-        float start = Time.time;
-        float distanceThreshold = 0.3f;
-
-        while (currentState == States.PATROL &&
-              (Time.time - start) < patrolTimer)
-        {
-            float distanceToTarget = Vector3.Distance(
-                new(transform.position.x, 0, transform.position.z),
-                new(targetWalk.x, 0, targetWalk.z));
-
-            if (distanceToTarget < distanceThreshold)
-            {
-                SwitchState(States.IDLE);
-                yield break;
-            }
-
-            yield return null;
-        }
-
-        SwitchState(States.IDLE);
-    }
-
-    /// <summary>
-    /// Starts the idle logic
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator StartIdleCoroutine()
-    {
-        if (idleBehavior != null)
-        {
-            idleBehavior.ActivateIdle();
-
-            currentSpeed = 0;
-            moveDir = Vector3.zero;
-
-            yield return new WaitForSeconds(idleTimer);
-
-            SwitchState(States.PATROL);
-        }
-    }
 
     /// <summary>
     /// Removes this enemy from the enemy list before dying
     /// </summary>
     public override void Die()
     {
-        manager.Enemies.Remove(this);
+        if (!ServiceProvider.TryGetService<IEnemyContainer>(out var enemyManager))
+            return;
 
-        EventTriggerer.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, manager, gameObject));
+        enemyManager.Enemies.Remove(this);
+
+        EventTriggerer.Trigger<IEnemyDespawnEvent>(new EnemyDespawnEvent(this, enemyManager, gameObject));
 
         base.Die();
+    }
+
+    internal void ChangeState(IEnemyState newState)
+    {
+        currentState?.Exit();
+        currentState = newState;
+        currentState?.Enter();
     }
 }
