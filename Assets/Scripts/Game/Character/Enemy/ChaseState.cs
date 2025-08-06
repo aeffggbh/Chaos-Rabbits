@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static UnityEditor.VersionControl.Asset;
 
 public class ChaseState : EnemyState
 {
     private Coroutine coroutine;
 
     public ChaseState(Enemy enemy) : base(enemy)
-    {
-    }
+    {}
 
     public override void CheckRange()
     {

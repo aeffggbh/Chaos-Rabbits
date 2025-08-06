@@ -1,5 +1,9 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 /// <summary>
 /// Handles the event system provided
 /// </summary>
@@ -9,6 +13,7 @@ public class EventSystemHandler : MonoBehaviour
 
     private GameObject SelectedButton => _eventSystem.currentSelectedGameObject;
     private GameObject _lastSelected;
+    private GameObject _lastHovered;
 
     private void Awake()
     {
@@ -29,8 +34,37 @@ public class EventSystemHandler : MonoBehaviour
     /// </summary>
     private void EnsureSelection()
     {
+        HoverCheck();
+
         if (_eventSystem.currentSelectedGameObject == null)
             _eventSystem.SetSelectedGameObject(_lastSelected);
+        if (_eventSystem.currentSelectedGameObject == null)
+            _eventSystem.SetSelectedGameObject(_lastHovered);
+    }
+
+    private void HoverCheck()
+    {
+        var hovered = GetHovered();
+        if (hovered && hovered != _lastHovered)
+        {
+            var selectable = hovered.GetComponent<Selectable>();
+            if (selectable)
+                _lastHovered = hovered;
+        }
+    }
+
+    private GameObject GetHovered()
+    {
+        PointerEventData pointerEventData = new(EventSystem.current)
+        {
+            position = Mouse.current.position.ReadValue(),
+        };
+
+        var res = new List<RaycastResult>();
+
+        EventSystem.current?.RaycastAll(pointerEventData, res);
+
+        return res.Count > 0 ? res[0].gameObject : null;
     }
 
     /// <summary>
@@ -48,3 +82,5 @@ public class EventSystemHandler : MonoBehaviour
         }
     }
 }
+
+

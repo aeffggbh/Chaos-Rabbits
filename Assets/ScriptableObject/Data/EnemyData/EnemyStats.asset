@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef21c55e6b58c49b098121b88872a1, type: 3}
   m_Name: EnemyStats
   m_EditorClassIdentifier: 
-  attackTimer: 1
-  walkRange: 2
-  attackRange: 1
-  chaseRange: 3
+  attackTimer: 2
+  walkRange: 4
+  attackRange: 10
+  chaseRange: 20
   chasingSpeed: 20
-  patrolSpeed: 15
+  patrolSpeed: 18
   patrolTimer: 2
   counterMovementForce: 3

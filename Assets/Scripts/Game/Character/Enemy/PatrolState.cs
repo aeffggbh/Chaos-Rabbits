@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using static UnityEditor.VersionControl.Asset;
 
 public class PatrolState : EnemyState
 {
     private float patrolTimer;
-    private float patrolCurrentTime;
     private Vector3 targetWalk;
     private Coroutine coroutine;
 
@@ -36,10 +33,8 @@ public class PatrolState : EnemyState
 
     public override IEnumerator Execute()
     {
-        patrolCurrentTime = 0;
-
-        float randomZ = UnityEngine.Random.Range(-enemy.Stats.WalkRange, enemy.Stats.WalkRange);
-        float randomX = UnityEngine.Random.Range(-enemy.Stats.WalkRange, enemy.Stats.WalkRange);
+        float randomZ = Random.Range(-enemy.Stats.WalkRange, enemy.Stats.WalkRange);
+        float randomX = Random.Range(-enemy.Stats.WalkRange, enemy.Stats.WalkRange);
 
         Vector3 dir = new(randomX, 0, randomZ);
         dir = dir.normalized;
@@ -75,60 +70,6 @@ public class PatrolState : EnemyState
         }
 
         enemy.ChangeState(new IdleState(enemy));
-    }
-
-    public override void Exit()
-    {
-        if (coroutine != null)
-        {
-            enemy.StopCoroutine(coroutine);
-            coroutine = null;
-        }
-    }
-}
-
-internal class AttackState : EnemyState
-{
-    private Coroutine coroutine;
-    private float timeSinceAttacked;
-
-    public AttackState(Enemy enemy) : base(enemy)
-    {
-    }
-
-    public override void CheckRange()
-    {
-        base.CheckRange();
-        
-        if (distanceFromPlayer > enemy.Stats.AttackRange)
-            enemy.ChangeState(new ChaseState(enemy));
-    }
-
-    public override void Enter()
-    {
-        if (enemy is not IAttackBehavior)
-            return;
-
-        (enemy as IAttackActivationBehavior).ActivateAttack();
-
-        timeSinceAttacked = 0;
-
-        coroutine = enemy.StartCoroutine(Execute());
-    }
-
-    public override IEnumerator Execute()
-    {
-        while (true)
-        {
-            if (enemy.PlayerMediator)
-            {
-                enemy.TargetLook = enemy.PlayerMediator.transform.position;
-                (enemy as IAttackBehavior)?.Attack();
-                timeSinceAttacked += Time.deltaTime;
-            }
-
-            yield return null;
-        }
     }
 
     public override void Exit()
