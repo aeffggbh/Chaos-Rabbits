@@ -14,7 +14,7 @@ public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehav
 
     private void OnEnable()
     {
-        _enemyWeapon = GetComponent<WeaponHolder>().currentWeapon;
+        _enemyWeapon = GetComponent<WeaponHolder>().CurrentWeapon;
         _enemyWeapon.user = this;
     }
 

@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The main class for making levels
+/// </summary>
 [RequireComponent(typeof(LevelObjectiveHandler))]
 [RequireComponent(typeof(LevelTrigger))]
 public class Level : MonoBehaviour, ILevel
@@ -62,10 +65,10 @@ public class Level : MonoBehaviour, ILevel
     private void Update()
     {
         foreach (var mechanic in Mechanics)
-            (mechanic as IUpdateMechanic)?.Update();
+            (mechanic as IMechanicUpdate)?.Update();
     }
 
-    public void Trigger()
+    public void TriggerNextLevel()
     {
         if (LevelIndex == GameplaySceneData.FinalLevelIndex)
             EventTriggerer.Trigger<IActivateSceneEvent>(new ActivateMenuEvent(new GameWinState(), gameObject, true));

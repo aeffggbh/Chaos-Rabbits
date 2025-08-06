@@ -25,9 +25,17 @@ public class Weapon : MonoBehaviour
     [SerializeField] WeaponData _weaponData;
     private AudioSource _audioSource;
     private ISoundPlayer _soundPlayer;
-
+    /// <summary>
+    /// Saves the data of the weapon
+    /// </summary>
     public WeaponData WeaponData { get => _weaponData; set => _weaponData = value; }
+    /// <summary>
+    /// Saves the spawn for the bullets
+    /// </summary>
     public GameObject BulletSpawnGO { get => _centerSpawnGO; set => _centerSpawnGO = value; }
+    /// <summary>
+    /// Saves the tip of the weapon
+    /// </summary>
     public GameObject TipGO => _tipGO;
 
     private void OnDestroy()

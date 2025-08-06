@@ -4,6 +4,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+/// <summary>
+/// Plays a variety of navigation sounds
+/// </summary>
 public class MenuAudioRouter : MonoBehaviour
 {
     private LocalAudioHandler _audioHandler;
@@ -46,6 +49,10 @@ public class MenuAudioRouter : MonoBehaviour
             }
     }
 
+    /// <summary>
+    /// Returns a hovered button
+    /// </summary>
+    /// <returns></returns>
     private GameObject GetHovered()
     {
         PointerEventData pointerEventData = new(EventSystem.current)
@@ -60,6 +67,10 @@ public class MenuAudioRouter : MonoBehaviour
         return res.Count > 0 ? res[0].gameObject : null;
     }
 
+    /// <summary>
+    /// Makes the confirm sound play when a button is clicked
+    /// </summary>
+    /// <param name="event"></param>
     private void OnConfirm(IButtonClickEvent @event)
     {
         if (!IsInMenu())
@@ -69,6 +80,10 @@ public class MenuAudioRouter : MonoBehaviour
                 _audioHandler?.PlayButtonSound();
     }
 
+    /// <summary>
+    /// If the menu is currently active then it returns true
+    /// </summary>
+    /// <returns></returns>
     private bool IsInMenu()
     {
         ServiceProvider.TryGetService<GameSceneController>(out var sceneController);

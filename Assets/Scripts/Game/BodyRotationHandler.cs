@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles the rotation of the character body
+/// </summary>
 public class BodyRotationHandler : MonoBehaviour
 {
     [SerializeField] private GameObject _lookXGO;
@@ -21,6 +24,9 @@ public class BodyRotationHandler : MonoBehaviour
         Look();
     }
 
+    /// <summary>
+    /// Looks at the direction of the camera with a delay 
+    /// </summary>
     private void Look()
     {
         camForward = actualCamera.position + actualCamera.forward * 5f;

@@ -21,7 +21,6 @@ public class SkyBoxRotator : MonoBehaviour
         RotateSkybox();
     }
 
-    //TODO: Adjust the rotation so it actually rotates the full turn and not half a turn
     /// <summary>
     /// Rotates the skybox in settings
     /// </summary>

@@ -4,6 +4,9 @@ using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 
+/// <summary>
+/// Handles the sensitivity of the input
+/// </summary>
 [RequireComponent(typeof(CinemachineInputAxisController))]
 public class SensitivityHandler : MonoBehaviour
 {
@@ -26,6 +29,9 @@ public class SensitivityHandler : MonoBehaviour
         InitInputManager();
     }
 
+    /// <summary>
+    /// Initializes the input manager
+    /// </summary>
     private void InitInputManager()
     {
         _inputManager = new InputManager();
@@ -44,6 +50,10 @@ public class SensitivityHandler : MonoBehaviour
         EventProvider.Unsubscribe<IPlayerLookEvent>(OnPlayerLook);
     }
 
+    /// <summary>
+    /// Called whenever the Look input is updated
+    /// </summary>
+    /// <param name="playerLook"></param>
     private void OnPlayerLook(IPlayerLookEvent playerLook)
     {
         var processor = _inputManager.GetProcessorForDevice(playerLook.InputDevice);

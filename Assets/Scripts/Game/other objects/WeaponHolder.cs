@@ -5,5 +5,8 @@ using UnityEngine;
 /// </summary>
 public class WeaponHolder : MonoBehaviour
 {
-    public Weapon currentWeapon;
+    /// <summary>
+    /// Saves the current weapon being held
+    /// </summary>
+    public Weapon CurrentWeapon;
 }

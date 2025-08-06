@@ -7,7 +7,13 @@ public class LevelData : ScriptableObject, ILevelData
 {
     [SerializeField] List<LevelMechanicSO> _mechanicsList;
     [SerializeField] private int _levelIndex;
+    /// <summary>
+    /// Saves the mechanics that the level has
+    /// </summary>
     public List<LevelMechanicSO> Mechanics { get => _mechanicsList; set => _mechanicsList = value; }
+    /// <summary>
+    /// Saves the level index
+    /// </summary>
     public int LevelIndex => _levelIndex;
 
 #if UNITY_EDITOR

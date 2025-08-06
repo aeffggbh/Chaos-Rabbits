@@ -33,11 +33,29 @@ public abstract class Enemy : Character
 
     private IEnemyState currentState;
 
+    /// <summary>
+    /// Enemy stats
+    /// </summary>
     public EnemyStats Stats { get => stats; set => stats = value; }
+    /// <summary>
+    /// The current speed of the enemy
+    /// </summary>
     public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
+    /// <summary>
+    /// The direction in which the enemy is currently moving
+    /// </summary>
     public Vector3 MoveDir { get => moveDir; set => moveDir = value; }
+    /// <summary>
+    /// A reference to the active player mediator
+    /// </summary>
     public PlayerMediator PlayerMediator => playerMediator;
+    /// <summary>
+    /// A reference to the target the enemy is looking at
+    /// </summary>
     public Vector3 TargetLook { get => targetLook; set => targetLook = value; }
+    /// <summary>
+    /// Saved time since the enemy last attacked the player
+    /// </summary>
     public float TimeSinceAttacked { get => timeSinceAttacked; set => timeSinceAttacked = value; }
 
     protected override void Start()
@@ -163,7 +181,11 @@ public abstract class Enemy : Character
         base.Die();
     }
 
-    internal void ChangeState(IEnemyState newState)
+    /// <summary>
+    /// Changes the state of the enemy
+    /// </summary>
+    /// <param name="newState"></param>
+    public void ChangeState(IEnemyState newState)
     {
         currentState?.Exit();
         currentState = newState;

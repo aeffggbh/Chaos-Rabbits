@@ -158,11 +158,22 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Floor") || RayManager.IsGrounded(_collider, 0.1f))
+            return;
+
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerMediator player = collision.gameObject.GetComponent<PlayerMediator>();
             if (player != null)
                 player.TakeDamage(Damage);
         }
+
+        Vector3 collisionNormal = collision.contacts[0].normal;
+        Vector3 bounceDir = Vector3.Reflect(transform.forward, collisionNormal).normalized;
+
+        bounceDir.y = Mathf.Abs(bounceDir.y) + 0.5f;
+        bounceDir.Normalize();
+
+        moveDir = bounceDir;
     }
 }

@@ -29,6 +29,6 @@ public class LevelTrigger : MonoBehaviour
     /// </summary>
     private void OnTrigger()
     {
-        level?.Trigger();
+        level?.TriggerNextLevel();
     }
 }

@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34acb3f4b1d79bc46960837ed3ddba37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 8626629674863693585}
+  CurrentWeapon: {fileID: 8626629674863693585}
 --- !u!65 &5714305055372014032
 BoxCollider:
   m_ObjectHideFlags: 0

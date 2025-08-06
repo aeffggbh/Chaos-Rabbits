@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// Handles the physics of the bullet
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class BulletPhysics : MonoBehaviour
 {
@@ -12,6 +15,10 @@ public class BulletPhysics : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
+    /// <summary>
+    /// Fires the bullet
+    /// </summary>
+    /// <param name="wParent"></param>
     public void Fire(Transform wParent)
     {
         _rb.AddForce(_force * Time.fixedDeltaTime * wParent.forward, ForceMode.Impulse);

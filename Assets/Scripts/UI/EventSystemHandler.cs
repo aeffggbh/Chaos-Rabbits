@@ -42,6 +42,9 @@ public class EventSystemHandler : MonoBehaviour
             _eventSystem.SetSelectedGameObject(_lastHovered);
     }
 
+    /// <summary>
+    /// Checks the recently hovered selection in case selected data is lost
+    /// </summary>
     private void HoverCheck()
     {
         var hovered = GetHovered();
@@ -53,6 +56,10 @@ public class EventSystemHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the hovered button
+    /// </summary>
+    /// <returns></returns>
     private GameObject GetHovered()
     {
         PointerEventData pointerEventData = new(EventSystem.current)

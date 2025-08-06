@@ -112,6 +112,10 @@ public class GameSceneController : MonoBehaviour
         return _sceneLoader.IsGameplay(index);
     }
 
+    /// <summary>
+    /// Unloads the scene at the provided index
+    /// </summary>
+    /// <param name="index"></param>
     public void UnloadScene(int index)
     {
         _sceneLoader.UnloadScene(index);

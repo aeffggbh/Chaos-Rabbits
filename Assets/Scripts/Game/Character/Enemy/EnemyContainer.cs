@@ -9,6 +9,9 @@ using UnityEngine;
 public class EnemyContainer : MonoBehaviour, IEnemyContainer
 {
     [SerializeField] private List<Enemy> enemies;
+    /// <summary>
+    /// Saves the enemies that are currently spawned
+    /// </summary>
     public List<Enemy> Enemies => enemies;
 
     private void Awake()

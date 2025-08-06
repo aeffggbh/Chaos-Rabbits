@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Is called when the level up sound should be played
+/// </summary>
 public class LevelUpSoundEvent : ILevelUpSoundEvent
 {
     private GameObject _triggeredByGO;

@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 /// Manages the pause menu
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
-
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference pauseAction;
@@ -47,6 +46,10 @@ public class PauseManager : MonoBehaviour
         EventTriggerer.Trigger<IPauseEvent>(new PauseEvent(gameObject));
     }
 
+    /// <summary>
+    /// Toggles the paused state
+    /// </summary>
+    /// <param name="pauseEvent"></param>
     private void Pause(IPauseEvent pauseEvent)
     {
         Paused = !Paused;

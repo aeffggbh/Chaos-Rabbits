@@ -1,7 +1,8 @@
-using System;
-using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Mechanic for the levels that have the objective of killing all the enemies
+/// </summary>
 [CreateAssetMenu(fileName = "EnemyMechanic", menuName = "ScriptableObjects/LevelMechanics/EnemyMechanic")]
 public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicTextInfo, IMechanicInit, IMechanicInstantiateUser
 {
@@ -23,11 +24,19 @@ public class LevelEnemyMechanic : LevelMechanicSO, ILevelEnemiesData, IMechanicT
         EventProvider.Subscribe<IEnemySpawnEvent>(OnEnemySpawn);
     }
 
+    /// <summary>
+    /// It's called when an enemy spawns
+    /// </summary>
+    /// <param name="enemy"></param>
     private void OnEnemySpawn(IEnemySpawnEvent enemy)
     {
         _totalEnemies = enemy.EnemyManager.Enemies.Count;
     }
 
+    /// <summary>
+    /// It's called when an enemy despawns
+    /// </summary>
+    /// <param name="enemy"></param>
     private void OnEnemyDespawn(IEnemyDespawnEvent enemy)
     {
         if (_totalEnemies == 0)

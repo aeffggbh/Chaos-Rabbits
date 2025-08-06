@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// The mouse input processor
+/// </summary>
 public class MouseInputProcessor : IInputProcessor
 {
     private float _sensitivityMultiplier;

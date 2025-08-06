@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// The attack state
+/// </summary>
 public class AttackState : EnemyState
 {
     private Coroutine coroutine;

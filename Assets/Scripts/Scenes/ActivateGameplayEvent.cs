@@ -73,9 +73,6 @@ public class ActivateGameplayEvent : IActivateSceneEvent, IUnloadPreviousLevelCo
             _currentIndex = levelToLoadIndex;
         }
 
-        if (_loadNext && _unloadPrevious)
-            EventTriggerer.Trigger<INewLevelEvent>(new NewLevelEvent(TriggeredByGO, levelToUnloadIndex));
-
         _levelToUnloadIndex = -1;
         _newLevelIndex = -1;
     }

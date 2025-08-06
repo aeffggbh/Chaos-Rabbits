@@ -5,5 +5,8 @@ using UnityEngine;
 /// </summary>
 public interface IEvent
 {
+    /// <summary>
+    /// Saves the gameObject the event was triggered by
+    /// </summary>
     GameObject TriggeredByGO { get; } 
 }

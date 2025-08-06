@@ -1,7 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// Mechanic for the level that has a chronometer
+/// </summary>
 [CreateAssetMenu(fileName = "ChronometerMechanic", menuName = "ScriptableObjects/LevelMechanics/ChronometerMechanic")]
-public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpdateMechanic, IMechanicInit, IMechanicInstantiateUser
+public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IMechanicUpdate, IMechanicInit, IMechanicInstantiateUser
 {
     [SerializeField] private float _goalTime;
     [SerializeField] private float _currentTime;
@@ -25,6 +28,10 @@ public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpd
         EventProvider.Subscribe<IChronometerTriggerEvent>(OnTrigger);
     }
 
+    /// <summary>
+    /// It's called when the cronometer is triggered from the chronometer collider
+    /// </summary>
+    /// <param name="triggerEvent"></param>
     private void OnTrigger(IChronometerTriggerEvent triggerEvent)
     {
         if (triggerEvent.Other.CompareTag("Player"))
@@ -56,6 +63,10 @@ public class LevelChronometerMechanic : LevelMechanicSO, IMechanicTextInfo, IUpd
             $" Time left: 00:{_currentTime:00}";
     }
 
+    /// <summary>
+    /// Returns true if the user didn't arrive to the end on time
+    /// </summary>
+    /// <returns></returns>
     private bool DidNotArriveOnTime()
     {
         return _currentTime <= 0f;

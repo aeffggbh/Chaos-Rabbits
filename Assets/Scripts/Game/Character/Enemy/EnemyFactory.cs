@@ -1,11 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Factory for random enemies
+/// </summary>
 [CreateAssetMenu(fileName = "EnemyFactory", menuName = "ScriptableObjects/Factory/EnemyFactory")]
 public class EnemyFactory : ScriptableObject
 {
     [SerializeField] private List<EnemyData> _enemyData;
 
+    /// <summary>
+    /// Instantiates a random enemy
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <returns></returns>
     public Enemy CreateEnemy(Transform parent)
     {
         int index = GetRandomIndex(parent);
@@ -31,6 +39,11 @@ public class EnemyFactory : ScriptableObject
         return enemy;
     }
 
+    /// <summary>
+    /// Gets a random index from the enemy data list
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <returns></returns>
     private int GetRandomIndex(Transform parent)
     {
         return UnityEngine.Random.Range(0, _enemyData.Count);

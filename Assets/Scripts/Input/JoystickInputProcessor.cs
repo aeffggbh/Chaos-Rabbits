@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// The joystick input processor
+/// </summary>
 public class JoystickInputProcessor : IInputProcessor
 {
     private float _sensitivityMultiplier;

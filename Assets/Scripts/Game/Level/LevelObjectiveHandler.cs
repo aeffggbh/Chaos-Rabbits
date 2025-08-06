@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Saves the objectives of the current level
+/// </summary>
 public class LevelObjectiveHandler : MonoBehaviour
 {
     ILevel level;
@@ -38,6 +41,10 @@ public class LevelObjectiveHandler : MonoBehaviour
             _objectiveText.text += _defaultObjective;
     }
 
+    /// <summary>
+    /// Checks if the objective is the default objective
+    /// </summary>
+    /// <returns></returns>
     private bool IsObjectiveDefault()
     {
         return _objectiveText.text == _startObjective;

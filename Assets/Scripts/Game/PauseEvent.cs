@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Event that is called when the game is paused
+/// </summary>
 public class PauseEvent : IPauseEvent
 {
     private GameObject _source;

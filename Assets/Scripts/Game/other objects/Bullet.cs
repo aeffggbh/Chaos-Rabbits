@@ -48,6 +48,10 @@ internal class Bullet : MonoBehaviour
             HandleCollision(collision.gameObject);
     }
 
+    /// <summary>
+    /// Handles the bullet collision
+    /// </summary>
+    /// <param name="collision"></param>
     private void HandleCollision(GameObject collision)
     {
         if (ShouldIgnoreCollision(collision))
@@ -58,6 +62,10 @@ internal class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Tries to apply damage to the collision
+    /// </summary>
+    /// <param name="collision"></param>
     private void TryApplyDamage(GameObject collision)
     {
         var damageable = collision.GetComponent<IDamageable>();
@@ -66,6 +74,11 @@ internal class Bullet : MonoBehaviour
             damageable.TakeDamage(_whoIsFiring.Damage);
     }
 
+    /// <summary>
+    /// Returns true if the bullet should ignore the incoming collision
+    /// </summary>
+    /// <param name="collision"></param>
+    /// <returns></returns>
     private bool ShouldIgnoreCollision(GameObject collision)
     {
         if (collision != null && _originWeapon != null && _whoIsFiring != null)

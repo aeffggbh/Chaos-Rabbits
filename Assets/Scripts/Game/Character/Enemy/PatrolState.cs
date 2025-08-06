@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Patrol state
+/// </summary>
 public class PatrolState : EnemyState
 {
     private float patrolTimer;

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Event that is called when the Look input is modified
+/// </summary>
 public class PlayerLookEvent : IPlayerLookEvent
 {
     private Vector2 _lookDir;
