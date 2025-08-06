@@ -4,5 +4,5 @@
     /// The enemy that has been despawned.
     /// </summary>
     Enemy Enemy { get; }
-    IEnemyManager EnemyManager { get; }
+    IEnemyContainer EnemyManager { get; }
 }

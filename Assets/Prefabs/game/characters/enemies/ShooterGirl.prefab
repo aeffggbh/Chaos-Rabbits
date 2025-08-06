@@ -42,10 +42,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5256300711093236856}
   - component: {fileID: 8116460187091131602}
-  - component: {fileID: 4518384189214102015}
   - component: {fileID: 552305075371547568}
   - component: {fileID: 8102795701575155355}
   - component: {fileID: 5170754731903082539}
+  - component: {fileID: 5714305055372014032}
+  - component: {fileID: 9163449538871370414}
   m_Layer: 0
   m_Name: ShooterGirl
   m_TagString: Untagged
@@ -87,38 +88,11 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-    'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
-    'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
-    'mixamorig:LeftHandThumb3'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tand
-    more ...\n\tFrom animation clip 'Zombie Death'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &4518384189214102015
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8276414389076403185}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.46561792, y: 1.6049063, z: 1.267895}
-  m_Center: {x: 0.07569705, y: 0.83059895, z: 0.34143803}
 --- !u!23 &552305075371547568
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -203,7 +177,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34acb3f4b1d79bc46960837ed3ddba37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 5217712747727288217}
+  currentWeapon: {fileID: 8626629674863693585}
+--- !u!65 &5714305055372014032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8276414389076403185}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6, y: 1.85, z: 1.57}
+  m_Center: {x: 0.1, y: 0.9, z: 0.43}
+--- !u!114 &9163449538871370414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8276414389076403185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec22cabf2a6d3747bd87dd18ae9a8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1596326575925947446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,9 +285,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1708951147301566707, guid: 77e048ed7ea4e1849aa16adffdcb260b, type: 3}
   m_PrefabInstance: {fileID: 1596326575925947446}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5217712747727288217 stripped
+--- !u!114 &8626629674863693585 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6795439846310222767, guid: 77e048ed7ea4e1849aa16adffdcb260b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7030325090395677479, guid: 77e048ed7ea4e1849aa16adffdcb260b, type: 3}
   m_PrefabInstance: {fileID: 1596326575925947446}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

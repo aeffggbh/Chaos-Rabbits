@@ -4,14 +4,14 @@ internal class EnemySpawnEvent : IEnemySpawnEvent
 {
     private Enemy _enemy;
     private GameObject _triggeredByGO;
-    private IEnemyManager _enemyManager;
+    private IEnemyContainer _enemyManager;
     public Enemy Enemy => _enemy;
 
     public GameObject TriggeredByGO => _triggeredByGO;
 
-    public IEnemyManager EnemyManager => _enemyManager;
+    public IEnemyContainer EnemyManager => _enemyManager;
 
-    public EnemySpawnEvent(Enemy enemy, IEnemyManager manager, GameObject triggeredBy)
+    public EnemySpawnEvent(Enemy enemy, IEnemyContainer manager, GameObject triggeredBy)
     {
         _enemy = enemy;
         _triggeredByGO = triggeredBy;

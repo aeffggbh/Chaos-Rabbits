@@ -48,14 +48,14 @@ public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehav
     /// </summary>
     public void Attack()
     {
-        Rb.linearVelocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         if (currentSpeed > 0)
         {
             currentSpeed = 0;
             if (_clownAnimation != null)
                 _clownAnimation.AnimateStopWalking();
         }
-        if (timeSinceAttacked > manager.AttackTimer)
+        if (timeSinceAttacked > stats.AttackTimer)
         {
             timeSinceAttacked = 0;
             _enemyWeapon.Fire();
@@ -75,8 +75,8 @@ public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehav
                 _clownAnimation.AnimateStopWalking();
         }
 
-        Vector3 force = moveDir * CurrentSpeed + counterMovement;
-        Rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Impulse);
+        Vector3 force = moveDir * currentSpeed + counterMovement;
+        rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class ShooterEnemy : Enemy, IPatrolBehavior, IChaseBehavior, IAttackBehav
     /// </summary>
     public void ActivateIdle()
     {
-        Rb.linearVelocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
 
         if (animationController != null)
             _clownAnimation.AnimateStopWalking();

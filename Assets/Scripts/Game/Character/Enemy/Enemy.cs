@@ -6,7 +6,7 @@ using UnityEngine;
 /// Base class for all enemies in the game.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public abstract class Enemy : Character, IPhysicsMovementData
+public abstract class Enemy : Character
 {
     protected enum States
     {
@@ -17,7 +17,8 @@ public abstract class Enemy : Character, IPhysicsMovementData
         ATTACK
     }
 
-    protected IEnemyManager manager;
+    protected IEnemyContainer manager;
+    protected EnemyStats stats;
     protected Vector3 targetWalk;
     protected Vector3 targetLook;
     protected float attackRange;
@@ -50,35 +51,33 @@ public abstract class Enemy : Character, IPhysicsMovementData
     protected float acceleration;
     protected float counterMovementForce;
 
-    public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
-    public float Acceleration { get => acceleration; set => acceleration = value; }
-    public float CounterMovementForce { get => counterMovementForce; set => counterMovementForce = value; }
-    public float RunSpeed { get => chasingSpeed; set => chasingSpeed = value; }
-    public float WalkSpeed { get => patrolSpeed; set => patrolSpeed = value; }
-    public Rigidbody Rb { get => rb; set => rb = value; }
+    public EnemyStats Stats { get => stats; set => stats = value; }
 
     protected override void Start()
     {
         base.Start();
 
+        if (!stats)
+            Debug.LogError("No stats on " + gameObject.name);
+
         Damage = 10.0f;
 
-        if (ServiceProvider.TryGetService<IEnemyManager>(out var enemyManager))
+        if (ServiceProvider.TryGetService<IEnemyContainer>(out var enemyManager))
             manager = enemyManager;
 
-        Rb = gameObject.GetComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
 
         if (manager != null)
         {
             manager.Enemies.Add(this);
-            patrolTimer = manager.PatrolTimer;
-            attackRange = manager.AttackRange;
-            chaseRange = manager.ChaseRange;
-            patrolSpeed = manager.PatrolSpeed;
-            chasingSpeed = manager.ChasingSpeed;
+            patrolTimer = stats.PatrolTimer;
+            attackRange = stats.AttackRange;
+            chaseRange = stats.ChaseRange;
+            patrolSpeed = stats.PatrolSpeed;
+            chasingSpeed = stats.ChasingSpeed;
         }
         else
-            Debug.LogError(nameof(EnemyManager) + " is null");
+            Debug.LogError(nameof(EnemyContainer) + " is null");
 
         idleTimer = patrolTimer * 3;
         idleCurrentTime = 0f;
@@ -260,13 +259,13 @@ public abstract class Enemy : Character, IPhysicsMovementData
     /// </summary>
     private void UpdateCounterMovement()
     {
-        float counterForce = moveDir.magnitude > 0.1f ? manager.CounterMovementForce :
-            manager.CounterMovementForce * 2;
+        float counterForce = moveDir.magnitude > 0.1f ? stats.CounterMovementForce :
+            stats.CounterMovementForce * 2;
 
         counterMovement = new Vector3
-                           (-Rb.linearVelocity.x * counterForce,
+                           (-rb.linearVelocity.x * counterForce,
                            0,
-                           -Rb.linearVelocity.z * counterForce);
+                           -rb.linearVelocity.z * counterForce);
     }
 
     /// <summary>
@@ -308,13 +307,13 @@ public abstract class Enemy : Character, IPhysicsMovementData
 
         patrolCurrentTime = 0;
 
-        float randomZ = UnityEngine.Random.Range(-manager.WalkRange, manager.WalkRange);
-        float randomX = UnityEngine.Random.Range(-manager.WalkRange, manager.WalkRange);
+        float randomZ = UnityEngine.Random.Range(-stats.WalkRange, stats.WalkRange);
+        float randomX = UnityEngine.Random.Range(-stats.WalkRange, stats.WalkRange);
 
         Vector3 dir = new(randomX, 0, randomZ);
         dir = dir.normalized;
 
-        float distance = manager.WalkRange;
+        float distance = stats.WalkRange;
 
         if (RayManager.PointingToObject(transform, distance, out RaycastHit hitInfo, dir))
             distance = hitInfo.distance * 0.8f;

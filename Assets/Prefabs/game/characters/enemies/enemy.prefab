@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5262299730889146554}
-  - component: {fileID: 7203184210046746662}
+  - component: {fileID: 5727148117832823546}
   m_Layer: 0
   m_Name: enemy
   m_TagString: enemy
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7203184210046746662
+--- !u!114 &5727148117832823546
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,9 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2528203698022997592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03e04d8b24fcf7419d3b721992c5ded, type: 3}
+  m_Script: {fileID: 11500000, guid: 871b9988500cdbb4b8977d7697bc3fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpingEnemyPrefabGO: {fileID: 6281769917870714251, guid: c1b626df96afc3f498c2a87c4ad585b8, type: 3}
-  _normalEnemyPrefabGO: {fileID: 8276414389076403185, guid: 18ec50e865519be4599ef12385f3e2c6, type: 3}
-  _explodingEnemyPrefabGO: {fileID: 3842096188145569559, guid: 276615f16307092409468620102d56c1, type: 3}
+  _enemyFactory: {fileID: 11400000, guid: 8f3a0a863feae9941b94122ea6f6df3c, type: 2}

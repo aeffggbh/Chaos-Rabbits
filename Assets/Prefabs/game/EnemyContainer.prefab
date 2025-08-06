@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7686994191722670817}
-  - component: {fileID: 4409381045956979451}
+  - component: {fileID: 4149443495651509632}
   m_Layer: 0
-  m_Name: EnemyManager
+  m_Name: EnemyContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4409381045956979451
+--- !u!114 &4149443495651509632
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,15 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4616820240451386763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b61f6b780a825b408b5e17b3df868fe, type: 3}
+  m_Script: {fileID: 11500000, guid: db05d42e871ef494d9048e6227c74911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
-  attackTimer: 2
-  walkRange: 3
-  attackRange: 10
-  chaseRange: 30
-  chasingSpeed: 60
-  patrolSpeed: 40
-  patrolTimer: 2
-  counterMovementForce: 0

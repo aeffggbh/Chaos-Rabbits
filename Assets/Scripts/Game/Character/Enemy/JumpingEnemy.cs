@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 /// <summary>
@@ -51,7 +52,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     public void Attack()
     {
-        if (timeSinceAttacked > manager.AttackTimer)
+        if (timeSinceAttacked > stats.AttackTimer)
         {
             timeSinceAttacked = 0;
             BoostMovement();
@@ -75,7 +76,7 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
         }
 
         if (!_rabbitAnimation.IsLandingAnimationPlaying())
-            Rb.AddForce((moveDir * currentSpeed + counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
+            rb.AddForce((moveDir * currentSpeed + counterMovement) * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -83,9 +84,9 @@ public class JumpingEnemy : Enemy, IMovementBehavior, IChaseBehavior, IAttackBeh
     /// </summary>
     private void ActivateJump()
     {
-        Vector3 velocity = Rb.linearVelocity;
+        Vector3 velocity = rb.linearVelocity;
         velocity.y = _currentJumpForce;
-        Rb.linearVelocity = velocity;
+        rb.linearVelocity = velocity;
 
         _rabbitAnimation.AnimateTriggerJump();
     }

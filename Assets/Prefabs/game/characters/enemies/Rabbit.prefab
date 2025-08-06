@@ -524,6 +524,8 @@ GameObject:
   - component: {fileID: 8752989700682254733}
   - component: {fileID: 9051105435041643928}
   - component: {fileID: 3374666778227618302}
+  - component: {fileID: 491917014850484094}
+  - component: {fileID: 5247563650309984280}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -665,6 +667,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
+--- !u!114 &491917014850484094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281769917870714251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc392eaa719d5a94695fee7ca57c2088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5247563650309984280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281769917870714251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ba9156a7c124a4abac9485c2586d2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jumpForce: 0
+  _jumpForceMultiplier: 1.5
+  _speedMultiplier: 2
+  _rabbitAnimation: {fileID: 0}
 --- !u!1 &6281775151315261637
 GameObject:
   m_ObjectHideFlags: 0
