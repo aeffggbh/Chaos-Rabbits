@@ -34,13 +34,13 @@ My first game made in Unity 3D (that is not a game jam!). It’s a First Person 
 
 ![made_with_unity_icon](https://github.com/user-attachments/assets/0d2e8ff8-4b5e-48dd-a14c-1639dad3fabc)
 ### Images
-![1](https://github.com/user-attachments/assets/6a94a95e-5e62-495f-aa5d-d3948af78769)
-![2](https://github.com/user-attachments/assets/002369a3-1886-4315-ad67-7cf0f1d1d98e)
-![3](https://github.com/user-attachments/assets/0b2e2099-a07e-4d76-9df4-af22bba2d563)
-![4](https://github.com/user-attachments/assets/fdba34d9-497f-4ef4-ad43-d4c7cc3234fd)
-![5](https://github.com/user-attachments/assets/c1f710cc-05c6-4680-9193-b5e1d4099ebf)
-![6](https://github.com/user-attachments/assets/8b93e0f1-ef1b-4ba0-a908-395faf6c73f0)
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/2368d231-92fe-429c-a1f1-71f905c5101d" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/57421dbb-5bd6-4323-b5f9-f8c6d69c50e1" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/e3d03ca7-e67c-402b-87f6-b072acfe55c5" />
+<img width="1916" height="1077" alt="image" src="https://github.com/user-attachments/assets/4d4c829d-8c59-44b1-92eb-8ca06000c997" />
+
+
 
 ### Gameplay video
+https://youtu.be/KMwlXSeWvJo 
 
-[Video](https://youtu.be/OB5HOWW-gT4) 
