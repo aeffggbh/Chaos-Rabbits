@@ -27,7 +27,7 @@ My first game made in Unity 3D (that is not a game jam!). It’s a First Person 
 ### 3D Models & Textures  
 | Asset Type             | Source                                  | Specific Items                              |  
 |------------------------|-----------------------------------------|---------------------------------------------|  
-| Player & Most Enemies | [Mixamo](https://www.mixamo.com)        | Player ("Jones"), Shooter ("White Clown"), Exploder ("Racer") |  
+| Player & Most Enemies | [Mixamo](https://www.mixamo.com)        | Player ("Jones"), Shooter ("Michelle"), Exploder ("Racer") |  
 | Rabbit Model           | Unity Asset Store                       | -                                           |  
 | Weapons                | Unity Asset Store                       | -                                           |  
 | Environment            | Unity Asset Store                       | -                                           |  
