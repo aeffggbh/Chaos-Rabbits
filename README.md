@@ -7,7 +7,7 @@
 - [Itch.io](https://gensofi24.itch.io/chaos-and-rabbits) page.
 
 ## Summary  
-My first game made in Unity 3D (that is not a game jam!). It’s a First Person Shooter with 3 levels. Your objective is to kill all the enemies and survive the chaos!
+My first game made in Unity 3D (that is not a game jam!) made in less than 6 months. It’s a First Person Shooter with 3 levels. Your objective is to kill all the enemies and survive the chaos!
 
 ## Features  
 - You can use weapons that shoot by instance or hitscan  
