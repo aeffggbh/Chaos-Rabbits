@@ -12,9 +12,11 @@ My first game made in Unity 3D (that is not a game jam!) made in less than 6 mon
 ## Features  
 - You can use weapons that shoot by instance or hitscan  
 - There are 3 types of enemies (A clown that can shoot you, a rabbit, and a guy that explodes when you get near... He also dances.)
-- 3 challenging levels:  
+- 5 challenging levels:  
   - **Level 1**: You choose a weapon and kill an enemy.  
-  - **Level 2**: You kill all the enemies that there are.  
+  - **Level 2**: You kill all the enemies that there are.
+  - **Level 3**: You have to find the exit from a laberynth!
+  - **Level 4**: You have to get to the end by using a grappling hook.
   - **Level 3**: You get to the end of the level by surviving an enemy ambush!  
 
 ## Credits  
