@@ -17,7 +17,7 @@ My first game made in Unity 3D (that is not a game jam!) made in less than 6 mon
   - **Level 2**: You kill all the enemies that there are.
   - **Level 3**: You have to find the exit from a laberynth!
   - **Level 4**: You have to get to the end by using a grappling hook.
-  - **Level 3**: You get to the end of the level by surviving an enemy ambush!  
+  - **Level 5**: You get to the end of the level by surviving an enemy ambush!  
 
 ## Credits  
 ### Dev
